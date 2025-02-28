@@ -39,12 +39,24 @@ export default {
     account: 'Accounts',
     settlement: 'Settlement',
     withdrawal: 'Withdrawal',
-    other: 'Other Bills'
+    other: 'Other Bills',
+    task: 'Task Management'
   },
   header: {
     logout: 'Logout'
   },
   app: {
     title: 'SKC Grass'
+  },
+  task: {
+    title: 'Task Title',
+    platform: 'Platform',
+    type: 'Task Type',
+    status: 'Status',
+    reward: 'Reward',
+    startTime: 'Start Time',
+    endTime: 'End Time',
+    description: 'Description',
+    requirements: 'Requirements'
   }
 } 

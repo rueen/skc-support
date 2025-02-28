@@ -14,8 +14,32 @@ const routes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/member',
+    redirect: '/task',
     children: [
+      {
+        path: 'task',
+        component: () => import('@/views/task/list.vue'),
+        name: 'TaskList',
+        meta: { title: '任务管理' }
+      },
+      {
+        path: 'task/create',
+        component: () => import('@/views/task/form.vue'),
+        name: 'TaskCreate',
+        meta: { title: '新增任务', hidden: true }
+      },
+      {
+        path: 'task/edit/:id',
+        component: () => import('@/views/task/form.vue'),
+        name: 'TaskEdit',
+        meta: { title: '编辑任务', hidden: true }
+      },
+      {
+        path: 'task/view/:id',
+        component: () => import('@/views/task/detail.vue'),
+        name: 'TaskView',
+        meta: { title: '任务详情', hidden: true }
+      },
       {
         path: 'member',
         component: () => import('@/views/member/list.vue'),

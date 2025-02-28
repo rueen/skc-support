@@ -44,6 +44,13 @@
           <span>{{ $t('menu.article') }}</span>
           <router-link to="/article" />
         </a-menu-item>
+        <a-menu-item key="task">
+          <template #icon>
+            <profile-outlined />
+          </template>
+          <span>{{ $t('menu.task') }}</span>
+          <router-link to="/task" />
+        </a-menu-item>
         <a-sub-menu key="settlement">
           <template #icon>
             <pay-circle-outlined />
@@ -142,7 +149,8 @@ import {
   FileTextOutlined,
   PayCircleOutlined,
   LogoutOutlined,
-  ApartmentOutlined
+  ApartmentOutlined,
+  ProfileOutlined
 } from '@ant-design/icons-vue'
 
 const router = useRouter()
