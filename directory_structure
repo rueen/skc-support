@@ -1,0 +1,12 @@
+src/
+  ├── api/              # API 请求
+  ├── assets/           # 静态资源
+  ├── components/       # 公共组件
+  ├── composables/      # 组合式函数
+  ├── layouts/          # 布局组件
+  ├── locales/          # 国际化文件
+  ├── router/           # 路由配置
+  ├── store/            # Pinia 状态管理
+  ├── styles/           # 全局样式
+  ├── utils/            # 工具函数
+  └── views/            # 页面组件 
