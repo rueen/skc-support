@@ -29,12 +29,8 @@
             </a-form-item>
             <a-form-item>
               <a-space>
-                <a-button type="primary" @click="handleSearch">
-                  {{ $t('common.search') }}
-                </a-button>
-                <a-button @click="handleReset">
-                  {{ $t('common.reset') }}
-                </a-button>
+                <a-button type="primary" @click="handleSearch">查询</a-button>
+                <a-button @click="handleReset">重置</a-button>
               </a-space>
             </a-form-item>
           </a-form>
@@ -93,25 +89,14 @@
       v-model:visible="detailVisible"
       title="账号详情"
       :footer="null"
-      width="600px"
     >
-      <a-descriptions :column="1" bordered>
-        <a-descriptions-item label="账号名称">
-          {{ currentRecord.accountName }}
-        </a-descriptions-item>
-        <a-descriptions-item label="平台渠道">
-          {{ currentRecord.channelName }}
-        </a-descriptions-item>
-        <a-descriptions-item label="粉丝数">
-          {{ currentRecord.fansCount }}
-        </a-descriptions-item>
-        <a-descriptions-item label="好友数">
-          {{ currentRecord.friendsCount }}
-        </a-descriptions-item>
+      <a-descriptions :column="1">
+        <a-descriptions-item label="账号名称">{{ currentRecord?.accountName }}</a-descriptions-item>
+        <a-descriptions-item label="平台渠道">{{ currentRecord?.channelName }}</a-descriptions-item>
+        <a-descriptions-item label="粉丝数">{{ currentRecord?.fansCount }}</a-descriptions-item>
+        <a-descriptions-item label="好友数">{{ currentRecord?.friendsCount }}</a-descriptions-item>
         <a-descriptions-item label="主页链接">
-          <a :href="currentRecord.profileUrl" target="_blank">
-            {{ currentRecord.profileUrl }}
-          </a>
+          <a :href="currentRecord?.homeUrl" target="_blank">{{ currentRecord?.homeUrl }}</a>
         </a-descriptions-item>
       </a-descriptions>
     </a-modal>
@@ -137,12 +122,12 @@ import { ref, reactive } from 'vue'
 import { message } from 'ant-design-vue'
 
 const loading = ref(false)
-const selectedRowKeys = ref([])
 const detailVisible = ref(false)
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
-const currentRecord = ref({})
+const currentRecord = ref(null)
+const selectedRowKeys = ref([])
 
 // 搜索表单
 const searchForm = reactive({
@@ -151,9 +136,10 @@ const searchForm = reactive({
 })
 
 // 渠道选项
-const channelOptions = ref([
-  // TODO: 从API获取渠道列表
-])
+const channelOptions = [
+  { id: 1, name: '抖音' },
+  { id: 2, name: '快手' }
+]
 
 // 表格列配置
 const columns = [
@@ -181,8 +167,8 @@ const columns = [
   },
   {
     title: '主页链接',
-    dataIndex: 'profileUrl',
-    key: 'profileUrl',
+    dataIndex: 'homeUrl',
+    key: 'homeUrl',
     ellipsis: true
   },
   {
@@ -198,7 +184,29 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([])
+const tableData = ref([
+  {
+    id: 1,
+    accountName: '抖音账号1',
+    channelName: '抖音',
+    channelId: 1,
+    fansCount: 10000,
+    friendsCount: 500,
+    homeUrl: 'https://www.douyin.com/user1',
+    status: 'pending'
+  },
+  {
+    id: 2,
+    accountName: '快手账号1',
+    channelName: '快手',
+    channelId: 2,
+    fansCount: 20000,
+    friendsCount: 1000,
+    homeUrl: 'https://www.kuaishou.com/user1',
+    status: 'approved'
+  }
+])
+
 const pagination = reactive({
   current: 1,
   pageSize: 10,
@@ -210,7 +218,10 @@ const rowSelection = {
   selectedRowKeys,
   onChange: (keys) => {
     selectedRowKeys.value = keys
-  }
+  },
+  getCheckboxProps: (record) => ({
+    disabled: record.status !== 'pending'
+  })
 }
 
 // 获取状态文本
@@ -241,10 +252,8 @@ const handleSearch = () => {
 
 // 重置
 const handleReset = () => {
-  Object.assign(searchForm, {
-    accountName: '',
-    channelId: undefined
-  })
+  searchForm.accountName = ''
+  searchForm.channelId = undefined
   handleSearch()
 }
 
@@ -315,8 +324,7 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    tableData.value = []
-    pagination.total = 0
+    pagination.total = tableData.value.length
   } finally {
     loading.value = false
   }
