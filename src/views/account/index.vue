@@ -1,26 +1,230 @@
 <template>
-  <div class="account-list">
-    <a-empty description="开发中..." />
+  <div class="account content-container">
+    <div class="table-container">
+      <div class="table-header">
+        <div class="left">
+          <a-form layout="inline" :model="searchForm">
+            <a-form-item label="账号名称">
+              <a-input
+                v-model:value="searchForm.username"
+                placeholder="请输入账号名称"
+                allow-clear
+              />
+            </a-form-item>
+            <a-form-item>
+              <a-space>
+                <a-button type="primary" @click="handleSearch">
+                  {{ $t('common.search') }}
+                </a-button>
+                <a-button @click="handleReset">
+                  {{ $t('common.reset') }}
+                </a-button>
+              </a-space>
+            </a-form-item>
+          </a-form>
+        </div>
+        <div class="right">
+          <a-button type="primary" @click="handleAdd">
+            添加账号
+          </a-button>
+        </div>
+      </div>
+
+      <a-table
+        :columns="columns"
+        :data-source="tableData"
+        :loading="loading"
+        :pagination="pagination"
+        @change="handleTableChange"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'action'">
+            <a-space>
+              <a @click="handlePermission(record)" v-if="!record.isAdmin">权限设置</a>
+              <a @click="handleEdit(record)" v-if="!record.isAdmin">编辑</a>
+              <a-popconfirm
+                title="确定要删除该账号吗？"
+                @confirm="handleDelete(record)"
+                v-if="!record.isAdmin"
+              >
+                <a class="danger">删除</a>
+              </a-popconfirm>
+            </a-space>
+          </template>
+        </template>
+      </a-table>
+    </div>
+
+    <!-- 添加/编辑账号弹窗 -->
+    <a-modal
+      v-model:visible="formVisible"
+      :title="formTitle"
+      :confirmLoading="formLoading"
+      @ok="handleFormOk"
+    >
+      <a-form
+        ref="formRef"
+        :model="formData"
+        :rules="rules"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        <a-form-item label="用户名" name="username">
+          <a-input
+            v-model:value="formData.username"
+            placeholder="请输入用户名"
+          />
+        </a-form-item>
+        <a-form-item
+          label="密码"
+          name="password"
+          :required="formType === 'add'"
+        >
+          <a-input-password
+            v-model:value="formData.password"
+            placeholder="请输入密码"
+          />
+        </a-form-item>
+        <a-form-item label="账号说明" name="description">
+          <a-textarea
+            v-model:value="formData.description"
+            placeholder="请输入账号说明"
+            :rows="4"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 权限设置弹窗 -->
+    <a-modal
+      v-model:visible="permissionVisible"
+      title="权限设置"
+      :width="700"
+      :confirmLoading="permissionLoading"
+      @ok="handlePermissionOk"
+    >
+      <a-form :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
+        <a-form-item label="导航权限">
+          <a-checkbox-group v-model:value="permissionData.menus">
+            <a-checkbox v-for="menu in menuOptions" :key="menu.key" :value="menu.key">
+              {{ menu.title }}
+            </a-checkbox>
+          </a-checkbox-group>
+        </a-form-item>
+        <a-form-item label="任务权限">
+          <a-checkbox-group v-model:value="permissionData.task">
+            <a-checkbox value="create">新增任务</a-checkbox>
+            <a-checkbox value="edit">编辑任务</a-checkbox>
+            <a-checkbox value="view">查看任务</a-checkbox>
+            <a-checkbox value="delete">删除任务</a-checkbox>
+          </a-checkbox-group>
+        </a-form-item>
+        <a-form-item label="任务审核">
+          <a-checkbox-group v-model:value="permissionData.taskAudit">
+            <a-checkbox value="view">查看任务</a-checkbox>
+            <a-checkbox value="approve">审核通过</a-checkbox>
+            <a-checkbox value="reject">审核拒绝</a-checkbox>
+          </a-checkbox-group>
+        </a-form-item>
+        <a-form-item label="会员权限">
+          <a-checkbox-group v-model:value="permissionData.member">
+            <a-checkbox value="create">添加会员</a-checkbox>
+            <a-checkbox value="view">查看会员</a-checkbox>
+            <a-checkbox value="edit">编辑会员</a-checkbox>
+            <a-checkbox value="delete">删除会员</a-checkbox>
+          </a-checkbox-group>
+        </a-form-item>
+        <a-form-item label="账号审核">
+          <a-checkbox-group v-model:value="permissionData.accountAudit">
+            <a-checkbox value="approve">审核通过</a-checkbox>
+            <a-checkbox value="reject">审核拒绝</a-checkbox>
+          </a-checkbox-group>
+        </a-form-item>
+        <a-form-item label="群组权限">
+          <a-checkbox-group v-model:value="permissionData.group">
+            <a-checkbox value="create">添加群组</a-checkbox>
+            <a-checkbox value="view">查看群组</a-checkbox>
+            <a-checkbox value="edit">编辑群组</a-checkbox>
+            <a-checkbox value="delete">删除群组</a-checkbox>
+          </a-checkbox-group>
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed } from 'vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 
 const loading = ref(false)
-const modalVisible = ref(false)
-const modalLoading = ref(false)
-const isEdit = ref(false)
+const formVisible = ref(false)
+const formLoading = ref(false)
+const formType = ref('add') // add, edit
 const formRef = ref()
+const permissionVisible = ref(false)
+const permissionLoading = ref(false)
+const currentRecord = ref(null)
 
-// 查询参数
-const queryParams = reactive({
-  username: '',
-  roleId: undefined,
-  status: undefined
+// 搜索表单
+const searchForm = reactive({
+  username: ''
 })
+
+// 表单数据
+const formData = reactive({
+  username: '',
+  password: '',
+  description: ''
+})
+
+// 权限数据
+const permissionData = reactive({
+  menus: [],
+  task: [],
+  taskAudit: [],
+  member: [],
+  accountAudit: [],
+  group: []
+})
+
+// 表单校验规则
+const rules = {
+  username: [{ required: true, message: '请输入用户名' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'change' }]
+}
+
+// 导航菜单选项
+const menuOptions = [
+  { key: 'task', title: '任务管理' },
+  { key: 'taskAudit', title: '任务审核' },
+  { key: 'accountAudit', title: '账号审核' },
+  { key: 'member', title: '会员管理' },
+  { key: 'settlement', title: '结算管理' },
+  { key: 'channel', title: '渠道管理' },
+  { key: 'group', title: '群组管理' },
+  { key: 'account', title: '账号管理' },
+  { key: 'article', title: '文章管理' }
+]
+
+// 表格列配置
+const columns = [
+  {
+    title: '账号名称',
+    dataIndex: 'username',
+    key: 'username'
+  },
+  {
+    title: '账号说明',
+    dataIndex: 'description',
+    key: 'description'
+  },
+  {
+    title: '操作',
+    key: 'action',
+    width: 200
+  }
+]
 
 // 表格数据
 const tableData = ref([])
@@ -30,217 +234,118 @@ const pagination = reactive({
   total: 0
 })
 
-// 表单数据
-const formState = reactive({
-  username: '',
-  password: '',
-  roleId: undefined,
-  remark: ''
-})
+// 计算弹窗标题
+const formTitle = computed(() => formType.value === 'add' ? '添加账号' : '编辑账号')
 
-// 表单校验规则
-const rules = {
-  username: [
-    { required: true, message: '请输入用户名' }
-  ],
-  password: [
-    { required: true, message: '请输入密码' }
-  ],
-  roleId: [
-    { required: true, message: '请选择角色' }
-  ]
+// 搜索
+const handleSearch = () => {
+  pagination.current = 1
+  loadData()
 }
 
-// 角色选项
-const roleOptions = [
-  { label: '管理员', value: 'admin' },
-  { label: '运营', value: 'operator' },
-  { label: '财务', value: 'finance' }
-]
-
-// 状态选项
-const statusOptions = [
-  { label: '启用', value: 'enabled' },
-  { label: '禁用', value: 'disabled' }
-]
-
-// 表格列定义
-const columns = [
-  {
-    title: '用户名',
-    dataIndex: 'username',
-    key: 'username'
-  },
-  {
-    title: '角色',
-    dataIndex: 'roleId',
-    key: 'roleId',
-    customRender: ({ text }) => {
-      const option = roleOptions.find(item => item.value === text)
-      return option ? option.label : text
-    }
-  },
-  {
-    title: '最后登录时间',
-    dataIndex: 'lastLoginTime',
-    key: 'lastLoginTime',
-    width: 180
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status',
-    width: 100
-  },
-  {
-    title: '操作',
-    key: 'action',
-    fixed: 'right',
-    width: 250
-  }
-]
-
-// 重置密码相关
-const resetPwdVisible = ref(false)
-const resetPwdLoading = ref(false)
-const resetPwdFormRef = ref()
-const resetPwdForm = reactive({
-  password: '',
-  confirmPassword: ''
-})
-const resetPwdRules = {
-  password: [
-    { required: true, message: '请输入新密码' }
-  ],
-  confirmPassword: [
-    { required: true, message: '请再次输入新密码' },
-    {
-      validator: (rule, value) => {
-        if (value && value !== resetPwdForm.password) {
-          return Promise.reject('两次输入的密码不一致')
-        }
-        return Promise.resolve()
-      }
-    }
-  ]
-}
-
-// 计算属性
-const modalTitle = computed(() => isEdit.value ? '编辑账号' : '新增账号')
-
-// 方法定义
-const handleQuery = () => {
-  // TODO: 实现查询逻辑
-}
-
+// 重置
 const handleReset = () => {
-  Object.assign(queryParams, {
-    username: '',
-    roleId: undefined,
-    status: undefined
-  })
-  handleQuery()
+  searchForm.username = ''
+  handleSearch()
 }
 
+// 表格变化
 const handleTableChange = (pag) => {
-  pagination.current = pag.current
-  pagination.pageSize = pag.pageSize
-  handleQuery()
+  Object.assign(pagination, pag)
+  loadData()
 }
 
-const resetForm = () => {
-  formRef.value?.resetFields()
-  Object.assign(formState, {
-    username: '',
-    password: '',
-    roleId: undefined,
-    remark: ''
-  })
-}
-
+// 添加账号
 const handleAdd = () => {
-  isEdit.value = false
-  resetForm()
-  modalVisible.value = true
+  formType.value = 'add'
+  formData.username = ''
+  formData.password = ''
+  formData.description = ''
+  formVisible.value = true
 }
 
+// 编辑账号
 const handleEdit = (record) => {
-  isEdit.value = true
-  resetForm()
-  Object.assign(formState, record)
-  modalVisible.value = true
+  formType.value = 'edit'
+  formData.username = record.username
+  formData.password = ''
+  formData.description = record.description
+  formVisible.value = true
 }
 
+// 删除账号
 const handleDelete = async (record) => {
   try {
     // TODO: 实现删除逻辑
     message.success('删除成功')
-    handleQuery()
+    loadData()
   } catch (error) {
     message.error('删除失败')
   }
 }
 
-const handleStatusChange = async (record, checked) => {
+// 权限设置
+const handlePermission = (record) => {
+  currentRecord.value = record
+  // TODO: 获取当前账号的权限设置
+  permissionVisible.value = true
+}
+
+// 确认权限设置
+const handlePermissionOk = async () => {
   try {
-    record.statusLoading = true
-    // TODO: 实现状态更新逻辑
-    message.success('更新成功')
-    record.status = checked ? 'enabled' : 'disabled'
+    permissionLoading.value = true
+    // TODO: 实现权限保存逻辑
+    message.success('权限设置成功')
+    permissionVisible.value = false
   } catch (error) {
-    message.error('更新失败')
+    message.error('权限设置失败')
   } finally {
-    record.statusLoading = false
+    permissionLoading.value = false
   }
 }
 
-const handleModalOk = () => {
-  formRef.value.validate().then(async () => {
-    try {
-      modalLoading.value = true
-      // TODO: 实现提交逻辑
-      message.success('提交成功')
-      modalVisible.value = false
-      handleQuery()
-    } catch (error) {
-      message.error('提交失败')
-    } finally {
-      modalLoading.value = false
-    }
-  })
+// 确认表单
+const handleFormOk = async () => {
+  try {
+    await formRef.value.validate()
+    formLoading.value = true
+    // TODO: 实现保存逻辑
+    message.success(formType.value === 'add' ? '添加成功' : '编辑成功')
+    formVisible.value = false
+    loadData()
+  } catch (error) {
+    console.error(error)
+  } finally {
+    formLoading.value = false
+  }
 }
 
-const handleResetPwd = (record) => {
-  resetPwdForm.password = ''
-  resetPwdForm.confirmPassword = ''
-  resetPwdVisible.value = true
+// 加载数据
+const loadData = async () => {
+  loading.value = true
+  try {
+    // TODO: 实现数据加载逻辑
+    tableData.value = []
+    pagination.total = 0
+  } finally {
+    loading.value = false
+  }
 }
 
-const handleResetPwdConfirm = () => {
-  resetPwdFormRef.value.validate().then(async () => {
-    try {
-      resetPwdLoading.value = true
-      // TODO: 实现重置密码逻辑
-      message.success('重置密码成功')
-      resetPwdVisible.value = false
-    } catch (error) {
-      message.error('重置密码失败')
-    } finally {
-      resetPwdLoading.value = false
-    }
-  })
-}
+// 初始化
+loadData()
 </script>
 
 <style lang="less" scoped>
-.account-management {
-  .table-operations {
+.account {
+  .table-header {
     margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
-  
+
   .danger {
     color: #ff4d4f;
   }
