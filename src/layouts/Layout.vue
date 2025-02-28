@@ -51,6 +51,13 @@
           <span>{{ $t('menu.task') }}</span>
           <router-link to="/task" />
         </a-menu-item>
+        <a-menu-item key="task-audit">
+          <template #icon>
+            <audit-outlined />
+          </template>
+          <span>{{ $t('menu.taskAudit') }}</span>
+          <router-link to="/task-audit" />
+        </a-menu-item>
         <a-sub-menu key="settlement">
           <template #icon>
             <pay-circle-outlined />
@@ -140,7 +147,8 @@ import {
   PayCircleOutlined,
   LogoutOutlined,
   ApartmentOutlined,
-  ProfileOutlined
+  ProfileOutlined,
+  AuditOutlined
 } from '@ant-design/icons-vue'
 
 const router = useRouter()
@@ -158,7 +166,8 @@ const selectedKeys = computed(() => {
   if (path.startsWith('/settlement/')) {
     return [path.split('/')[2]]
   }
-  return [path.split('/')[1]]
+  // 修改为返回一级路径作为 key
+  return [path.split('/')[1] || 'task-audit']
 })
 
 const handleLogout = async () => {

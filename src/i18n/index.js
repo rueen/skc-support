@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:22:19
  * @LastEditors: diaochan
- * @LastEditTime: 2025-02-28 17:30:26
+ * @LastEditTime: 2025-02-28 17:32:55
  * @Description: 
  */
 import { createI18n } from 'vue-i18n'

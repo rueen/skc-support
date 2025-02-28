@@ -1,5 +1,6 @@
 export default {
   task: '任务管理',
+  taskAudit: '任务审核',
   member: '会员管理',
   group: '群组管理',
   account: '账号管理',

@@ -1,5 +1,6 @@
 export default {
   task: 'Task Management',
+  taskAudit: 'Task Audit',
   member: 'Member Management',
   group: 'Group Management',
   account: 'Account Management',
