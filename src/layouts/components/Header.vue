@@ -12,18 +12,14 @@
     />
     
     <div class="right">
-      <a-dropdown>
-        <a class="language" @click.prevent>
-          {{ currentLang === 'zh-CN' ? '中文' : 'English' }}
-          <down-outlined />
-        </a>
-        <template #overlay>
-          <a-menu @click="handleLanguageChange">
-            <a-menu-item key="zh-CN">中文</a-menu-item>
-            <a-menu-item key="en-US">English</a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
+      <a-select
+        v-model:value="currentLang"
+        style="width: 100px"
+        @change="handleLangChange"
+      >
+        <a-select-option value="zh-CN">中文</a-select-option>
+        <a-select-option value="en-US">English</a-select-option>
+      </a-select>
       
       <a-dropdown>
         <span class="user-info">
@@ -45,7 +41,7 @@
 import { MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineProps({
@@ -58,11 +54,11 @@ const userStore = useUserStore()
 const { locale } = useI18n()
 const router = useRouter()
 
-const currentLang = computed(() => locale.value)
+const currentLang = ref(localStorage.getItem('language') || 'zh-CN')
 
-const handleLanguageChange = ({ key }) => {
-  locale.value = key
-  localStorage.setItem('language', key)
+const handleLangChange = (value) => {
+  locale.value = value
+  localStorage.setItem('language', value)
 }
 
 const handleUserMenuClick = ({ key }) => {

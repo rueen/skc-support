@@ -5,64 +5,21 @@
  * @LastEditTime: 2025-02-28 17:09:54
  * @Description: 
  */
+import common from './common'
+import login from './login'
+import menu from './menu'
+import task from './task'
+
 export default {
-  common: {
-    search: 'Search',
-    reset: 'Reset',
-    confirm: 'Confirm',
-    cancel: 'Cancel',
-    add: 'Add',
-    edit: 'Edit',
-    delete: 'Delete',
-    view: 'View',
-    export: 'Export',
-    operation: 'Operation',
-    status: 'Status'
-  },
-  login: {
-    title: 'System Login',
-    username: 'Username',
-    password: 'Password',
-    login: 'Login',
-    rememberMe: 'Remember me'
-  },
-  menu: {
-    taskManagement: 'Task Management',
-    taskList: 'Task List',
-    taskAudit: 'Task Audit',
-    accountAudit: 'Account Audit',
-    memberManagement: 'Member Management',
-    memberList: 'Member List',
-    settlement: 'Settlement',
-    withdrawalBill: 'Withdrawal Bill',
-    otherBill: 'Other Bill',
-    channelManagement: 'Channel Management',
-    groupManagement: 'Group Management',
-    accountManagement: 'Account Management',
-    article: 'Article Management',
-    member: 'Members',
-    group: 'Groups',
-    account: 'Accounts',
-    settlement: 'Settlement',
-    withdrawal: 'Withdrawal',
-    other: 'Other Bills',
-    task: 'Task Management'
-  },
+  common,
+  login,
+  menu,
+  task,
   header: {
-    logout: 'Logout'
+    logout: 'Logout',
+    switchLang: 'Switch Language'
   },
   app: {
-    title: 'SKC Seeding'
-  },
-  task: {
-    title: 'Task Title',
-    platform: 'Platform',
-    type: 'Task Type',
-    status: 'Status',
-    reward: 'Reward',
-    startTime: 'Start Time',
-    endTime: 'End Time',
-    description: 'Description',
-    requirements: 'Requirements'
+    title: 'SKC Grass'
   }
 } 

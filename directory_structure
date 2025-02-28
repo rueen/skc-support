@@ -4,7 +4,20 @@ src/
   ├── components/       # 公共组件
   ├── composables/      # 组合式函数
   ├── layouts/          # 布局组件
-  ├── i18n/          # 国际化文件
+  ├── i18n/
+  │   ├── zh/
+  │   │   ├── common.js
+  │   │   ├── login.js
+  │   │   ├── menu.js
+  │   │   ├── task.js
+  │   │   └── index.js
+  │   ├── en/
+  │   │   ├── common.js
+  │   │   ├── login.js
+  │   │   ├── menu.js
+  │   │   ├── task.js
+  │   │   └── index.js
+  │   └── index.js
   ├── router/           # 路由配置
   ├── store/            # Pinia 状态管理
   ├── styles/           # 全局样式
