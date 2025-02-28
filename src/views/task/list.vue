@@ -111,8 +111,7 @@ const columns = [
   {
     title: '报名人数',
     dataIndex: 'signupCount',
-    key: 'signupCount',
-    align: 'right'
+    key: 'signupCount'
   },
   {
     title: '开始时间',

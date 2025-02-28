@@ -138,7 +138,6 @@ const columns = [
     title: '任务奖励',
     dataIndex: 'reward',
     key: 'reward',
-    align: 'right'
   },
   {
     title: '创建时间',

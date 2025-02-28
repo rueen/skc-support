@@ -157,13 +157,11 @@ const columns = [
     title: '粉丝数',
     dataIndex: 'fansCount',
     key: 'fansCount',
-    align: 'right'
   },
   {
     title: '好友数',
     dataIndex: 'friendsCount',
     key: 'friendsCount',
-    align: 'right'
   },
   {
     title: '主页链接',

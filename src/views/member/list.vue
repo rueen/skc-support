@@ -148,6 +148,11 @@ const columns = [
     width: 180
   },
   {
+    title: '账户余额',
+    dataIndex: 'balance',
+    key: 'balance',
+  },
+  {
     title: '操作',
     key: 'action',
     fixed: 'right',
