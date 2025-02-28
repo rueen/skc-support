@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:22:30
  * @LastEditors: diaochan
- * @LastEditTime: 2025-02-28 17:04:58
+ * @LastEditTime: 2025-02-28 17:09:54
  * @Description: 
  */
 export default {
@@ -27,7 +27,6 @@ export default {
     rememberMe: 'Remember me'
   },
   menu: {
-    dashboard: 'Dashboard',
     taskManagement: 'Task Management',
     taskList: 'Task List',
     taskAudit: 'Task Audit',

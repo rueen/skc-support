@@ -38,7 +38,6 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  DashboardOutlined,
   ProfileOutlined,
   AuditOutlined,
   TeamOutlined,
@@ -55,11 +54,6 @@ const selectedKeys = ref([route.path])
 const openKeys = ref([])
 
 const menuList = [
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    meta: { icon: DashboardOutlined }
-  },
   {
     path: '/task',
     name: 'taskManagement',

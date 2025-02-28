@@ -1,3 +1,10 @@
+/*
+ * @Author: diaochan
+ * @Date: 2025-02-28 17:08:54
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-02-28 17:09:02
+ * @Description: 
+ */
 export default {
   common: {
     search: '搜索',
@@ -20,7 +27,6 @@ export default {
     rememberMe: '记住密码'
   },
   menu: {
-    dashboard: '首页',
     taskManagement: '任务管理',
     taskList: '任务列表',
     taskAudit: '任务审核',

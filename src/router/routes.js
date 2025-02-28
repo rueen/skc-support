@@ -1,22 +1,16 @@
+/*
+ * @Author: diaochan
+ * @Date: 2025-02-28 15:24:42
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-02-28 17:10:58
+ * @Description: 
+ */
 export const constantRoutes = [
   {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index.vue'),
     meta: { title: '登录', hidden: true }
-  },
-  {
-    path: '/',
-    component: () => import('@/layouts/BasicLayout.vue'),
-    redirect: '/dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: '首页', icon: 'dashboard' }
-      }
-    ]
   }
 ]
 
