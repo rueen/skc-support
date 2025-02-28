@@ -154,7 +154,7 @@ const platformOptions = [
 ]
 
 const typeOptions = [
-  { label: '种草', value: 'grass' },
+  { label: '种草', value: 'seeding' },
   { label: '直播', value: 'live' },
   { label: '短视频', value: 'video' }
 ]
@@ -166,7 +166,7 @@ const loadTaskDetail = async (id) => {
     Object.assign(formState, {
       title: '测试任务',
       platform: 'douyin',
-      type: 'grass',
+      type: 'seeding',
       reward: 100,
       startTime: null,
       endTime: null,

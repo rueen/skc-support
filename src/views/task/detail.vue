@@ -181,7 +181,7 @@ const getPlatformText = (platform) => {
 // 获取类型文本
 const getTypeText = (type) => {
   const map = {
-    grass: '种草',
+    seeding: '种草',
     live: '直播',
     video: '短视频'
   }
@@ -237,7 +237,7 @@ const loadTaskDetail = async () => {
     taskInfo.value = {
       title: '测试任务',
       platform: 'douyin',
-      type: 'grass',
+      type: 'seeding',
       reward: 100,
       startTime: '2024-03-01 00:00:00',
       endTime: '2024-03-31 23:59:59',

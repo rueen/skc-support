@@ -1,3 +1,10 @@
+/*
+ * @Author: diaochan
+ * @Date: 2025-02-28 15:22:30
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-02-28 17:04:58
+ * @Description: 
+ */
 export default {
   common: {
     search: 'Search',
@@ -46,7 +53,7 @@ export default {
     logout: 'Logout'
   },
   app: {
-    title: 'SKC Grass'
+    title: 'SKC Seeding'
   },
   task: {
     title: 'Task Title',
