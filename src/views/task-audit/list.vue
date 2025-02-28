@@ -4,54 +4,29 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item :label="$t('task.title')">
+            <a-form-item label="任务名称">
               <a-input
                 v-model:value="searchForm.taskName"
-                :placeholder="$t('common.search')"
+                placeholder="请输入任务名称"
                 allow-clear
               />
-            </a-form-item>
-            <a-form-item label="会员名称">
-              <a-input
-                v-model:value="searchForm.memberName"
-                placeholder="请输入会员名称"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item label="审核状态">
-              <a-select
-                v-model:value="searchForm.status"
-                placeholder="请选择状态"
-                style="width: 120px"
-                allow-clear
-              >
-                <a-select-option value="pending">待审核</a-select-option>
-                <a-select-option value="approved">已通过</a-select-option>
-                <a-select-option value="rejected">已拒绝</a-select-option>
-              </a-select>
             </a-form-item>
             <a-form-item>
               <a-space>
-                <a-button type="primary" @click="handleSearch">
-                  {{ $t('common.search') }}
-                </a-button>
-                <a-button @click="handleReset">
-                  {{ $t('common.reset') }}
-                </a-button>
+                <a-button type="primary" @click="handleSearch">查询</a-button>
+                <a-button @click="handleReset">重置</a-button>
               </a-space>
             </a-form-item>
           </a-form>
         </div>
         <div class="right">
-          <a-space>
-            <a-button
-              type="primary"
-              :disabled="!selectedRowKeys.length"
-              @click="handleBatchApprove"
-            >
-              批量通过
-            </a-button>
-          </a-space>
+          <a-button
+            type="primary"
+            :disabled="!selectedRowKeys.length"
+            @click="handleBatchApprove"
+          >
+            批量通过
+          </a-button>
         </div>
       </div>
 
@@ -93,6 +68,21 @@
       </a-table>
     </div>
 
+    <!-- 查看详情弹窗 -->
+    <a-modal
+      v-model:visible="detailVisible"
+      title="任务详情"
+      :footer="null"
+    >
+      <a-descriptions :column="1">
+        <a-descriptions-item label="任务名称">{{ currentRecord?.taskName }}</a-descriptions-item>
+        <a-descriptions-item label="任务类型">{{ currentRecord?.taskType }}</a-descriptions-item>
+        <a-descriptions-item label="任务描述">{{ currentRecord?.description }}</a-descriptions-item>
+        <a-descriptions-item label="任务奖励">{{ currentRecord?.reward }}</a-descriptions-item>
+        <a-descriptions-item label="创建时间">{{ currentRecord?.createTime }}</a-descriptions-item>
+      </a-descriptions>
+    </a-modal>
+
     <!-- 拒绝原因弹窗 -->
     <a-modal
       v-model:visible="rejectVisible"
@@ -112,21 +102,18 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { message } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
 const loading = ref(false)
-const selectedRowKeys = ref([])
+const detailVisible = ref(false)
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
 const currentRecord = ref(null)
+const selectedRowKeys = ref([])
 
 // 搜索表单
 const searchForm = reactive({
-  taskName: '',
-  memberName: '',
-  status: undefined
+  taskName: ''
 })
 
 // 表格列配置
@@ -137,22 +124,29 @@ const columns = [
     key: 'taskName'
   },
   {
-    title: '平台渠道',
-    dataIndex: 'platform',
-    key: 'platform'
+    title: '任务类型',
+    dataIndex: 'taskType',
+    key: 'taskType'
   },
   {
-    title: '会员名称',
-    dataIndex: 'memberName',
-    key: 'memberName'
+    title: '任务描述',
+    dataIndex: 'description',
+    key: 'description',
+    ellipsis: true
   },
   {
-    title: '提交时间',
-    dataIndex: 'submitTime',
-    key: 'submitTime'
+    title: '任务奖励',
+    dataIndex: 'reward',
+    key: 'reward',
+    align: 'right'
   },
   {
-    title: '审核状态',
+    title: '创建时间',
+    dataIndex: 'createTime',
+    key: 'createTime'
+  },
+  {
+    title: '状态',
     dataIndex: 'status',
     key: 'status'
   },
@@ -164,7 +158,27 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([])
+const tableData = ref([
+  {
+    id: 1,
+    taskName: '点赞任务1',
+    taskType: '点赞',
+    description: '给指定视频点赞并停留30秒',
+    reward: 1.00,
+    createTime: '2024-02-28 10:00:00',
+    status: 'pending'
+  },
+  {
+    id: 2,
+    taskName: '关注任务1',
+    taskType: '关注',
+    description: '关注指定账号并停留1分钟',
+    reward: 2.00,
+    createTime: '2024-02-28 11:00:00',
+    status: 'approved'
+  }
+])
+
 const pagination = reactive({
   current: 1,
   pageSize: 10,
@@ -176,7 +190,10 @@ const rowSelection = {
   selectedRowKeys,
   onChange: (keys) => {
     selectedRowKeys.value = keys
-  }
+  },
+  getCheckboxProps: (record) => ({
+    disabled: record.status !== 'pending'
+  })
 }
 
 // 获取状态文本
@@ -207,11 +224,7 @@ const handleSearch = () => {
 
 // 重置
 const handleReset = () => {
-  Object.assign(searchForm, {
-    taskName: '',
-    memberName: '',
-    status: undefined
-  })
+  searchForm.taskName = ''
   handleSearch()
 }
 
@@ -223,7 +236,8 @@ const handleTableChange = (pag) => {
 
 // 查看详情
 const handleView = (record) => {
-  router.push(`/task-audit/detail/${record.id}`)
+  currentRecord.value = record
+  detailVisible.value = true
 }
 
 // 审核通过
@@ -281,8 +295,7 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    tableData.value = []
-    pagination.total = 0
+    pagination.total = tableData.value.length
   } finally {
     loading.value = false
   }
