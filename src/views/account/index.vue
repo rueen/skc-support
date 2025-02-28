@@ -326,7 +326,15 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    tableData.value = []
+    tableData.value = [{
+  username: 'admin',
+  description: '管理员',
+  isAdmin: true
+}, {
+  username: 'user',
+  description: '用户',
+  isAdmin: false  
+}]
     pagination.total = 0
   } finally {
     loading.value = false
