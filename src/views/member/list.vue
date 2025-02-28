@@ -54,8 +54,9 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'isGroupOwner'">
-            <a-tag v-if="record.isGroupOwner" color="blue">群主</a-tag>
+          <template v-if="column.key === 'groupName'">
+            <span>{{ record.groupName }}</span>
+            <a-tag v-if="record.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -92,7 +93,25 @@ const searchForm = reactive({
 })
 
 // 表格数据
-const dataSource = ref([])
+const dataSource = ref([
+  {
+    id: 1,
+    memberName: '张三',
+    phone: '13800138001',
+    groupName: '群组1',
+    isGroupOwner: true,
+    createTime: '2024-02-28 10:00:00'
+  },
+  {
+    id: 2,
+    memberName: '李四',
+    phone: '13800138002',
+    groupName: '群组2',
+    isGroupOwner: false,
+    createTime: '2024-02-28 11:00:00'
+  }
+])
+
 const pagination = reactive({
   current: 1,
   pageSize: 10,
@@ -120,14 +139,7 @@ const columns = [
   },
   {
     title: '所属群',
-    dataIndex: 'groupName',
     key: 'groupName'
-  },
-  {
-    title: '群主标识',
-    dataIndex: 'isGroupOwner',
-    key: 'isGroupOwner',
-    width: 100
   },
   {
     title: '创建时间',
@@ -146,6 +158,7 @@ const columns = [
 // 方法定义
 const handleQuery = () => {
   // TODO: 实现查询逻辑
+  pagination.total = dataSource.value.length
 }
 
 const handleReset = () => {
@@ -184,6 +197,9 @@ const handleDelete = async (record) => {
     message.error('删除失败')
   }
 }
+
+// 初始化
+handleQuery()
 </script>
 
 <style lang="less" scoped>
