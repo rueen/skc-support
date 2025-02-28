@@ -103,16 +103,6 @@
                 </a>
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item key="lang" v-if="isMobile">
-                      <a-select
-                        v-model:value="currentLang"
-                        style="width: 100px"
-                        @change="handleLangChange"
-                      >
-                        <a-select-option value="zh-CN">简体中文</a-select-option>
-                        <a-select-option value="en-US">English</a-select-option>
-                      </a-select>
-                    </a-menu-item>
                     <a-menu-item key="logout" @click="handleLogout">
                       <logout-outlined />
                       <span>{{ $t('header.logout') }}</span>
@@ -179,6 +169,7 @@ const handleLogout = async () => {
 const handleLangChange = (value) => {
   locale.value = value
   currentLang.value = value
+  localStorage.setItem('language', value)
 }
 
 // 判断是否为移动端

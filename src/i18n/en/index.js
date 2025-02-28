@@ -20,6 +20,6 @@ export default {
     switchLang: 'Switch Language'
   },
   app: {
-    title: 'SKC Grass'
+    title: 'SKC Seeding'
   }
 } 
