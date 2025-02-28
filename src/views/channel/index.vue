@@ -117,14 +117,14 @@ const searchForm = reactive({
 
 // 表单数据
 const formData = reactive({
-  icon: '',
-  name: ''
+  name: '',
+  icon: ''
 })
 
 // 表单校验规则
 const rules = {
-  icon: [{ required: true, message: '请上传渠道图标' }],
-  name: [{ required: true, message: '请输入渠道名称' }]
+  name: [{ required: true, message: '请输入渠道名称' }],
+  icon: [{ required: true, message: '请上传渠道图标' }]
 }
 
 // 表格列配置
@@ -153,7 +153,21 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([])
+const tableData = ref([
+  {
+    id: 1,
+    name: '抖音',
+    icon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
+    createTime: '2024-02-28 10:00:00'
+  },
+  {
+    id: 2,
+    name: '快手',
+    icon: 'https://static.yximgs.com/udata/pkg/IS-DOCS-KWAIPIC/kwai_brand_logo.png',
+    createTime: '2024-02-28 11:00:00'
+  }
+])
+
 const pagination = reactive({
   current: 1,
   pageSize: 10,
@@ -191,8 +205,8 @@ const handleTableChange = (pag) => {
 // 添加渠道
 const handleAdd = () => {
   modalType.value = 'add'
-  formData.icon = ''
   formData.name = ''
+  formData.icon = ''
   fileList.value = []
   modalVisible.value = true
 }
@@ -200,8 +214,8 @@ const handleAdd = () => {
 // 编辑渠道
 const handleEdit = (record) => {
   modalType.value = 'edit'
-  formData.icon = record.icon
   formData.name = record.name
+  formData.icon = record.icon
   fileList.value = [
     {
       uid: '-1',
@@ -216,8 +230,8 @@ const handleEdit = (record) => {
 // 查看渠道
 const handleView = (record) => {
   modalType.value = 'view'
-  formData.icon = record.icon
   formData.name = record.name
+  formData.icon = record.icon
   fileList.value = [
     {
       uid: '-1',
@@ -279,8 +293,7 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    tableData.value = []
-    pagination.total = 0
+    pagination.total = tableData.value.length
   } finally {
     loading.value = false
   }
