@@ -16,34 +16,6 @@
         theme="dark"
         mode="inline"
       >
-        <a-menu-item key="member">
-          <template #icon>
-            <team-outlined />
-          </template>
-          <span>{{ $t('menu.member') }}</span>
-          <router-link to="/member" />
-        </a-menu-item>
-        <a-menu-item key="group">
-          <template #icon>
-            <apartment-outlined />
-          </template>
-          <span>{{ $t('menu.group') }}</span>
-          <router-link to="/group" />
-        </a-menu-item>
-        <a-menu-item key="account">
-          <template #icon>
-            <user-outlined />
-          </template>
-          <span>{{ $t('menu.account') }}</span>
-          <router-link to="/account" />
-        </a-menu-item>
-        <a-menu-item key="article">
-          <template #icon>
-            <file-text-outlined />
-          </template>
-          <span>{{ $t('menu.article') }}</span>
-          <router-link to="/article" />
-        </a-menu-item>
         <a-menu-item key="task">
           <template #icon>
             <profile-outlined />
@@ -58,6 +30,20 @@
           <span>{{ $t('menu.taskAudit') }}</span>
           <router-link to="/task-audit" />
         </a-menu-item>
+        <a-menu-item key="account">
+          <template #icon>
+            <user-outlined />
+          </template>
+          <span>{{ $t('menu.account') }}</span>
+          <router-link to="/account" />
+        </a-menu-item>
+        <a-menu-item key="member">
+          <template #icon>
+            <team-outlined />
+          </template>
+          <span>{{ $t('menu.member') }}</span>
+          <router-link to="/member" />
+        </a-menu-item>
         <a-sub-menu key="settlement">
           <template #icon>
             <pay-circle-outlined />
@@ -70,6 +56,20 @@
             <router-link to="/settlement/other">{{ $t('menu.other') }}</router-link>
           </a-menu-item>
         </a-sub-menu>
+        <a-menu-item key="group">
+          <template #icon>
+            <apartment-outlined />
+          </template>
+          <span>{{ $t('menu.group') }}</span>
+          <router-link to="/group" />
+        </a-menu-item>
+        <a-menu-item key="article">
+          <template #icon>
+            <file-text-outlined />
+          </template>
+          <span>{{ $t('menu.article') }}</span>
+          <router-link to="/article" />
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     
