@@ -47,6 +47,12 @@ const routes = [
         meta: { title: '任务审核', icon: 'audit', permission: ['task.audit'] }
       },
       {
+        path: 'account-audit',
+        name: 'AccountAudit',
+        component: () => import('@/views/account-audit/list.vue'),
+        meta: { title: '任务审核', icon: 'audit', permission: ['task.audit'] }
+      },
+      {
         path: 'member',
         component: () => import('@/views/member/list.vue'),
         name: 'MemberList',

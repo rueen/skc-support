@@ -8,5 +8,6 @@ export default {
   settlement: 'Settlement',
   withdrawal: 'Withdrawal',
   other: 'Other Bills',
-  channel: 'Channel Management'
+  channel: 'Channel Management',
+  accountAudit: 'Account Audit'
 } 

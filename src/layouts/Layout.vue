@@ -30,6 +30,13 @@
           <span>{{ $t('menu.taskAudit') }}</span>
           <router-link to="/task-audit" />
         </a-menu-item>
+        <a-menu-item key="account-audit">
+          <template #icon>
+            <safety-outlined />
+          </template>
+          <span>{{ $t('menu.accountAudit') }}</span>
+          <router-link to="/account-audit" />
+        </a-menu-item>
         <a-menu-item key="member">
           <template #icon>
             <team-outlined />
@@ -156,7 +163,8 @@ import {
   ApartmentOutlined,
   ProfileOutlined,
   AuditOutlined,
-  LinkOutlined
+  LinkOutlined,
+  SafetyOutlined
 } from '@ant-design/icons-vue'
 
 const router = useRouter()
