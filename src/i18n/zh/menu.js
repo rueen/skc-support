@@ -7,5 +7,6 @@ export default {
   article: '文章管理',
   settlement: '结算管理',
   withdrawal: '提现账单',
-  other: '其他账单'
+  other: '其他账单',
+  channel: '渠道管理'
 } 

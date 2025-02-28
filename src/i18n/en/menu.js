@@ -7,5 +7,6 @@ export default {
   article: 'Article Management',
   settlement: 'Settlement',
   withdrawal: 'Withdrawal',
-  other: 'Other Bills'
+  other: 'Other Bills',
+  channel: 'Channel Management'
 } 

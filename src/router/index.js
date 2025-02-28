@@ -99,6 +99,12 @@ const routes = [
         component: () => import('@/views/settlement/other.vue'),
         name: 'Other',
         meta: { title: '其他账单' }
+      },
+      {
+        path: 'channel',
+        name: 'Channel',
+        component: () => import('@/views/channel/index.vue'),
+        meta: { title: '渠道管理', icon: 'link', permission: ['channel.view'] }
       }
     ]
   }
