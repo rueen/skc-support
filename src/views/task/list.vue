@@ -36,10 +36,16 @@
           </a-form>
         </div>
         <div class="right">
-          <a-button type="primary" @click="handleAdd">
-            <template #icon><plus-outlined /></template>
-            新建任务
-          </a-button>
+          <a-space>
+            <a-button @click="handleExport">
+              <template #icon><download-outlined /></template>
+              导出
+            </a-button>
+            <a-button type="primary" @click="handleAdd">
+              <template #icon><plus-outlined /></template>
+              新建任务
+            </a-button>
+          </a-space>
         </div>
       </div>
 
@@ -78,8 +84,8 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { message } from 'ant-design-vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
+import { message, Modal } from 'ant-design-vue'
+import { PlusOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
 const loading = ref(false)
@@ -222,6 +228,27 @@ const handleDelete = async (record) => {
   } catch (error) {
     message.error('删除失败')
   }
+}
+
+const handleExport = () => {
+  Modal.confirm({
+    title: '确认导出',
+    content: '确定要导出当前筛选条件下的所有任务数据吗？',
+    onOk: async () => {
+      try {
+        // TODO: 实现导出逻辑
+        const params = {
+          taskName: searchForm.taskName,
+          channelId: searchForm.channelId
+        }
+        
+        // 模拟导出成功
+        message.success('导出成功')
+      } catch (error) {
+        message.error('导出失败')
+      }
+    }
+  })
 }
 
 const loadData = async () => {
