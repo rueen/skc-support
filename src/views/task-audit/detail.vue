@@ -6,7 +6,8 @@
     />
     <div class="detail-container">
       <!-- 任务信息 -->
-      <a-card title="任务信息" class="detail-card">
+      <div class="detail-section">
+        <div class="section-title">任务信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="任务名称">{{ taskInfo.taskName }}</a-descriptions-item>
           <a-descriptions-item label="平台渠道">{{ taskInfo.channelName }}</a-descriptions-item>
@@ -22,19 +23,14 @@
             {{ taskInfo.unlimitedQuota ? '不限制' : taskInfo.quota }}
           </a-descriptions-item>
           <a-descriptions-item label="粉丝要求">{{ taskInfo.fansRequired }} 粉丝</a-descriptions-item>
+          <a-descriptions-item label="作品要求">{{ taskInfo.contentRequirement }}</a-descriptions-item>
+          <a-descriptions-item label="任务信息">{{ taskInfo.taskInfo }}</a-descriptions-item>
         </a-descriptions>
-        <div class="content-item">
-          <div class="label">作品要求：</div>
-          <div class="content">{{ taskInfo.contentRequirement }}</div>
-        </div>
-        <div class="content-item">
-          <div class="label">任务信息：</div>
-          <div class="content">{{ taskInfo.taskInfo }}</div>
-        </div>
-      </a-card>
+      </div>
 
       <!-- 会员信息 -->
-      <a-card title="会员信息" class="detail-card">
+      <div class="detail-section">
+        <div class="section-title">会员信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="会员名称">
             {{ memberInfo.nickname }}
@@ -43,10 +39,11 @@
           <a-descriptions-item label="账号">{{ memberInfo.account }}</a-descriptions-item>
           <a-descriptions-item label="所属群">{{ memberInfo.groupName }}</a-descriptions-item>
         </a-descriptions>
-      </a-card>
+      </div>
 
       <!-- 报名信息 -->
-      <a-card title="报名信息" class="detail-card">
+      <div class="detail-section">
+        <div class="section-title">报名信息</div>
         <a-descriptions :column="2">
           <template v-for="field in taskInfo.customFields" :key="field.title">
             <a-descriptions-item :label="field.title">
@@ -57,10 +54,11 @@
             </a-descriptions-item>
           </template>
         </a-descriptions>
-      </a-card>
+      </div>
 
       <!-- 审核信息 -->
-      <a-card title="审核信息" class="detail-card">
+      <div class="detail-section">
+        <div class="section-title">审核信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="报名时间">{{ auditInfo.applyTime }}</a-descriptions-item>
           <a-descriptions-item label="审核状态">
@@ -72,7 +70,7 @@
             <a-descriptions-item label="拒绝原因">{{ auditInfo.rejectReason }}</a-descriptions-item>
           </template>
         </a-descriptions>
-      </a-card>
+      </div>
 
       <!-- 底部按钮 -->
       <div class="footer-btns">
@@ -268,32 +266,38 @@ onMounted(() => {
     border-radius: 2px;
   }
 
-  .detail-card {
+  .detail-section {
     margin-bottom: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
 
     &:last-child {
       margin-bottom: 0;
-    }
-  }
-
-  .content-item {
-    margin-top: 16px;
-
-    .label {
-      font-weight: bold;
-      margin-bottom: 8px;
+      border-bottom: none;
     }
 
-    .content {
-      white-space: pre-wrap;
+    .section-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+      margin-bottom: 16px;
+      text-align: left;
     }
   }
 
   .footer-btns {
-    margin-top: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  :deep(.ant-descriptions-item-label) {
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+  }
+
+  :deep(.ant-descriptions-item-content) {
+    color: rgba(0, 0, 0, 0.65);
   }
 }
 </style> 
