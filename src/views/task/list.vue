@@ -27,6 +27,22 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item label="任务状态">
+              <a-select
+                v-model:value="searchForm.status"
+                placeholder="请选择状态"
+                style="width: 120px"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="status in Object.values(TaskStatus)"
+                  :key="status"
+                  :value="status"
+                >
+                  {{ getTaskStatusText(status) }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">查询</a-button>
@@ -58,18 +74,18 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'status'">
-            <a-tag :color="getStatusColor(record.status)">
-              {{ getStatusText(record.status) }}
+            <a-tag :color="getTaskStatusColor(record.status)">
+              {{ getTaskStatusText(record.status) }}
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleView(record)">查看</a>
-              <a @click="handleEdit(record)" v-if="record.status === 'pending'">编辑</a>
+              <a @click="handleEdit(record)" v-if="record.status === TaskStatus.NOT_STARTED">编辑</a>
               <a-popconfirm
                 title="确定要删除该任务吗？"
                 @confirm="handleDelete(record)"
-                v-if="record.status === 'pending'"
+                v-if="record.status === TaskStatus.NOT_STARTED"
               >
                 <a class="danger">删除</a>
               </a-popconfirm>
@@ -84,16 +100,25 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { message, Modal } from 'ant-design-vue'
 import { PlusOutlined, DownloadOutlined } from '@ant-design/icons-vue'
+import {
+  TaskStatus,
+  TaskStatusLang,
+  TaskStatusColor,
+  getLangText
+} from '@/constants/enums'
 
 const router = useRouter()
+const { locale } = useI18n()
 const loading = ref(false)
 
 // 搜索表单
 const searchForm = reactive({
   taskName: '',
-  channelId: undefined
+  channelId: undefined,
+  status: undefined,
 })
 
 // 渠道选项
@@ -115,29 +140,20 @@ const columns = [
     key: 'channelName'
   },
   {
-    title: '报名人数',
-    dataIndex: 'signupCount',
-    key: 'signupCount'
-  },
-  {
-    title: '开始时间',
-    dataIndex: 'startTime',
-    key: 'startTime'
-  },
-  {
-    title: '结束时间',
-    dataIndex: 'endTime',
-    key: 'endTime'
-  },
-  {
-    title: '状态',
+    title: '任务状态',
     dataIndex: 'status',
     key: 'status'
   },
   {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    key: 'createTime'
+  },
+  {
     title: '操作',
     key: 'action',
-    width: 200
+    fixed: 'right',
+    width: 180
   }
 ]
 
@@ -145,23 +161,10 @@ const columns = [
 const tableData = ref([
   {
     id: 1,
-    taskName: '点赞任务1',
+    taskName: '测试任务1',
     channelName: '抖音',
-    channelId: 1,
-    status: 'pending',
-    signupCount: 0,
-    startTime: '2024-03-01 00:00:00',
-    endTime: '2024-03-07 23:59:59'
-  },
-  {
-    id: 2,
-    taskName: '关注任务1',
-    channelName: '快手',
-    channelId: 2,
-    status: 'processing',
-    signupCount: 10,
-    startTime: '2024-02-28 00:00:00',
-    endTime: '2024-03-06 23:59:59'
+    status: TaskStatus.NOT_STARTED,
+    createTime: '2024-03-01 10:00:00'
   }
 ])
 
@@ -171,24 +174,14 @@ const pagination = reactive({
   total: 0
 })
 
-// 获取状态文本
-const getStatusText = (status) => {
-  const map = {
-    pending: '未开始',
-    processing: '进行中',
-    completed: '已结束'
-  }
-  return map[status] || status
+// 获取任务状态文本
+const getTaskStatusText = (status) => {
+  return getLangText(TaskStatusLang, status, locale.value)
 }
 
-// 获取状态颜色
-const getStatusColor = (status) => {
-  const map = {
-    pending: 'default',
-    processing: 'processing',
-    completed: 'success'
-  }
-  return map[status]
+// 获取任务状态颜色
+const getTaskStatusColor = (status) => {
+  return TaskStatusColor[status]
 }
 
 // 方法定义
@@ -200,6 +193,7 @@ const handleSearch = () => {
 const handleReset = () => {
   searchForm.taskName = ''
   searchForm.channelId = undefined
+  searchForm.status = undefined
   handleSearch()
 }
 
