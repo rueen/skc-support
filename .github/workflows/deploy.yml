@@ -1,0 +1,49 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 或者你的默认分支名称
+  workflow_dispatch: # 允许手动触发部署
+
+permissions:
+  contents: write # 授予写入权限
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+          VITE_APP_BASE_API: '/api'  # 设置生产环境 API 地址
+
+      # 处理 404 问题
+      - name: Copy index.html to 404.html
+        run: cp dist/index.html dist/404.html
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist  # Vue 项目的构建输出目录
+          branch: gh-pages  # 部署的目标分支
+          clean: true  # 清理旧文件
+          single-commit: true  # 保持部署分支只有一个提交
