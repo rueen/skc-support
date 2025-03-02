@@ -4,10 +4,10 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="账号名称">
+            <a-form-item label="账号">
               <a-input
-                v-model:value="searchForm.accountName"
-                placeholder="请输入账号名称"
+                v-model:value="searchForm.account"
+                placeholder="请输入账号"
                 allow-clear
               />
             </a-form-item>
@@ -15,11 +15,43 @@
               <a-select
                 v-model:value="searchForm.channelId"
                 placeholder="请选择平台渠道"
-                style="width: 200px"
+                style="width: 120px"
                 allow-clear
               >
                 <a-select-option
                   v-for="item in channelOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="审核状态">
+              <a-select
+                v-model:value="searchForm.auditStatus"
+                placeholder="请选择审核状态"
+                style="width: 120px"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="status in Object.values(AccountAuditStatus)"
+                  :key="status"
+                  :value="status"
+                >
+                  {{ getAccountAuditStatusText(status) }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="所属群组">
+              <a-select
+                v-model:value="searchForm.groupId"
+                placeholder="请选择群组"
+                style="width: 120px"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="item in groupOptions"
                   :key="item.id"
                   :value="item.id"
                 >
@@ -36,13 +68,10 @@
           </a-form>
         </div>
         <div class="right">
-          <a-button
-            type="primary"
-            :disabled="!selectedRowKeys.length"
-            @click="handleBatchApprove"
-          >
-            批量通过
-          </a-button>
+          <a-space>
+            <a-button type="primary" @click="handleBatchApprove">批量通过</a-button>
+            <a-button danger @click="handleBatchReject">批量拒绝</a-button>
+          </a-space>
         </div>
       </div>
 
@@ -51,33 +80,45 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
-        :row-selection="rowSelection"
+        :row-selection="{ selectedRowKeys: selectedKeys, onChange: onSelectChange }"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
-            <a-tag :color="getStatusColor(record.status)">
-              {{ getStatusText(record.status) }}
+          <template v-if="column.key === 'member'">
+            <div>
+              <div>{{ record.memberNickname }}</div>
+              <div class="group-name">{{ record.groupName }}</div>
+            </div>
+          </template>
+          <template v-if="column.key === 'homeUrl'">
+            <a-tooltip :title="record.homeUrl">
+              <a :href="record.homeUrl" target="_blank" class="link-text">
+                {{ record.homeUrl }}
+              </a>
+            </a-tooltip>
+          </template>
+          <template v-if="column.key === 'auditStatus'">
+            <a-tag :color="getAccountAuditStatusColor(record.auditStatus)">
+              {{ getAccountAuditStatusText(record.auditStatus) }}
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleView(record)">查看</a>
-              <a-button
-                v-if="record.status === 'pending'"
-                type="link"
-                @click="handleApprove(record)"
+              <a-popconfirm
+                title="确定要通过该账号吗？"
+                @confirm="handleApprove(record)"
+                v-if="record.auditStatus === AccountAuditStatus.PENDING"
               >
-                通过
-              </a-button>
-              <a-button
-                v-if="record.status === 'pending'"
-                type="link"
-                danger
-                @click="handleReject(record)"
+                <a>通过</a>
+              </a-popconfirm>
+              <a-popconfirm
+                title="确定要拒绝该账号吗？"
+                @confirm="handleReject(record)"
+                v-if="record.auditStatus === AccountAuditStatus.PENDING"
               >
-                拒绝
-              </a-button>
+                <a class="danger">拒绝</a>
+              </a-popconfirm>
             </a-space>
           </template>
         </template>
@@ -91,13 +132,18 @@
       :footer="null"
     >
       <a-descriptions :column="1">
-        <a-descriptions-item label="账号名称">{{ currentRecord?.accountName }}</a-descriptions-item>
+        <a-descriptions-item label="账号">{{ currentRecord?.account }}</a-descriptions-item>
         <a-descriptions-item label="平台渠道">{{ currentRecord?.channelName }}</a-descriptions-item>
-        <a-descriptions-item label="粉丝数">{{ currentRecord?.fansCount }}</a-descriptions-item>
-        <a-descriptions-item label="好友数">{{ currentRecord?.friendsCount }}</a-descriptions-item>
         <a-descriptions-item label="主页链接">
           <a :href="currentRecord?.homeUrl" target="_blank">{{ currentRecord?.homeUrl }}</a>
         </a-descriptions-item>
+        <a-descriptions-item label="粉丝数">{{ currentRecord?.fansCount }}</a-descriptions-item>
+        <a-descriptions-item label="发帖数">{{ currentRecord?.postsCount }}</a-descriptions-item>
+        <a-descriptions-item label="会员名称">
+          {{ currentRecord?.memberNickname }}
+          <a-tag v-if="currentRecord?.isGroupOwner" color="blue">群主</a-tag>
+        </a-descriptions-item>
+        <a-descriptions-item label="所属群组">{{ currentRecord?.groupName }}</a-descriptions-item>
       </a-descriptions>
     </a-modal>
 
@@ -119,20 +165,30 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
+import {
+  AccountAuditStatus,
+  AccountAuditStatusLang,
+  AccountAuditStatusColor,
+  getLangText
+} from '@/constants/enums'
 
+const { locale } = useI18n()
 const loading = ref(false)
 const detailVisible = ref(false)
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
 const currentRecord = ref(null)
-const selectedRowKeys = ref([])
+const selectedKeys = ref([])
 
 // 搜索表单
 const searchForm = reactive({
-  accountName: '',
-  channelId: undefined
+  account: '',
+  channelId: undefined,
+  auditStatus: undefined,
+  groupId: undefined
 })
 
 // 渠道选项
@@ -141,12 +197,18 @@ const channelOptions = [
   { id: 2, name: '快手' }
 ]
 
+// 群组选项
+const groupOptions = [
+  { id: 1, name: '群组1' },
+  { id: 2, name: '群组2' }
+]
+
 // 表格列配置
 const columns = [
   {
-    title: '账号名称',
-    dataIndex: 'accountName',
-    key: 'accountName'
+    title: '账号',
+    dataIndex: 'account',
+    key: 'account'
   },
   {
     title: '平台渠道',
@@ -154,30 +216,35 @@ const columns = [
     key: 'channelName'
   },
   {
-    title: '粉丝数',
-    dataIndex: 'fansCount',
-    key: 'fansCount',
-  },
-  {
-    title: '好友数',
-    dataIndex: 'friendsCount',
-    key: 'friendsCount',
-  },
-  {
     title: '主页链接',
-    dataIndex: 'homeUrl',
     key: 'homeUrl',
+    width: 200,
     ellipsis: true
   },
   {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status'
+    title: '粉丝数',
+    dataIndex: 'fansCount',
+    key: 'fansCount'
+  },
+  {
+    title: '发帖数',
+    dataIndex: 'postsCount',
+    key: 'postsCount'
+  },
+  {
+    title: '会员信息',
+    key: 'member'
+  },
+  {
+    title: '审核状态',
+    dataIndex: 'auditStatus',
+    key: 'auditStatus'
   },
   {
     title: '操作',
     key: 'action',
-    width: 200
+    fixed: 'right',
+    width: 180
   }
 ]
 
@@ -185,59 +252,39 @@ const columns = [
 const tableData = ref([
   {
     id: 1,
-    accountName: '抖音账号1',
+    account: 'test123',
     channelName: '抖音',
     channelId: 1,
-    fansCount: 10000,
-    friendsCount: 500,
-    homeUrl: 'https://www.douyin.com/user1',
-    status: 'pending'
-  },
-  {
-    id: 2,
-    accountName: '快手账号1',
-    channelName: '快手',
-    channelId: 2,
-    fansCount: 20000,
-    friendsCount: 1000,
-    homeUrl: 'https://www.kuaishou.com/user1',
-    status: 'approved'
+    homeUrl: 'https://example.com/test123',
+    fansCount: 1000,
+    postsCount: 50,
+    memberNickname: '测试会员1',
+    groupName: '群组1',
+    auditStatus: AccountAuditStatus.PENDING
   }
 ])
 
-const pagination = reactive({
-  current: 1,
-  pageSize: 10,
-  total: 0
-})
-
-// 表格选择配置
-const rowSelection = {
-  selectedRowKeys,
-  onChange: (keys) => {
-    selectedRowKeys.value = keys
-  },
-  getCheckboxProps: (record) => ({
-    disabled: record.status !== 'pending'
-  })
+// 选择行变化
+const onSelectChange = (keys) => {
+  selectedKeys.value = keys
 }
 
 // 获取状态文本
-const getStatusText = (status) => {
+const getAccountAuditStatusText = (status) => {
   const map = {
-    pending: '待审核',
-    approved: '已通过',
-    rejected: '已拒绝'
+    [AccountAuditStatus.PENDING]: '待审核',
+    [AccountAuditStatus.APPROVED]: '已通过',
+    [AccountAuditStatus.REJECTED]: '已拒绝'
   }
   return map[status] || status
 }
 
 // 获取状态颜色
-const getStatusColor = (status) => {
+const getAccountAuditStatusColor = (status) => {
   const map = {
-    pending: 'warning',
-    approved: 'success',
-    rejected: 'error'
+    [AccountAuditStatus.PENDING]: 'warning',
+    [AccountAuditStatus.APPROVED]: 'success',
+    [AccountAuditStatus.REJECTED]: 'error'
   }
   return map[status]
 }
@@ -250,8 +297,10 @@ const handleSearch = () => {
 
 // 重置
 const handleReset = () => {
-  searchForm.accountName = ''
+  searchForm.account = ''
   searchForm.channelId = undefined
+  searchForm.auditStatus = undefined
+  searchForm.groupId = undefined
   handleSearch()
 }
 
@@ -279,15 +328,21 @@ const handleApprove = async (record) => {
 }
 
 // 批量审核通过
-const handleBatchApprove = async () => {
-  try {
-    // TODO: 实现批量审核通过逻辑
-    message.success('批量审核通过成功')
-    selectedRowKeys.value = []
-    loadData()
-  } catch (error) {
-    message.error('批量审核通过失败')
+const handleBatchApprove = () => {
+  if (!selectedKeys.value.length) {
+    message.warning('请选择要通过的账号')
+    return
   }
+  // TODO: 实现批量审核通过逻辑
+}
+
+// 批量拒绝
+const handleBatchReject = () => {
+  if (!selectedKeys.value.length) {
+    message.warning('请选择要拒绝的账号')
+    return
+  }
+  // TODO: 实现批量拒绝逻辑
 }
 
 // 审核拒绝
@@ -334,11 +389,28 @@ loadData()
 
 <style lang="less" scoped>
 .account-audit {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+  .table-container {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 2px;
+  }
+
+  .group-name {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .danger {
+    color: #ff4d4f;
+  }
+
+  .link-text {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style> 
