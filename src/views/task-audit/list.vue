@@ -11,6 +11,54 @@
                 allow-clear
               />
             </a-form-item>
+            <a-form-item label="平台渠道">
+              <a-select
+                v-model:value="searchForm.channelId"
+                placeholder="请选择平台渠道"
+                style="width: 120px"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="item in channelOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="审核状态">
+              <a-select
+                v-model:value="searchForm.auditStatus"
+                placeholder="请选择审核状态"
+                style="width: 120px"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="status in Object.values(TaskAuditStatus)"
+                  :key="status"
+                  :value="status"
+                >
+                  {{ getTaskAuditStatusText(status) }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="所属群组">
+              <a-select
+                v-model:value="searchForm.groupId"
+                placeholder="请选择群组"
+                style="width: 120px"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="item in groupOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">查询</a-button>
@@ -20,13 +68,10 @@
           </a-form>
         </div>
         <div class="right">
-          <a-button
-            type="primary"
-            :disabled="!selectedRowKeys.length"
-            @click="handleBatchApprove"
-          >
-            批量通过
-          </a-button>
+          <a-space>
+            <a-button type="primary" @click="handleBatchApprove">批量通过</a-button>
+            <a-button danger @click="handleBatchReject">批量拒绝</a-button>
+          </a-space>
         </div>
       </div>
 
@@ -39,29 +84,34 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
-            <a-tag :color="getStatusColor(record.status)">
-              {{ getStatusText(record.status) }}
+          <template v-if="column.key === 'auditStatus'">
+            <a-tag :color="getTaskAuditStatusColor(record.auditStatus)">
+              {{ getTaskAuditStatusText(record.auditStatus) }}
             </a-tag>
+          </template>
+          <template v-if="column.key === 'member'">
+            <div>
+              <div>{{ record.memberNickname }}</div>
+              <div class="group-name">{{ record.groupName }}</div>
+            </div>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleView(record)">查看</a>
-              <a-button
-                v-if="record.status === 'pending'"
-                type="link"
-                @click="handleApprove(record)"
+              <a-popconfirm
+                title="确定要通过该任务吗？"
+                @confirm="handleApprove(record)"
+                v-if="record.auditStatus === TaskAuditStatus.PENDING"
               >
-                通过
-              </a-button>
-              <a-button
-                v-if="record.status === 'pending'"
-                type="link"
-                danger
-                @click="handleReject(record)"
+                <a>通过</a>
+              </a-popconfirm>
+              <a-popconfirm
+                title="确定要拒绝该任务吗？"
+                @confirm="handleReject(record)"
+                v-if="record.auditStatus === TaskAuditStatus.PENDING"
               >
-                拒绝
-              </a-button>
+                <a class="danger">拒绝</a>
+              </a-popconfirm>
             </a-space>
           </template>
         </template>
@@ -101,8 +151,18 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
+import {
+  TaskAuditStatus,
+  TaskAuditStatusLang,
+  TaskAuditStatusColor,
+  getLangText
+} from '@/constants/enums'
 
+const router = useRouter()
+const { locale } = useI18n()
 const loading = ref(false)
 const detailVisible = ref(false)
 const rejectVisible = ref(false)
@@ -113,8 +173,23 @@ const selectedRowKeys = ref([])
 
 // 搜索表单
 const searchForm = reactive({
-  taskName: ''
+  taskName: '',
+  channelId: undefined,
+  auditStatus: undefined,
+  groupId: undefined
 })
+
+// 选项数据
+const channelOptions = [
+  { id: 1, name: '抖音' },
+  { id: 2, name: '快手' }
+]
+
+const groupOptions = [
+  { id: 1, name: '群组1' },
+  { id: 2, name: '群组2' },
+  { id: 3, name: '群组3' }
+]
 
 // 表格列配置
 const columns = [
@@ -124,35 +199,29 @@ const columns = [
     key: 'taskName'
   },
   {
-    title: '任务类型',
-    dataIndex: 'taskType',
-    key: 'taskType'
-  },
-  {
-    title: '任务描述',
-    dataIndex: 'description',
-    key: 'description',
-    ellipsis: true
+    title: '平台渠道',
+    dataIndex: 'channelName',
+    key: 'channelName'
   },
   {
     title: '任务奖励',
     dataIndex: 'reward',
-    key: 'reward',
+    key: 'reward'
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
+    title: '会员信息',
+    key: 'member'
   },
   {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status'
+    title: '审核状态',
+    dataIndex: 'auditStatus',
+    key: 'auditStatus'
   },
   {
     title: '操作',
     key: 'action',
-    width: 200
+    fixed: 'right',
+    width: 180
   }
 ]
 
@@ -160,21 +229,12 @@ const columns = [
 const tableData = ref([
   {
     id: 1,
-    taskName: '点赞任务1',
-    taskType: '点赞',
-    description: '给指定视频点赞并停留30秒',
-    reward: 1.00,
-    createTime: '2024-02-28 10:00:00',
-    status: 'pending'
-  },
-  {
-    id: 2,
-    taskName: '关注任务1',
-    taskType: '关注',
-    description: '关注指定账号并停留1分钟',
-    reward: 2.00,
-    createTime: '2024-02-28 11:00:00',
-    status: 'approved'
+    taskName: '测试任务1',
+    channelName: '抖音',
+    memberNickname: '测试会员1',
+    groupName: '群组1',
+    reward: 100,
+    auditStatus: TaskAuditStatus.PENDING
   }
 ])
 
@@ -191,28 +251,18 @@ const rowSelection = {
     selectedRowKeys.value = keys
   },
   getCheckboxProps: (record) => ({
-    disabled: record.status !== 'pending'
+    disabled: record.auditStatus !== TaskAuditStatus.PENDING
   })
 }
 
-// 获取状态文本
-const getStatusText = (status) => {
-  const map = {
-    pending: '待审核',
-    approved: '已通过',
-    rejected: '已拒绝'
-  }
-  return map[status] || status
+// 获取任务审核状态文本
+const getTaskAuditStatusText = (status) => {
+  return getLangText(TaskAuditStatusLang, status, locale.value)
 }
 
-// 获取状态颜色
-const getStatusColor = (status) => {
-  const map = {
-    pending: 'warning',
-    approved: 'success',
-    rejected: 'error'
-  }
-  return map[status]
+// 获取任务审核状态颜色
+const getTaskAuditStatusColor = (status) => {
+  return TaskAuditStatusColor[status]
 }
 
 // 搜索
@@ -224,6 +274,9 @@ const handleSearch = () => {
 // 重置
 const handleReset = () => {
   searchForm.taskName = ''
+  searchForm.channelId = undefined
+  searchForm.auditStatus = undefined
+  searchForm.groupId = undefined
   handleSearch()
 }
 
@@ -252,6 +305,10 @@ const handleApprove = async (record) => {
 
 // 批量审核通过
 const handleBatchApprove = async () => {
+  if (!selectedRowKeys.value.length) {
+    message.warning('请选择要通过的任务')
+    return
+  }
   try {
     // TODO: 实现批量审核通过逻辑
     message.success('批量审核通过成功')
@@ -289,6 +346,15 @@ const handleRejectConfirm = async () => {
   }
 }
 
+// 批量拒绝
+const handleBatchReject = () => {
+  if (!selectedRowKeys.value.length) {
+    message.warning('请选择要拒绝的任务')
+    return
+  }
+  // TODO: 实现批量拒绝逻辑
+}
+
 // 加载数据
 const loadData = async () => {
   loading.value = true
@@ -306,11 +372,20 @@ loadData()
 
 <style lang="less" scoped>
 .task-audit {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+  .table-container {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 2px;
+  }
+
+  .group-name {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .danger {
+    color: #ff4d4f;
   }
 }
 </style> 
