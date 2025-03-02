@@ -11,22 +11,26 @@
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="手机号">
+            <a-form-item label="账号">
               <a-input
-                v-model:value="searchForm.phone"
-                placeholder="请输入手机号"
+                v-model:value="searchForm.account"
+                placeholder="请输入账号"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="所属群">
+            <a-form-item label="所属群组">
               <a-select
                 v-model:value="searchForm.groupId"
-                placeholder="请选择所属群"
-                style="width: 200px"
+                placeholder="请选择群组"
+                style="width: 120px"
                 allow-clear
               >
-                <a-select-option v-for="item in groupOptions" :key="item.value">
-                  {{ item.label }}
+                <a-select-option
+                  v-for="item in groupOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -88,7 +92,7 @@ const loading = ref(false)
 // 查询参数
 const searchForm = reactive({
   memberName: '',
-  phone: '',
+  account: '',
   groupId: undefined
 })
 
@@ -97,7 +101,7 @@ const dataSource = ref([
   {
     id: 1,
     memberName: '张三',
-    phone: '13800138001',
+    account: 'test123',
     groupName: '群组1',
     isGroupOwner: true,
     createTime: '2024-02-28 10:00:00'
@@ -105,7 +109,7 @@ const dataSource = ref([
   {
     id: 2,
     memberName: '李四',
-    phone: '13800138002',
+    account: 'test456',
     groupName: '群组2',
     isGroupOwner: false,
     createTime: '2024-02-28 11:00:00'
@@ -120,9 +124,9 @@ const pagination = reactive({
 
 // 群组选项
 const groupOptions = [
-  { label: '群组1', value: '1' },
-  { label: '群组2', value: '2' },
-  { label: '群组3', value: '3' }
+  { id: 1, name: '群组1' },
+  { id: 2, name: '群组2' },
+  { id: 3, name: '群组3' }
 ]
 
 // 表格列定义
@@ -133,12 +137,13 @@ const columns = [
     key: 'memberName'
   },
   {
-    title: '手机号',
-    dataIndex: 'phone',
-    key: 'phone'
+    title: '账号',
+    dataIndex: 'account',
+    key: 'account'
   },
   {
-    title: '所属群',
+    title: '所属群组',
+    dataIndex: 'groupName',
     key: 'groupName'
   },
   {
@@ -146,11 +151,6 @@ const columns = [
     dataIndex: 'createTime',
     key: 'createTime',
     width: 180
-  },
-  {
-    title: '账户余额',
-    dataIndex: 'balance',
-    key: 'balance',
   },
   {
     title: '操作',
@@ -169,7 +169,7 @@ const handleQuery = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     memberName: '',
-    phone: '',
+    account: '',
     groupId: undefined
   })
   handleQuery()
