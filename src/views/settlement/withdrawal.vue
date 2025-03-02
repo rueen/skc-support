@@ -23,6 +23,16 @@
             </a-form-item>
           </a-form>
         </div>
+        <div class="right">
+          <a-space>
+            <a-button type="primary" @click="handleExport">
+              <template #icon><download-outlined /></template>
+              导出
+            </a-button>
+            <a-button type="primary" @click="handleBatchPaid">批量已打款</a-button>
+            <a-button danger @click="handleBatchFailed">批量打款失败</a-button>
+          </a-space>
+        </div>
       </div>
 
       <a-table
@@ -30,6 +40,7 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        :row-selection="{ selectedRowKeys: selectedKeys, onChange: onSelectChange }"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
@@ -40,37 +51,29 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a-button
-                v-if="record.status === 'pending'"
-                type="link"
-                @click="handlePay(record)"
+              <a-popconfirm
+                title="确定要标记为已打款吗？"
+                @confirm="handlePaid(record)"
               >
-                打款
-              </a-button>
-              <a-button
-                v-if="record.status === 'pending'"
-                type="link"
-                danger
-                @click="handleReject(record)"
-              >
-                拒绝
-              </a-button>
+                <a>已打款</a>
+              </a-popconfirm>
+              <a class="danger" @click="handleFailed(record)">打款失败</a>
             </a-space>
           </template>
         </template>
       </a-table>
     </div>
 
-    <!-- 拒绝原因弹窗 -->
+    <!-- 打款失败原因弹窗 -->
     <a-modal
-      v-model:visible="rejectVisible"
-      title="拒绝原因"
-      @ok="handleRejectConfirm"
-      :confirmLoading="rejectLoading"
+      v-model:open="failedVisible"
+      title="打款失败原因"
+      @ok="handleFailedConfirm"
+      :confirmLoading="failedLoading"
     >
       <a-textarea
-        v-model:value="rejectReason"
-        placeholder="请输入拒绝原因"
+        v-model:value="failedReason"
+        placeholder="请输入打款失败原因"
         :rows="4"
       />
     </a-modal>
@@ -80,12 +83,14 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { message } from 'ant-design-vue'
+import { DownloadOutlined } from '@ant-design/icons-vue'
 
 const loading = ref(false)
-const rejectVisible = ref(false)
-const rejectLoading = ref(false)
-const rejectReason = ref('')
 const currentRecord = ref(null)
+const selectedKeys = ref([])
+const failedVisible = ref(false)
+const failedLoading = ref(false)
+const failedReason = ref('')
 
 // 搜索表单
 const searchForm = reactive({
@@ -165,7 +170,7 @@ const getStatusText = (status) => {
   const map = {
     pending: '待处理',
     paid: '已打款',
-    rejected: '已拒绝'
+    failed: '打款失败'
   }
   return map[status] || status
 }
@@ -175,7 +180,7 @@ const getStatusColor = (status) => {
   const map = {
     pending: 'warning',
     paid: 'success',
-    rejected: 'error'
+    failed: 'error'
   }
   return map[status]
 }
@@ -198,41 +203,79 @@ const handleTableChange = (pag) => {
   loadData()
 }
 
-// 打款
-const handlePay = async (record) => {
+// 选择行变化
+const onSelectChange = (keys) => {
+  selectedKeys.value = keys
+}
+
+// 导出
+const handleExport = () => {
+  // TODO: 实现导出逻辑
+  message.success('导出成功')
+}
+
+// 标记已打款
+const handlePaid = async (record) => {
   try {
-    // TODO: 实现打款逻辑
-    message.success('打款成功')
+    // TODO: 实现标记已打款逻辑
+    message.success('操作成功')
     loadData()
   } catch (error) {
-    message.error('打款失败')
+    message.error('操作失败')
   }
 }
 
-// 拒绝
-const handleReject = (record) => {
-  currentRecord.value = record
-  rejectReason.value = ''
-  rejectVisible.value = true
+// 批量标记已打款
+const handleBatchPaid = async () => {
+  if (!selectedKeys.value.length) {
+    message.warning('请选择要操作的记录')
+    return
+  }
+  try {
+    // TODO: 实现批量标记已打款逻辑
+    message.success('操作成功')
+    selectedKeys.value = []
+    loadData()
+  } catch (error) {
+    message.error('操作失败')
+  }
 }
 
-// 确认拒绝
-const handleRejectConfirm = async () => {
-  if (!rejectReason.value) {
-    message.error('请输入拒绝原因')
+// 打款失败
+const handleFailed = (record) => {
+  currentRecord.value = record
+  failedReason.value = ''
+  failedVisible.value = true
+}
+
+// 批量打款失败
+const handleBatchFailed = () => {
+  if (!selectedKeys.value.length) {
+    message.warning('请选择要操作的记录')
+    return
+  }
+  failedReason.value = ''
+  failedVisible.value = true
+}
+
+// 确认打款失败
+const handleFailedConfirm = async () => {
+  if (!failedReason.value) {
+    message.error('请输入打款失败原因')
     return
   }
 
   try {
-    rejectLoading.value = true
-    // TODO: 实现拒绝逻辑
-    message.success('已拒绝')
-    rejectVisible.value = false
+    failedLoading.value = true
+    // TODO: 实现打款失败逻辑
+    message.success('操作成功')
+    failedVisible.value = false
+    selectedKeys.value = []
     loadData()
   } catch (error) {
     message.error('操作失败')
   } finally {
-    rejectLoading.value = false
+    failedLoading.value = false
   }
 }
 
@@ -258,6 +301,10 @@ loadData()
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+  }
+
+  .danger {
+    color: #ff4d4f;
   }
 }
 </style> 
