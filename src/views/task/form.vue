@@ -236,7 +236,7 @@ import PageHeader from '@/components/PageHeader/index.vue'
 const route = useRoute()
 const router = useRouter()
 const formRef = ref()
-const isEdit = route.name === 'taskEdit'
+const isEdit = route.name === 'TaskEdit'
 
 // 表单数据
 const formData = reactive({
