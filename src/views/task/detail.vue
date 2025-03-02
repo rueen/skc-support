@@ -1,339 +1,433 @@
 <template>
-  <div class="task-detail content-container">
-    <div class="form-container detail-container">
-      <div class="page-header">
-        <a-space>
-          <a-button @click="$router.back()">
-            <template #icon><left-outlined /></template>
-            返回
-          </a-button>
-          <h2 class="page-title">任务详情</h2>
-        </a-space>
-      </div>
-
-      <a-descriptions :column="2">
-        <a-descriptions-item :label="$t('task.title')">
-          {{ taskInfo.title }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('task.platform')">
-          {{ getPlatformText(taskInfo.platform) }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('task.type')">
-          {{ getTypeText(taskInfo.type) }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('task.reward')">
-          ¥{{ taskInfo.reward?.toFixed(2) }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('task.startTime')">
-          {{ taskInfo.startTime }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('task.endTime')">
-          {{ taskInfo.endTime }}
-        </a-descriptions-item>
-        <a-descriptions-item :label="$t('task.status')" :span="2">
-          <a-tag :color="getStatusColor(taskInfo.status)">
-            {{ getStatusText(taskInfo.status) }}
-          </a-tag>
-        </a-descriptions-item>
-      </a-descriptions>
-
-      <a-divider orientation="left">{{ $t('task.description') }}</a-divider>
-      <div class="description">{{ taskInfo.description }}</div>
-
-      <a-divider orientation="left">{{ $t('task.requirements') }}</a-divider>
-      <div class="requirements">{{ taskInfo.requirements }}</div>
-
-      <a-divider />
-
-      <a-tabs v-model:activeKey="activeTab">
-        <a-tab-pane key="members" tab="参与会员">
-          <a-table
-            :columns="memberColumns"
-            :data-source="memberData"
-            :loading="memberLoading"
-            :pagination="memberPagination"
-            @change="handleMemberTableChange"
-          >
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.key === 'status'">
-                <a-tag :color="getMemberStatusColor(record.status)">
-                  {{ getMemberStatusText(record.status) }}
-                </a-tag>
-              </template>
-              <template v-if="column.key === 'action'">
-                <a-space>
-                  <a @click="handleViewMember(record)">查看</a>
-                  <a-button
-                    v-if="record.status === 'pending'"
-                    type="link"
-                    @click="handleApprove(record)"
-                  >
-                    通过
-                  </a-button>
-                  <a-button
-                    v-if="record.status === 'pending'"
-                    type="link"
-                    danger
-                    @click="handleReject(record)"
-                  >
-                    拒绝
-                  </a-button>
-                </a-space>
-              </template>
-            </template>
-          </a-table>
-        </a-tab-pane>
-      </a-tabs>
-    </div>
-
-    <!-- 拒绝原因弹窗 -->
-    <a-modal
-      v-model:visible="rejectVisible"
-      title="拒绝原因"
-      @ok="handleRejectConfirm"
-      :confirmLoading="rejectLoading"
+  <div class="task-form content-container">
+    <page-header
+      :title="getPageTitle"
+      :back="true"
+      class="page-header"
     >
-      <a-form>
-        <a-form-item label="拒绝原因" required>
-          <a-textarea
-            v-model:value="rejectReason"
-            :rows="4"
-            placeholder="请输入拒绝原因"
+      <template #right>
+        <a-button
+          v-if="isView"
+          type="primary"
+          @click="handleEdit"
+        >
+          编辑
+        </a-button>
+      </template>
+    </page-header>
+    <div class="form-container">
+      <a-form
+        ref="formRef"
+        :model="formData"
+        :rules="rules"
+        :label-col="{ span: 3 }"
+        :wrapper-col="{ span: 20 }"
+        layout="horizontal"
+      >
+        <a-form-item label="任务名称" name="taskName">
+          <a-input
+            v-model:value="formData.taskName"
+            placeholder="请输入任务名称"
+            :disabled="isView"
           />
         </a-form-item>
+
+        <a-form-item label="平台渠道" name="channelId">
+          <a-select
+            v-model:value="formData.channelId"
+            placeholder="请选择平台渠道"
+            :disabled="isView"
+          >
+            <a-select-option
+              v-for="item in channelOptions"
+              :key="item.id"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="达人领域" name="categoryId">
+          <a-select
+            v-model:value="formData.categoryId"
+            placeholder="请选择达人领域"
+            :disabled="isView"
+          >
+            <a-select-option
+              v-for="category in Object.values(CreatorCategory)"
+              :key="category"
+              :value="category"
+            >
+              {{ getCreatorCategoryText(category) }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="任务类型" name="type">
+          <a-select
+            v-model:value="formData.type"
+            placeholder="请选择任务类型"
+            :disabled="isView"
+          >
+            <a-select-option
+              v-for="type in Object.values(TaskType)"
+              :key="type"
+              :value="type"
+            >
+              {{ getTaskTypeText(type) }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="任务奖励" name="reward">
+          <a-input-number
+            v-model:value="formData.reward"
+            :min="0"
+            :precision="2"
+            :step="0.1"
+            placeholder="请输入任务奖励"
+            addon-after="元"
+            :disabled="isView"
+          />
+        </a-form-item>
+
+        <a-form-item label="品牌" name="brand">
+          <a-input
+            v-model:value="formData.brand"
+            placeholder="请输入品牌名称"
+            :disabled="isView"
+          />
+        </a-form-item>
+
+        <a-form-item label="参与群组" name="groupIds">
+          <div class="group-select">
+            <a-select
+              v-model:value="formData.groupIds"
+              mode="multiple"
+              placeholder="请选择参与群组"
+              :disabled="isView"
+            >
+              <a-select-option
+                v-for="item in groupOptions"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
+            <div class="group-tip">指定群组参与任务</div>
+          </div>
+        </a-form-item>
+
+        <a-form-item label="自定义字段">
+          <div class="custom-fields">
+            <div v-for="(field, index) in formData.customFields" :key="index" class="field-item">
+              <a-space align="baseline">
+                <a-form-item
+                  :name="['customFields', index, 'title']"
+                  :rules="[{ required: true, message: '请输入字段标题' }]"
+                >
+                  <a-input
+                    v-model:value="field.title"
+                    placeholder="请输入字段标题"
+                    :disabled="isView"
+                  />
+                </a-form-item>
+                <a-select
+                  v-model:value="field.type"
+                  style="width: 120px"
+                  :disabled="isView"
+                >
+                  <a-select-option value="input">输入框</a-select-option>
+                  <a-select-option value="image">上传图片</a-select-option>
+                </a-select>
+                <a-button
+                  type="link"
+                  danger
+                  @click="removeField(index)"
+                  :disabled="isView"
+                >
+                  删除
+                </a-button>
+              </a-space>
+            </div>
+            <a-button
+              v-if="formData.customFields.length < 10 && !isView"
+              type="dashed"
+              block
+              @click="addField"
+            >
+              <plus-outlined />添加字段
+            </a-button>
+          </div>
+        </a-form-item>
+
+        <a-form-item label="任务时间" required>
+          <a-row :gutter="8">
+            <a-col :span="11">
+              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]" :disabled="isView">
+                <a-date-picker
+                  v-model:value="formData.startTime"
+                  show-time
+                  style="width: 100%"
+                  placeholder="开始时间"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="2" class="text-center">
+              <span>至</span>
+            </a-col>
+            <a-col :span="11">
+              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]" :disabled="isView">
+                <a-date-picker
+                  v-model:value="formData.endTime"
+                  show-time
+                  style="width: 100%"
+                  placeholder="结束时间"
+                />
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form-item>
+
+        <a-form-item label="任务名额">
+          <a-space align="baseline">
+            <a-form-item name="quota">
+              <a-input-number
+                v-model:value="formData.quota"
+                :min="0"
+                :precision="0"
+                :disabled="formData.unlimitedQuota || isView"
+                placeholder="请输入任务名额"
+              />
+            </a-form-item>
+            <a-checkbox
+              v-model:checked="formData.unlimitedQuota"
+              :disabled="isView"
+            >
+              不限制
+            </a-checkbox>
+          </a-space>
+        </a-form-item>
+
+        <a-form-item label="粉丝要求" name="fansRequired">
+          <a-input-number
+            v-model:value="formData.fansRequired"
+            :min="0"
+            :precision="0"
+            :step="1000"
+            placeholder="请输入最低粉丝数要求"
+            addon-after="粉丝"
+            :disabled="isView"
+          />
+        </a-form-item>
+
+        <a-form-item label="作品要求" name="contentRequirement">
+          <a-textarea
+            v-model:value="formData.contentRequirement"
+            :rows="4"
+            placeholder="请输入作品要求"
+            :disabled="isView"
+          />
+        </a-form-item>
+
+        <a-form-item label="任务信息" name="taskInfo">
+          <a-textarea
+            v-model:value="formData.taskInfo"
+            :rows="4"
+            placeholder="请输入任务信息"
+            :disabled="isView"
+          />
+        </a-form-item>
+
+        <a-form-item label="温馨提示" name="notice">
+          <a-textarea
+            v-model:value="formData.notice"
+            :rows="4"
+            placeholder="请输入温馨提示"
+            :disabled="isView"
+          />
+        </a-form-item>
+
+        <a-form-item :wrapper-col="{ span: 16, offset: 4 }" v-if="!isView">
+          <a-space>
+            <a-button type="primary" @click="handleSubmit">提交</a-button>
+            <a-button @click="handleCancel">取消</a-button>
+          </a-space>
+        </a-form-item>
       </a-form>
-    </a-modal>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
-import { LeftOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined } from '@ant-design/icons-vue'
+import PageHeader from '@/components/PageHeader/index.vue'
+import {
+  CreatorCategory,
+  CreatorCategoryLang,
+  TaskType,
+  TaskTypeLang,
+  getLangText
+} from '@/constants/enums'
 
 const route = useRoute()
 const router = useRouter()
+const { locale } = useI18n()
+const formRef = ref()
 
-// 任务信息
-const taskInfo = ref({})
+// 页面模式
+const isEdit = computed(() => route.name === 'TaskEdit')
+const isView = computed(() => route.name === 'TaskView')
 
-// 标签页
-const activeTab = ref('members')
-
-// 会员列表
-const memberLoading = ref(false)
-const memberData = ref([])
-const memberPagination = reactive({
-  current: 1,
-  pageSize: 10,
-  total: 0
+// 页面标题
+const getPageTitle = computed(() => {
+  if (isView.value) return '任务详情'
+  if (isEdit.value) return '编辑任务'
+  return '新建任务'
 })
 
-// 拒绝弹窗
-const rejectVisible = ref(false)
-const rejectLoading = ref(false)
-const rejectReason = ref('')
-const currentMember = ref(null)
+// 表单数据
+const formData = reactive({
+  taskName: '',
+  channelId: undefined,
+  categoryId: undefined,
+  type: undefined,
+  reward: undefined,
+  brand: '',
+  groupIds: [],
+  customFields: [{ title: '', type: 'input' }],
+  startTime: null,
+  endTime: null,
+  quota: undefined,
+  unlimitedQuota: true,
+  fansRequired: undefined,
+  contentRequirement: '',
+  taskInfo: '',
+  notice: `1.请尽快完成发布，填写发布链接。
+2.任务结束后无法填写，不能结算。
+3.发布内容不符合要求，将无法审核通过。
+4.填写链接无法访问或其他无关链接，视为放弃结算。`
+})
 
-// 会员表格列
-const memberColumns = [
-  {
-    title: '会员名称',
-    dataIndex: 'name',
-    key: 'name'
-  },
-  {
-    title: '手机号',
-    dataIndex: 'phone',
-    key: 'phone'
-  },
-  {
-    title: '申请时间',
-    dataIndex: 'applyTime',
-    key: 'applyTime',
-    width: 180
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status',
-    width: 100
-  },
-  {
-    title: '操作',
-    key: 'action',
-    fixed: 'right',
-    width: 200
-  }
+// 表单校验规则
+const rules = {
+  taskName: [{ required: true, message: '请输入任务名称' }],
+  channelId: [{ required: true, message: '请选择平台渠道' }],
+  categoryId: [{ required: true, message: '请选择达人领域' }],
+  type: [{ required: true, message: '请选择任务类型' }],
+  reward: [{ required: true, message: '请输入任务奖励' }],
+  fansRequired: [{ required: true, message: '请输入粉丝要求' }]
+}
+
+// 选项数据
+const channelOptions = [
+  { id: 1, name: '抖音' },
+  { id: 2, name: '快手' }
 ]
 
-// 获取平台文本
-const getPlatformText = (platform) => {
-  const map = {
-    douyin: '抖音',
-    kuaishou: '快手',
-    xiaohongshu: '小红书'
+const groupOptions = [
+  { id: 1, name: '群组1' },
+  { id: 2, name: '群组2' },
+  { id: 3, name: '群组3' }
+]
+
+// 自定义字段方法
+const addField = () => {
+  if (formData.customFields.length < 10) {
+    formData.customFields.push({ title: '', type: 'input' })
   }
-  return map[platform] || platform
 }
 
-// 获取类型文本
-const getTypeText = (type) => {
-  const map = {
-    seeding: '种草',
-    live: '直播',
-    video: '短视频'
-  }
-  return map[type] || type
+const removeField = (index) => {
+  formData.customFields.splice(index, 1)
 }
 
-// 获取状态颜色
-const getStatusColor = (status) => {
-  const map = {
-    pending: 'default',
-    processing: 'processing',
-    completed: 'success',
-    cancelled: 'error'
-  }
-  return map[status]
+// 获取达人领域文本
+const getCreatorCategoryText = (category) => {
+  return getLangText(CreatorCategoryLang, category, locale.value)
 }
 
-// 获取状态文本
-const getStatusText = (status) => {
-  const map = {
-    pending: '未开始',
-    processing: '进行中',
-    completed: '已完成',
-    cancelled: '已取消'
-  }
-  return map[status]
+// 获取任务类型文本
+const getTaskTypeText = (type) => {
+  return getLangText(TaskTypeLang, type, locale.value)
 }
 
-// 获取会员状态颜色
-const getMemberStatusColor = (status) => {
-  const map = {
-    pending: 'warning',
-    approved: 'success',
-    rejected: 'error'
-  }
-  return map[status]
+// 提交表单
+const handleSubmit = () => {
+  formRef.value.validate().then(() => {
+    // TODO: 实现提交逻辑
+    message.success('提交成功')
+    router.push('/task/list')
+  })
 }
 
-// 获取会员状态文本
-const getMemberStatusText = (status) => {
-  const map = {
-    pending: '待审核',
-    approved: '已通过',
-    rejected: '已拒绝'
-  }
-  return map[status]
+// 取消
+const handleCancel = () => {
+  router.back()
 }
 
-// 加载任务详情
-const loadTaskDetail = async () => {
+// 切换到编辑模式
+const handleEdit = () => {
+  router.push(`/task/edit/${route.params.id}`)
+}
+
+// 获取任务详情
+const getTaskDetail = async (id) => {
   try {
-    // TODO: 实现加载任务详情的逻辑
-    taskInfo.value = {
-      title: '测试任务',
-      platform: 'douyin',
-      type: 'seeding',
-      reward: 100,
-      startTime: '2024-03-01 00:00:00',
-      endTime: '2024-03-31 23:59:59',
-      status: 'processing',
-      description: '测试描述',
-      requirements: '测试要求'
-    }
+    // TODO: 实现获取任务详情逻辑
   } catch (error) {
-    message.error('加载任务详情失败')
-    router.back()
+    message.error('获取任务详情失败')
   }
 }
 
-// 加载会员列表
-const loadMemberList = async () => {
-  memberLoading.value = true
-  try {
-    // TODO: 实现加载会员列表的逻辑
-    memberData.value = []
-    memberPagination.total = 0
-  } finally {
-    memberLoading.value = false
-  }
-}
-
-// 表格分页变化
-const handleMemberTableChange = (pag) => {
-  Object.assign(memberPagination, pag)
-  loadMemberList()
-}
-
-// 查看会员
-const handleViewMember = (record) => {
-  router.push(`/member/view/${record.id}`)
-}
-
-// 审核通过
-const handleApprove = async (record) => {
-  try {
-    // TODO: 实现审核通过逻辑
-    message.success('审核通过成功')
-    loadMemberList()
-  } catch (error) {
-    message.error('审核通过失败')
-  }
-}
-
-// 审核拒绝
-const handleReject = (record) => {
-  currentMember.value = record
-  rejectReason.value = ''
-  rejectVisible.value = true
-}
-
-const handleRejectConfirm = async () => {
-  if (!rejectReason.value) {
-    message.error('请输入拒绝原因')
-    return
-  }
-
-  try {
-    rejectLoading.value = true
-    // TODO: 实现审核拒绝逻辑
-    message.success('审核拒绝成功')
-    rejectVisible.value = false
-    loadMemberList()
-  } catch (error) {
-    message.error('审核拒绝失败')
-  } finally {
-    rejectLoading.value = false
-  }
-}
-
-// 初始化
 onMounted(() => {
-  loadTaskDetail()
-  loadMemberList()
+  if (isEdit.value || isView.value) {
+    getTaskDetail(route.params.id)
+  }
 })
 </script>
 
 <style lang="less" scoped>
-.task-detail {
+.task-form {
   .page-header {
-    margin-bottom: 24px;
-    
-    .page-title {
-      margin: 0;
-      font-size: 20px;
-      line-height: 32px;
+    :deep(.ant-page-header-heading-left) {
+      flex: 1;
     }
   }
 
-  .description,
-  .requirements {
-    white-space: pre-wrap;
-    line-height: 1.5;
+  .form-container {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 2px;
+  }
+
+  .group-select {
+    .group-tip {
+      margin-top: 4px;
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 12px;
+    }
+  }
+
+  .custom-fields {
+    .field-item {
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .text-center {
+    text-align: center;
+    line-height: 32px;
   }
 }
 </style> 

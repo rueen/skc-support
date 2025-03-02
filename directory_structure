@@ -25,7 +25,6 @@ src/
   └── views/            # 页面组件
       ├── task/              # 任务管理
       │   ├── list.vue
-      │   ├── form.vue
       │   └── detail.vue
       ├── task-audit/        # 任务审核
       │   ├── list.vue

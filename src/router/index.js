@@ -24,19 +24,19 @@ const routes = [
       },
       {
         path: 'task/create',
-        component: () => import('@/views/task/form.vue'),
+        component: () => import('@/views/task/detail.vue'),
         name: 'TaskCreate',
         meta: { title: '新增任务', hidden: true }
       },
       {
         path: 'task/edit/:id',
-        component: () => import('@/views/task/form.vue'),
+        component: () => import('@/views/task/detail.vue'),
         name: 'TaskEdit',
         meta: { title: '编辑任务', hidden: true }
       },
       {
         path: 'task/view/:id',
-        component: () => import('@/views/task/form.vue'),
+        component: () => import('@/views/task/detail.vue'),
         name: 'TaskView',
         meta: { title: '任务详情', hidden: true }
       },
