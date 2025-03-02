@@ -268,7 +268,6 @@ onMounted(() => {
 
   .detail-section {
     margin-bottom: 24px;
-    padding: 16px 0;
     border-bottom: 1px solid #f0f0f0;
 
     &:last-child {
