@@ -9,8 +9,9 @@
         ref="formRef"
         :model="formData"
         :rules="rules"
-        :label-col="{ span: 4 }"
-        :wrapper-col="{ span: 16 }"
+        :label-col="{ span: 3 }"
+        :wrapper-col="{ span: 20 }"
+        layout="horizontal"
       >
         <a-form-item label="任务名称" name="taskName">
           <a-input
@@ -40,11 +41,26 @@
             placeholder="请选择达人领域"
           >
             <a-select-option
-              v-for="item in categoryOptions"
-              :key="item.id"
-              :value="item.id"
+              v-for="category in Object.values(CreatorCategory)"
+              :key="category"
+              :value="category"
             >
-              {{ item.name }}
+              {{ getCreatorCategoryText(category) }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="任务类型" name="type">
+          <a-select
+            v-model:value="formData.type"
+            placeholder="请选择任务类型"
+          >
+            <a-select-option
+              v-for="type in Object.values(TaskType)"
+              :key="type"
+              :value="type"
+            >
+              {{ getTaskTypeText(type) }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -173,13 +189,6 @@
           </a-space>
         </a-form-item>
 
-        <a-form-item label="发布形式" name="publishType">
-          <a-radio-group v-model:value="formData.publishType">
-            <a-radio value="image">图文</a-radio>
-            <a-radio value="video">视频</a-radio>
-          </a-radio-group>
-        </a-form-item>
-
         <a-form-item label="粉丝要求" name="fansRequired">
           <a-input-number
             v-model:value="formData.fansRequired"
@@ -211,7 +220,7 @@
           <a-textarea
             v-model:value="formData.notice"
             :rows="4"
-            :placeholder="defaultNotice"
+            placeholder="请输入温馨提示"
           />
         </a-form-item>
 
@@ -229,20 +238,35 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
+import {
+  CreatorCategory,
+  CreatorCategoryLang,
+  TaskType,
+  TaskTypeLang,
+  getLangText
+} from '@/constants/enums'
 
 const route = useRoute()
 const router = useRouter()
+const { locale } = useI18n()
 const formRef = ref()
 const isEdit = route.name === 'TaskEdit'
 
+// 默认提示文案
+const defaultNotice = `1.请尽快完成发布，填写发布链接。
+2.任务结束后无法填写，不能结算。
+3.发布内容不符合要求，将无法审核通过。
+4.填写链接无法访问或其他无关链接，视为放弃结算。`
 // 表单数据
 const formData = reactive({
   taskName: '',
   channelId: undefined,
   categoryId: undefined,
+  type: undefined,
   reward: undefined,
   brand: '',
   groupIds: [],
@@ -251,11 +275,10 @@ const formData = reactive({
   endTime: null,
   quota: undefined,
   unlimitedQuota: true,
-  publishType: 'image',
   fansRequired: undefined,
   contentRequirement: '',
   taskInfo: '',
-  notice: ''
+  notice: defaultNotice
 })
 
 // 表单校验规则
@@ -263,8 +286,8 @@ const rules = {
   taskName: [{ required: true, message: '请输入任务名称' }],
   channelId: [{ required: true, message: '请选择平台渠道' }],
   categoryId: [{ required: true, message: '请选择达人领域' }],
+  type: [{ required: true, message: '请选择任务类型' }],
   reward: [{ required: true, message: '请输入任务奖励' }],
-  publishType: [{ required: true, message: '请选择发布形式' }],
   fansRequired: [{ required: true, message: '请输入粉丝要求' }]
 }
 
@@ -274,23 +297,11 @@ const channelOptions = [
   { id: 2, name: '快手' }
 ]
 
-const categoryOptions = [
-  { id: 1, name: '美妆' },
-  { id: 2, name: '服装' },
-  { id: 3, name: '美食' }
-]
-
 const groupOptions = [
   { id: 1, name: '群组1' },
   { id: 2, name: '群组2' },
   { id: 3, name: '群组3' }
 ]
-
-// 默认提示文案
-const defaultNotice = `1.请尽快完成发布，填写发布链接。
-2.任务结束后无法填写，不能结算。
-3.发布内容不符合要求，将无法审核通过。
-4.填写链接无法访问或其他无关链接，视为放弃结算。`
 
 // 自定义字段方法
 const addField = () => {
@@ -301,6 +312,16 @@ const addField = () => {
 
 const removeField = (index) => {
   formData.customFields.splice(index, 1)
+}
+
+// 获取达人领域文本
+const getCreatorCategoryText = (category) => {
+  return getLangText(CreatorCategoryLang, category, locale.value)
+}
+
+// 获取任务类型文本
+const getTaskTypeText = (type) => {
+  return getLangText(TaskTypeLang, type, locale.value)
 }
 
 // 提交表单
