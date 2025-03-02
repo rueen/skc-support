@@ -66,19 +66,19 @@ const routes = [
       },
       {
         path: 'member/create',
-        component: () => import('@/views/member/form.vue'),
+        component: () => import('@/views/member/detail.vue'),
         name: 'MemberCreate',
         meta: { title: '新增会员', hidden: true }
       },
       {
         path: 'member/edit/:id',
-        component: () => import('@/views/member/form.vue'),
+        component: () => import('@/views/member/detail.vue'),
         name: 'MemberEdit',
         meta: { title: '编辑会员', hidden: true }
       },
       {
         path: 'member/view/:id',
-        component: () => import('@/views/member/detail.vue'),
+        component: () => import('@/views/member/view.vue'),
         name: 'MemberView',
         meta: { title: '会员详情', hidden: true }
       },
