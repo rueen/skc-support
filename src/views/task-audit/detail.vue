@@ -1,34 +1,299 @@
 <template>
   <div class="task-audit-detail content-container">
-    <div class="page-header">
-      <a-space>
-        <a-button @click="$router.back()">
-          <template #icon><left-outlined /></template>
-          返回
-        </a-button>
-        <h2 class="page-title">审核详情</h2>
-      </a-space>
+    <page-header
+      title="任务审核详情"
+      :back="true"
+    />
+    <div class="detail-container">
+      <!-- 任务信息 -->
+      <a-card title="任务信息" class="detail-card">
+        <a-descriptions :column="2">
+          <a-descriptions-item label="任务名称">{{ taskInfo.taskName }}</a-descriptions-item>
+          <a-descriptions-item label="平台渠道">{{ taskInfo.channelName }}</a-descriptions-item>
+          <a-descriptions-item label="达人领域">{{ getCreatorCategoryText(taskInfo.categoryId) }}</a-descriptions-item>
+          <a-descriptions-item label="任务类型">{{ getTaskTypeText(taskInfo.type) }}</a-descriptions-item>
+          <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
+          <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
+          <a-descriptions-item label="指定群组">{{ taskInfo.groupNames?.join('、') }}</a-descriptions-item>
+          <a-descriptions-item label="任务时间">
+            {{ taskInfo.startTime }} 至 {{ taskInfo.endTime }}
+          </a-descriptions-item>
+          <a-descriptions-item label="任务名额">
+            {{ taskInfo.unlimitedQuota ? '不限制' : taskInfo.quota }}
+          </a-descriptions-item>
+          <a-descriptions-item label="粉丝要求">{{ taskInfo.fansRequired }} 粉丝</a-descriptions-item>
+        </a-descriptions>
+        <div class="content-item">
+          <div class="label">作品要求：</div>
+          <div class="content">{{ taskInfo.contentRequirement }}</div>
+        </div>
+        <div class="content-item">
+          <div class="label">任务信息：</div>
+          <div class="content">{{ taskInfo.taskInfo }}</div>
+        </div>
+      </a-card>
+
+      <!-- 会员信息 -->
+      <a-card title="会员信息" class="detail-card">
+        <a-descriptions :column="2">
+          <a-descriptions-item label="会员名称">
+            {{ memberInfo.nickname }}
+            <a-tag v-if="memberInfo.isGroupOwner" color="blue">群主</a-tag>
+          </a-descriptions-item>
+          <a-descriptions-item label="账号">{{ memberInfo.account }}</a-descriptions-item>
+          <a-descriptions-item label="所属群">{{ memberInfo.groupName }}</a-descriptions-item>
+        </a-descriptions>
+      </a-card>
+
+      <!-- 报名信息 -->
+      <a-card title="报名信息" class="detail-card">
+        <a-descriptions :column="2">
+          <template v-for="field in taskInfo.customFields" :key="field.title">
+            <a-descriptions-item :label="field.title">
+              <template v-if="field.type === 'image'">
+                <a-image :src="field.value" :width="120" />
+              </template>
+              <template v-else>{{ field.value }}</template>
+            </a-descriptions-item>
+          </template>
+        </a-descriptions>
+      </a-card>
+
+      <!-- 审核信息 -->
+      <a-card title="审核信息" class="detail-card">
+        <a-descriptions :column="2">
+          <a-descriptions-item label="报名时间">{{ auditInfo.applyTime }}</a-descriptions-item>
+          <a-descriptions-item label="审核状态">
+            <a-tag :color="getTaskAuditStatusColor(auditInfo.status)">
+              {{ getTaskAuditStatusText(auditInfo.status) }}
+            </a-tag>
+          </a-descriptions-item>
+          <template v-if="auditInfo.status === TaskAuditStatus.REJECTED">
+            <a-descriptions-item label="拒绝原因">{{ auditInfo.rejectReason }}</a-descriptions-item>
+          </template>
+        </a-descriptions>
+      </a-card>
+
+      <!-- 底部按钮 -->
+      <div class="footer-btns">
+        <div class="left">
+          <a-space>
+            <a-button
+              type="primary"
+              @click="handleApprove"
+              v-if="auditInfo.status === TaskAuditStatus.PENDING"
+            >
+              审核通过
+            </a-button>
+            <a-button
+              danger
+              @click="handleReject"
+              v-if="auditInfo.status === TaskAuditStatus.PENDING"
+            >
+              审核拒绝
+            </a-button>
+          </a-space>
+        </div>
+        <div class="right">
+          <a-space>
+            <a-button @click="handlePrev">上一个</a-button>
+            <a-button @click="handleNext">下一个</a-button>
+          </a-space>
+        </div>
+      </div>
     </div>
 
-    <!-- TODO: 实现详情页内容 -->
-    <a-empty description="开发中..." />
+    <!-- 拒绝原因弹窗 -->
+    <a-modal
+      v-model:visible="rejectVisible"
+      title="拒绝原因"
+      @ok="handleRejectConfirm"
+      :confirmLoading="rejectLoading"
+    >
+      <a-textarea
+        v-model:value="rejectReason"
+        placeholder="请输入拒绝原因"
+        :rows="4"
+      />
+    </a-modal>
   </div>
 </template>
 
 <script setup>
-import { LeftOutlined } from '@ant-design/icons-vue'
+import { ref, reactive, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { message } from 'ant-design-vue'
+import PageHeader from '@/components/PageHeader/index.vue'
+import {
+  CreatorCategory,
+  CreatorCategoryLang,
+  TaskType,
+  TaskTypeLang,
+  TaskAuditStatus,
+  TaskAuditStatusLang,
+  TaskAuditStatusColor,
+  getLangText
+} from '@/constants/enums'
+
+const route = useRoute()
+const router = useRouter()
+const { locale } = useI18n()
+
+// 弹窗状态
+const rejectVisible = ref(false)
+const rejectLoading = ref(false)
+const rejectReason = ref('')
+
+// 任务信息
+const taskInfo = reactive({
+  taskName: '测试任务1',
+  channelName: '抖音',
+  categoryId: CreatorCategory.FOOD,
+  type: TaskType.IMAGE_TEXT,
+  reward: 100,
+  brand: '测试品牌',
+  groupNames: ['群组1', '群组2'],
+  startTime: '2024-03-01 00:00:00',
+  endTime: '2024-03-31 23:59:59',
+  quota: 10,
+  unlimitedQuota: false,
+  fansRequired: 1000,
+  contentRequirement: '作品要求内容',
+  taskInfo: '任务信息内容',
+  customFields: [
+    { title: '字段1', type: 'input', value: '测试内容1' },
+    { title: '字段2', type: 'image', value: 'https://example.com/image.jpg' }
+  ]
+})
+
+// 会员信息
+const memberInfo = reactive({
+  nickname: '测试会员',
+  account: 'test123',
+  groupName: '群组1',
+  isGroupOwner: true
+})
+
+// 审核信息
+const auditInfo = reactive({
+  applyTime: '2024-03-01 10:00:00',
+  status: TaskAuditStatus.PENDING,
+  rejectReason: ''
+})
+
+// 获取文本方法
+const getCreatorCategoryText = (category) => {
+  return getLangText(CreatorCategoryLang, category, locale.value)
+}
+
+const getTaskTypeText = (type) => {
+  return getLangText(TaskTypeLang, type, locale.value)
+}
+
+const getTaskAuditStatusText = (status) => {
+  return getLangText(TaskAuditStatusLang, status, locale.value)
+}
+
+const getTaskAuditStatusColor = (status) => {
+  return TaskAuditStatusColor[status]
+}
+
+// 审核通过
+const handleApprove = async () => {
+  try {
+    // TODO: 实现审核通过逻辑
+    message.success('审核通过成功')
+    router.back()
+  } catch (error) {
+    message.error('审核通过失败')
+  }
+}
+
+// 审核拒绝
+const handleReject = () => {
+  rejectReason.value = ''
+  rejectVisible.value = true
+}
+
+// 确认拒绝
+const handleRejectConfirm = async () => {
+  if (!rejectReason.value) {
+    message.error('请输入拒绝原因')
+    return
+  }
+
+  try {
+    rejectLoading.value = true
+    // TODO: 实现审核拒绝逻辑
+    message.success('审核拒绝成功')
+    rejectVisible.value = false
+    router.back()
+  } catch (error) {
+    message.error('审核拒绝失败')
+  } finally {
+    rejectLoading.value = false
+  }
+}
+
+// 上一个
+const handlePrev = () => {
+  // TODO: 实现上一个逻辑
+}
+
+// 下一个
+const handleNext = () => {
+  // TODO: 实现下一个逻辑
+}
+
+// 获取详情
+const getDetail = async (id) => {
+  try {
+    // TODO: 实现获取详情逻辑
+  } catch (error) {
+    message.error('获取详情失败')
+  }
+}
+
+onMounted(() => {
+  getDetail(route.params.id)
+})
 </script>
 
 <style lang="less" scoped>
 .task-audit-detail {
-  .page-header {
+  .detail-container {
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 2px;
+  }
+
+  .detail-card {
     margin-bottom: 24px;
-    
-    .page-title {
-      margin: 0;
-      font-size: 20px;
-      line-height: 32px;
+
+    &:last-child {
+      margin-bottom: 0;
     }
+  }
+
+  .content-item {
+    margin-top: 16px;
+
+    .label {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .content {
+      white-space: pre-wrap;
+    }
+  }
+
+  .footer-btns {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 </style> 
