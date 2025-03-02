@@ -100,12 +100,12 @@
           />
         </a-form-item>
 
-        <a-form-item label="参与群组" name="groupIds">
+        <a-form-item label="指定群组" name="groupIds">
           <div class="group-select">
             <a-select
               v-model:value="formData.groupIds"
               mode="multiple"
-              placeholder="请选择参与群组"
+              placeholder="请选择指定群组"
               :disabled="isView"
             >
               <a-select-option
@@ -116,7 +116,6 @@
                 {{ item.name }}
               </a-select-option>
             </a-select>
-            <div class="group-tip">指定群组参与任务</div>
           </div>
         </a-form-item>
 
