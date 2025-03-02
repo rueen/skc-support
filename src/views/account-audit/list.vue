@@ -127,7 +127,7 @@
 
     <!-- 查看详情弹窗 -->
     <a-modal
-      v-model:visible="detailVisible"
+      v-model:open="detailVisible"
       title="账号详情"
       :footer="null"
     >
@@ -149,7 +149,7 @@
 
     <!-- 拒绝原因弹窗 -->
     <a-modal
-      v-model:visible="rejectVisible"
+      v-model:open="rejectVisible"
       title="拒绝原因"
       @ok="handleRejectConfirm"
       :confirmLoading="rejectLoading"
@@ -176,12 +176,20 @@ import {
 
 const { locale } = useI18n()
 const loading = ref(false)
+const selectedKeys = ref([])
 const detailVisible = ref(false)
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
 const currentRecord = ref(null)
-const selectedKeys = ref([])
+
+// 分页配置
+const pagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0,
+  showTotal: total => `共 ${total} 条`
+})
 
 // 搜索表单
 const searchForm = reactive({
@@ -306,7 +314,10 @@ const handleReset = () => {
 
 // 表格变化
 const handleTableChange = (pag) => {
-  Object.assign(pagination, pag)
+  Object.assign(pagination, {
+    current: pag.current,
+    pageSize: pag.pageSize
+  })
   loadData()
 }
 

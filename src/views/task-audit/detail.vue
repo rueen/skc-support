@@ -103,7 +103,7 @@
 
     <!-- 拒绝原因弹窗 -->
     <a-modal
-      v-model:visible="rejectVisible"
+      v-model:open="rejectVisible"
       title="拒绝原因"
       @ok="handleRejectConfirm"
       :confirmLoading="rejectLoading"
