@@ -36,7 +36,7 @@ const routes = [
       },
       {
         path: 'task/view/:id',
-        component: () => import('@/views/task/detail.vue'),
+        component: () => import('@/views/task/form.vue'),
         name: 'TaskView',
         meta: { title: '任务详情', hidden: true }
       },

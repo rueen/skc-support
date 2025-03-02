@@ -1,9 +1,20 @@
 <template>
   <div class="task-form content-container">
     <page-header
-      :title="isEdit ? '编辑任务' : '新建任务'"
+      :title="getPageTitle"
       :back="true"
-    />
+      class="page-header"
+    >
+      <template #right>
+        <a-button
+          v-if="isView"
+          type="primary"
+          @click="handleEdit"
+        >
+          编辑
+        </a-button>
+      </template>
+    </page-header>
     <div class="form-container">
       <a-form
         ref="formRef"
@@ -17,6 +28,7 @@
           <a-input
             v-model:value="formData.taskName"
             placeholder="请输入任务名称"
+            :disabled="isView"
           />
         </a-form-item>
 
@@ -24,6 +36,7 @@
           <a-select
             v-model:value="formData.channelId"
             placeholder="请选择平台渠道"
+            :disabled="isView"
           >
             <a-select-option
               v-for="item in channelOptions"
@@ -39,6 +52,7 @@
           <a-select
             v-model:value="formData.categoryId"
             placeholder="请选择达人领域"
+            :disabled="isView"
           >
             <a-select-option
               v-for="category in Object.values(CreatorCategory)"
@@ -54,6 +68,7 @@
           <a-select
             v-model:value="formData.type"
             placeholder="请选择任务类型"
+            :disabled="isView"
           >
             <a-select-option
               v-for="type in Object.values(TaskType)"
@@ -73,6 +88,7 @@
             :step="0.1"
             placeholder="请输入任务奖励"
             addon-after="元"
+            :disabled="isView"
           />
         </a-form-item>
 
@@ -80,6 +96,7 @@
           <a-input
             v-model:value="formData.brand"
             placeholder="请输入品牌名称"
+            :disabled="isView"
           />
         </a-form-item>
 
@@ -89,6 +106,7 @@
               v-model:value="formData.groupIds"
               mode="multiple"
               placeholder="请选择参与群组"
+              :disabled="isView"
             >
               <a-select-option
                 v-for="item in groupOptions"
@@ -113,11 +131,13 @@
                   <a-input
                     v-model:value="field.title"
                     placeholder="请输入字段标题"
+                    :disabled="isView"
                   />
                 </a-form-item>
                 <a-select
                   v-model:value="field.type"
                   style="width: 120px"
+                  :disabled="isView"
                 >
                   <a-select-option value="input">输入框</a-select-option>
                   <a-select-option value="image">上传图片</a-select-option>
@@ -126,13 +146,14 @@
                   type="link"
                   danger
                   @click="removeField(index)"
+                  :disabled="isView"
                 >
                   删除
                 </a-button>
               </a-space>
             </div>
             <a-button
-              v-if="formData.customFields.length < 10"
+              v-if="formData.customFields.length < 10 && !isView"
               type="dashed"
               block
               @click="addField"
@@ -145,7 +166,7 @@
         <a-form-item label="任务时间" required>
           <a-row :gutter="8">
             <a-col :span="11">
-              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]">
+              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]" :disabled="isView">
                 <a-date-picker
                   v-model:value="formData.startTime"
                   show-time
@@ -158,7 +179,7 @@
               <span>至</span>
             </a-col>
             <a-col :span="11">
-              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]">
+              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]" :disabled="isView">
                 <a-date-picker
                   v-model:value="formData.endTime"
                   show-time
@@ -177,12 +198,13 @@
                 v-model:value="formData.quota"
                 :min="0"
                 :precision="0"
-                :disabled="formData.unlimitedQuota"
+                :disabled="formData.unlimitedQuota || isView"
                 placeholder="请输入任务名额"
               />
             </a-form-item>
             <a-checkbox
               v-model:checked="formData.unlimitedQuota"
+              :disabled="isView"
             >
               不限制
             </a-checkbox>
@@ -197,6 +219,7 @@
             :step="1000"
             placeholder="请输入最低粉丝数要求"
             addon-after="粉丝"
+            :disabled="isView"
           />
         </a-form-item>
 
@@ -205,6 +228,7 @@
             v-model:value="formData.contentRequirement"
             :rows="4"
             placeholder="请输入作品要求"
+            :disabled="isView"
           />
         </a-form-item>
 
@@ -213,6 +237,7 @@
             v-model:value="formData.taskInfo"
             :rows="4"
             placeholder="请输入任务信息"
+            :disabled="isView"
           />
         </a-form-item>
 
@@ -221,10 +246,11 @@
             v-model:value="formData.notice"
             :rows="4"
             placeholder="请输入温馨提示"
+            :disabled="isView"
           />
         </a-form-item>
 
-        <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
+        <a-form-item :wrapper-col="{ span: 16, offset: 4 }" v-if="!isView">
           <a-space>
             <a-button type="primary" @click="handleSubmit">提交</a-button>
             <a-button @click="handleCancel">取消</a-button>
@@ -236,7 +262,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
@@ -254,13 +280,18 @@ const route = useRoute()
 const router = useRouter()
 const { locale } = useI18n()
 const formRef = ref()
-const isEdit = route.name === 'TaskEdit'
 
-// 默认提示文案
-const defaultNotice = `1.请尽快完成发布，填写发布链接。
-2.任务结束后无法填写，不能结算。
-3.发布内容不符合要求，将无法审核通过。
-4.填写链接无法访问或其他无关链接，视为放弃结算。`
+// 页面模式
+const isEdit = computed(() => route.name === 'TaskEdit')
+const isView = computed(() => route.name === 'TaskView')
+
+// 页面标题
+const getPageTitle = computed(() => {
+  if (isView.value) return '任务详情'
+  if (isEdit.value) return '编辑任务'
+  return '新建任务'
+})
+
 // 表单数据
 const formData = reactive({
   taskName: '',
@@ -278,7 +309,10 @@ const formData = reactive({
   fansRequired: undefined,
   contentRequirement: '',
   taskInfo: '',
-  notice: defaultNotice
+  notice: `1.请尽快完成发布，填写发布链接。
+2.任务结束后无法填写，不能结算。
+3.发布内容不符合要求，将无法审核通过。
+4.填写链接无法访问或其他无关链接，视为放弃结算。`
 })
 
 // 表单校验规则
@@ -338,6 +372,11 @@ const handleCancel = () => {
   router.back()
 }
 
+// 切换到编辑模式
+const handleEdit = () => {
+  router.push(`/task/edit/${route.params.id}`)
+}
+
 // 获取任务详情
 const getTaskDetail = async (id) => {
   try {
@@ -348,7 +387,7 @@ const getTaskDetail = async (id) => {
 }
 
 onMounted(() => {
-  if (isEdit) {
+  if (isEdit.value || isView.value) {
     getTaskDetail(route.params.id)
   }
 })
@@ -356,6 +395,12 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .task-form {
+  .page-header {
+    :deep(.ant-page-header-heading-left) {
+      flex: 1;
+    }
+  }
+
   .form-container {
     background-color: #fff;
     padding: 24px;
