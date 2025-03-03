@@ -87,19 +87,23 @@
 
         <a-form-item label="指定群组" name="groupIds">
           <div class="group-select">
+            <a-radio-group v-model:value="formData.groupMode" @change="handleGroupModeChange">
+              <a-radio :value="0">不指定</a-radio>
+              <a-radio :value="1">指定群组</a-radio>
+            </a-radio-group>
+            
             <a-select
+              v-if="formData.groupMode === 1"
               v-model:value="formData.groupIds"
               mode="multiple"
-              placeholder="请选择指定群组"
-            >
-              <a-select-option
-                v-for="item in groupOptions"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.name }}
-              </a-select-option>
-            </a-select>
+              placeholder="请选择群组"
+              style="width: 100%; margin-top: 8px"
+              :options="groupOptions"
+              :loading="groupLoading"
+            />
+            <div v-else class="group-tip">
+              所有群组的会员都可以接取该任务
+            </div>
           </div>
         </a-form-item>
 
@@ -273,6 +277,7 @@ const formData = reactive({
   reward: undefined,
   brand: '',
   groupIds: [],
+  groupMode: 0,
   customFields: [{ title: '', type: 'input' }],
   startTime: null,
   endTime: null,
@@ -294,7 +299,17 @@ const rules = {
   categoryId: [{ required: true, message: '请选择达人领域' }],
   type: [{ required: true, message: '请选择任务类型' }],
   reward: [{ required: true, message: '请输入任务奖励' }],
-  fansRequired: [{ required: true, message: '请输入粉丝要求' }]
+  fansRequired: [{ required: true, message: '请输入粉丝要求' }],
+  groupIds: [
+    { 
+      validator: (_, value) => {
+        if (formData.groupMode === 1 && (!value || value.length === 0)) {
+          return Promise.reject('请选择指定群组')
+        }
+        return Promise.resolve()
+      }
+    }
+  ]
 }
 
 // 选项数据
@@ -330,12 +345,31 @@ const getTaskTypeText = (type) => {
   return getLangText(TaskTypeLang, type, locale.value)
 }
 
+// 群组模式变更处理
+const handleGroupModeChange = (e) => {
+  if (e.target.value === 0) {
+    formData.groupIds = []
+  }
+}
+
 // 提交表单
 const handleSubmit = () => {
-  formRef.value.validate().then(() => {
-    // TODO: 实现提交逻辑
-    message.success('提交成功')
-    router.push('/task/list')
+  formRef.value.validate().then(async () => {
+    try {
+      submitLoading.value = true
+      // 构建提交数据
+      const submitData = {
+        ...formData,
+        groupIds: formData.groupMode === 0 ? [] : formData.groupIds
+      }
+      // TODO: 实现提交逻辑
+      message.success('提交成功')
+      router.back()
+    } catch (error) {
+      message.error('提交失败')
+    } finally {
+      submitLoading.value = false
+    }
   })
 }
 
@@ -376,7 +410,7 @@ onMounted(() => {
 
   .group-select {
     .group-tip {
-      margin-top: 4px;
+      margin-top: 8px;
       color: rgba(0, 0, 0, 0.45);
       font-size: 12px;
     }
