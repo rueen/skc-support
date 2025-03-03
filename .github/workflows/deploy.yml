@@ -33,15 +33,12 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          VITE_BASE_URL: /skc-support/
           NODE_ENV: production
 
       # 处理 404 问题
       - name: Copy index.html to 404.html
         run: cp dist/index.html dist/404.html
-
-      # 创建 .nojekyll 文件
-      - name: Create .nojekyll
-        run: touch dist/.nojekyll
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
@@ -49,3 +46,5 @@ jobs:
           folder: dist
           branch: gh-pages
           clean: true
+          clean-exclude: |
+            .nojekyll
