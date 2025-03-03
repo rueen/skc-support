@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-02-28 15:26:41
+ * @LastEditTime: 2025-03-03 11:00:30
  * @Description: 
  */
 import { defineConfig } from 'vite'
@@ -10,7 +10,7 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command, mode }) => ({
   plugins: [vue()],
   resolve: {
     alias: {
@@ -34,4 +34,4 @@ export default defineConfig({
   server: {
     port: 3000
   }
-})
+}))

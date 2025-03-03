@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE_URL: /skc-support/
+          VITE_BASE: /skc-support/  # 只在 GitHub Pages 部署时设置 base
           NODE_ENV: production
 
       # 处理 404 问题
