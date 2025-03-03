@@ -21,6 +21,22 @@
           <a-input v-model:value="formState.phone" placeholder="请输入手机号" />
         </a-form-item>
         
+        <a-form-item label="职业" name="occupation">
+          <a-select
+            v-model:value="formState.occupation"
+            placeholder="请选择职业"
+            style="width: 200px"
+          >
+            <a-select-option
+              v-for="type in Object.values(OccupationType)"
+              :key="type"
+              :value="type"
+            >
+              {{ getOccupationTypeText(type) }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        
         <a-form-item label="所属群" name="groupId">
           <a-select
             v-model:value="formState.groupId"
@@ -60,10 +76,13 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
+import { CreatorCategory, OccupationType, OccupationTypeLang } from '@/constants/enums'
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
 const router = useRouter()
 const formRef = ref()
+const { t, locale } = useI18n()
 
 const isEdit = computed(() => !!route.params.id)
 
@@ -71,6 +90,7 @@ const isEdit = computed(() => !!route.params.id)
 const formState = reactive({
   name: '',
   phone: '',
+  occupation: undefined,
   groupId: undefined,
   isGroupOwner: false,
   remark: ''
@@ -142,6 +162,11 @@ const handleSubmit = () => {
       submitLoading.value = false
     }
   })
+}
+
+// 获取职业类型文本
+const getOccupationTypeText = (type) => {
+  return OccupationTypeLang[type]?.[locale.value] || type
 }
 
 onMounted(() => {

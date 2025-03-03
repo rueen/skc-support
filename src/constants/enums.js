@@ -287,4 +287,31 @@ export const CreatorCategoryLang = {
     'zh-CN': '金融理财',
     'en-US': 'Finance'
   }
+}
+
+/**
+ * 职业类型
+ */
+export const OccupationType = {
+  HOUSEWIFE: 'housewife',    // 宝妈
+  FREELANCER: 'freelancer',  // 自由职业
+  STUDENT: 'student'         // 学生
+}
+
+/**
+ * 职业类型多语言配置
+ */
+export const OccupationTypeLang = {
+  [OccupationType.HOUSEWIFE]: {
+    'zh-CN': '宝妈',
+    'en-US': 'Housewife'
+  },
+  [OccupationType.FREELANCER]: {
+    'zh-CN': '自由职业',
+    'en-US': 'Freelancer'
+  },
+  [OccupationType.STUDENT]: {
+    'zh-CN': '学生',
+    'en-US': 'Student'
+  }
 } 
