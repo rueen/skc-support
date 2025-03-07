@@ -23,19 +23,19 @@
           <span>{{ $t('menu.task') }}</span>
           <router-link to="/task" />
         </a-menu-item>
-        <a-menu-item key="task-audit">
-          <template #icon>
-            <audit-outlined />
-          </template>
-          <span>{{ $t('menu.taskAudit') }}</span>
-          <router-link to="/task-audit" />
-        </a-menu-item>
         <a-menu-item key="account-audit">
           <template #icon>
             <safety-outlined />
           </template>
           <span>{{ $t('menu.accountAudit') }}</span>
           <router-link to="/account-audit" />
+        </a-menu-item>
+        <a-menu-item key="task-audit">
+          <template #icon>
+            <audit-outlined />
+          </template>
+          <span>{{ $t('menu.taskAudit') }}</span>
+          <router-link to="/task-audit" />
         </a-menu-item>
         <a-menu-item key="member">
           <template #icon>
