@@ -10,7 +10,7 @@
         ref="formRef"
         :model="formState"
         :rules="rules"
-        @finish="handleFinish"
+        @finish="handleLogin"
       >
         <a-form-item name="username">
           <a-input
@@ -69,6 +69,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import { user } from '@/api'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -90,11 +91,16 @@ const rules = {
   ]
 }
 
-const handleFinish = async (values) => {
+const handleLogin = async (values) => {
   try {
     loading.value = true
-    await userStore.login(values)
-    router.push('/')
+    const res = await user.login(values)
+    if(res.success){
+      await userStore.login(res.data)
+      router.push('/')
+    }else{
+      message.error(res.message)
+    }
   } catch (error) {
     console.error(error)
   } finally {

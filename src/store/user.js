@@ -1,3 +1,10 @@
+/*
+ * @Author: diaochan
+ * @Date: 2025-02-28 15:21:58
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-03-08 21:59:49
+ * @Description: 
+ */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { message } from 'ant-design-vue'
@@ -6,14 +13,17 @@ import Cookies from 'js-cookie'
 export const useUserStore = defineStore('user', () => {
   const token = ref(Cookies.get('token'))
   const userInfo = ref({})
-  const roles = ref([])
 
   // 模拟登录接口
-  const login = async ({ username, password }) => {
+  const login = async ({ username, token: _token }) => {
     // 默认账号
-    if (username === 'admin' && password === '123456') {
-      token.value = 'admin-token'
+    if (username && _token) {
+      token.value = _token
       Cookies.set('token', token.value)
+      userInfo.value = {
+        username: username,
+        token: token
+      }
       message.success('登录成功')
       return true
     }
@@ -23,13 +33,7 @@ export const useUserStore = defineStore('user', () => {
 
   // 模拟获取用户信息接口
   const getUserInfo = async () => {
-    if (token.value === 'admin-token') {
-      userInfo.value = {
-        name: 'Admin',
-        avatar: '',
-        roles: ['admin']
-      }
-      roles.value = ['admin']
+    if (userInfo.value) {
       return userInfo.value
     }
     throw new Error('获取用户信息失败')
@@ -38,17 +42,14 @@ export const useUserStore = defineStore('user', () => {
   // 退出登录
   const logout = () => {
     token.value = ''
-    userInfo.value = {}
-    roles.value = []
     Cookies.remove('token')
+    userInfo.value = {}
   }
 
   return {
     token,
     userInfo,
-    roles,
     login,
-    getUserInfo,
     logout
   }
 }) 

@@ -130,22 +130,12 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
   const userStore = useUserStore()
-  
+  console.log(userStore.token, 'userStore.token')
   if (userStore.token) {
     if (to.path === '/login') {
       next({ path: '/' })
     } else {
-      if (!userStore.roles.length) {
-        try {
-          await userStore.getUserInfo()
-          next({ ...to, replace: true })
-        } catch (error) {
-          userStore.logout()
-          next('/login')
-        }
-      } else {
-        next()
-      }
+      next()
     }
   } else {
     if (to.path === '/login') {
