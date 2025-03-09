@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { message, Modal } from 'ant-design-vue'
@@ -257,16 +257,18 @@ const loadData = async () => {
   }
 }
 
-const getChannelList = async () => {
+const loadChannelOptions = async () => {
   const res = await get('channel.list')
   if(res.success){
     channelOptions.value = res.data.list
   } 
 }
 
-// 初始化加载
-getChannelList()
-loadData()
+// 初始化
+onMounted(() => {
+  loadData()
+  loadChannelOptions()
+})
 </script>
 
 <style lang="less" scoped>

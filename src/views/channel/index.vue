@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
@@ -258,7 +258,9 @@ const loadData = async () => {
 }
 
 // 初始化
-loadData()
+onMounted(() => {
+  loadData()
+})
 </script>
 
 <style lang="less" scoped>
