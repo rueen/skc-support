@@ -5,7 +5,6 @@
       :trigger="null"
       collapsible
       class="sider"
-      :class="{ 'sider-mobile': isMobile }"
       :width="siderWidth"
     >
       <div class="logo">
@@ -101,26 +100,14 @@
               class="trigger"
               @click="() => (collapsed = false)"
             />
-            
-            <!-- 移动端显示标题 -->
-            <h1 v-if="isMobile" class="mobile-title">{{ $t('app.title') }}</h1>
           </div>
           
           <div class="header-right">
             <a-space>
-              <a-select
-                v-model:value="currentLang"
-                style="width: 100px"
-                @change="handleLangChange"
-                v-if="!isMobile"
-              >
-                <a-select-option value="zh-CN">简体中文</a-select-option>
-                <a-select-option value="en-US">English</a-select-option>
-              </a-select>
               <a-dropdown>
                 <a class="ant-dropdown-link" @click.prevent>
                   <a-avatar>{{ userInfo.name?.charAt(0) }}</a-avatar>
-                  <span class="username" v-if="!isMobile">{{ userInfo.name }}</span>
+                  <span class="username">{{ userInfo.name }}</span>
                 </a>
                 <template #overlay>
                   <a-menu>
@@ -197,16 +184,14 @@ const handleLangChange = (value) => {
   localStorage.setItem('language', value)
 }
 
-// 判断是否为移动端
-const isMobile = ref(window.innerWidth <= 768)
+
 const handleResize = () => {
-  isMobile.value = window.innerWidth <= 768
-  if (isMobile.value && !collapsed.value) {
+  if (!collapsed.value) {
     collapsed.value = true
   }
 }
 
-const siderWidth = computed(() => isMobile.value ? 256 : (collapsed.value ? 80 : 256))
+const siderWidth = computed(() => collapsed.value ? 80 : 256)
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
@@ -245,12 +230,6 @@ onUnmounted(() => {
     &:hover {
       color: @primary-color;
     }
-  }
-  
-  .mobile-title {
-    margin: 0 0 0 12px;
-    font-size: 18px;
-    color: @primary-color;
   }
 }
 
