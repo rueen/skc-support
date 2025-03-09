@@ -110,8 +110,11 @@
           <a-select
             v-model:value="formData.ownerId"
             placeholder="请选择群主"
-            :options="memberOptions"
-          />
+          >
+            <a-select-option v-for="item in memberOptions" :key="item.id" :value="item.id">
+              {{ item.memberName }}
+            </a-select-option>
+          </a-select>
         </a-form-item>
       </a-form>
     </a-modal>
