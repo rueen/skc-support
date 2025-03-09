@@ -66,7 +66,6 @@
             :precision="2"
             :step="0.1"
             placeholder="请输入任务奖励"
-            addon-after="元"
           />
         </a-form-item>
 
@@ -84,18 +83,20 @@
               <a-radio :value="1">指定群组</a-radio>
             </a-radio-group>
             
-            <a-select
-              v-if="formData.groupMode === 1"
-              v-model:value="formData.groupIds"
-              mode="multiple"
-              placeholder="请选择群组"
-              style="width: 100%; margin-top: 8px"
-              :options="groupOptions"
-              :loading="groupLoading"
-            />
-            <div v-else class="group-tip">
-              所有群组的会员都可以接取该任务
-            </div>
+            <a-form-item-rest>
+              <a-select
+                v-if="formData.groupMode === 1"
+                v-model:value="formData.groupIds"
+                mode="multiple"
+                placeholder="请选择群组"
+                style="width: 100%; margin-top: 8px"
+                :options="groupOptions"
+                :loading="groupLoading"
+              />
+              <div v-else class="group-tip">
+                所有群组的会员都可以接取该任务
+              </div>
+            </a-form-item-rest>
           </div>
         </a-form-item>
 
@@ -305,6 +306,7 @@ const rules = {
 
 // 选项数据
 const channelOptions = ref([])
+const groupLoading = ref(false)
 
 const groupOptions = [
   { id: 1, name: '群组1' },
@@ -377,8 +379,21 @@ const getChannelList = async () => {
   } 
 }
 
+const getGroupList = async () => {
+  try {
+    groupLoading.value = true
+    // TODO: 实现获取群组列表的逻辑
+    // 这里暂时使用静态数据
+  } catch (error) {
+    message.error('获取群组列表失败')
+  } finally {
+    groupLoading.value = false
+  }
+}
+
 onMounted(() => {
   getChannelList()
+  getGroupList()
   if (isEdit.value) {
     getTaskDetail(route.params.id)
   }
