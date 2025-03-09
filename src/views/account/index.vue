@@ -2,27 +2,7 @@
   <div class="account content-container">
     <div class="table-container">
       <div class="table-header">
-        <div class="left">
-          <a-form layout="inline" :model="searchForm">
-            <a-form-item label="账号名称">
-              <a-input
-                v-model:value="searchForm.username"
-                placeholder="请输入账号名称"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item>
-              <a-space>
-                <a-button type="primary" @click="handleSearch">
-                  {{ $t('common.search') }}
-                </a-button>
-                <a-button @click="handleReset">
-                  {{ $t('common.reset') }}
-                </a-button>
-              </a-space>
-            </a-form-item>
-          </a-form>
-        </div>
+        <div class="left"></div>
         <div class="right">
           <a-button type="primary" @click="handleAdd">
             添加账号
@@ -166,11 +146,6 @@ const permissionVisible = ref(false)
 const permissionLoading = ref(false)
 const currentRecord = ref(null)
 
-// 搜索表单
-const searchForm = reactive({
-  username: ''
-})
-
 // 表单数据
 const formData = reactive({
   username: '',
@@ -236,18 +211,6 @@ const pagination = reactive({
 
 // 计算弹窗标题
 const formTitle = computed(() => formType.value === 'add' ? '添加账号' : '编辑账号')
-
-// 搜索
-const handleSearch = () => {
-  pagination.current = 1
-  loadData()
-}
-
-// 重置
-const handleReset = () => {
-  searchForm.username = ''
-  handleSearch()
-}
 
 // 表格变化
 const handleTableChange = (pag) => {
