@@ -17,8 +17,11 @@
                 placeholder="请选择群主"
                 allow-clear
                 style="width: 200px"
-                :options="memberOptions"
-              />
+              >
+                <a-select-option v-for="item in memberOptions" :key="item.id" :value="item.id">
+                  {{ item.memberName }}
+                </a-select-option>
+              </a-select>
             </a-form-item>
             <a-form-item>
               <a-space>
@@ -177,11 +180,7 @@ const rules = {
 }
 
 // 会员选项（群主）
-const memberOptions = ref([
-  // TODO: 从API获取会员列表
-  { value: 1, label: '张三' },
-  { value: 2, label: '李四' }
-])
+const memberOptions = ref([])
 
 // 表格列配置
 const columns = [
@@ -387,16 +386,19 @@ const getOwnerCommissionConfig = async () => {
 }
 
 // 获取会员列表
-const loadMemberOptions = async () => {
+const loadMemberOptions = async (keyword = '') => {
   try {
     // TODO: 实现获取会员列表逻辑
-    // 这里暂时使用静态数据
-    memberOptions.value = [
-      { value: 1, label: '张三' },
-      { value: 2, label: '李四' },
-      { value: 3, label: '王五' },
-      { value: 4, label: '赵六' }
-    ]
+    const res = await get('member.list', {
+      params: {
+        page: 1,
+        pageSize: 50,
+        keyword
+      }
+    })  
+    if(res.success){
+      memberOptions.value = res.data.list || []
+    }
   } catch (error) {
     message.error('获取会员列表失败')
   }
