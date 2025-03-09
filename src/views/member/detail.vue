@@ -156,18 +156,38 @@ const loadMemberInfo = async () => {
   
   try {
     // TODO: 实现加载会员信息的逻辑
-    Object.assign(formState, {
-      name: '张三',
-      phone: '13800138000',
-      groupId: '1',
-      isGroupOwner: true,
+    const res = await get('member.detail', {
+      params: {
+        id: route.params.id
+      }
     })
+    if(res.success){
+      Object.assign(formState, res.data)
+    }
   } catch (error) {
     message.error('加载会员信息失败')
     router.back()
   }
 }
 
+const addMember = async () => {
+  const res = await post('member.add', formState)
+  if(res.success){
+    message.success('提交成功')
+    router.back()
+  } else {
+    message.error(res.message)
+  }
+}
+const editMember = async () => {
+  const res = await post('member.edit', formState)
+  if(res.success){
+    message.success('提交成功')
+    router.back()
+  } else {
+    message.error(res.message)
+  }
+}
 // 提交表单
 const submitLoading = ref(false)
 const handleSubmit = () => {
@@ -175,12 +195,10 @@ const handleSubmit = () => {
     try {
       submitLoading.value = true
       // TODO: 实现提交逻辑
-      const res = await post('member.add', formState)
-      if(res.success){
-        message.success('提交成功')
-        router.back()
+      if(isEdit.value){
+        editMember()
       } else {
-        message.error(res.message)
+        addMember()
       }
     } catch (error) {
       message.error('提交失败')

@@ -46,20 +46,12 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
+import { get } from '@/utils/request'
 
 const route = useRoute()
 
 // 会员信息
-const memberInfo = reactive({
-  name: '',
-  account: '',
-  groupName: '',
-  isGroupOwner: false,
-  balance: 0,
-  inviteCode: '',
-  inviteUrl: '',
-  remark: ''
-})
+const memberInfo = ref({})
 
 // 复制邀请链接
 const handleCopy = () => {
@@ -74,17 +66,14 @@ const handleCopy = () => {
 const getMemberDetail = async (id) => {
   try {
     // TODO: 实现获取会员详情逻辑
-    // 模拟数据
-    Object.assign(memberInfo, {
-      name: '张三',
-      account: 'test123',
-      groupName: '群组1',
-      isGroupOwner: true,
-      balance: 100,
-      inviteCode: 'ABC123',
-      inviteUrl: 'https://example.com/invite/ABC123',
-      remark: '这是一条测试备注'
+    const res = await get('member.detail', {
+      params: {
+        id: route.params.id
+      }
     })
+    if(res.success){
+      memberInfo.value = res.data || {}
+    }
   } catch (error) {
     message.error('获取会员详情失败')
   }

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 20:02:10
+ * @LastEditTime: 2025-03-09 20:25:39
  * @Description: 模拟数据工具
  */
 
@@ -66,6 +66,25 @@ const mockData = {
         ],
         page: 1,
         pageSize: 10,
+      },
+    };
+  },
+  'member.detail': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: {
+        id: 1,
+        name: '张三',
+        phone: '13800138000',
+        groupId: '1',
+        isGroupOwner: true,
+        occupation: 'student',
+        inviteCode: 'ABC123',
+        inviteUrl: 'https://example.com/invite/ABC123',
+        createTime: '2024-02-28 10:00:00',
+        updateTime: '2024-02-28 10:00:00',
       },
     };
   },
