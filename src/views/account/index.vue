@@ -86,7 +86,7 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { get } from '@/utils/request'
+import { get, post } from '@/utils/request'
 
 const loading = ref(false)
 const formVisible = ref(false)
@@ -188,9 +188,13 @@ const handleEdit = (record) => {
 // 删除账号
 const handleDelete = async (record) => {
   try {
-    // TODO: 实现删除逻辑
-    message.success('删除成功')
-    loadData()
+    const res = await post('account.delete', { id: record.id })
+    if(res.success){
+      message.success('删除成功')
+      loadData()
+    }else{
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('删除失败')
   }
@@ -202,10 +206,25 @@ const handleFormOk = async () => {
   try {
     await formRef.value.validate()
     formLoading.value = true
-    // TODO: 实现保存逻辑
-    message.success(formType.value === 'add' ? '添加成功' : '编辑成功')
-    formVisible.value = false
-    loadData()
+    if(formType.value === 'add'){
+      const res = await post('account.add', formData)
+      if(res.success){
+        message.success('添加成功')
+        formVisible.value = false
+        loadData()
+      }else{
+        message.error(res.message)
+      }
+    }else{
+      const res = await post('account.edit', formData)
+      if(res.success){
+        message.success('编辑成功')
+        formVisible.value = false
+        loadData()
+      }else{
+        message.error(res.message)
+      }
+    }
   } catch (error) {
     console.error(error)
   } finally {
