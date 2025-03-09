@@ -149,8 +149,8 @@ const groupOptions = ref([])
 const columns = [
   {
     title: '会员名称',
-    dataIndex: 'memberName',
-    key: 'memberName'
+    dataIndex: 'name',
+    key: 'name'
   },
   {
     title: '账号信息',
@@ -290,7 +290,7 @@ const loadGroupOptions = async (keyword = '') => {
       groupOptions.value = res.data.list || []
     }
   } catch (error) {
-    message.error('获取会员列表失败')
+    message.error('获取群组列表失败')
   }
 }
 

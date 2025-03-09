@@ -35,26 +35,6 @@ export const TaskStatusColor = {
 }
 
 /**
- * 平台渠道
- */
-export const Channel = {
-  DOUYIN: 'douyin',   // 抖音
-  KUAISHOU: 'kuaishou', // 快手
-  XIAOHONGSHU: 'xiaohongshu', // 小红书
-  WEIBO: 'weibo'      // 微博
-}
-
-/**
- * 平台渠道文本
- */
-export const ChannelText = {
-  [Channel.DOUYIN]: '抖音',
-  [Channel.KUAISHOU]: '快手',
-  [Channel.XIAOHONGSHU]: '小红书',
-  [Channel.WEIBO]: '微博'
-}
-
-/**
  * 任务类型
  */
 export const TaskType = {
@@ -217,17 +197,6 @@ export const BillTypeLang = {
 }
 
 /**
- * 获取多语言文本的工具函数
- * @param {Object} langConfig 多语言配置对象
- * @param {string} key 枚举值
- * @param {string} lang 语言代码
- * @returns {string} 对应语言的文本
- */
-export const getLangText = (langConfig, key, lang = 'zh-CN') => {
-  return langConfig[key]?.[lang] || key
-}
-
-/**
  * 职业类型
  */
 export const OccupationType = {
@@ -253,3 +222,14 @@ export const OccupationTypeLang = {
     'en-US': 'Student'
   }
 } 
+
+/**
+ * 获取多语言文本的工具函数
+ * @param {Object} langConfig 多语言配置对象
+ * @param {string} key 枚举值
+ * @param {string} lang 语言代码
+ * @returns {string} 对应语言的文本
+ */
+export const getLangText = (langConfig, key, lang = 'zh-CN') => {
+  return langConfig[key]?.[lang] || key
+}

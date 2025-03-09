@@ -17,10 +17,26 @@
           <a-input v-model:value="formState.name" placeholder="请输入会员名称" />
         </a-form-item>
         
-        <a-form-item label="手机号" name="phone">
-          <a-input v-model:value="formState.phone" placeholder="请输入手机号" />
+        <a-form-item label="账号" name="account">
+          <a-input v-model:value="formState.account" placeholder="请输入账号（手机号/邮箱）" />
         </a-form-item>
         
+        <a-form-item label="所属群" name="groupId">
+          <a-select
+            v-model:value="formState.groupId"
+            placeholder="请选择所属群"
+            :loading="groupLoading"
+          >
+          <a-select-option
+              v-for="item in groupOptions"
+              :key="item.id"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item label="职业" name="occupation">
           <a-select
             v-model:value="formState.occupation"
@@ -37,25 +53,8 @@
           </a-select>
         </a-form-item>
         
-        <a-form-item label="所属群" name="groupId">
-          <a-select
-            v-model:value="formState.groupId"
-            placeholder="请选择所属群"
-            :loading="groupLoading"
-            :options="groupOptions"
-          />
-        </a-form-item>
-        
         <a-form-item label="群主标识" name="isGroupOwner">
           <a-switch v-model:checked="formState.isGroupOwner" />
-        </a-form-item>
-        
-        <a-form-item label="备注" name="remark">
-          <a-textarea
-            v-model:value="formState.remark"
-            :rows="4"
-            placeholder="请输入备注信息"
-          />
         </a-form-item>
         
         <a-form-item :wrapper-col="{ offset: 4 }">
@@ -78,6 +77,7 @@ import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { OccupationType, OccupationTypeLang } from '@/constants/enums'
 import { useI18n } from 'vue-i18n'
+import { get, post } from '@/utils/request'
 
 const route = useRoute()
 const router = useRouter()
@@ -89,11 +89,10 @@ const isEdit = computed(() => !!route.params.id)
 // 表单数据
 const formState = reactive({
   name: '',
-  phone: '',
+  account: '',
   occupation: undefined,
   groupId: undefined,
   isGroupOwner: false,
-  remark: ''
 })
 
 // 表单校验规则
@@ -101,9 +100,26 @@ const rules = {
   name: [
     { required: true, message: '请输入会员名称' }
   ],
-  phone: [
-    { required: true, message: '请输入手机号' },
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号' }
+  account: [
+    { required: true, message: '请输入账号' },
+    { 
+      validator: (rule, value) => {
+        // 手机号格式验证
+        const phoneRegex = /^1[3-9]\d{9}$/;
+        // 邮箱格式验证
+        const emailRegex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+        
+        if (!value) {
+          return Promise.resolve();
+        }
+        
+        if (phoneRegex.test(value) || emailRegex.test(value)) {
+          return Promise.resolve();
+        }
+        
+        return Promise.reject('请输入正确的手机号或邮箱格式');
+      }
+    }
   ],
   groupId: [
     { required: true, message: '请选择所属群' }
@@ -119,10 +135,16 @@ const loadGroupOptions = async () => {
   groupLoading.value = true
   try {
     // TODO: 实现加载群组选项的逻辑
-    groupOptions.value = [
-      { label: '测试群组1', value: '1' },
-      { label: '测试群组2', value: '2' }
-    ]
+    const res = await get('group.list', {
+      params: {
+        page: 1,
+        pageSize: 50,
+        keyword: ''
+      }
+    })
+    if(res.success){
+      groupOptions.value = res.data.list || []
+    }
   } finally {
     groupLoading.value = false
   }
@@ -139,7 +161,6 @@ const loadMemberInfo = async () => {
       phone: '13800138000',
       groupId: '1',
       isGroupOwner: true,
-      remark: '测试备注'
     })
   } catch (error) {
     message.error('加载会员信息失败')
@@ -154,8 +175,13 @@ const handleSubmit = () => {
     try {
       submitLoading.value = true
       // TODO: 实现提交逻辑
-      message.success('提交成功')
-      router.back()
+      const res = await post('member.add', formState)
+      if(res.success){
+        message.success('提交成功')
+        router.back()
+      } else {
+        message.error(res.message)
+      }
     } catch (error) {
       message.error('提交失败')
     } finally {
