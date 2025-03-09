@@ -17,9 +17,9 @@
       >
         <a-menu-item v-for="item in menuList" :key="item.key">
           <template #icon>
-            <component :is="item.icon" />
+            <component :is="getIconComponent(item.icon)" />
           </template>
-          <span>{{ $t(item.title) }}</span>
+          <span>{{ $t('menu.' + item.title) }}</span>
           <router-link :to="item.path" />
         </a-menu-item>
         <!-- <a-menu-item key="task">
@@ -166,9 +166,27 @@ import {
   ProfileOutlined,
   AuditOutlined,
   LinkOutlined,
-  SafetyOutlined
+  SafetyOutlined,
+  FileOutlined
 } from '@ant-design/icons-vue'
 import { useMenuStore } from '@/store/menu';
+
+// 图标映射函数
+const getIconComponent = (iconName) => {
+  const iconMap = {
+    'profile-outlined': ProfileOutlined,
+    'safety-outlined': SafetyOutlined,
+    'audit-outlined': AuditOutlined,
+    'team-outlined': TeamOutlined,
+    'pay-circle-outlined': PayCircleOutlined,
+    'link-outlined': LinkOutlined,
+    'apartment-outlined': ApartmentOutlined,
+    'user-outlined': UserOutlined,
+    'file-outlined': FileOutlined,
+    'file-text-outlined': FileTextOutlined
+  };
+  return iconMap[iconName] || null;
+};
 
 const menuStore = useMenuStore();
 menuStore.generateMenu();
