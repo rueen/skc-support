@@ -18,22 +18,6 @@
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="职业">
-              <a-select
-                v-model:value="searchForm.occupation"
-                placeholder="请选择职业"
-                style="width: 120px"
-                allow-clear
-              >
-                <a-select-option
-                  v-for="type in Object.values(OccupationType)"
-                  :key="type"
-                  :value="type"
-                >
-                  {{ getOccupationTypeText(type) }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
             <a-form-item label="所属群组">
               <a-select
                 v-model:value="searchForm.groupId"
@@ -132,7 +116,6 @@ import { ref, reactive } from 'vue'
 import { PlusOutlined, GiftOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-import { OccupationType, OccupationTypeLang } from '@/constants/enums'
 import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
@@ -146,7 +129,6 @@ const inviteRewardAmount = ref(10.00)
 const searchForm = reactive({
   memberName: '',
   account: '',
-  occupation: undefined,
   groupId: undefined
 })
 
@@ -207,13 +189,6 @@ const columns = [
     width: 180
   },
   {
-    title: '职业',
-    dataIndex: 'occupation',
-    key: 'occupation',
-    width: 120,
-    customRender: ({ text }) => getOccupationTypeText(text)
-  },
-  {
     title: '操作',
     key: 'action',
     fixed: 'right',
@@ -231,7 +206,6 @@ const handleReset = () => {
   Object.assign(searchForm, {
     memberName: '',
     account: '',
-    occupation: undefined,
     groupId: undefined
   })
   handleQuery()
@@ -293,11 +267,6 @@ const getInviteRewardConfig = async () => {
   } catch (error) {
     message.error('获取配置失败')
   }
-}
-
-// 获取职业类型文本
-const getOccupationTypeText = (type) => {
-  return OccupationTypeLang[type]?.[locale.value] || type
 }
 
 // 初始化
