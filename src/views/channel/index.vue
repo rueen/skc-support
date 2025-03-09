@@ -2,27 +2,7 @@
   <div class="channel content-container">
     <div class="table-container">
       <div class="table-header">
-        <div class="left">
-          <a-form layout="inline" :model="searchForm">
-            <a-form-item label="渠道名称">
-              <a-input
-                v-model:value="searchForm.name"
-                placeholder="请输入渠道名称"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item>
-              <a-space>
-                <a-button type="primary" @click="handleSearch">
-                  {{ $t('common.search') }}
-                </a-button>
-                <a-button @click="handleReset">
-                  {{ $t('common.reset') }}
-                </a-button>
-              </a-space>
-            </a-form-item>
-          </a-form>
-        </div>
+        <div class="left"></div>
         <div class="right">
           <a-button type="primary" @click="handleAdd">
             添加渠道
@@ -43,7 +23,6 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleView(record)">查看</a>
               <a @click="handleEdit(record)">编辑</a>
               <a-popconfirm
                 title="确定要删除该渠道吗？"
@@ -59,7 +38,7 @@
 
     <!-- 添加/编辑/查看渠道弹窗 -->
     <a-modal
-      v-model:visible="modalVisible"
+      v-model:open="modalVisible"
       :title="modalTitle"
       :confirmLoading="modalLoading"
       @ok="handleModalOk"
@@ -78,7 +57,6 @@
             accept="image/*"
             list-type="picture-card"
             :max-count="1"
-            :disabled="modalType === 'view'"
           >
             <div v-if="!fileList.length">
               <plus-outlined />
@@ -90,7 +68,6 @@
           <a-input
             v-model:value="formData.name"
             placeholder="请输入渠道名称"
-            :disabled="modalType === 'view'"
           />
         </a-form-item>
       </a-form>
@@ -102,18 +79,13 @@
 import { ref, reactive, computed } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-
+import { get, post } from '@/utils/request'
 const loading = ref(false)
 const modalVisible = ref(false)
 const modalLoading = ref(false)
-const modalType = ref('add') // add, edit, view
+const modalType = ref('add') // add, edit
 const formRef = ref()
 const fileList = ref([])
-
-// 搜索表单
-const searchForm = reactive({
-  name: ''
-})
 
 // 表单数据
 const formData = reactive({
@@ -141,9 +113,9 @@ const columns = [
     key: 'name'
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
+    title: '更新时间',
+    dataIndex: 'updatedAt',
+    key: 'updatedAt'
   },
   {
     title: '操作',
@@ -153,21 +125,7 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    name: '抖音',
-    icon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
-    createTime: '2024-02-28 10:00:00'
-  },
-  {
-    id: 2,
-    name: '快手',
-    icon: 'https://static.yximgs.com/udata/pkg/IS-DOCS-KWAIPIC/kwai_brand_logo.png',
-    createTime: '2024-02-28 11:00:00'
-  }
-])
-
+const tableData = ref([])
 const pagination = reactive({
   current: 1,
   pageSize: 10,
@@ -178,23 +136,10 @@ const pagination = reactive({
 const modalTitle = computed(() => {
   const titles = {
     add: '添加渠道',
-    edit: '编辑渠道',
-    view: '查看渠道'
+    edit: '编辑渠道'
   }
   return titles[modalType.value]
 })
-
-// 搜索
-const handleSearch = () => {
-  pagination.current = 1
-  loadData()
-}
-
-// 重置
-const handleReset = () => {
-  searchForm.name = ''
-  handleSearch()
-}
 
 // 表格变化
 const handleTableChange = (pag) => {
@@ -227,28 +172,16 @@ const handleEdit = (record) => {
   modalVisible.value = true
 }
 
-// 查看渠道
-const handleView = (record) => {
-  modalType.value = 'view'
-  formData.name = record.name
-  formData.icon = record.icon
-  fileList.value = [
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: record.icon
-    }
-  ]
-  modalVisible.value = true
-}
-
 // 删除渠道
 const handleDelete = async (record) => {
   try {
-    // TODO: 实现删除逻辑
-    message.success('删除成功')
-    loadData()
+    const res = await post('channel.delete', { id: record.id })
+    if(res.success){
+      message.success('删除成功')
+      loadData()
+    }else{
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('删除失败')
   }
@@ -267,20 +200,41 @@ const beforeUpload = (file) => {
   return isImage && isLt2M
 }
 
+const addChannel = async () => {
+  const res = await post('channel.add', formData)
+  if(res.success){
+    message.success('添加成功')
+    modalVisible.value = false
+    loadData()
+  } else {
+    message.error(res.message)
+  }
+}
+
+const editChannel = async () => {
+  const res = await post('channel.edit', formData)
+  if(res.success){
+    message.success('编辑成功')
+    modalVisible.value = false
+    loadData()
+  } else {
+    message.error(res.message)
+  }
+}
+
 // 确认弹窗
 const handleModalOk = async () => {
-  if (modalType.value === 'view') {
-    modalVisible.value = false
-    return
-  }
-
   try {
     await formRef.value.validate()
     modalLoading.value = true
-    // TODO: 实现保存逻辑
-    message.success(modalType.value === 'add' ? '添加成功' : '编辑成功')
-    modalVisible.value = false
-    loadData()
+    switch(modalType.value){
+      case 'add':
+        addChannel()
+        break
+      case 'edit':
+        editChannel()
+        break
+    }
   } catch (error) {
     console.error(error)
   } finally {
@@ -292,8 +246,12 @@ const handleModalOk = async () => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    pagination.total = tableData.value.length
+    const res = await get('channel.list', {
+      page: pagination.current,
+      pageSize: pagination.pageSize
+    })
+    tableData.value = res.data.list
+    pagination.total = res.data.total
   } finally {
     loading.value = false
   }

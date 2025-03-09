@@ -200,30 +200,40 @@ const handleDelete = async (record) => {
   }
 }
 
+const addAccount = async () => {
+  const res = await post('account.add', formData)
+  if(res.success){
+    message.success('添加成功')
+    formVisible.value = false
+    loadData()
+  } else {
+    message.error(res.message)
+  }
+}
+
+const editAccount = async () => {
+  const res = await post('account.edit', formData)
+  if(res.success){
+    message.success('编辑成功')
+    formVisible.value = false
+    loadData()
+  } else {
+    message.error(res.message)
+  }
+}
+
 // 确认表单
 const handleFormOk = async () => {
-  console.log(formData)
   try {
     await formRef.value.validate()
     formLoading.value = true
-    if(formType.value === 'add'){
-      const res = await post('account.add', formData)
-      if(res.success){
-        message.success('添加成功')
-        formVisible.value = false
-        loadData()
-      }else{
-        message.error(res.message)
-      }
-    }else{
-      const res = await post('account.edit', formData)
-      if(res.success){
-        message.success('编辑成功')
-        formVisible.value = false
-        loadData()
-      }else{
-        message.error(res.message)
-      }
+    switch(formType.value){
+      case 'add':
+        addAccount()
+        break
+      case 'edit':
+        editAccount()
+        break
     }
   } catch (error) {
     console.error(error)
