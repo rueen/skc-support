@@ -104,6 +104,14 @@
           
           <div class="header-right">
             <a-space>
+              <a-select
+                v-model:value="currentLang"
+                style="width: 100px"
+                @change="handleLangChange"
+              >
+                <a-select-option value="zh-CN">简体中文</a-select-option>
+                <a-select-option value="en-US">English</a-select-option>
+              </a-select>
               <a-dropdown>
                 <a class="ant-dropdown-link" @click.prevent>
                   <a-avatar>{{ userInfo.name?.charAt(0) }}</a-avatar>
