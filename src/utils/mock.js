@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 10:41:50
+ * @LastEditTime: 2025-03-09 11:30:07
  * @Description: 模拟数据工具
  */
 
@@ -39,7 +39,26 @@ const mockData = {
         data: {
           token: 'mock_token_123456',
           username: 'admin',
-          permissions: ['task:list', 'task:create', 'task:detail', 'task:edit', 'task:view', 'task:audit', 'task:auditDetail'], //  'account:audit', 'member:list', 'member:create', 'member:edit', 'member:view', 'group:list', 'account:list', 'article:list', 'settlement:withdrawal', 'settlement:other', 'channel:list'
+          permissions: [
+            'task:list',
+            'task:create',
+            'task:detail',
+            'task:edit',
+            'task:view',
+            'task:audit',
+            'task:auditDetail',
+            'account:audit',
+            'member:list',
+            'member:create',
+            'member:edit',
+            'member:view',
+            'group:list',
+            'account:list',
+            'article:list',
+            'settlement:withdrawal',
+            'settlement:other',
+            'channel:list'
+          ],
         },
       };
     }
