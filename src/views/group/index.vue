@@ -145,6 +145,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, SettingOutlined } from '@ant-design/icons-vue'
+import { get, post } from '@/utils/request'
 
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -207,9 +208,9 @@ const columns = [
     align: 'right'
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
+    title: '更新时间',
+    dataIndex: 'updatedAt',
+    key: 'updatedAt'
   },
   {
     title: '操作',
@@ -219,26 +220,7 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    name: '测试群1',
-    groupLink: 'https://example.com/group/group001',
-    ownerId: 1,
-    ownerName: '张三',
-    memberCount: 100,
-    createTime: '2024-02-28 10:00:00'
-  },
-  {
-    id: 2,
-    name: '测试群2',
-    groupLink: 'https://example.com/group/group002',
-    ownerId: 2,
-    ownerName: '李四',
-    memberCount: 50,
-    createTime: '2024-02-28 11:00:00'
-  }
-])
+const tableData = ref([])
 
 const pagination = reactive({
   current: 1,
@@ -298,22 +280,52 @@ const handleEdit = (record) => {
 const handleDelete = async (record) => {
   try {
     // TODO: 实现删除逻辑
-    message.success('删除成功')
-    loadData()
+    const res = await post('group.delete', { id: record.id }) 
+    if(res.success){
+      message.success('删除成功')
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('删除失败')
   }
 }
 
+const addGroup = async () => {
+  const res = await post('group.add', formData)
+  if(res.success){
+    message.success('添加成功')
+    modalVisible.value = false
+    loadData()
+  } else {
+    message.error(res.message)
+  }
+}
+const editGroup = async () => {
+  const res = await post('group.edit', formData)
+  if(res.success){
+    message.success('编辑成功')
+    modalVisible.value = false
+    loadData()
+  } else {
+    message.error(res.message)
+  }
+}
 // 确认弹窗
 const handleModalOk = async () => {
   try {
     await formRef.value.validate()
     modalLoading.value = true
     // TODO: 实现保存逻辑
-    message.success(modalType.value === 'add' ? '添加成功' : '编辑成功')
-    modalVisible.value = false
-    loadData()
+    switch(modalType.value){
+      case 'add':
+        await addGroup()
+        break
+      case 'edit':
+        await editGroup()
+        break
+    }
   } catch (error) {
     console.error(error)
   } finally {
@@ -326,13 +338,19 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    // 这里模拟筛选逻辑
-    const filteredData = tableData.value.filter(item => {
-      const nameMatch = !searchForm.name || item.name.includes(searchForm.name);
-      const ownerMatch = !searchForm.ownerId || item.ownerId === searchForm.ownerId;
-      return nameMatch && ownerMatch;
-    });
-    pagination.total = filteredData.length;
+    const res = await get('group.list', {
+      params: {
+        page: pagination.current,
+        pageSize: pagination.pageSize,
+        ...searchForm
+      }
+    })
+    if(res.success) {
+      tableData.value = res.data.list
+      pagination.total = res.data.total
+    } else {
+      message.error(res.message)
+    }
   } finally {
     loading.value = false
   }

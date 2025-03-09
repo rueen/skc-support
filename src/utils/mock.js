@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 16:45:11
+ * @LastEditTime: 2025-03-09 19:09:07
  * @Description: 模拟数据工具
  */
 
@@ -53,6 +53,30 @@ const mockData = {
             id: 1,
             name: 'facebook',
             icon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
+            createdAt: '2021-01-01 12:00:00',
+            updatedAt: '2021-01-01 12:00:00',
+          },
+        ],
+        page: 1,
+        pageSize: 10,
+      },
+    };
+  },
+  'group.list': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: { 
+        total: 100,
+        list: [
+          {
+            id: 1,
+            name: '测试群1',
+            groupLink: 'https://example.com/group/group001',
+            ownerId: 1,
+            ownerName: '张三',
+            memberCount: 100,
             createdAt: '2021-01-01 12:00:00',
             updatedAt: '2021-01-01 12:00:00',
           },
