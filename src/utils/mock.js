@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 20:25:39
+ * @LastEditTime: 2025-03-09 20:32:58
  * @Description: 模拟数据工具
  */
 
@@ -83,6 +83,8 @@ const mockData = {
         occupation: 'student',
         inviteCode: 'ABC123',
         inviteUrl: 'https://example.com/invite/ABC123',
+        inviterId: '1',
+        inviterName: '李四',
         createTime: '2024-02-28 10:00:00',
         updateTime: '2024-02-28 10:00:00',
       },

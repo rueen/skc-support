@@ -37,6 +37,24 @@
           </a-select>
         </a-form-item>
 
+        <a-form-item label="邀请人" name="inviterId">
+          <a-select
+            v-model:value="formState.inviterId"
+            placeholder="请选择邀请人"
+            :loading="inviterLoading"
+            show-search
+            :filter-option="filterInviter"
+          >
+            <a-select-option
+              v-for="item in inviterOptions"
+              :key="item.id"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item label="职业" name="occupation">
           <a-select
             v-model:value="formState.occupation"
@@ -93,6 +111,7 @@ const formState = reactive({
   occupation: undefined,
   groupId: undefined,
   isGroupOwner: false,
+  inviterId: undefined,
 })
 
 // 表单校验规则
@@ -123,12 +142,24 @@ const rules = {
   ],
   groupId: [
     { required: true, message: '请选择所属群' }
+  ],
+  inviterId: [
+    { required: true, message: '请选择邀请人' }
   ]
 }
 
 // 群组选择器
 const groupLoading = ref(false)
 const groupOptions = ref([])
+
+// 邀请人选择器
+const inviterLoading = ref(false)
+const inviterOptions = ref([])
+
+// 邀请人搜索过滤
+const filterInviter = (input, option) => {
+  return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+}
 
 // 加载群组选项
 const loadGroupOptions = async () => {
@@ -147,6 +178,24 @@ const loadGroupOptions = async () => {
     }
   } finally {
     groupLoading.value = false
+  }
+}
+
+// 加载邀请人选项
+const loadInviterOptions = async () => {
+  inviterLoading.value = true
+  try {
+    const res = await get('member.list', {
+      params: {
+        page: 1,
+        pageSize: 50
+      }
+    })
+    if(res.success){
+      inviterOptions.value = res.data.list || []
+    }
+  } finally {
+    inviterLoading.value = false
   }
 }
 
@@ -215,6 +264,7 @@ const getOccupationTypeText = (type) => {
 
 onMounted(() => {
   loadGroupOptions()
+  loadInviterOptions()
   loadMemberInfo()
 })
 </script>
