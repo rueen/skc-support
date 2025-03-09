@@ -11,11 +11,13 @@
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="群ID">
-              <a-input
-                v-model:value="searchForm.groupId"
-                placeholder="请输入群ID"
+            <a-form-item label="群主">
+              <a-select
+                v-model:value="searchForm.ownerId"
+                placeholder="请选择群主"
                 allow-clear
+                style="width: 200px"
+                :options="memberOptions"
               />
             </a-form-item>
             <a-form-item>
@@ -54,7 +56,6 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleView(record)">查看</a>
               <a @click="handleEdit(record)">编辑</a>
               <a-popconfirm
                 title="确定要删除该群吗？"
@@ -64,13 +65,21 @@
               </a-popconfirm>
             </a-space>
           </template>
+          <template v-else-if="column.key === 'groupLink'">
+            <div class="group-link-container">
+              <a :href="record.groupLink" target="_blank" class="group-link">{{ record.groupLink }}</a>
+              <a-button type="link" size="small" @click="copyLink(record.groupLink)" class="copy-btn">
+                复制
+              </a-button>
+            </div>
+          </template>
         </template>
       </a-table>
     </div>
 
     <!-- 添加/编辑/查看群弹窗 -->
     <a-modal
-      v-model:visible="modalVisible"
+      v-model:open="modalVisible"
       :title="modalTitle"
       :confirmLoading="modalLoading"
       @ok="handleModalOk"
@@ -86,21 +95,18 @@
           <a-input
             v-model:value="formData.name"
             placeholder="请输入群名称"
-            :disabled="modalType === 'view'"
           />
         </a-form-item>
-        <a-form-item label="群ID" name="groupId">
+        <a-form-item label="群链接" name="groupLink">
           <a-input
-            v-model:value="formData.groupId"
-            placeholder="请输入群ID"
-            :disabled="modalType === 'view'"
+            v-model:value="formData.groupLink"
+            placeholder="请输入群链接"
           />
         </a-form-item>
         <a-form-item label="群主" name="ownerId">
           <a-select
             v-model:value="formData.ownerId"
             placeholder="请选择群主"
-            :disabled="modalType === 'view'"
             :options="memberOptions"
           />
         </a-form-item>
@@ -152,20 +158,20 @@ const ownerCommissionRate = ref(10.0)
 // 搜索表单
 const searchForm = reactive({
   name: '',
-  groupId: ''
+  ownerId: undefined
 })
 
 // 表单数据
 const formData = reactive({
   name: '',
-  groupId: '',
+  groupLink: '',
   ownerId: undefined
 })
 
 // 表单校验规则
 const rules = {
   name: [{ required: true, message: '请输入群名称' }],
-  groupId: [{ required: true, message: '请输入群ID' }],
+  groupLink: [{ required: true, message: '请输入群链接' }],
   ownerId: [{ required: true, message: '请选择群主' }]
 }
 
@@ -184,9 +190,10 @@ const columns = [
     key: 'name'
   },
   {
-    title: '群ID',
-    dataIndex: 'groupId',
-    key: 'groupId'
+    title: '群链接',
+    dataIndex: 'groupLink',
+    key: 'groupLink',
+    ellipsis: true
   },
   {
     title: '群主',
@@ -216,7 +223,7 @@ const tableData = ref([
   {
     id: 1,
     name: '测试群1',
-    groupId: 'group001',
+    groupLink: 'https://example.com/group/group001',
     ownerId: 1,
     ownerName: '张三',
     memberCount: 100,
@@ -225,7 +232,7 @@ const tableData = ref([
   {
     id: 2,
     name: '测试群2',
-    groupId: 'group002',
+    groupLink: 'https://example.com/group/group002',
     ownerId: 2,
     ownerName: '李四',
     memberCount: 50,
@@ -243,8 +250,7 @@ const pagination = reactive({
 const modalTitle = computed(() => {
   const titles = {
     add: '添加群',
-    edit: '编辑群',
-    view: '查看群'
+    edit: '编辑群'
   }
   return titles[modalType.value]
 })
@@ -259,7 +265,7 @@ const handleSearch = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     name: '',
-    groupId: ''
+    ownerId: undefined
   })
   handleSearch()
 }
@@ -274,7 +280,7 @@ const handleTableChange = (pag) => {
 const handleAdd = () => {
   modalType.value = 'add'
   formData.name = ''
-  formData.groupId = ''
+  formData.groupLink = ''
   formData.ownerId = undefined
   modalVisible.value = true
 }
@@ -283,16 +289,7 @@ const handleAdd = () => {
 const handleEdit = (record) => {
   modalType.value = 'edit'
   formData.name = record.name
-  formData.groupId = record.groupId
-  formData.ownerId = record.ownerId
-  modalVisible.value = true
-}
-
-// 查看群
-const handleView = (record) => {
-  modalType.value = 'view'
-  formData.name = record.name
-  formData.groupId = record.groupId
+  formData.groupLink = record.groupLink
   formData.ownerId = record.ownerId
   modalVisible.value = true
 }
@@ -310,11 +307,6 @@ const handleDelete = async (record) => {
 
 // 确认弹窗
 const handleModalOk = async () => {
-  if (modalType.value === 'view') {
-    modalVisible.value = false
-    return
-  }
-
   try {
     await formRef.value.validate()
     modalLoading.value = true
@@ -334,7 +326,13 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    pagination.total = tableData.value.length
+    // 这里模拟筛选逻辑
+    const filteredData = tableData.value.filter(item => {
+      const nameMatch = !searchForm.name || item.name.includes(searchForm.name);
+      const ownerMatch = !searchForm.ownerId || item.ownerId === searchForm.ownerId;
+      return nameMatch && ownerMatch;
+    });
+    pagination.total = filteredData.length;
   } finally {
     loading.value = false
   }
@@ -370,9 +368,37 @@ const getOwnerCommissionConfig = async () => {
   }
 }
 
+// 获取会员列表
+const loadMemberOptions = async () => {
+  try {
+    // TODO: 实现获取会员列表逻辑
+    // 这里暂时使用静态数据
+    memberOptions.value = [
+      { value: 1, label: '张三' },
+      { value: 2, label: '李四' },
+      { value: 3, label: '王五' },
+      { value: 4, label: '赵六' }
+    ]
+  } catch (error) {
+    message.error('获取会员列表失败')
+  }
+}
+
+// 复制群链接
+const copyLink = (link) => {
+  navigator.clipboard.writeText(link)
+    .then(() => {
+      message.success('链接已复制到剪贴板')
+    })
+    .catch(() => {
+      message.error('复制失败，请手动复制')
+    })
+}
+
 // 初始化
 onMounted(() => {
   loadData()
+  loadMemberOptions()
 })
 </script>
 
@@ -397,6 +423,36 @@ onMounted(() => {
 
   .danger {
     color: #ff4d4f;
+  }
+
+  .group-link {
+    color: #1890ff;
+    text-decoration: underline;
+  }
+
+  .group-link-container {
+    display: flex;
+    align-items: center;
+
+    .group-link {
+      margin-right: 8px;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      flex-shrink: 0;
+      font-size: 12px;
+      padding: 0 4px;
+      height: 24px;
+      color: rgba(0, 0, 0, 0.45);
+      
+      &:hover {
+        color: #1890ff;
+      }
+    }
   }
 }
 </style> 
