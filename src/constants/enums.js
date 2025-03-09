@@ -228,68 +228,6 @@ export const getLangText = (langConfig, key, lang = 'zh-CN') => {
 }
 
 /**
- * 达人领域
- */
-export const CreatorCategory = {
-  FOOD: 'food',           // 美食
-  FASHION: 'fashion',     // 时尚
-  TRAVEL: 'travel',       // 旅游
-  EDUCATION: 'education', // 教育
-  LIFESTYLE: 'lifestyle', // 生活方式
-  BEAUTY: 'beauty',       // 美妆
-  PARENTING: 'parenting', // 亲子
-  SPORTS: 'sports',       // 运动健身
-  TECH: 'tech',          // 数码科技
-  FINANCE: 'finance'      // 金融理财
-}
-
-/**
- * 达人领域多语言配置
- */
-export const CreatorCategoryLang = {
-  [CreatorCategory.FOOD]: {
-    'zh-CN': '美食',
-    'en-US': 'Food'
-  },
-  [CreatorCategory.FASHION]: {
-    'zh-CN': '时尚',
-    'en-US': 'Fashion'
-  },
-  [CreatorCategory.TRAVEL]: {
-    'zh-CN': '旅游',
-    'en-US': 'Travel'
-  },
-  [CreatorCategory.EDUCATION]: {
-    'zh-CN': '教育',
-    'en-US': 'Education'
-  },
-  [CreatorCategory.LIFESTYLE]: {
-    'zh-CN': '生活方式',
-    'en-US': 'Lifestyle'
-  },
-  [CreatorCategory.BEAUTY]: {
-    'zh-CN': '美妆',
-    'en-US': 'Beauty'
-  },
-  [CreatorCategory.PARENTING]: {
-    'zh-CN': '亲子',
-    'en-US': 'Parenting'
-  },
-  [CreatorCategory.SPORTS]: {
-    'zh-CN': '运动健身',
-    'en-US': 'Sports'
-  },
-  [CreatorCategory.TECH]: {
-    'zh-CN': '数码科技',
-    'en-US': 'Tech'
-  },
-  [CreatorCategory.FINANCE]: {
-    'zh-CN': '金融理财',
-    'en-US': 'Finance'
-  }
-}
-
-/**
  * 职业类型
  */
 export const OccupationType = {

@@ -11,7 +11,7 @@
         <a-descriptions :column="2">
           <a-descriptions-item label="任务名称">{{ taskInfo.taskName }}</a-descriptions-item>
           <a-descriptions-item label="平台渠道">{{ taskInfo.channelName }}</a-descriptions-item>
-          <a-descriptions-item label="达人领域">{{ getCreatorCategoryText(taskInfo.categoryId) }}</a-descriptions-item>
+          <a-descriptions-item label="达人领域">{{ taskInfo.category }}</a-descriptions-item>
           <a-descriptions-item label="任务类型">{{ getTaskTypeText(taskInfo.type) }}</a-descriptions-item>
           <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
           <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
@@ -124,8 +124,6 @@ import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import {
-  CreatorCategory,
-  CreatorCategoryLang,
   TaskType,
   TaskTypeLang,
   TaskAuditStatus,
@@ -147,7 +145,7 @@ const rejectReason = ref('')
 const taskInfo = reactive({
   taskName: '测试任务1',
   channelName: '抖音',
-  categoryId: CreatorCategory.FOOD,
+  category: '美食',
   type: TaskType.IMAGE_TEXT,
   reward: 100,
   brand: '测试品牌',
@@ -181,10 +179,6 @@ const auditInfo = reactive({
 })
 
 // 获取文本方法
-const getCreatorCategoryText = (category) => {
-  return getLangText(CreatorCategoryLang, category, locale.value)
-}
-
 const getTaskTypeText = (type) => {
   return getLangText(TaskTypeLang, type, locale.value)
 }

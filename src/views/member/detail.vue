@@ -76,7 +76,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
-import { CreatorCategory, OccupationType, OccupationTypeLang } from '@/constants/enums'
+import { OccupationType, OccupationTypeLang } from '@/constants/enums'
 import { useI18n } from 'vue-i18n'
 
 const route = useRoute()

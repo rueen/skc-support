@@ -37,19 +37,11 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item label="达人领域" name="categoryId">
-          <a-select
-            v-model:value="formData.categoryId"
-            placeholder="请选择达人领域"
-          >
-            <a-select-option
-              v-for="category in Object.values(CreatorCategory)"
-              :key="category"
-              :value="category"
-            >
-              {{ getCreatorCategoryText(category) }}
-            </a-select-option>
-          </a-select>
+        <a-form-item label="达人领域" name="category">
+          <a-input
+            v-model:value="formData.category"
+            placeholder="请输入达人领域"
+          />
         </a-form-item>
 
         <a-form-item label="任务类型" name="type">
@@ -253,12 +245,11 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import {
-  CreatorCategory,
-  CreatorCategoryLang,
   TaskType,
   TaskTypeLang,
   getLangText
 } from '@/constants/enums'
+import { get } from '@/utils/request'
 
 const route = useRoute()
 const router = useRouter()
@@ -272,7 +263,7 @@ const isEdit = computed(() => route.name === 'TaskEdit')
 const formData = reactive({
   taskName: '',
   channelId: undefined,
-  categoryId: undefined,
+  category: undefined,
   type: undefined,
   reward: undefined,
   brand: '',
@@ -296,7 +287,7 @@ const formData = reactive({
 const rules = {
   taskName: [{ required: true, message: '请输入任务名称' }],
   channelId: [{ required: true, message: '请选择平台渠道' }],
-  categoryId: [{ required: true, message: '请选择达人领域' }],
+  category: [{ required: true, message: '请输入达人领域' }],
   type: [{ required: true, message: '请选择任务类型' }],
   reward: [{ required: true, message: '请输入任务奖励' }],
   fansRequired: [{ required: true, message: '请输入粉丝要求' }],
@@ -313,10 +304,7 @@ const rules = {
 }
 
 // 选项数据
-const channelOptions = [
-  { id: 1, name: '抖音' },
-  { id: 2, name: '快手' }
-]
+const channelOptions = ref([])
 
 const groupOptions = [
   { id: 1, name: '群组1' },
@@ -333,11 +321,6 @@ const addField = () => {
 
 const removeField = (index) => {
   formData.customFields.splice(index, 1)
-}
-
-// 获取达人领域文本
-const getCreatorCategoryText = (category) => {
-  return getLangText(CreatorCategoryLang, category, locale.value)
 }
 
 // 获取任务类型文本
@@ -387,7 +370,15 @@ const getTaskDetail = async (id) => {
   }
 }
 
+const getChannelList = async () => {
+  const res = await get('channel.list')
+  if(res.success){
+    channelOptions.value = res.data.list
+  } 
+}
+
 onMounted(() => {
+  getChannelList()
   if (isEdit.value) {
     getTaskDetail(route.params.id)
   }

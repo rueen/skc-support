@@ -229,9 +229,12 @@ const handleExport = () => {
           taskName: searchForm.taskName,
           channelId: searchForm.channelId
         }
-        
-        // 模拟导出成功
-        message.success('导出成功')
+        const res = await get('task.export', params)
+        if(res.success){
+          message.success('导出成功')
+        } else {
+          message.error(res.message)
+        }
       } catch (error) {
         message.error('导出失败')
       }

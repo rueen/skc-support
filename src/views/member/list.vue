@@ -132,7 +132,7 @@ import { ref, reactive } from 'vue'
 import { PlusOutlined, GiftOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-import { CreatorCategory, OccupationType, OccupationTypeLang } from '@/constants/enums'
+import { OccupationType, OccupationTypeLang } from '@/constants/enums'
 import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
