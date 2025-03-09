@@ -464,18 +464,6 @@ onMounted(() => {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
-    .copy-btn {
-      flex-shrink: 0;
-      font-size: 12px;
-      padding: 0 4px;
-      height: 24px;
-      color: rgba(0, 0, 0, 0.45);
-      
-      &:hover {
-        color: #1890ff;
-      }
-    }
   }
 }
 </style> 

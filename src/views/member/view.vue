@@ -6,43 +6,98 @@
       class="page-header"
     />
     <div class="detail-container">
-      <a-descriptions :column="2">
-        <a-descriptions-item label="会员名称">
-          {{ memberInfo.name }}
-        </a-descriptions-item>
-        <a-descriptions-item label="账号">
-          {{ memberInfo.account }}
-        </a-descriptions-item>
-        <a-descriptions-item label="所属群组">
-          {{ memberInfo.groupName }}
-          <a-tag v-if="memberInfo.isGroupOwner" color="blue" style="margin-left: 8px">群主</a-tag>
-        </a-descriptions-item>
-        <a-descriptions-item label="账户余额">
-          {{ memberInfo.balance }} 元
-        </a-descriptions-item>
-        <a-descriptions-item label="邀请码">
-          {{ memberInfo.inviteCode }}
-        </a-descriptions-item>
-        <a-descriptions-item label="邀请链接">
-          <a-input-group compact>
-            <a-input
-              v-model:value="memberInfo.inviteUrl"
-              readonly
-              style="width: calc(100% - 80px)"
+      <!-- 会员信息 -->
+      <div class="section">
+        <div class="section-title">会员信息</div>
+        <a-descriptions :column="2">
+          <a-descriptions-item label="会员名称">
+            {{ memberInfo.name }}
+          </a-descriptions-item>
+          <a-descriptions-item label="会员账号">
+            {{ memberInfo.account }}
+          </a-descriptions-item>
+          <a-descriptions-item label="所属群组">
+            {{ memberInfo.groupName }}
+            <a-tag v-if="memberInfo.isGroupOwner" color="blue" style="margin-left: 8px">群主</a-tag>
+          </a-descriptions-item>
+          <a-descriptions-item label="邀请人">
+            {{ memberInfo.inviterName }}
+          </a-descriptions-item>
+          <a-descriptions-item label="邀请码">
+            {{ memberInfo.inviteCode }}
+          </a-descriptions-item>
+          <a-descriptions-item label="邀请链接">
+            <span>{{ memberInfo.inviteUrl }}</span>
+            <a-button type="link" size="small" @click="handleCopy(memberInfo.inviteUrl)">
+              复制
+            </a-button>
+          </a-descriptions-item>
+        </a-descriptions>
+      </div>
+
+      <!-- 账号信息 -->
+      <div class="section">
+        <div class="section-title">账号信息</div>
+        <div class="account-list">
+          <div v-for="account in memberInfo.channelAccountList" :key="account.channelId">
+            <a-descriptions :column="1">
+              <a-descriptions-item label="账号">{{ account.username }}</a-descriptions-item>
+              <a-descriptions-item label="平台">{{ account.channelName }}</a-descriptions-item>
+              <a-descriptions-item label="主页">
+                <div class="home-link">
+                  <a :href="account.homeUrl" target="_blank">{{ account.homeUrl }}</a>
+                  <a-button type="link" size="small" @click="handleCopy(account.homeUrl)">复制</a-button>
+                </div>
+              </a-descriptions-item>
+              <a-descriptions-item label="粉丝数">{{ account.followers }}</a-descriptions-item>
+              <a-descriptions-item label="好友数">{{ account.friends }}</a-descriptions-item>
+              <a-descriptions-item label="发帖数">{{ account.posts }}</a-descriptions-item>
+            </a-descriptions>
+          </div>
+        </div>
+      </div>
+
+      <!-- 任务信息 -->
+      <div class="section">
+        <div class="section-title">任务信息</div>
+        <a-row :gutter="16">
+          <a-col :span="6">
+            <a-statistic title="完成任务次数" :value="memberInfo.taskCount" />
+          </a-col>
+          <a-col :span="6">
+            <a-statistic 
+              title="累计获得奖励" 
+              :value="memberInfo.totalReward" 
+              :precision="2"
+              prefix="¥"
             />
-            <a-button type="primary" @click="handleCopy">复制</a-button>
-          </a-input-group>
-        </a-descriptions-item>
-        <a-descriptions-item label="备注" :span="2">
-          {{ memberInfo.remark || '暂无备注' }}
-        </a-descriptions-item>
-      </a-descriptions>
+          </a-col>
+          <a-col :span="6">
+            <a-statistic 
+              title="账户余额" 
+              :value="memberInfo.balance"
+              :precision="2"
+              prefix="¥"
+            />
+          </a-col>
+        </a-row>
+      </div>
+
+      <!-- 邀请信息 -->
+      <div class="section">
+        <div class="section-title">邀请信息</div>
+        <a-row>
+          <a-col :span="6">
+            <a-statistic title="邀请好友数" :value="memberInfo.invitedCount" />
+          </a-col>
+        </a-row>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
@@ -51,11 +106,13 @@ import { get } from '@/utils/request'
 const route = useRoute()
 
 // 会员信息
-const memberInfo = ref({})
+const memberInfo = ref({
+  channelAccountList: [] // 初始化账号列表
+})
 
-// 复制邀请链接
-const handleCopy = () => {
-  navigator.clipboard.writeText(memberInfo.inviteUrl).then(() => {
+// 复制文本
+const handleCopy = (text) => {
+  navigator.clipboard.writeText(text).then(() => {
     message.success('复制成功')
   }).catch(() => {
     message.error('复制失败')
@@ -65,7 +122,6 @@ const handleCopy = () => {
 // 获取会员详情
 const getMemberDetail = async (id) => {
   try {
-    // TODO: 实现获取会员详情逻辑
     const res = await get('member.detail', {
       params: {
         id: route.params.id
@@ -98,6 +154,22 @@ onMounted(() => {
     border-radius: 2px;
   }
 
+  .section {
+    & + .section {
+      margin-top: 32px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+      margin-bottom: 16px;
+      padding-left: 8px;
+      text-align: left;
+      border-left: 3px solid #1890ff;
+    }
+  }
+
   :deep(.ant-descriptions-item-label) {
     color: rgba(0, 0, 0, 0.85);
     font-weight: 500;
@@ -105,6 +177,12 @@ onMounted(() => {
 
   :deep(.ant-descriptions-item-content) {
     color: rgba(0, 0, 0, 0.65);
+  }
+
+  .account-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
   }
 }
 </style> 

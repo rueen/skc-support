@@ -57,14 +57,16 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'memberAccountInfo'">
-            <div>账号：{{ record.memberAccountInfo.account }}</div>
-            <div class="home-link-container">
-              <span>主页：</span>
-              <a :href="record.memberAccountInfo.homeUrl" target="_blank" class="home-link">{{ record.memberAccountInfo.homeUrl }}</a>
-              <a-button type="link" size="small" @click="copyLink(record.memberAccountInfo.homeUrl)" class="copy-btn">
-                复制
-              </a-button>
+          <template v-if="column.key === 'channelAccountList'">
+            <div v-for="item in record.channelAccountList">
+              <div>账号：{{ item.account }}</div>
+              <div class="home-link-container">
+                <span>主页：</span>
+                <a :href="item.homeUrl" target="_blank" class="home-link">{{ item.homeUrl }}</a>
+                <a-button type="link" size="small" @click="copyLink(item.homeUrl)" class="copy-btn">
+                  复制
+                </a-button>
+              </div>
             </div>
           </template>
           <template v-if="column.key === 'groupName'">
@@ -154,7 +156,7 @@ const columns = [
   },
   {
     title: '账号信息',
-    key: 'memberAccountInfo'
+    key: 'channelAccountList'
   },
   {
     title: '所属群组',
@@ -353,19 +355,6 @@ onMounted(() => {
       white-space: nowrap;
       color: #1890ff;
       text-decoration: underline;
-    }
-
-    .copy-btn {
-      flex-shrink: 0;
-      font-size: 12px;
-      padding: 0;
-      margin-left: 2px;
-      height: 24px;
-      color: rgba(0, 0, 0, 0.45);
-      
-      &:hover {
-        color: #1890ff;
-      }
     }
   }
 }

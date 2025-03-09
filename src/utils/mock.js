@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 20:32:58
+ * @LastEditTime: 2025-03-09 21:04:01
  * @Description: 模拟数据工具
  */
 
@@ -56,10 +56,16 @@ const mockData = {
             groupId: 1,
             groupName: '群组1',
             isGroupOwner: true,
-            memberAccountInfo: {
-              account: 'test123',
-              homeUrl: 'https://example.com/test123',
-            },
+            channelAccountList: [
+              {
+                account: 'test123',
+                homeUrl: 'https://example.com/test123',
+              },
+              {
+                account: 'test123',
+                homeUrl: 'https://example.com/test123',
+              },
+            ],
             createTime: '2024-02-28 10:00:00',
             updateTime: '2024-02-28 10:00:00',
           },
@@ -77,14 +83,31 @@ const mockData = {
       data: {
         id: 1,
         name: '张三',
-        phone: '13800138000',
+        account: '13800138000',
         groupId: '1',
+        groupName: '群组1',
         isGroupOwner: true,
         occupation: 'student',
         inviteCode: 'ABC123',
         inviteUrl: 'https://example.com/invite/ABC123',
         inviterId: '1',
         inviterName: '李四',
+        channelAccountList: [
+          {
+            account: 'test123',
+            channelId: '1',
+            channelName: 'facebook',
+            channelIcon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
+            homeUrl: 'https://example.com/test123',
+          },
+          {
+            account: 'test123',
+            channelId: '2',
+            channelName: 'instagram',
+            channelIcon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
+            homeUrl: 'https://example.com/test123',
+          },
+        ],
         createTime: '2024-02-28 10:00:00',
         updateTime: '2024-02-28 10:00:00',
       },
