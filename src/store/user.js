@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:58
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-08 21:59:49
+ * @LastEditTime: 2025-03-09 09:08:48
  * @Description: 
  */
 import { defineStore } from 'pinia'
@@ -29,14 +29,6 @@ export const useUserStore = defineStore('user', () => {
     }
     message.error('用户名或密码错误')
     throw new Error('用户名或密码错误')
-  }
-
-  // 模拟获取用户信息接口
-  const getUserInfo = async () => {
-    if (userInfo.value) {
-      return userInfo.value
-    }
-    throw new Error('获取用户信息失败')
   }
 
   // 退出登录
