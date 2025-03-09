@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 19:27:29
+ * @LastEditTime: 2025-03-09 19:43:15
  * @Description: 模拟数据工具
  */
 
@@ -56,6 +56,10 @@ const mockData = {
             groupId: 1,
             groupName: '群组1',
             isGroupOwner: true,
+            memberAccountInfo: {
+              account: 'test123',
+              homeUrl: 'https://example.com/test123',
+            },
             createTime: '2024-02-28 10:00:00',
             updateTime: '2024-02-28 10:00:00',
           },

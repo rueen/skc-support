@@ -11,13 +11,6 @@
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="账号">
-              <a-input
-                v-model:value="searchForm.account"
-                placeholder="请输入账号"
-                allow-clear
-              />
-            </a-form-item>
             <a-form-item label="所属群组">
               <a-select
                 v-model:value="searchForm.groupId"
@@ -64,6 +57,16 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'memberAccountInfo'">
+            <div>账号：{{ record.memberAccountInfo.account }}</div>
+            <div class="home-link-container">
+              <span>主页：</span>
+              <a :href="record.memberAccountInfo.homeUrl" target="_blank" class="home-link">{{ record.memberAccountInfo.homeUrl }}</a>
+              <a-button type="link" size="small" @click="copyLink(record.memberAccountInfo.homeUrl)" class="copy-btn">
+                复制
+              </a-button>
+            </div>
+          </template>
           <template v-if="column.key === 'groupName'">
             <span>{{ record.groupName }}</span>
             <a-tag v-if="record.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
@@ -127,7 +130,6 @@ const inviteRewardAmount = ref(10.00)
 // 查询参数
 const searchForm = reactive({
   memberName: '',
-  account: '',
   groupId: undefined
 })
 
@@ -151,9 +153,8 @@ const columns = [
     key: 'memberName'
   },
   {
-    title: '账号',
-    dataIndex: 'account',
-    key: 'account'
+    title: '账号信息',
+    key: 'memberAccountInfo'
   },
   {
     title: '所属群组',
@@ -183,7 +184,6 @@ const handleSearch = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     memberName: '',
-    account: '',
     groupId: undefined
   })
   handleSearch()
@@ -210,8 +210,15 @@ const handleView = (record) => {
 const handleDelete = async (record) => {
   try {
     // TODO: 实现删除逻辑
-    message.success('删除成功')
-    loadData()
+    const res = await post('member.delete', {
+      id: record.id
+    })
+    if(res.success){
+      message.success('删除成功')
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('删除失败')
   }
@@ -287,6 +294,17 @@ const loadGroupOptions = async (keyword = '') => {
   }
 }
 
+// 复制链接
+const copyLink = (link) => {
+  navigator.clipboard.writeText(link)
+    .then(() => {
+      message.success('链接已复制到剪贴板')
+    })
+    .catch(() => {
+      message.error('复制失败，请手动复制')
+    })
+}
+
 // 初始化
 onMounted(() => {
   loadData()
@@ -315,6 +333,40 @@ onMounted(() => {
 
   .danger {
     color: #ff4d4f;
+  }
+
+  .home-link-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    span {
+      white-space: nowrap;
+      margin-right: 4px;
+    }
+
+    .home-link {
+      margin-right: 0;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #1890ff;
+      text-decoration: underline;
+    }
+
+    .copy-btn {
+      flex-shrink: 0;
+      font-size: 12px;
+      padding: 0;
+      margin-left: 2px;
+      height: 24px;
+      color: rgba(0, 0, 0, 0.45);
+      
+      &:hover {
+        color: #1890ff;
+      }
+    }
   }
 }
 </style> 
