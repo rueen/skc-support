@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 11:47:37
+ * @LastEditTime: 2025-03-09 12:13:59
  * @Description: 模拟数据工具
  */
 
@@ -15,7 +15,7 @@ const mockData = {
     return {
       code: 0,
       success: true,
-      message: '成功',
+      message: '',
       data: {},
     };
   },
@@ -23,11 +23,41 @@ const mockData = {
     return {
       code: 0,
       success: true,
-      message: '成功',
+      message: '',
       data: {},
     };
   },
-  
+
+  'account.list': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: {
+        total: 100,
+        list: [
+          {
+            id: 1,
+            username: 'admin',
+            isAdmin: true,
+            description: '管理员',
+            createdAt: '2021-01-01 12:00:00',
+            updatedAt: '2021-01-01 12:00:00',
+          },
+          {
+            id: 2,
+            username: 'user',
+            isAdmin: false,
+            description: '审核员',
+            createdAt: '2021-01-01 12:00:00',
+            updatedAt: '2021-01-01 12:00:00',
+          },
+        ],
+        page: 1,
+        pageSize: 10,
+      },
+    };
+  },
   // 用户相关接口
   'user.login': (params) => {
     const { username, password } = params;

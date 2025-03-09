@@ -136,6 +136,7 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { message } from 'ant-design-vue'
+import { get } from '@/utils/request'
 
 const loading = ref(false)
 const formVisible = ref(false)
@@ -288,17 +289,12 @@ const handleFormOk = async () => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    tableData.value = [{
-  username: 'admin',
-  description: '管理员',
-  isAdmin: true
-}, {
-  username: 'user',
-  description: '用户',
-  isAdmin: false  
-}]
-    pagination.total = 0
+    const res = await get('account.list', {
+      page: pagination.current,
+      pageSize: pagination.pageSize
+    })
+    tableData.value = res.data.list
+    pagination.total = res.data.total
   } finally {
     loading.value = false
   }
