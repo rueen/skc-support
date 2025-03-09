@@ -36,7 +36,7 @@
             </a-form-item>
             <a-form-item>
               <a-space>
-                <a-button type="primary" @click="handleQuery">查询</a-button>
+                <a-button type="primary" @click="handleSearch">查询</a-button>
                 <a-button @click="handleReset">重置</a-button>
               </a-space>
             </a-form-item>
@@ -58,7 +58,7 @@
 
       <a-table
         :columns="columns"
-        :data-source="dataSource"
+        :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -112,14 +112,13 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { PlusOutlined, GiftOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { get, post } from '@/utils/request'
 
 const router = useRouter()
-const { t, locale } = useI18n()
 const loading = ref(false)
 const configVisible = ref(false)
 const configLoading = ref(false)
@@ -133,24 +132,7 @@ const searchForm = reactive({
 })
 
 // 表格数据
-const dataSource = ref([
-  {
-    id: 1,
-    memberName: '张三',
-    account: 'test123',
-    groupName: '群组1',
-    isGroupOwner: true,
-    createTime: '2024-02-28 10:00:00'
-  },
-  {
-    id: 2,
-    memberName: '李四',
-    account: 'test456',
-    groupName: '群组2',
-    isGroupOwner: false,
-    createTime: '2024-02-28 11:00:00'
-  }
-])
+const tableData = ref([])
 
 const pagination = reactive({
   current: 1,
@@ -159,11 +141,7 @@ const pagination = reactive({
 })
 
 // 群组选项
-const groupOptions = [
-  { id: 1, name: '群组1' },
-  { id: 2, name: '群组2' },
-  { id: 3, name: '群组3' }
-]
+const groupOptions = ref([])
 
 // 表格列定义
 const columns = [
@@ -196,10 +174,10 @@ const columns = [
   }
 ]
 
-// 方法定义
-const handleQuery = () => {
-  // TODO: 实现查询逻辑
-  pagination.total = dataSource.value.length
+// 搜索
+const handleSearch = () => {
+  pagination.current = 1
+  loadData()
 }
 
 const handleReset = () => {
@@ -208,13 +186,13 @@ const handleReset = () => {
     account: '',
     groupId: undefined
   })
-  handleQuery()
+  handleSearch()
 }
 
 const handleTableChange = (pag) => {
   pagination.current = pag.current
   pagination.pageSize = pag.pageSize
-  handleQuery()
+  loadData()
 }
 
 const handleAdd = () => {
@@ -233,7 +211,7 @@ const handleDelete = async (record) => {
   try {
     // TODO: 实现删除逻辑
     message.success('删除成功')
-    handleQuery()
+    loadData()
   } catch (error) {
     message.error('删除失败')
   }
@@ -269,8 +247,51 @@ const getInviteRewardConfig = async () => {
   }
 }
 
+const loadData = async () => {
+  loading.value = true
+  try {
+    // TODO: 实现数据加载逻辑
+    const res = await get('member.list', {
+      params: {
+        page: pagination.current,
+        pageSize: pagination.pageSize,
+        ...searchForm
+      }
+    })
+    if(res.success) {
+      tableData.value = res.data.list
+      pagination.total = res.data.total
+    } else {
+      message.error(res.message)
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+// 获取群组列表
+const loadGroupOptions = async (keyword = '') => {
+  try {
+    const res = await get('group.list', {
+      params: {
+        page: 1,
+        pageSize: 50,
+        keyword
+      }
+    })  
+    if(res.success){
+      groupOptions.value = res.data.list || []
+    }
+  } catch (error) {
+    message.error('获取会员列表失败')
+  }
+}
+
 // 初始化
-handleQuery()
+onMounted(() => {
+  loadData()
+  loadGroupOptions()
+})
 </script>
 
 <style lang="less" scoped>
