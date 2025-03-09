@@ -20,7 +20,6 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handlePermission(record)" v-if="!record.isAdmin">权限设置</a>
               <a @click="handleEdit(record)" v-if="!record.isAdmin">编辑</a>
               <a-popconfirm
                 title="确定要删除该账号吗？"
@@ -37,7 +36,7 @@
 
     <!-- 添加/编辑账号弹窗 -->
     <a-modal
-      v-model:visible="formVisible"
+      v-model:open="formVisible"
       :title="formTitle"
       :confirmLoading="formLoading"
       @ok="handleFormOk"
@@ -65,67 +64,18 @@
             placeholder="请输入密码"
           />
         </a-form-item>
-        <a-form-item label="账号说明" name="description">
+        <a-form-item label="备注" name="remarks">
           <a-textarea
-            v-model:value="formData.description"
-            placeholder="请输入账号说明"
-            :rows="4"
+            v-model:value="formData.remarks"
+            placeholder="请输入备注"
+            :rows="3"
           />
         </a-form-item>
-      </a-form>
-    </a-modal>
-
-    <!-- 权限设置弹窗 -->
-    <a-modal
-      v-model:visible="permissionVisible"
-      title="权限设置"
-      :width="700"
-      :confirmLoading="permissionLoading"
-      @ok="handlePermissionOk"
-    >
-      <a-form :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
-        <a-form-item label="导航权限">
-          <a-checkbox-group v-model:value="permissionData.menus">
-            <a-checkbox v-for="menu in menuOptions" :key="menu.key" :value="menu.key">
-              {{ menu.title }}
+        <a-form-item label="权限" name="permissions">
+          <a-checkbox-group v-model:value="formData.permissions">
+            <a-checkbox v-for="option in permissionsOptions" :key="option.title" :value="option.permissions">
+              {{ $t('menu.' + option.title) }}
             </a-checkbox>
-          </a-checkbox-group>
-        </a-form-item>
-        <a-form-item label="任务权限">
-          <a-checkbox-group v-model:value="permissionData.task">
-            <a-checkbox value="create">新增任务</a-checkbox>
-            <a-checkbox value="edit">编辑任务</a-checkbox>
-            <a-checkbox value="view">查看任务</a-checkbox>
-            <a-checkbox value="delete">删除任务</a-checkbox>
-          </a-checkbox-group>
-        </a-form-item>
-        <a-form-item label="任务审核">
-          <a-checkbox-group v-model:value="permissionData.taskAudit">
-            <a-checkbox value="view">查看任务</a-checkbox>
-            <a-checkbox value="approve">审核通过</a-checkbox>
-            <a-checkbox value="reject">审核拒绝</a-checkbox>
-          </a-checkbox-group>
-        </a-form-item>
-        <a-form-item label="会员权限">
-          <a-checkbox-group v-model:value="permissionData.member">
-            <a-checkbox value="create">添加会员</a-checkbox>
-            <a-checkbox value="view">查看会员</a-checkbox>
-            <a-checkbox value="edit">编辑会员</a-checkbox>
-            <a-checkbox value="delete">删除会员</a-checkbox>
-          </a-checkbox-group>
-        </a-form-item>
-        <a-form-item label="账号审核">
-          <a-checkbox-group v-model:value="permissionData.accountAudit">
-            <a-checkbox value="approve">审核通过</a-checkbox>
-            <a-checkbox value="reject">审核拒绝</a-checkbox>
-          </a-checkbox-group>
-        </a-form-item>
-        <a-form-item label="群组权限">
-          <a-checkbox-group v-model:value="permissionData.group">
-            <a-checkbox value="create">添加群组</a-checkbox>
-            <a-checkbox value="view">查看群组</a-checkbox>
-            <a-checkbox value="edit">编辑群组</a-checkbox>
-            <a-checkbox value="delete">删除群组</a-checkbox>
           </a-checkbox-group>
         </a-form-item>
       </a-form>
@@ -143,25 +93,13 @@ const formVisible = ref(false)
 const formLoading = ref(false)
 const formType = ref('add') // add, edit
 const formRef = ref()
-const permissionVisible = ref(false)
-const permissionLoading = ref(false)
-const currentRecord = ref(null)
 
 // 表单数据
 const formData = reactive({
   username: '',
   password: '',
-  description: ''
-})
-
-// 权限数据
-const permissionData = reactive({
-  menus: [],
-  task: [],
-  taskAudit: [],
-  member: [],
-  accountAudit: [],
-  group: []
+  remarks: '',
+  permissions: []
 })
 
 // 表单校验规则
@@ -170,17 +108,25 @@ const rules = {
   password: [{ required: true, message: '请输入密码', trigger: 'change' }]
 }
 
-// 导航菜单选项
-const menuOptions = [
-  { key: 'task', title: '任务管理' },
-  { key: 'taskAudit', title: '任务审核' },
-  { key: 'accountAudit', title: '账号审核' },
-  { key: 'member', title: '会员管理' },
-  { key: 'settlement', title: '结算管理' },
-  { key: 'channel', title: '渠道管理' },
-  { key: 'group', title: '群组管理' },
-  { key: 'account', title: '账号管理' },
-  { key: 'article', title: '文章管理' }
+// 权限选项
+const permissionsOptions = [
+  { title: 'task', permissions: 'task:list' },
+  { title: 'taskCreate', permissions: 'task:create' },
+  { title: 'taskEdit', permissions: 'task:edit' },
+  { title: 'taskView', permissions: 'task:view' },
+  { title: 'accountAudit', permissions: 'account:audit' },
+  { title: 'taskAudit', permissions: 'task:audit' },
+  { title: 'taskAuditDetail', permissions: 'task:auditDetail' },
+  { title: 'member', permissions: 'member:list' },
+  { title: 'memberCreate', permissions: 'member:create' },
+  { title: 'memberEdit', permissions: 'member:edit' },
+  { title: 'memberView', permissions: 'member:view' },
+  { title: 'channel', permissions: 'channel:list' },
+  { title: 'group', permissions: 'group:list' },
+  { title: 'withdrawal', permissions: 'settlement:withdrawal' },
+  { title: 'otherBills', permissions: 'settlement:otherBills' },
+  { title: 'account', permissions: 'account:list' },
+  { title: 'article', permissions: 'article:list' }
 ]
 
 // 表格列配置
@@ -191,9 +137,9 @@ const columns = [
     key: 'username'
   },
   {
-    title: '账号说明',
-    dataIndex: 'description',
-    key: 'description'
+    title: '备注',
+    dataIndex: 'remarks',
+    key: 'remarks'
   },
   {
     title: '操作',
@@ -224,7 +170,8 @@ const handleAdd = () => {
   formType.value = 'add'
   formData.username = ''
   formData.password = ''
-  formData.description = ''
+  formData.remarks = ''
+  formData.permissions = []
   formVisible.value = true
 }
 
@@ -233,7 +180,8 @@ const handleEdit = (record) => {
   formType.value = 'edit'
   formData.username = record.username
   formData.password = ''
-  formData.description = record.description
+  formData.remarks = record.remarks
+  formData.permissions = record.permissions
   formVisible.value = true
 }
 
@@ -248,29 +196,9 @@ const handleDelete = async (record) => {
   }
 }
 
-// 权限设置
-const handlePermission = (record) => {
-  currentRecord.value = record
-  // TODO: 获取当前账号的权限设置
-  permissionVisible.value = true
-}
-
-// 确认权限设置
-const handlePermissionOk = async () => {
-  try {
-    permissionLoading.value = true
-    // TODO: 实现权限保存逻辑
-    message.success('权限设置成功')
-    permissionVisible.value = false
-  } catch (error) {
-    message.error('权限设置失败')
-  } finally {
-    permissionLoading.value = false
-  }
-}
-
 // 确认表单
 const handleFormOk = async () => {
+  console.log(formData)
   try {
     await formRef.value.validate()
     formLoading.value = true

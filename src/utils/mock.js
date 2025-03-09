@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 12:13:59
+ * @LastEditTime: 2025-03-09 15:38:13
  * @Description: 模拟数据工具
  */
 
@@ -40,7 +40,7 @@ const mockData = {
             id: 1,
             username: 'admin',
             isAdmin: true,
-            description: '管理员',
+            remarks: '管理员',
             createdAt: '2021-01-01 12:00:00',
             updatedAt: '2021-01-01 12:00:00',
           },
@@ -48,7 +48,7 @@ const mockData = {
             id: 2,
             username: 'user',
             isAdmin: false,
-            description: '审核员',
+            remarks: '审核员',
             createdAt: '2021-01-01 12:00:00',
             updatedAt: '2021-01-01 12:00:00',
           },
@@ -72,7 +72,6 @@ const mockData = {
           permissions: [
             'task:list',
             'task:create',
-            'task:detail',
             'task:edit',
             'task:view',
             'task:audit',

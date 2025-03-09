@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 12:00:17
+ * @LastEditTime: 2025-03-09 15:37:32
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -36,13 +36,6 @@ const allMenu = [
     icon: 'team-outlined',
     title: 'member',
     permissions: 'member:list',
-  },
-  {
-    path: '/settlement',
-    key: 'settlement',
-    icon: 'pay-circle-outlined',
-    title: 'settlement',
-    permissions: 'settlement:list',
   },
   {
     path: '/channel',

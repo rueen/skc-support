@@ -7,8 +7,15 @@
  */
 export default {
   task: 'Task Management',
+  taskCreate: 'Create Task',
+  taskEdit: 'Edit Task',
+  taskView: 'View Task',
   taskAudit: 'Task Audit',
+  taskAuditDetail: 'Task Audit Detail',
   member: 'Member Management',
+  memberCreate: 'Create Member',
+  memberEdit: 'Edit Member',
+  memberView: 'View Member',
   group: 'Group Management',
   account: 'Account Management',
   article: 'Article Management',

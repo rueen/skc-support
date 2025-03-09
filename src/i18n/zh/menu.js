@@ -2,13 +2,20 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 11:43:24
+ * @LastEditTime: 2025-03-09 15:44:35
  * @Description: 
  */
 export default {
   task: '任务管理',
+  taskCreate: '创建任务',
+  taskEdit: '编辑任务',
+  taskView: '查看任务',
   taskAudit: '任务审核',
+  taskAuditDetail: '任务审核详情',
   member: '会员管理',
+  memberCreate: '创建会员',
+  memberEdit: '编辑会员',
+  memberView: '查看会员',
   group: '群组管理',
   account: '账号管理',
   article: '文章管理',
