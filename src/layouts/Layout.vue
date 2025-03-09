@@ -15,7 +15,14 @@
         theme="dark"
         mode="inline"
       >
-        <a-menu-item key="task">
+        <a-menu-item v-for="item in menuList" :key="item.key">
+          <template #icon>
+            <component :is="item.icon" />
+          </template>
+          <span>{{ $t(item.title) }}</span>
+          <router-link :to="item.path" />
+        </a-menu-item>
+        <!-- <a-menu-item key="task">
           <template #icon>
             <profile-outlined />
           </template>
@@ -82,7 +89,7 @@
           </template>
           <span>{{ $t('menu.article') }}</span>
           <router-link to="/article" />
-        </a-menu-item>
+        </a-menu-item> -->
       </a-menu>
     </a-layout-sider>
     
@@ -161,15 +168,17 @@ import {
   LinkOutlined,
   SafetyOutlined
 } from '@ant-design/icons-vue'
+import { useMenuStore } from '@/store/menu';
 
+const menuStore = useMenuStore();
+menuStore.generateMenu();
+const menuList = computed(() => menuStore.accessedMenu);
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 const { locale } = useI18n()
-
 const collapsed = ref(false)
 const userInfo = computed(() => userStore.userInfo)
-console.log(userStore.userInfo, 'userStore.userInfo')
 const currentLang = ref(locale.value)
 
 // 根据当前路由设置选中的菜单项

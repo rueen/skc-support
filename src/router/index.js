@@ -20,106 +20,111 @@ const routes = [
         path: 'task',
         component: () => import('@/views/task/list.vue'),
         name: 'TaskList',
-        meta: { title: '任务管理' }
+        meta: { requiresAuth: true, permissions: ['task:list'], title: '任务管理' }
       },
       {
         path: 'task/create',
         component: () => import('@/views/task/detail.vue'),
         name: 'TaskCreate',
-        meta: { title: '新增任务', hidden: true }
+        meta: { requiresAuth: true, permissions: ['task:create'], title: '新增任务', hidden: true }
       },
       {
         path: 'task/edit/:id',
         component: () => import('@/views/task/detail.vue'),
         name: 'TaskEdit',
-        meta: { title: '编辑任务', hidden: true }
+        meta: { requiresAuth: true, permissions: ['task:edit'], title: '编辑任务', hidden: true }
       },
       {
         path: 'task/view/:id',
         component: () => import('@/views/task/view.vue'),
         name: 'TaskView',
-        meta: { title: '任务详情', hidden: true }
+        meta: { requiresAuth: true, permissions: ['task:view'], title: '任务详情', hidden: true }
       },
       {
         path: 'task-audit',
         name: 'TaskAudit',
         component: () => import('@/views/task-audit/list.vue'),
-        meta: { title: '任务审核', icon: 'audit', permission: ['task.audit'] }
+        meta: { requiresAuth: true, permissions: ['task:audit'], title: '任务审核', icon: 'audit', permission: ['task.audit'] }
       },
       {
         path: 'task-audit/detail/:id',
         name: 'TaskAuditDetail',
         component: () => import('@/views/task-audit/detail.vue'),
-        meta: { title: '任务审核详情', hidden: true }
+        meta: { requiresAuth: true, permissions: ['task:auditDetail'], title: '任务审核详情', hidden: true }
       },
       {
         path: 'account-audit',
         name: 'AccountAudit',
         component: () => import('@/views/account-audit/list.vue'),
-        meta: { title: '任务审核', icon: 'audit', permission: ['task.audit'] }
+        meta: { requiresAuth: true, permissions: ['account:audit'], title: '任务审核', icon: 'audit', permission: ['task.audit'] }
       },
       {
         path: 'member',
         component: () => import('@/views/member/list.vue'),
         name: 'MemberList',
-        meta: { title: '会员管理' }
+        meta: { requiresAuth: true, permissions: ['member:list'], title: '会员管理' }
       },
       {
         path: 'member/create',
         component: () => import('@/views/member/detail.vue'),
         name: 'MemberCreate',
-        meta: { title: '新增会员', hidden: true }
+        meta: { requiresAuth: true, permissions: ['member:create'], title: '新增会员', hidden: true }
       },
       {
         path: 'member/edit/:id',
         component: () => import('@/views/member/detail.vue'),
         name: 'MemberEdit',
-        meta: { title: '编辑会员', hidden: true }
+        meta: { requiresAuth: true, permissions: ['member:edit'], title: '编辑会员', hidden: true }
       },
       {
         path: 'member/view/:id',
         component: () => import('@/views/member/view.vue'),
         name: 'MemberView',
-        meta: { title: '会员详情', hidden: true }
+        meta: { requiresAuth: true, permissions: ['member:view'], title: '会员详情', hidden: true }
       },
       {
         path: 'group',
         component: () => import('@/views/group/index.vue'),
         name: 'Group',
-        meta: { title: '群组管理' }
+        meta: { requiresAuth: true, permissions: ['group:list'], title: '群组管理' }
       },
       {
         path: 'account',
         component: () => import('@/views/account/index.vue'),
         name: 'Account',
-        meta: { title: '账号管理' }
+        meta: { requiresAuth: true, permissions: ['account:list'], title: '账号管理' }
       },
       {
         path: 'article',
         component: () => import('@/views/article/index.vue'),
         name: 'Article',
-        meta: { title: '文章管理' }
+        meta: { requiresAuth: true, permissions: ['article:list'], title: '文章管理' }
       },
       {
         path: 'settlement/withdrawal',
         component: () => import('@/views/settlement/withdrawal.vue'),
         name: 'Withdrawal',
-        meta: { title: '提现账单' }
+        meta: { requiresAuth: true, permissions: ['settlement:withdrawal'], title: '提现账单' }
       },
       {
         path: 'settlement/other',
         component: () => import('@/views/settlement/other.vue'),
         name: 'Other',
-        meta: { title: '其他账单' }
+        meta: { requiresAuth: true, permissions: ['settlement:other'], title: '其他账单' }
       },
       {
         path: 'channel',
         name: 'Channel',
         component: () => import('@/views/channel/index.vue'),
-        meta: { title: '渠道管理', icon: 'link', permission: ['channel.view'] }
+        meta: { requiresAuth: true, permissions: ['channel:list'], title: '渠道管理' }
       }
     ]
-  }
+  },
+  {
+    path: '/403',
+    component: () => import('@/views/403.vue'),
+    meta: { requiresAuth: false, title: '无权限' },
+  },
 ]
 
 const router = createRouter({
@@ -130,18 +135,28 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
   const userStore = useUserStore()
-  if (userStore.token) {
-    if (to.path === '/login') {
-      next({ path: '/' })
-    } else {
-      next()
+  const token = userStore.token
+  // 如果页面需要认证
+  if (to.meta.requiresAuth) {
+    // 如果没有 token，重定向到登录页
+    if (!token) {
+      next({ path: '/login', query: { redirect: to.fullPath } });
+      return;
     }
+
+    // 检查页面权限
+    if (to.meta.permissions) {
+      const hasPermission = userStore.hasPermissions(to.meta.permissions);
+      if (!hasPermission) {
+        next({ path: '/403' });
+        return;
+      }
+    }
+    
+    next();
   } else {
-    if (to.path === '/login') {
-      next()
-    } else {
-      next('/login')
-    }
+    // 如果页面不需要认证
+    next();
   }
 })
 
