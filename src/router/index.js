@@ -101,15 +101,15 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['article:list'], title: '文章管理' }
       },
       {
-        path: 'settlement/withdrawal',
+        path: 'withdrawal',
         component: () => import('@/views/settlement/withdrawal.vue'),
         name: 'Withdrawal',
         meta: { requiresAuth: true, permissions: ['settlement:withdrawal'], title: '提现账单' }
       },
       {
-        path: 'settlement/other',
+        path: 'otherBills',
         component: () => import('@/views/settlement/other.vue'),
-        name: 'Other',
+        name: 'OtherBills',
         meta: { requiresAuth: true, permissions: ['settlement:other'], title: '其他账单' }
       },
       {

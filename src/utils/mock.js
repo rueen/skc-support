@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 11:30:07
+ * @LastEditTime: 2025-03-09 11:47:37
  * @Description: 模拟数据工具
  */
 
@@ -56,7 +56,7 @@ const mockData = {
             'account:list',
             'article:list',
             'settlement:withdrawal',
-            'settlement:other',
+            'settlement:otherBills',
             'channel:list'
           ],
         },

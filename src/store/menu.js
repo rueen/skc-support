@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 11:21:18
+ * @LastEditTime: 2025-03-09 11:48:31
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -73,18 +73,18 @@ const allMenu = [
     permissions: 'article:list',
   },
   {
-    path: '/settlement/withdrawal',
+    path: '/withdrawal',
     key: 'withdrawal',
     icon: 'pay-circle-outlined',
     title: 'withdrawal',
     permissions: 'settlement:withdrawal',
   },
   {
-    path: '/settlement/other',
-    key: 'other',
+    path: '/otherBills',
+    key: 'otherBills',
     icon: 'pay-circle-outlined',
-    title: 'other',
-    permissions: 'settlement:other',
+    title: 'otherBills',
+    permissions: 'settlement:otherBills',
   },
 ]
 export const useMenuStore = defineStore('menu', {

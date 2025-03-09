@@ -22,74 +22,6 @@
           <span>{{ $t('menu.' + item.title) }}</span>
           <router-link :to="item.path" />
         </a-menu-item>
-        <!-- <a-menu-item key="task">
-          <template #icon>
-            <profile-outlined />
-          </template>
-          <span>{{ $t('menu.task') }}</span>
-          <router-link to="/task" />
-        </a-menu-item>
-        <a-menu-item key="account-audit">
-          <template #icon>
-            <safety-outlined />
-          </template>
-          <span>{{ $t('menu.accountAudit') }}</span>
-          <router-link to="/account-audit" />
-        </a-menu-item>
-        <a-menu-item key="task-audit">
-          <template #icon>
-            <audit-outlined />
-          </template>
-          <span>{{ $t('menu.taskAudit') }}</span>
-          <router-link to="/task-audit" />
-        </a-menu-item>
-        <a-menu-item key="member">
-          <template #icon>
-            <team-outlined />
-          </template>
-          <span>{{ $t('menu.member') }}</span>
-          <router-link to="/member" />
-        </a-menu-item>
-        <a-sub-menu key="settlement">
-          <template #icon>
-            <pay-circle-outlined />
-          </template>
-          <template #title>{{ $t('menu.settlement') }}</template>
-          <a-menu-item key="withdrawal">
-            <router-link to="/settlement/withdrawal">{{ $t('menu.withdrawal') }}</router-link>
-          </a-menu-item>
-          <a-menu-item key="other">
-            <router-link to="/settlement/other">{{ $t('menu.other') }}</router-link>
-          </a-menu-item>
-        </a-sub-menu>
-        <a-menu-item key="channel">
-          <template #icon>
-            <link-outlined />
-          </template>
-          <span>{{ $t('menu.channel') }}</span>
-          <router-link to="/channel" />
-        </a-menu-item>
-        <a-menu-item key="group">
-          <template #icon>
-            <apartment-outlined />
-          </template>
-          <span>{{ $t('menu.group') }}</span>
-          <router-link to="/group" />
-        </a-menu-item>
-        <a-menu-item key="account">
-          <template #icon>
-            <user-outlined />
-          </template>
-          <span>{{ $t('menu.account') }}</span>
-          <router-link to="/account" />
-        </a-menu-item>
-        <a-menu-item key="article">
-          <template #icon>
-            <file-text-outlined />
-          </template>
-          <span>{{ $t('menu.article') }}</span>
-          <router-link to="/article" />
-        </a-menu-item> -->
       </a-menu>
     </a-layout-sider>
     
@@ -202,9 +134,6 @@ const currentLang = ref(locale.value)
 // 根据当前路由设置选中的菜单项
 const selectedKeys = computed(() => {
   const path = route.path
-  if (path.startsWith('/settlement/')) {
-    return [path.split('/')[2]]
-  }
   // 修改为返回一级路径作为 key
   return [path.split('/')[1] || 'task-audit']
 })
