@@ -109,6 +109,7 @@ import {
   TaskStatusColor,
   getLangText
 } from '@/constants/enums'
+import { get } from '@/utils/request'
 
 const router = useRouter()
 const { locale } = useI18n()
@@ -122,10 +123,7 @@ const searchForm = reactive({
 })
 
 // 渠道选项
-const channelOptions = [
-  { id: 1, name: '抖音' },
-  { id: 2, name: '快手' }
-]
+const channelOptions = ref([])
 
 // 表格列配置
 const columns = [
@@ -158,15 +156,7 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    taskName: '测试任务1',
-    channelName: '抖音',
-    status: TaskStatus.NOT_STARTED,
-    createTime: '2024-03-01 10:00:00'
-  }
-])
+const tableData = ref([])
 
 const pagination = reactive({
   current: 1,
@@ -216,9 +206,13 @@ const handleView = (record) => {
 
 const handleDelete = async (record) => {
   try {
-    // TODO: 实现删除逻辑
-    message.success('删除成功')
-    loadData()
+    const res = await get('task.delete', { id: record.id })
+    if(res.success){
+      message.success('删除成功')
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('删除失败')
   }
@@ -248,14 +242,27 @@ const handleExport = () => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    pagination.total = tableData.value.length
+    const res = await get('task.list', searchForm)
+    if(res.success){
+      tableData.value = res.data.list
+      pagination.total = res.data.total
+    } else {
+      message.error(res.message)
+    }
   } finally {
     loading.value = false
   }
 }
 
+const getChannelList = async () => {
+  const res = await get('channel.list')
+  if(res.success){
+    channelOptions.value = res.data.list
+  } 
+}
+
 // 初始化加载
+getChannelList()
 loadData()
 </script>
 

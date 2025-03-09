@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 16:19:16
+ * @LastEditTime: 2025-03-09 16:45:11
  * @Description: 模拟数据工具
  */
 
@@ -16,7 +16,20 @@ const mockData = {
       code: 0,
       success: true,
       message: '',
-      data: {},
+      data: {
+        total: 100,
+        list: [
+          {
+            id: 1,
+            taskName: '测试任务1',
+            channelName: 'facebook',
+            status: 'not_started',
+            createTime: '2024-03-01 10:00:00'
+          },
+        ],
+        page: 1,
+        pageSize: 10,
+      },
     };
   },
   'task.detail': (params) => {
