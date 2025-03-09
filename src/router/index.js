@@ -110,7 +110,7 @@ const routes = [
         path: 'otherBills',
         component: () => import('@/views/settlement/other.vue'),
         name: 'OtherBills',
-        meta: { requiresAuth: true, permissions: ['settlement:other'], title: '其他账单' }
+        meta: { requiresAuth: true, permissions: ['settlement:otherBills'], title: '其他账单' }
       },
       {
         path: 'channel',

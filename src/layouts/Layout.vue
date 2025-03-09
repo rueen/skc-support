@@ -53,8 +53,7 @@
               </a-select>
               <a-dropdown>
                 <a class="ant-dropdown-link" @click.prevent>
-                  <a-avatar>{{ userInfo.name?.charAt(0) }}</a-avatar>
-                  <span class="username">{{ userInfo.name }}</span>
+                  <span class="username">{{ userInfo.username }}</span>
                 </a>
                 <template #overlay>
                   <a-menu>
