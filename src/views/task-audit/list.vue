@@ -120,7 +120,7 @@
 
     <!-- 查看详情弹窗 -->
     <a-modal
-      v-model:visible="detailVisible"
+      v-model:open="detailVisible"
       title="任务详情"
       :footer="null"
     >
@@ -135,7 +135,7 @@
 
     <!-- 拒绝原因弹窗 -->
     <a-modal
-      v-model:visible="rejectVisible"
+      v-model:open="rejectVisible"
       title="拒绝原因"
       @ok="handleRejectConfirm"
       :confirmLoading="rejectLoading"

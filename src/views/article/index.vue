@@ -19,7 +19,7 @@
 
     <!-- 编辑文章弹窗 -->
     <a-modal
-      v-model:visible="modalVisible"
+      v-model:open="modalVisible"
       title="编辑文章"
       :width="800"
       :confirmLoading="modalLoading"

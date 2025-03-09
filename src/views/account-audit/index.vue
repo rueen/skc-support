@@ -72,7 +72,7 @@
 
     <!-- 账号详情弹窗 -->
     <a-modal
-      v-model:visible="detailModalVisible"
+      v-model:open="detailModalVisible"
       title="账号详情"
       :footer="null"
       width="600px"
@@ -100,7 +100,7 @@
 
     <!-- 拒绝原因弹窗 -->
     <a-modal
-      v-model:visible="rejectModalVisible"
+      v-model:open="rejectModalVisible"
       title="审核拒绝"
       @ok="handleRejectConfirm"
     >
