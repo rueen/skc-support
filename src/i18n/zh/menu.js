@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 14:26:07
+ * @LastEditTime: 2025-03-10 14:29:50
  * @Description: 
  */
 export default {
@@ -23,5 +23,5 @@ export default {
   withdrawal: '提现账单',
   otherBills: '其他账单',
   channel: '渠道管理',
-  account: '账号管理'
+  account: '账号审核'
 } 

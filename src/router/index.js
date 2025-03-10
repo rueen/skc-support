@@ -50,7 +50,7 @@ const routes = [
         path: 'account',
         name: 'Account',
         component: () => import('@/views/account/list.vue'),
-        meta: { requiresAuth: true, permissions: ['account:list'], title: '账号管理', permission: ['account.list'] }
+        meta: { requiresAuth: true, permissions: ['account:list'], title: '账号审核', permission: ['account.list'] }
       },
       {
         path: 'member',
