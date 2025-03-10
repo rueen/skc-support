@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 13:56:12
+ * @LastEditTime: 2025-03-10 14:22:23
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -24,11 +24,11 @@ const allMenu = [
     permissions: 'task:audit',
   },
   {
-    path: '/account-audit',
-    key: 'account-audit',
+    path: '/account',
+    key: 'account',
     icon: 'safety-outlined',
-    title: 'accountAudit',
-    permissions: 'account:audit',
+    title: 'account',
+    permissions: 'account:list',
   },
   {
     path: '/member',

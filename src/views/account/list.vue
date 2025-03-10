@@ -1,5 +1,5 @@
 <template>
-  <div class="account-audit content-container">
+  <div class="account content-container">
     <div class="table-container">
       <div class="table-header">
         <div class="left">
@@ -399,7 +399,7 @@ loadData()
 </script>
 
 <style lang="less" scoped>
-.account-audit {
+.account {
   .table-container {
     background-color: #fff;
     padding: 24px;

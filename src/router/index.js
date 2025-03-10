@@ -47,10 +47,10 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['task:auditDetail'], title: '任务审核详情', hidden: true }
       },
       {
-        path: 'account-audit',
-        name: 'AccountAudit',
-        component: () => import('@/views/account-audit/list.vue'),
-        meta: { requiresAuth: true, permissions: ['account:audit'], title: '任务审核', icon: 'audit', permission: ['task.audit'] }
+        path: 'account',
+        name: 'Account',
+        component: () => import('@/views/account/list.vue'),
+        meta: { requiresAuth: true, permissions: ['account:list'], title: '账号管理', icon: 'audit', permission: ['account.list'] }
       },
       {
         path: 'member',

@@ -1,5 +1,5 @@
 <template>
-  <div class="account-audit">
+  <div class="account">
     <div class="table-operations">
       <a-form layout="inline" :model="queryParams">
         <a-form-item label="账号名称">
@@ -266,7 +266,7 @@ const handleBatchApprove = async () => {
 </script>
 
 <style lang="less" scoped>
-.account-audit {
+.account {
   .table-operations {
     margin-bottom: 16px;
     display: flex;
