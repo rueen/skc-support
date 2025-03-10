@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 16:17:56
+ * @LastEditTime: 2025-03-10 16:26:11
  * @Description: API 路径配置
  */
 const API_PATH = {

@@ -225,10 +225,45 @@ const handleNext = () => {
   // TODO: 实现下一个逻辑
 }
 
+// 获取任务详情
+const getTaskDetail = async (taskId) => {
+  try {
+    const res = await get('task.detail', {
+      params: {
+        id: taskId
+      }
+    })
+    if(res.success) {
+      Object.assign(taskInfo, res.data)
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error('获取任务详情失败')
+  }
+}
+
+// 获取会员详情
+const getMemberDetail = async (memberId) => {
+  try {
+    const res = await get('member.detail', {
+      params: {
+        id: memberId
+      }
+    })
+    if(res.success) {
+      Object.assign(memberInfo, res.data)
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error('获取会员详情失败')
+  }
+}
+
 // 获取详情
 const getDetail = async (id) => {
   try {
-    // TODO: 实现获取详情逻辑
     const res = await get('taskSubmitted.detail', {
       params: {
         id
@@ -236,6 +271,13 @@ const getDetail = async (id) => {
     })
     if(res.success) {
       Object.assign(taskSubmittedInfo, res.data)
+      // 获取关联的任务和会员信息
+      if(res.data.relatedTaskId) {
+        await getTaskDetail(res.data.relatedTaskId)
+      }
+      if(res.data.relatedMemberId) {
+        await getMemberDetail(res.data.relatedMemberId)
+      }
     }
   } catch (error) {
     message.error('获取详情失败')
