@@ -60,14 +60,15 @@
       <div class="detail-section">
         <div class="section-title">审核信息</div>
         <a-descriptions :column="2">
-          <a-descriptions-item label="报名时间">{{ auditInfo.applyTime }}</a-descriptions-item>
+          <a-descriptions-item label="报名时间">{{ taskSubmittedInfo.applyTime }}</a-descriptions-item>
+          <a-descriptions-item label="提交时间">{{ taskSubmittedInfo.submitTime }}</a-descriptions-item>
           <a-descriptions-item label="审核状态">
-            <a-tag :color="getTaskAuditStatusColor(auditInfo.status)">
-              {{ getTaskAuditStatusText(auditInfo.status) }}
+            <a-tag :color="getTaskAuditStatusColor(taskSubmittedInfo.auditStatus)">
+              {{ getTaskAuditStatusText(taskSubmittedInfo.auditStatus) }}
             </a-tag>
           </a-descriptions-item>
-          <template v-if="auditInfo.status === TaskAuditStatus.REJECTED">
-            <a-descriptions-item label="拒绝原因">{{ auditInfo.rejectReason }}</a-descriptions-item>
+          <template v-if="taskSubmittedInfo.auditStatus === TaskAuditStatus.REJECTED">
+            <a-descriptions-item label="拒绝原因">{{ taskSubmittedInfo.rejectReason }}</a-descriptions-item>
           </template>
         </a-descriptions>
       </div>
@@ -79,14 +80,14 @@
             <a-button
               type="primary"
               @click="handleResolve"
-              v-if="auditInfo.status === TaskAuditStatus.PENDING"
+              v-if="taskSubmittedInfo.auditStatus === TaskAuditStatus.PENDING"
             >
               审核通过
             </a-button>
             <a-button
               danger
               @click="handleReject"
-              v-if="auditInfo.status === TaskAuditStatus.PENDING"
+              v-if="taskSubmittedInfo.auditStatus === TaskAuditStatus.PENDING"
             >
               审核拒绝
             </a-button>
@@ -124,7 +125,6 @@ import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import {
-  TaskType,
   TaskTypeLang,
   TaskAuditStatus,
   TaskAuditStatusLang,
@@ -142,23 +142,13 @@ const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
 
+// 已提交任务信息
+const taskSubmittedInfo = reactive({})
 // 任务信息
 const taskInfo = reactive({})
 
 // 会员信息
-const memberInfo = reactive({
-  nickname: '测试会员',
-  account: 'test123',
-  groupName: '群组1',
-  isGroupOwner: true
-})
-
-// 审核信息
-const auditInfo = reactive({
-  applyTime: '2024-03-01 10:00:00',
-  status: TaskAuditStatus.PENDING,
-  rejectReason: ''
-})
+const memberInfo = reactive({})
 
 // 获取文本方法
 const getTaskTypeText = (type) => {
@@ -245,7 +235,7 @@ const getDetail = async (id) => {
       }
     })
     if(res.success) {
-      Object.assign(taskInfo, res.data)
+      Object.assign(taskSubmittedInfo, res.data)
     }
   } catch (error) {
     message.error('获取详情失败')
