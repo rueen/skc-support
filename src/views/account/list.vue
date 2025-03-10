@@ -279,22 +279,12 @@ const onSelectChange = (keys) => {
 
 // 获取状态文本
 const getAccountAuditStatusText = (status) => {
-  const map = {
-    [AccountAuditStatus.PENDING]: '待审核',
-    [AccountAuditStatus.APPROVED]: '已通过',
-    [AccountAuditStatus.REJECTED]: '已拒绝'
-  }
-  return map[status] || status
+  return getLangText(AccountAuditStatusLang, status, locale.value)
 }
 
 // 获取状态颜色
 const getAccountAuditStatusColor = (status) => {
-  const map = {
-    [AccountAuditStatus.PENDING]: 'warning',
-    [AccountAuditStatus.APPROVED]: 'success',
-    [AccountAuditStatus.REJECTED]: 'error'
-  }
-  return map[status]
+  return AccountAuditStatusColor[status]
 }
 
 // 搜索
