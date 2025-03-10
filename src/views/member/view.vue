@@ -38,7 +38,7 @@
       <div class="section">
         <div class="section-title">账号信息</div>
         <div class="account-list">
-          <div v-for="account in memberInfo.channelAccountList" :key="account.channelId">
+          <div v-for="account in accountList" :key="account.channelId">
             <a-descriptions :column="1">
               <a-descriptions-item label="账号">{{ account.username }}</a-descriptions-item>
               <a-descriptions-item label="平台">{{ account.channelName }}</a-descriptions-item>
@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
@@ -107,9 +107,8 @@ import { get } from '@/utils/request'
 const route = useRoute()
 
 // 会员信息
-const memberInfo = ref({
-  channelAccountList: [] // 初始化账号列表
-})
+const memberInfo = reactive({})
+const accountList = ref([])
 
 // 复制文本
 const handleCopy = (text) => {
@@ -129,7 +128,7 @@ const getMemberDetail = async (id) => {
       }
     })
     if(res.success){
-      memberInfo.value = res.data || {}
+      Object.assign(memberInfo, res.data || {})
     }
   } catch (error) {
     message.error('获取会员详情失败')

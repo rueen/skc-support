@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 17:12:49
+ * @LastEditTime: 2025-03-10 18:51:16
  * @Description: 模拟数据工具
  */
 
@@ -210,7 +210,7 @@ const mockData = {
             groupId: 1,
             groupName: '群组1',
             isGroupOwner: true,
-            channelAccountList: [
+            accountList: [
               {
                 account: 'test123',
                 homeUrl: 'https://example.com/test123',
@@ -267,22 +267,6 @@ const mockData = {
         inviteUrl: 'https://example.com/invite/ABC123',
         inviterId: '1',
         inviterName: '李四',
-        channelAccountList: [
-          {
-            account: 'test123',
-            channelId: '1',
-            channelName: 'facebook',
-            channelIcon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
-            homeUrl: 'https://example.com/test123',
-          },
-          {
-            account: 'test123',
-            channelId: '2',
-            channelName: 'instagram',
-            channelIcon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
-            homeUrl: 'https://example.com/test123',
-          },
-        ],
         createTime: '2024-02-28 10:00:00',
         updateTime: '2024-02-28 10:00:00',
       },

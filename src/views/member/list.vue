@@ -57,9 +57,9 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'channelAccountList'">
+          <template v-if="column.key === 'accountList'">
             <div style="display: inline-block;">
-              <div v-for="item in record.channelAccountList">
+              <div v-for="item in record.accountList">
                 <div>账号：{{ item.account }}</div>
                 <div class="link-text-container">
                   <span class="label">主页：</span>
@@ -158,7 +158,7 @@ const columns = [
   },
   {
     title: '账号信息',
-    key: 'channelAccountList'
+    key: 'accountList'
   },
   {
     title: '所属群组',
