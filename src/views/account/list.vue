@@ -104,7 +104,6 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleView(record)">查看</a>
               <a-popconfirm
                 title="确定要通过该账号吗？"
                 @confirm="handleApprove(record)"
@@ -125,28 +124,6 @@
       </a-table>
     </div>
 
-    <!-- 查看详情弹窗 -->
-    <a-modal
-      v-model:open="detailVisible"
-      title="账号详情"
-      :footer="null"
-    >
-      <a-descriptions :column="1">
-        <a-descriptions-item label="账号">{{ currentRecord?.account }}</a-descriptions-item>
-        <a-descriptions-item label="平台渠道">{{ currentRecord?.channelName }}</a-descriptions-item>
-        <a-descriptions-item label="主页链接">
-          <a :href="currentRecord?.homeUrl" target="_blank">{{ currentRecord?.homeUrl }}</a>
-        </a-descriptions-item>
-        <a-descriptions-item label="粉丝数">{{ currentRecord?.fansCount }}</a-descriptions-item>
-        <a-descriptions-item label="发帖数">{{ currentRecord?.postsCount }}</a-descriptions-item>
-        <a-descriptions-item label="会员名称">
-          {{ currentRecord?.memberNickname }}
-          <a-tag v-if="currentRecord?.isGroupOwner" color="blue">群主</a-tag>
-        </a-descriptions-item>
-        <a-descriptions-item label="所属群组">{{ currentRecord?.groupName }}</a-descriptions-item>
-      </a-descriptions>
-    </a-modal>
-
     <!-- 拒绝原因弹窗 -->
     <a-modal
       v-model:open="rejectVisible"
@@ -164,7 +141,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import {
@@ -173,11 +150,11 @@ import {
   AccountAuditStatusColor,
   getLangText
 } from '@/constants/enums'
+import { get } from '@/utils/request'
 
 const { locale } = useI18n()
 const loading = ref(false)
 const selectedKeys = ref([])
-const detailVisible = ref(false)
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
@@ -200,16 +177,10 @@ const searchForm = reactive({
 })
 
 // 渠道选项
-const channelOptions = [
-  { id: 1, name: '抖音' },
-  { id: 2, name: '快手' }
-]
+const channelOptions = ref([])
 
 // 群组选项
-const groupOptions = [
-  { id: 1, name: '群组1' },
-  { id: 2, name: '群组2' }
-]
+const groupOptions = ref([])
 
 // 表格列配置
 const columns = [
@@ -311,12 +282,6 @@ const handleTableChange = (pag) => {
   loadData()
 }
 
-// 查看详情
-const handleView = (record) => {
-  currentRecord.value = record
-  detailVisible.value = true
-}
-
 // 审核通过
 const handleApprove = async (record) => {
   try {
@@ -378,14 +343,55 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    pagination.total = tableData.value.length
+    const res = await get('account.list', {
+      params: {
+        page: pagination.current,
+        pageSize: pagination.pageSize,
+        ...searchForm
+      }
+    })
+    if(res.success) {
+      tableData.value = res.data.list
+      pagination.total = res.data.total
+    } else {
+      message.error(res.message)
+    }
   } finally {
     loading.value = false
   }
 }
 
+const loadChannelOptions = async () => {
+  const res = await get('channel.list')
+  if(res.success){
+    channelOptions.value = res.data.list
+  } 
+}
+
+// 获取群组列表
+const loadGroupOptions = async (keyword = '') => {
+  try {
+    const res = await get('group.list', {
+      params: {
+        page: 1,
+        pageSize: 50,
+        keyword
+      }
+    })  
+    if(res.success){
+      groupOptions.value = res.data.list || []
+    }
+  } catch (error) {
+    message.error('获取群组列表失败')
+  }
+}
+
 // 初始化
-loadData()
+onMounted(() => {
+  loadData()
+  loadGroupOptions()
+  loadChannelOptions()
+})
 </script>
 
 <style lang="less" scoped>

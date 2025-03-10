@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 14:25:07
+ * @LastEditTime: 2025-03-10 14:43:26
  * @Description: 模拟数据工具
  */
 
@@ -92,6 +92,34 @@ const mockData = {
       message: '',
     };
   },
+  // 账号相关接口
+  'account.list': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',  
+      data: {
+        total: 100,
+        list: [
+          {
+            id: 1,
+            account: 'test123',
+            channelName: '抖音',
+            channelId: 1,
+            homeUrl: 'https://example.com/test123',
+            fansCount: 1000,
+            postsCount: 50,
+            memberNickname: '测试会员1',
+            groupName: '群组1',
+            auditStatus: 'pending'
+          },
+        ],    
+        page: 1,
+        pageSize: 10,
+      },
+    };
+  },
+            
   // 会员相关接口
   'member.list': (params) => {
     return {

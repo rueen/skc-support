@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 13:53:10
+ * @LastEditTime: 2025-03-10 14:41:44
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -14,6 +14,10 @@ const API_PATH = {
     delete: '/tasks/delete',
     detail: '/tasks/detail',
     export: '/tasks/export',
+  },
+  // 账号相关接口
+  account: {
+    list: '/accounts/list',
   },
   // 会员相关接口
   member: {
