@@ -13,7 +13,7 @@
             </a-form-item>
             <a-form-item label="提现状态">
               <a-select
-                v-model:value="searchForm.status"
+                v-model:value="searchForm.withdrawalStatus"
                 placeholder="请选择状态"
                 style="width: 120px"
                 allow-clear
@@ -68,9 +68,9 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
-            <a-tag :color="WithdrawalStatusColor[record.status]">
-              {{ getWithdrawalStatusText(record.status) }}
+          <template v-if="column.key === 'withdrawalStatus'">
+            <a-tag :color="WithdrawalStatusColor[record.withdrawalStatus]">
+              {{ getWithdrawalStatusText(record.withdrawalStatus) }}
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
@@ -123,7 +123,7 @@ const failedReason = ref('')
 // 搜索表单
 const searchForm = reactive({
   memberNickname: '',
-  status: undefined,
+  withdrawalStatus: undefined,
   timeRange: []
 })
 
@@ -162,8 +162,8 @@ const columns = [
   },
   {
     title: '提现状态',
-    dataIndex: 'status',
-    key: 'status'
+    dataIndex: 'withdrawalStatus',
+    key: 'withdrawalStatus'
   },
   {
     title: '操作',
@@ -196,7 +196,7 @@ const handleSearch = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     memberNickname: '',
-    status: undefined,
+    withdrawalStatus: undefined,
     timeRange: []
   })
   handleSearch()
@@ -323,7 +323,7 @@ const loadData = async () => {
       page: pagination.current,
       pageSize: pagination.pageSize,
       memberNickname: searchForm.memberNickname,
-      status: searchForm.status,
+      withdrawalStatus: searchForm.withdrawalStatus,
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1]
     }

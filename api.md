@@ -5,11 +5,11 @@
 - [通用说明](#通用说明)
 - [API 列表](#api-列表)
   - [任务管理](#任务管理)
-  - [已提交任务管理](#已提交任务管理)
+  - [已提交管理](#已提交管理)
   - [账号管理](#账号管理)
   - [会员管理](#会员管理)
   - [渠道管理](#渠道管理)
-  - [分组管理](#分组管理)
+  - [群管理](#群管理)
   - [结算管理](#结算管理)
   - [小二管理](#小二管理)
   - [用户管理](#用户管理)
@@ -49,8 +49,8 @@ Authorization: Bearer <token>
   {
     "page": 1,           // 页码
     "pageSize": 10,      // 每页条数
-    "keyword": "",       // 搜索关键词（可选）
-    "status": "",        // 任务状态（可选）
+    "taskName": "",      // 任务名称（可选）
+    "taskStatus": "",    // 任务状态（可选）
     "channelId": null    // 渠道ID（可选）
   }
   ```
@@ -110,7 +110,7 @@ Authorization: Bearer <token>
     "fansRequired": "10w+",
     "contentRequirement": "要求说明",
     "taskInfo": "任务说明",
-    "notice": "注意事项"
+    "notice": "温馨提示"
   }
   ```
 
@@ -144,7 +144,7 @@ Authorization: Bearer <token>
 - **描述**：导出任务数据
 - **请求参数**：支持与任务列表相同的筛选条件
 
-### 已提交任务管理
+### 已提交管理
 
 #### 获取已提交列表
 - **接口**：`GET /taskSubmitted/list`
@@ -156,7 +156,7 @@ Authorization: Bearer <token>
     "page": 1,           // 页码
     "pageSize": 10,      // 每页条数
     "taskName": "",      // 任务名称（可选）
-    "auditStatus": "",   // 任务审核状态 （可选）
+    "taskAuditStatus": "",   // 任务审核状态 （可选）
     "channelId": null,   // 渠道ID（可选）
     "groupId": null      // 所属群组
   }
@@ -179,7 +179,7 @@ Authorization: Bearer <token>
           "groupName": "群组1",
           "isGroupOwner": true,
           "reward": 100,
-          "auditStatus": "pending",
+          "taskAuditStatus": "pending",
           "createdAt": "2024-03-01 10:00:00",
           "updatedAt": "2024-03-01 10:00:00"
         }
@@ -193,7 +193,6 @@ Authorization: Bearer <token>
 #### 获取已提交详情
 - **接口**：`GET /taskSubmitted/detail`
 - **描述**：获取已提交详情
-- **请求参数**：支持分页和筛选
 - **请求参数**：
   ```json
   {
@@ -209,7 +208,7 @@ Authorization: Bearer <token>
     "data": {
       "relatedTaskId": 1,                  // 关联任务ID
       "relatedMemberId": 1,                // 关联会员ID
-      "auditStatus": "pending",            // 审核状态
+      "taskAuditStatus": "pending",            // 审核状态
       "applyTime": '2025-03-10 09:10:10',  // 报名时间
       "submitTime": '2025-03-10 09:10:10', // 提交时间
       "rejectReason": "",                  // 拒绝原因
@@ -239,7 +238,7 @@ Authorization: Bearer <token>
     "pageSize": 10,      // 每页条数
     "account": "",       // 账号（可选）
     "channelId": 1,      // 渠道ID（可选）
-    "auditStatus": "",   // 账号审核状态
+    "accountAuditStatus": "",   // 账号审核状态
     "groupId": 1         // 所属群ID
   }
   ```
@@ -264,7 +263,7 @@ Authorization: Bearer <token>
           "memberNickname": "测试会员1",
           "groupName": "群组1",
           "isGroupOwner": true,
-          "auditStatus": "pending",
+          "accountAuditStatus": "pending",
           "createdAt": "2024-03-01 10:00:00",
           "updatedAt": "2024-03-01 10:00:00"
         }
@@ -275,49 +274,280 @@ Authorization: Bearer <token>
   }
   ```
 
+#### 批量通过
+- **接口**：`POST /account/batchResolve`
+- **描述**：批量审核通过账号
+
+#### 批量拒绝
+- **接口**：`POST /account/batchReject`
+- **描述**：批量审核拒绝账号
+
 ### 会员管理
 
 #### 获取会员列表
 - **接口**：`GET /members/list`
 - **描述**：获取会员列表
 - **请求参数**：支持分页和筛选
+  ```json
+  {
+    "page": 1,           // 页码
+    "pageSize": 10,      // 每页条数
+    "memberNickname": "",      // 会员名称（可选）
+    "groupId": "",    // 所属群组（可选）
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "total": 100,
+      "list": [
+        {
+          "id": 1,
+          "memberNickname": "张三", // 会员昵称
+          "memberAccount": "test123", // 会员账号
+          "groupId": 1,
+          "groupName": "群组1",
+          "isGroupOwner": true,
+          "accountList": [
+            {
+              "account": "test123",
+              "homeUrl": "https://example.com/test123",
+            },
+            {
+              "account": "test123",
+              "homeUrl": "https://example.com/test123",
+            },
+          ],
+          "createdAt": "2024-03-01 10:00:00",
+          "updatedAt": "2024-03-01 10:00:00"
+        }
+      ],
+      "page": 1,
+      "pageSize": 10
+    }
+  }
+  ```
 
 #### 添加会员
 - **接口**：`POST /members/add`
 - **描述**：添加新会员
+- **请求参数**：
+  ```json
+  {
+    "memberNickname": "",           // 会员名称
+    "memberAccount": "",      // 会员账号
+    "groupId": 1,    // 所属群组ID
+    "inviterId": 1,  // 邀请人ID
+    "occupation": "student",  // 职业
+    "isGroupOwner": false, // 是否是群主
+  }
+  ```
 
 #### 编辑会员
 - **接口**：`PUT /members/edit`
 - **描述**：编辑会员信息
+- **请求参数**：与添加会员相同，需要额外传入 `id` 字段
 
 #### 删除会员
 - **接口**：`DELETE /members/delete`
 - **描述**：删除会员
+
+#### 获取会员详情
+- **接口**：`GET /members/detail`
+- **描述**：获取会员详情
+- **请求参数**：
+  ```json
+  {
+    "id": 1    // 会员ID
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "id": 1,
+      "memberNickname": "",           // 会员名称
+      "memberAccount": "",      // 会员账号
+      "groupId": 1,    // 所属群组ID
+      "groupName": "群组1",
+      "inviterId": 1,  // 邀请人ID
+      "inviterName": "李四",
+      "occupation": "student",  // 职业
+      "isGroupOwner": false, // 是否是群主
+      "inviteCode": "ABC123",
+      "inviteUrl": "https://example.com/invite/ABC123",
+    }
+  }
+  ```
 
 ### 渠道管理
 
 #### 获取渠道列表
 - **接口**：`GET /channels/list`
 - **描述**：获取渠道列表
-- **请求参数**：支持分页和筛选
+- **请求参数**：支持分页
+  ```json
+  {
+    "page": 1,           // 页码
+    "pageSize": 10,      // 每页条数
+    "keyword": "",      // 搜索关键字（可选）
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "total": 100,
+      "list": [
+        {
+          "id": 1,
+          "name": "facebook", 
+          "icon": "http://abc",
+          "createdAt": "2024-03-01 10:00:00",
+          "updatedAt": "2024-03-01 10:00:00"
+        }
+      ],
+      "page": 1,
+      "pageSize": 10
+    }
+  }
+  ```
 
 #### 添加渠道
 - **接口**：`POST /channels/add`
 - **描述**：添加新渠道
+- **请求参数**：
+  ```json
+  {
+    "name": "facebook", 
+    "icon": "http://abc",
+  }
+  ```
 
 #### 编辑渠道
 - **接口**：`PUT /channels/edit`
 - **描述**：编辑渠道信息
+- **请求参数**：与添加新渠道相同，需要额外传入 `id` 字段
 
 #### 删除渠道
 - **接口**：`DELETE /channels/delete`
 - **描述**：删除渠道
+
+### 群管理
+
+#### 群列表
+- **接口**：`GET /group/list`
+- **描述**：获取群列表
+- **请求参数**：支持分页和筛选
+  ```json
+  {
+    "page": 1,           // 页码
+    "pageSize": 10,      // 每页条数
+    "groupName": "",      // 群名称（可选）
+    "ownerId": "",    // 群主ID（可选）
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "total": 100,
+      "list": [
+        {
+          "id": 1,
+          "groupName": "测试群1",
+          "groupLink": "https://example.com/group/group001",
+          "ownerId": 1,
+          "ownerName": "张三",
+          "memberCount": 100,
+          "createdAt": "2024-03-01 10:00:00",
+          "updatedAt": "2024-03-01 10:00:00"
+        }
+      ],
+      "page": 1,
+      "pageSize": 10
+    }
+  }
+  ```
+
+#### 添加群
+- **接口**：`POST /group/add`
+- **描述**：添加新渠道
+- **请求参数**：
+  ```json
+  {
+    "groupName": "",     // 群名称
+    "groupLink": "http://abc",   // 群链接
+    "ownerId": 1    // 群主ID
+  }
+  ```
+
+#### 编辑群
+- **接口**：`PUT /group/edit`
+- **描述**：编辑群信息
+- **请求参数**：与添加群相同，需要额外传入 `id` 字段
+
+#### 删除群
+- **接口**：`DELETE /group/delete`
+- **描述**：删除群
 
 ### 结算管理
 
 #### 提现管理
 - **接口**：`GET /settlement/withdrawal`
 - **描述**：获取提现记录列表
+- **请求参数**：支持分页和筛选
+  ```json
+  {
+    "page": 1,           // 页码
+    "pageSize": 10,      // 每页条数
+    "memberNickname": "",      // 会员名称（可选）
+    "withdrawalStatus": "",    // 提现状态（可选）
+    "startTime": null,    // 开始时间（可选）
+    "endTime": null       // 结束时间
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "total": 100,
+      "list": [
+        {
+          "id": 1,
+          "memberNickname": "张三",
+          "memberAccount": "13800138000",
+          "withdrawalAccount": "6222021234567890123",
+          "withdrawalAccountType": "bank",
+          "amount": 1000.00,
+          "realName": "张三",
+          "withdrawalStatus": "pending",
+          "applyTime": "2024-02-28 10:00:00",
+          "createdAt": "2024-03-01 10:00:00",
+          "updatedAt": "2024-03-01 10:00:00"
+        }
+      ],
+      "page": 1,
+      "pageSize": 10
+    }
+  }
+  ```
 
 #### 批量通过提现
 - **接口**：`POST /settlement/withdrawal/batchResolve`
@@ -330,25 +560,102 @@ Authorization: Bearer <token>
 #### 导出提现记录
 - **接口**：`GET /settlement/withdrawal/export`
 - **描述**：导出提现记录
+- **请求参数**：支持与提现列表相同的筛选条件
 
 #### 其他账单
 - **接口**：`GET /settlement/otherBills`
 - **描述**：获取其他账单记录
+- **请求参数**：支持分页和筛选
+  ```json
+  {
+    "page": 1,           // 页码
+    "pageSize": 10,      // 每页条数
+    "memberNickname": "",      // 会员名称（可选）
+    "billType": "",    // 账单类型（可选）
+    "settlementStatus": "",    // 结算状态（可选）
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "total": 100,
+      "list": [
+        {
+          "id": 1,
+          "memberNickname": "张三",
+          "memberAccount": "13800138000",
+          "billType": "task_income",
+          "amount": 100.00,
+          "settlementStatus": "settled",
+          "createdAt": "2024-03-01 10:00:00",
+          "updatedAt": "2024-03-01 10:00:00"
+        }
+      ],
+      "page": 1,
+      "pageSize": 10
+    }
+  }
+  ```
 
 ### 小二管理
 
 #### 获取小二列表
 - **接口**：`GET /waiters/list`
 - **描述**：获取小二列表
-- **请求参数**：支持分页和筛选
+- **请求参数**：支持分页
+  ```json
+  {
+    "page": 1,           // 页码
+    "pageSize": 10,      // 每页条数
+    "keyword": "",      // 搜索关键字（可选）
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "total": 100,
+      "list": [
+        {
+          "id": 1,
+          "username": "admin",
+          "isAdmin": true,
+          "remarks": "管理员",
+          "permissions": "",  // 权限
+          "createdAt": "2024-03-01 10:00:00",
+          "updatedAt": "2024-03-01 10:00:00"
+        }
+      ],
+      "page": 1,
+      "pageSize": 10
+    }
+  }
+  ```
 
 #### 添加小二
 - **接口**：`POST /waiters/add`
 - **描述**：添加新小二
+- **请求参数**：
+  ```json
+  {
+    "username": "",     // 用户名
+    "password": "",   // 密码
+    "remarks": "",    // 备注
+    "permissions": ""   // 权限
+  }
+  ```
 
 #### 编辑小二
 - **接口**：`PUT /waiters/edit`
 - **描述**：编辑小二信息
+- **请求参数**：与添加小二相同，需要额外传入 `id` 字段
 
 #### 删除小二
 - **接口**：`DELETE /waiters/delete`
@@ -383,10 +690,41 @@ Authorization: Bearer <token>
 #### 获取文章
 - **接口**：`GET /articles/get`
 - **描述**：获取文章内容
+- **请求参数**：
+  ```json
+  {
+    "location": "userAgreement"
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "success": true,
+    "message": "",
+    "data": {
+      "id": 1,
+      "title": "用户协议",
+      "content": "这是用户协议的内容...",
+      "location": "userAgreement",
+      "createdAt": "2024-02-28 10:00:00",
+      "updatedAt": "2024-02-28 10:00:00",
+    }
+  }
+  ```
 
 #### 编辑文章
 - **接口**：`PUT /articles/edit`
 - **描述**：编辑文章内容
+- **请求参数**：
+  ```json
+  {
+    "id": 1,
+    "title": "用户协议",
+    "content": "这是用户协议的内容...",
+    "location": "userAgreement",
+  }
+  ```
 
 ## 优化建议
 

@@ -29,7 +29,7 @@
             </a-form-item>
             <a-form-item label="结算状态">
               <a-select
-                v-model:value="searchForm.status"
+                v-model:value="searchForm.settlementStatus"
                 placeholder="请选择结算状态"
                 style="width: 120px"
                 allow-clear
@@ -68,9 +68,9 @@
           <template v-if="column.key === 'billType'">
             {{ getBillTypeText(record.billType) }}
           </template>
-          <template v-if="column.key === 'status'">
-            <a-tag :color="getStatusColor(record.status)">
-              {{ getSettlementStatusText(record.status) }}
+          <template v-if="column.key === 'settlementStatus'">
+            <a-tag :color="getStatusColor(record.settlementStatus)">
+              {{ getSettlementStatusText(record.settlementStatus) }}
             </a-tag>
           </template>
         </template>
@@ -93,7 +93,7 @@ const loading = ref(false)
 const searchForm = reactive({
   memberNickname: '',
   billType: undefined,
-  status: undefined
+  settlementStatus: undefined
 })
 
 // 表格列配置
@@ -126,8 +126,8 @@ const columns = [
   },
   {
     title: '结算状态',
-    dataIndex: 'status',
-    key: 'status'
+    dataIndex: 'settlementStatus',
+    key: 'settlementStatus'
   }
 ]
 
@@ -170,7 +170,7 @@ const handleReset = () => {
   Object.assign(searchForm, {
     memberNickname: '',
     billType: undefined,
-    status: undefined
+    settlementStatus: undefined
   })
   handleSearch()
 }

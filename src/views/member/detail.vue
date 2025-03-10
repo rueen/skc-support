@@ -12,12 +12,12 @@
         :label-col="{ span: 4 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="会员名称" name="name">
-          <a-input v-model:value="formState.name" placeholder="请输入会员名称" />
+        <a-form-item label="会员名称" name="memberNickname">
+          <a-input v-model:value="formState.memberNickname" placeholder="请输入会员名称" />
         </a-form-item>
         
-        <a-form-item label="账号" name="account">
-          <a-input v-model:value="formState.account" placeholder="请输入账号（手机号/邮箱）" />
+        <a-form-item label="账号" name="memberAccount">
+          <a-input v-model:value="formState.memberAccount" placeholder="请输入账号（手机号/邮箱）" />
         </a-form-item>
         
         <a-form-item label="所属群" name="groupId">
@@ -105,8 +105,8 @@ const isEdit = computed(() => !!route.params.id)
 
 // 表单数据
 const formState = reactive({
-  name: '',
-  account: '',
+  memberNickname: '',
+  memberAccount: '',
   occupation: undefined,
   groupId: undefined,
   isGroupOwner: false,
@@ -115,10 +115,10 @@ const formState = reactive({
 
 // 表单校验规则
 const rules = {
-  name: [
+  memberNickname: [
     { required: true, message: '请输入会员名称' }
   ],
-  account: [
+  memberAccount: [
     { required: true, message: '请输入账号' },
     { 
       validator: (rule, value) => {

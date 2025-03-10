@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 19:02:32
+ * @LastEditTime: 2025-03-10 21:27:55
  * @Description: 模拟数据工具
  */
 
@@ -113,7 +113,7 @@ const mockData = {
             groupName: '群组1',
             isGroupOwner: true,
             reward: 100,
-            auditStatus: 'pending'
+            taskAuditStatus: 'pending'
           },
         ],
         page: 1,
@@ -171,7 +171,7 @@ const mockData = {
             memberNickname: '测试会员1',
             groupName: '群组1',
             isGroupOwner: true,
-            auditStatus: 'pending'
+            accountAuditStatus: 'pending'
           },
         ],    
         page: 1,
@@ -315,6 +315,7 @@ const mockData = {
       message: '',
     };
   },
+  // 群组相关接口
   'group.list': (params) => {
     return {
       code: 0,
@@ -325,7 +326,7 @@ const mockData = {
         list: [
           {
             id: 1,
-            name: '测试群1',
+            groupName: '测试群1',
             groupLink: 'https://example.com/group/group001',
             ownerId: 1,
             ownerName: '张三',
@@ -377,7 +378,7 @@ const mockData = {
             withdrawalAccountType: 'bank',
             amount: 1000.00,
             realName: '张三',
-            status: 'pending',
+            withdrawalStatus: 'pending',
             applyTime: '2024-02-28 10:00:00',
             createdAt: '2024-02-28 10:00:00',
             updatedAt: '2024-02-28 10:00:00',
@@ -390,7 +391,7 @@ const mockData = {
             withdrawalAccountType: 'bank',
             amount: 2000.00,
             realName: '李四',
-            status: 'failed',
+            withdrawalStatus: 'failed',
             applyTime: '2024-02-28 11:00:00',
             createdAt: '2024-02-28 11:00:00',
             updatedAt: '2024-02-28 11:00:00',
@@ -436,7 +437,7 @@ const mockData = {
             memberAccount: '13800138000',
             billType: 'task_income',
             amount: 100.00,
-            status: 'settled',
+            settlementStatus: 'settled',
             createdAt: '2024-02-28 10:00:00',
             updatedAt: '2024-02-28 10:00:00',
           },
@@ -446,7 +447,7 @@ const mockData = {
             memberAccount: '13800138000',
             billType: 'invite_reward',
             amount: 200.00,
-            status: 'failed',
+            settlementStatus: 'failed',
             failReason: '账户信息有误',
             createdAt: '2024-02-28 11:00:00',
             updatedAt: '2024-02-28 11:00:00',
@@ -573,6 +574,7 @@ const mockData = {
         id: 1,
         title: '文章标题',
         content: '文章内容',
+        location: 'userAgreement',
         createdAt: '2024-02-28 10:00:00',
         updatedAt: '2024-02-28 10:00:00',
       },

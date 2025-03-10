@@ -29,7 +29,7 @@
             </a-form-item>
             <a-form-item label="审核状态">
               <a-select
-                v-model:value="searchForm.auditStatus"
+                v-model:value="searchForm.taskAuditStatus"
                 placeholder="请选择审核状态"
                 style="width: 120px"
                 allow-clear
@@ -84,9 +84,9 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'auditStatus'">
-            <a-tag :color="getTaskAuditStatusColor(record.auditStatus)">
-              {{ getTaskAuditStatusText(record.auditStatus) }}
+          <template v-if="column.key === 'taskAuditStatus'">
+            <a-tag :color="getTaskAuditStatusColor(record.taskAuditStatus)">
+              {{ getTaskAuditStatusText(record.taskAuditStatus) }}
             </a-tag>
           </template>
           <template v-if="column.key === 'member'">
@@ -104,14 +104,14 @@
               <a-popconfirm
                 title="确定要通过该任务吗？"
                 @confirm="handleResolve(record)"
-                v-if="record.auditStatus === TaskAuditStatus.PENDING"
+                v-if="record.taskAuditStatus === TaskAuditStatus.PENDING"
               >
                 <a>通过</a>
               </a-popconfirm>
               <a-popconfirm
                 title="确定要拒绝该任务吗？"
                 @confirm="handleReject(record)"
-                v-if="record.auditStatus === TaskAuditStatus.PENDING"
+                v-if="record.taskAuditStatus === TaskAuditStatus.PENDING"
               >
                 <a class="danger">拒绝</a>
               </a-popconfirm>
@@ -179,7 +179,7 @@ const selectedRowKeys = ref([])
 const searchForm = reactive({
   taskName: '',
   channelId: undefined,
-  auditStatus: undefined,
+  taskAuditStatus: undefined,
   groupId: undefined
 })
 
@@ -210,8 +210,8 @@ const columns = [
   },
   {
     title: '审核状态',
-    dataIndex: 'auditStatus',
-    key: 'auditStatus'
+    dataIndex: 'taskAuditStatus',
+    key: 'taskAuditStatus'
   },
   {
     title: '操作',
@@ -237,7 +237,7 @@ const rowSelection = {
     selectedRowKeys.value = keys
   },
   getCheckboxProps: (record) => ({
-    disabled: record.auditStatus !== TaskAuditStatus.PENDING
+    disabled: record.taskAuditStatus !== TaskAuditStatus.PENDING
   })
 }
 
@@ -261,7 +261,7 @@ const handleSearch = () => {
 const handleReset = () => {
   searchForm.taskName = ''
   searchForm.channelId = undefined
-  searchForm.auditStatus = undefined
+  searchForm.taskAuditStatus = undefined
   searchForm.groupId = undefined
   handleSearch()
 }

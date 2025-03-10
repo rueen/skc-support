@@ -6,7 +6,7 @@
           <a-form layout="inline" :model="searchForm">
             <a-form-item label="群名称">
               <a-input
-                v-model:value="searchForm.name"
+                v-model:value="searchForm.groupName"
                 placeholder="请输入群名称"
                 allow-clear
               />
@@ -94,9 +94,9 @@
         :label-col="{ span: 6 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="群名称" name="name">
+        <a-form-item label="群名称" name="groupName">
           <a-input
-            v-model:value="formData.name"
+            v-model:value="formData.groupName"
             placeholder="请输入群名称"
           />
         </a-form-item>
@@ -164,20 +164,20 @@ const ownerCommissionRate = ref(10.0)
 
 // 搜索表单
 const searchForm = reactive({
-  name: '',
+  groupName: '',
   ownerId: undefined
 })
 
 // 表单数据
 const formData = reactive({
-  name: '',
+  groupName: '',
   groupLink: '',
   ownerId: undefined
 })
 
 // 表单校验规则
 const rules = {
-  name: [{ required: true, message: '请输入群名称' }],
+  groupName: [{ required: true, message: '请输入群名称' }],
   groupLink: [{ required: true, message: '请输入群链接' }],
   ownerId: [{ required: true, message: '请选择群主' }]
 }
@@ -189,8 +189,8 @@ const memberOptions = ref([])
 const columns = [
   {
     title: '群名称',
-    dataIndex: 'name',
-    key: 'name'
+    dataIndex: 'groupName',
+    key: 'groupName'
   },
   {
     title: '群链接',
@@ -263,7 +263,7 @@ const handleTableChange = (pag) => {
 // 添加群
 const handleAdd = () => {
   modalType.value = 'add'
-  formData.name = ''
+  formData.groupName = ''
   formData.groupLink = ''
   formData.ownerId = undefined
   modalVisible.value = true
@@ -272,7 +272,7 @@ const handleAdd = () => {
 // 编辑群
 const handleEdit = (record) => {
   modalType.value = 'edit'
-  formData.name = record.name
+  formData.groupName = record.groupName
   formData.groupLink = record.groupLink
   formData.ownerId = record.ownerId
   modalVisible.value = true

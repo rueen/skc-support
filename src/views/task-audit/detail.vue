@@ -65,11 +65,11 @@
           <a-descriptions-item label="报名时间">{{ taskSubmittedInfo.applyTime }}</a-descriptions-item>
           <a-descriptions-item label="提交时间">{{ taskSubmittedInfo.submitTime }}</a-descriptions-item>
           <a-descriptions-item label="审核状态">
-            <a-tag :color="getTaskAuditStatusColor(taskSubmittedInfo.auditStatus)">
-              {{ getTaskAuditStatusText(taskSubmittedInfo.auditStatus) }}
+            <a-tag :color="getTaskAuditStatusColor(taskSubmittedInfo.taskAuditStatus)">
+              {{ getTaskAuditStatusText(taskSubmittedInfo.taskAuditStatus) }}
             </a-tag>
           </a-descriptions-item>
-          <template v-if="taskSubmittedInfo.auditStatus === TaskAuditStatus.REJECTED">
+          <template v-if="taskSubmittedInfo.taskAuditStatus === TaskAuditStatus.REJECTED">
             <a-descriptions-item label="拒绝原因">{{ taskSubmittedInfo.rejectReason }}</a-descriptions-item>
           </template>
         </a-descriptions>
@@ -82,14 +82,14 @@
             <a-button
               type="primary"
               @click="handleResolve"
-              v-if="taskSubmittedInfo.auditStatus === TaskAuditStatus.PENDING"
+              v-if="taskSubmittedInfo.taskAuditStatus === TaskAuditStatus.PENDING"
             >
               审核通过
             </a-button>
             <a-button
               danger
               @click="handleReject"
-              v-if="taskSubmittedInfo.auditStatus === TaskAuditStatus.PENDING"
+              v-if="taskSubmittedInfo.taskAuditStatus === TaskAuditStatus.PENDING"
             >
               审核拒绝
             </a-button>

@@ -29,7 +29,7 @@
             </a-form-item>
             <a-form-item label="审核状态">
               <a-select
-                v-model:value="searchForm.auditStatus"
+                v-model:value="searchForm.accountAuditStatus"
                 placeholder="请选择审核状态"
                 style="width: 120px"
                 allow-clear
@@ -111,9 +111,9 @@
               </div>
             </div>
           </template>
-          <template v-if="column.key === 'auditStatus'">
-            <a-tag :color="getAccountAuditStatusColor(record.auditStatus)">
-              {{ getAccountAuditStatusText(record.auditStatus) }}
+          <template v-if="column.key === 'accountAuditStatus'">
+            <a-tag :color="getAccountAuditStatusColor(record.accountAuditStatus)">
+              {{ getAccountAuditStatusText(record.accountAuditStatus) }}
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
@@ -121,14 +121,14 @@
               <a-popconfirm
                 title="确定要通过该账号吗？"
                 @confirm="handleResolve(record)"
-                v-if="record.auditStatus === AccountAuditStatus.PENDING"
+                v-if="record.accountAuditStatus === AccountAuditStatus.PENDING"
               >
                 <a>通过</a>
               </a-popconfirm>
               <a-popconfirm
                 title="确定要拒绝该账号吗？"
                 @confirm="handleReject(record)"
-                v-if="record.auditStatus === AccountAuditStatus.PENDING"
+                v-if="record.accountAuditStatus === AccountAuditStatus.PENDING"
               >
                 <a class="danger">拒绝</a>
               </a-popconfirm>
@@ -185,7 +185,7 @@ const pagination = reactive({
 const searchForm = reactive({
   account: '',
   channelId: undefined,
-  auditStatus: undefined,
+  accountAuditStatus: undefined,
   groupId: undefined
 })
 
@@ -217,8 +217,8 @@ const columns = [
   },
   {
     title: '审核状态',
-    dataIndex: 'auditStatus',
-    key: 'auditStatus'
+    dataIndex: 'accountAuditStatus',
+    key: 'accountAuditStatus'
   },
   {
     title: '操作',
@@ -240,7 +240,7 @@ const tableData = ref([
     postsCount: 50,
     memberNickname: '测试会员1',
     groupName: '群组1',
-    auditStatus: AccountAuditStatus.PENDING
+    accountAuditStatus: AccountAuditStatus.PENDING
   }
 ])
 
@@ -269,7 +269,7 @@ const handleSearch = () => {
 const handleReset = () => {
   searchForm.account = ''
   searchForm.channelId = undefined
-  searchForm.auditStatus = undefined
+  searchForm.accountAuditStatus = undefined
   searchForm.groupId = undefined
   handleSearch()
 }
