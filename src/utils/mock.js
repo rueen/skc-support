@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 11:31:48
+ * @LastEditTime: 2025-03-10 11:37:21
  * @Description: 模拟数据工具
  */
 
@@ -40,6 +40,7 @@ const mockData = {
     };
   },
   'task.edit': (params) => {
+    console.log(params)
     return {
       code: 0,
       success: true,
@@ -72,8 +73,8 @@ const mockData = {
           {"title":"分享链接","type":"input"},
           {"title":"数据截图","type":"image"}
         ],
-        "startTime":"2025-03-10T03:09:17.741Z",
-        "endTime":"2025-03-31T03:09:18.705Z",
+        "startTime":"2025-03-10 09:10:10",
+        "endTime":"2025-03-13 09:10:10",
         "unlimitedQuota":true,
         "fansRequired":"10w+",
         "contentRequirement":"1、200文字以上\n2、3张图片+",
