@@ -82,7 +82,6 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
-import { InfoCircleOutlined } from '@ant-design/icons-vue'
 import { BillType, BillTypeLang, SettlementStatus, SettlementStatusLang } from '@/constants/enums'
 import { get } from '@/utils/request'
 import { useI18n } from 'vue-i18n'

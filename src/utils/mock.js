@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 09:29:54
+ * @LastEditTime: 2025-03-10 09:53:01
  * @Description: 模拟数据工具
  */
 
@@ -160,6 +160,40 @@ const mockData = {
     };
   },
   // 结算相关接口
+  'settlement.withdrawal': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: { 
+        total: 100,
+        list: [
+          {
+            id: 1,
+            memberName: '张三',
+            account: '6222021234567890123',
+            amount: 1000.00,
+            realName: '张三',
+            status: 'pending',
+            createTime: '2024-02-28 10:00:00',
+            updateTime: '2024-02-28 10:00:00',
+          },
+          {
+            id: 2,
+            memberName: '李四',
+            account: '6222021234567890124',
+            amount: 2000.00,
+            realName: '李四',
+            status: 'failed',
+            createTime: '2024-02-28 11:00:00',
+            updateTime: '2024-02-28 11:00:00',
+          }
+        ],
+        page: 1,
+        pageSize: 10,
+      },
+    };
+  },
   'settlement.otherBills': (params) => {
     return {
       code: 0,

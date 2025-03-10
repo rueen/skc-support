@@ -11,6 +11,30 @@
                 allow-clear
               />
             </a-form-item>
+            <a-form-item label="提现状态">
+              <a-select
+                v-model:value="searchForm.status"
+                placeholder="请选择状态"
+                style="width: 120px"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="status in Object.values(WithdrawalStatus)"
+                  :key="status"
+                  :value="status"
+                >
+                  {{ getWithdrawalStatusText(status) }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="申请时间">
+              <a-range-picker
+                v-model:value="searchForm.timeRange"
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                value-format="YYYY-MM-DD HH:mm:ss"
+              />
+            </a-form-item>
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">
@@ -45,8 +69,8 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'status'">
-            <a-tag :color="getStatusColor(record.status)">
-              {{ getStatusText(record.status) }}
+            <a-tag :color="WithdrawalStatusColor[record.status]">
+              {{ getWithdrawalStatusText(record.status) }}
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
@@ -81,10 +105,14 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { DownloadOutlined } from '@ant-design/icons-vue'
+import { WithdrawalStatus, WithdrawalStatusLang, WithdrawalStatusColor } from '@/constants/enums'
+import { get, post } from '@/utils/request'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const loading = ref(false)
 const currentRecord = ref(null)
 const selectedKeys = ref([])
@@ -94,7 +122,9 @@ const failedReason = ref('')
 
 // 搜索表单
 const searchForm = reactive({
-  memberName: ''
+  memberName: '',
+  status: undefined,
+  timeRange: []
 })
 
 // 表格列配置
@@ -108,6 +138,11 @@ const columns = [
     title: '提现账户',
     dataIndex: 'account',
     key: 'account'
+  },
+  {
+    title: '账户类型',
+    dataIndex: 'accountType',
+    key: 'accountType'
   },
   {
     title: '申请提现金额',
@@ -126,7 +161,7 @@ const columns = [
     key: 'createTime'
   },
   {
-    title: '状态',
+    title: '提现状态',
     dataIndex: 'status',
     key: 'status'
   },
@@ -138,26 +173,7 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    memberName: '张三',
-    account: '6222021234567890123',
-    amount: 1000.00,
-    realName: '张三',
-    createTime: '2024-02-28 10:00:00',
-    status: 'pending'
-  },
-  {
-    id: 2,
-    memberName: '李四',
-    account: '6222021234567890124',
-    amount: 2000.00,
-    realName: '李四',
-    createTime: '2024-02-28 11:00:00',
-    status: 'paid'
-  }
-])
+const tableData = ref([])
 
 const pagination = reactive({
   current: 1,
@@ -165,24 +181,9 @@ const pagination = reactive({
   total: 0
 })
 
-// 获取状态文本
-const getStatusText = (status) => {
-  const map = {
-    pending: '待处理',
-    paid: '已打款',
-    failed: '打款失败'
-  }
-  return map[status] || status
-}
-
-// 获取状态颜色
-const getStatusColor = (status) => {
-  const map = {
-    pending: 'warning',
-    paid: 'success',
-    failed: 'error'
-  }
-  return map[status]
+// 获取提现状态文本
+const getWithdrawalStatusText = (status) => {
+  return WithdrawalStatusLang[status]?.[locale.value] || status
 }
 
 // 搜索
@@ -193,7 +194,11 @@ const handleSearch = () => {
 
 // 重置
 const handleReset = () => {
-  searchForm.memberName = ''
+  Object.assign(searchForm, {
+    memberName: '',
+    status: undefined,
+    timeRange: []
+  })
   handleSearch()
 }
 
@@ -217,9 +222,15 @@ const handleExport = () => {
 // 标记已打款
 const handlePaid = async (record) => {
   try {
-    // TODO: 实现标记已打款逻辑
-    message.success('操作成功')
-    loadData()
+    const res = await post('settlement.withdrawal.paid', {
+      id: record.id
+    })
+    if(res.success) {
+      message.success('操作成功')
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('操作失败')
   }
@@ -232,10 +243,16 @@ const handleBatchPaid = async () => {
     return
   }
   try {
-    // TODO: 实现批量标记已打款逻辑
-    message.success('操作成功')
-    selectedKeys.value = []
-    loadData()
+    const res = await post('settlement.withdrawal.batchPaid', {
+      ids: selectedKeys.value
+    })
+    if(res.success) {
+      message.success('操作成功')
+      selectedKeys.value = []
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('操作失败')
   }
@@ -267,11 +284,19 @@ const handleFailedConfirm = async () => {
 
   try {
     failedLoading.value = true
-    // TODO: 实现打款失败逻辑
-    message.success('操作成功')
-    failedVisible.value = false
-    selectedKeys.value = []
-    loadData()
+    const params = {
+      failReason: failedReason.value,
+      ids: currentRecord.value ? [currentRecord.value.id] : selectedKeys.value
+    }
+    const res = await post('settlement.withdrawal.failed', params)
+    if(res.success) {
+      message.success('操作成功')
+      failedVisible.value = false
+      selectedKeys.value = []
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('操作失败')
   } finally {
@@ -283,15 +308,30 @@ const handleFailedConfirm = async () => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    pagination.total = tableData.value.length
+    const params = {
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      memberName: searchForm.memberName,
+      status: searchForm.status,
+      startTime: searchForm.timeRange?.[0],
+      endTime: searchForm.timeRange?.[1]
+    }
+    const res = await get('settlement.withdrawal', { params })
+    if(res.success){
+      tableData.value = res.data.list || []
+      pagination.total = res.data.total || 0
+    } else {
+      message.error(res.message)
+    }
   } finally {
     loading.value = false
   }
 }
 
 // 初始化
-loadData()
+onMounted(() => {
+  loadData()
+})
 </script>
 
 <style lang="less" scoped>
