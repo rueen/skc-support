@@ -338,9 +338,10 @@ const handleSubmit = () => {
       // 构建提交数据
       const submitData = {
         ...formData,
-        groupIds: formData.groupMode === 0 ? [] : formData.groupIds
+        groupIds: formData.groupMode === 0 ? [] : formData.groupIds,
+        startTime: formData.startTime ? dayjs(formData.startTime).format('YYYY-MM-DD HH:mm:ss') : null,
+        endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null
       }
-      console.log(submitData)
       // TODO: 实现提交逻辑
       const res = await post('task.add', submitData)
       if(res.success) {
