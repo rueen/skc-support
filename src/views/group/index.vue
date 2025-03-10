@@ -69,9 +69,9 @@
             </a-space>
           </template>
           <template v-else-if="column.key === 'groupLink'">
-            <div class="group-link-container">
-              <a :href="record.groupLink" target="_blank" class="group-link">{{ record.groupLink }}</a>
-              <a-button type="link" size="small" @click="copyLink(record.groupLink)" class="copy-btn">
+            <div class="link-text-container">
+              <a :href="record.groupLink" target="_blank" class="link-text">{{ record.groupLink }}</a>
+              <a-button type="link" size="small" @click="copyLink(record.groupLink)">
                 复制
               </a-button>
             </div>
@@ -446,24 +446,6 @@ onMounted(() => {
 
   .danger {
     color: #ff4d4f;
-  }
-
-  .group-link {
-    color: #1890ff;
-    text-decoration: underline;
-  }
-
-  .group-link-container {
-    display: flex;
-    align-items: center;
-
-    .group-link {
-      margin-right: 8px;
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
   }
 }
 </style> 

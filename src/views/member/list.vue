@@ -58,14 +58,16 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'channelAccountList'">
-            <div v-for="item in record.channelAccountList">
-              <div>账号：{{ item.account }}</div>
-              <div class="home-link-container">
-                <span>主页：</span>
-                <a :href="item.homeUrl" target="_blank" class="home-link">{{ item.homeUrl }}</a>
-                <a-button type="link" size="small" @click="copyLink(item.homeUrl)" class="copy-btn">
-                  复制
-                </a-button>
+            <div style="display: inline-block;">
+              <div v-for="item in record.channelAccountList">
+                <div>账号：{{ item.account }}</div>
+                <div class="link-text-container">
+                  <span class="label">主页：</span>
+                  <a :href="item.homeUrl" target="_blank" class="link-text">{{ item.homeUrl }}</a>
+                  <a-button type="link" size="small" @click="copyLink(item.homeUrl)">
+                    复制
+                  </a-button>
+                </div>
               </div>
             </div>
           </template>
@@ -335,27 +337,6 @@ onMounted(() => {
 
   .danger {
     color: #ff4d4f;
-  }
-
-  .home-link-container {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-
-    span {
-      white-space: nowrap;
-      margin-right: 4px;
-    }
-
-    .home-link {
-      margin-right: 0;
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: #1890ff;
-      text-decoration: underline;
-    }
   }
 }
 </style> 

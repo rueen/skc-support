@@ -84,18 +84,28 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'accountInfo'">
+            <div class="account-info">
+              <div class="home-url">
+                <div class="link-text-container">
+                  <span class="label">主页：</span>
+                  <a :href="record.homeUrl" target="_blank" class="link-text">{{ record.homeUrl }}</a>
+                  <a-button type="link" size="small" @click="copyLink(record.homeUrl)">
+                    复制
+                  </a-button>
+                </div>
+              </div>
+              <div class="stats">
+                <div class="stat-item">粉丝数：{{ record.fansCount }}</div>
+                <div class="stat-item">发帖数：{{ record.postsCount }}</div>
+              </div>
+            </div>
+          </template>
           <template v-if="column.key === 'member'">
             <div>
               <div>{{ record.memberNickname }}</div>
               <div class="group-name">{{ record.groupName }}</div>
             </div>
-          </template>
-          <template v-if="column.key === 'homeUrl'">
-            <a-tooltip :title="record.homeUrl">
-              <a :href="record.homeUrl" target="_blank" class="link-text">
-                {{ record.homeUrl }}
-              </a>
-            </a-tooltip>
           </template>
           <template v-if="column.key === 'auditStatus'">
             <a-tag :color="getAccountAuditStatusColor(record.auditStatus)">
@@ -195,20 +205,8 @@ const columns = [
     key: 'channelName'
   },
   {
-    title: '主页链接',
-    key: 'homeUrl',
-    width: 200,
-    ellipsis: true
-  },
-  {
-    title: '粉丝数',
-    dataIndex: 'fansCount',
-    key: 'fansCount'
-  },
-  {
-    title: '发帖数',
-    dataIndex: 'postsCount',
-    key: 'postsCount'
+    title: '账号信息',
+    key: 'accountInfo'
   },
   {
     title: '会员信息',
@@ -386,6 +384,15 @@ const loadGroupOptions = async (keyword = '') => {
   }
 }
 
+// 复制链接
+const copyLink = (url) => {
+  navigator.clipboard.writeText(url).then(() => {
+    message.success('复制成功')
+  }).catch(() => {
+    message.error('复制失败')
+  })
+}
+
 // 初始化
 onMounted(() => {
   loadData()
@@ -412,12 +419,32 @@ onMounted(() => {
     color: #ff4d4f;
   }
 
-  .link-text {
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .home-url {
+      display: flex;
+      align-items: center;
+      
+      .label {
+        white-space: nowrap;
+        margin-right: 4px;
+      }
+    }
+
+    .stats {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.45);
+
+      .stat-item {
+        white-space: nowrap;
+      }
+    }
   }
 }
 </style> 
