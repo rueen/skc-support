@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 18:51:16
+ * @LastEditTime: 2025-03-10 19:02:32
  * @Description: 模拟数据工具
  */
 
@@ -546,6 +546,36 @@ const mockData = {
       success: false,
       message: '用户名或密码错误',
       data: null,
+    };
+  },
+  // 文章相关接口
+  'article.get': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: {
+        id: 1,
+        title: '用户协议',
+        content: '这是用户协议的内容...',
+        location: 'userAgreement',
+        createdAt: '2024-02-28 10:00:00',
+        updatedAt: '2024-02-28 10:00:00',
+      },
+    };
+  },
+  'article.edit': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: {
+        id: 1,
+        title: '文章标题',
+        content: '文章内容',
+        createdAt: '2024-02-28 10:00:00',
+        updatedAt: '2024-02-28 10:00:00',
+      },
     };
   },
 };

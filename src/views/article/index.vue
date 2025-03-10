@@ -53,8 +53,9 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
+import { get, post } from '@/utils/request'
 
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -83,8 +84,8 @@ const columns = [
   },
   {
     title: '更新时间',
-    dataIndex: 'updateTime',
-    key: 'updateTime'
+    dataIndex: 'updatedAt',
+    key: 'updatedAt'
   },
   {
     title: '操作',
@@ -94,20 +95,7 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    title: '用户协议',
-    content: '这是用户协议的内容...',
-    updateTime: '2024-02-28 10:00:00'
-  },
-  {
-    id: 2,
-    title: '隐私政策',
-    content: '这是隐私政策的内容...',
-    updateTime: '2024-02-28 11:00:00'
-  }
-])
+const tableData = ref([])
 
 // 编辑文章
 const handleEdit = (record) => {
@@ -119,28 +107,25 @@ const handleEdit = (record) => {
 
 // 确认编辑
 const handleModalOk = async () => {
-  try {
-    await formRef.value.validate()
+  formRef.value.validate().then(async () => {
     modalLoading.value = true
-
-    // TODO: 实现保存逻辑
-    const index = tableData.value.findIndex(item => item.id === formData.id)
-    if (index !== -1) {
-      tableData.value[index] = {
-        ...tableData.value[index],
-        title: formData.title,
-        content: formData.content,
-        updateTime: new Date().toLocaleString()
+    try {
+      const res = await post('article.edit', {
+        location: formData.location,
+        ...formData
+      })
+      if (res.success) {
+        message.success('保存成功')
+        modalVisible.value = false
+      } else {
+        message.error(res.message)
       }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      modalLoading.value = false
     }
-
-    message.success('保存成功')
-    modalVisible.value = false
-  } catch (error) {
-    console.error(error)
-  } finally {
-    modalLoading.value = false
-  }
+  })
 }
 
 // 加载数据
@@ -148,13 +133,34 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
+    let list = [];
+    const userAgreementRes = await get('article.get', {
+      params: {
+        location: 'userAgreement'
+      }
+    })
+    if (userAgreementRes.success) {
+      list.push(userAgreementRes.data || {})
+    }
+    const privacyPolicyRes = await get('article.get', {
+      params: {
+        location: 'privacyPolicy'
+      }
+    })
+    if (privacyPolicyRes.success) {
+      list.push(privacyPolicyRes.data || {})
+    }
+    tableData.value = list
   } finally {
     loading.value = false
   }
 }
 
 // 初始化
-loadData()
+// 初始化
+onMounted(() => {
+  loadData()
+})
 </script>
 
 <style lang="less" scoped>
