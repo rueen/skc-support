@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 14:49:24
+ * @LastEditTime: 2025-03-10 15:11:12
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -18,6 +18,8 @@ const API_PATH = {
   // 账号相关接口
   account: {
     list: '/accounts/list',
+    batchApprove: '/accounts/batchApprove',
+    batchReject: '/accounts/batchReject',
   },
   // 会员相关接口
   member: {

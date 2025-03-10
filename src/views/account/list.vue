@@ -160,7 +160,7 @@ import {
   AccountAuditStatusColor,
   getLangText
 } from '@/constants/enums'
-import { get } from '@/utils/request'
+import { get, post } from '@/utils/request'
 
 const { locale } = useI18n()
 const loading = ref(false)
@@ -168,7 +168,6 @@ const selectedKeys = ref([])
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
-const currentRecord = ref(null)
 
 // 分页配置
 const pagination = reactive({
@@ -283,35 +282,56 @@ const handleTableChange = (pag) => {
 // 审核通过
 const handleApprove = async (record) => {
   try {
-    // TODO: 实现审核通过逻辑
-    message.success('审核通过成功')
-    loadData()
+    const res = await post('account.batchApprove', {
+      ids: [record.id]
+    })
+    if(res.success) {
+      message.success('操作成功')
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
-    message.error('审核通过失败')
+    console.log(error)
   }
 }
 
 // 批量审核通过
-const handleBatchApprove = () => {
+const handleBatchApprove = async () => {
   if (!selectedKeys.value.length) {
     message.warning('请选择要通过的账号')
     return
   }
   // TODO: 实现批量审核通过逻辑
+  try {
+    const res = await post('account.batchApprove', {
+      ids: selectedKeys.value
+    })
+    if(res.success) {
+      message.success('操作成功')
+      selectedKeys.value = []
+      loadData()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+   console.log(error)
+  }
 }
 
 // 批量拒绝
-const handleBatchReject = () => {
+const handleBatchReject = async() => {
   if (!selectedKeys.value.length) {
     message.warning('请选择要拒绝的账号')
     return
   }
-  // TODO: 实现批量拒绝逻辑
+  rejectReason.value = ''
+  rejectVisible.value = true
 }
 
 // 审核拒绝
 const handleReject = (record) => {
-  currentRecord.value = record
+  selectedKeys.value = [record.id]
   rejectReason.value = ''
   rejectVisible.value = true
 }
@@ -322,15 +342,22 @@ const handleRejectConfirm = async () => {
     message.error('请输入拒绝原因')
     return
   }
-
+  rejectLoading.value = true
   try {
-    rejectLoading.value = true
-    // TODO: 实现审核拒绝逻辑
-    message.success('审核拒绝成功')
-    rejectVisible.value = false
-    loadData()
+    const res = await post('account.batchReject', {
+      ids: selectedKeys.value,
+      reason: rejectReason.value
+    })
+    if(res.success) {
+      message.success('操作成功')
+      selectedKeys.value = []
+      rejectVisible.value = false
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
-    message.error('审核拒绝失败')
+    console.log(error)
   } finally {
     rejectLoading.value = false
   }
