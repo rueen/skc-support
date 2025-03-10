@@ -138,7 +138,7 @@
                 v-model:value="formData.quota"
                 :min="0"
                 :precision="0"
-                :disabled="formData.unlimitedQuota || isEdit"
+                :disabled="formData.unlimitedQuota"
                 placeholder="请输入任务名额"
               />
             </a-form-item>
@@ -222,7 +222,7 @@
           />
         </a-form-item>
 
-        <a-form-item :wrapper-col="{ span: 16, offset: 4 }" v-if="!isEdit">
+        <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
           <a-space>
             <a-button type="primary" @click="handleSubmit">提交</a-button>
             <a-button @click="handleCancel">取消</a-button>
@@ -329,32 +329,66 @@ const handleGroupModeChange = (e) => {
   }
 }
 
+const addTask = async () => {
+  try {
+    submitLoading.value = true
+    // 构建提交数据
+    const submitData = {
+      ...formData,
+      groupIds: formData.groupMode === 0 ? [] : formData.groupIds,
+      startTime: formData.startTime ? dayjs(formData.startTime).format('YYYY-MM-DD HH:mm:ss') : null,
+      endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null
+    }
+    // TODO: 实现提交逻辑
+    const res = await post('task.add', submitData)
+    if(res.success) {
+      message.success('提交成功')
+      router.back()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    submitLoading.value = false
+  }
+}
+
+const editTask = async () => {
+  try {
+    submitLoading.value = true
+    // 构建提交数据
+    const submitData = {
+      ...formData,
+      groupIds: formData.groupMode === 0 ? [] : formData.groupIds,
+      startTime: formData.startTime ? dayjs(formData.startTime).format('YYYY-MM-DD HH:mm:ss') : null,
+      endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null
+    }
+    // TODO: 实现提交逻辑
+    const res = await post('task.edit', {
+      id: route.params.id,
+      ...formData,
+    })
+    if(res.success) {
+      message.success('提交成功')
+      router.back()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    submitLoading.value = false
+  }
+}
 // 提交表单
 const submitLoading = ref(false)
 const handleSubmit = () => {
   formRef.value.validate().then(async () => {
-    try {
-      submitLoading.value = true
-      // 构建提交数据
-      const submitData = {
-        ...formData,
-        groupIds: formData.groupMode === 0 ? [] : formData.groupIds,
-        startTime: formData.startTime ? dayjs(formData.startTime).format('YYYY-MM-DD HH:mm:ss') : null,
-        endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null
-      }
-      // TODO: 实现提交逻辑
-      const res = await post('task.add', submitData)
-      if(res.success) {
-        message.success('提交成功')
-        router.back()
-      } else {
-        message.error(res.message)
-      }
-    } catch (error) {
-      console.log(error)
-      message.error('提交失败')
-    } finally {
-      submitLoading.value = false
+    if(isEdit.value) {
+      await editTask()
+    } else {
+      await addTask()
     }
   })
 }
