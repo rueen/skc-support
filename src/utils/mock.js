@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 15:44:14
+ * @LastEditTime: 2025-03-10 15:47:10
  * @Description: 模拟数据工具
  */
 
@@ -114,6 +114,20 @@ const mockData = {
         page: 1,
         pageSize: 10, 
       },
+    };
+  },
+  'taskAudit.batchResolve': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'taskAudit.batchReject': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
     };
   },
   // 账号相关接口

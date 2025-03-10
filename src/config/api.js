@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 15:44:11
+ * @LastEditTime: 2025-03-10 15:46:48
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -19,6 +19,8 @@ const API_PATH = {
   taskAudit: {
     list: '/taskAudits/list',
     detail: '/taskAudits/detail',
+    batchResolve: '/taskAudits/batchResolve',
+    batchReject: '/taskAudits/batchReject',
   },
   // 账号相关接口
   account: {

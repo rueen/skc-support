@@ -100,7 +100,7 @@
               <a @click="handleView(record)">查看</a>
               <a-popconfirm
                 title="确定要通过该任务吗？"
-                @confirm="handleApprove(record)"
+                @confirm="handleResolve(record)"
                 v-if="record.auditStatus === TaskAuditStatus.PENDING"
               >
                 <a>通过</a>
@@ -275,11 +275,18 @@ const handleView = (record) => {
 }
 
 // 审核通过
-const handleApprove = async (record) => {
+const handleResolve = async (record) => {
   try {
     // TODO: 实现审核通过逻辑
-    message.success('审核通过成功')
-    loadData()
+    const res = await post('taskAudit.batchResolve', {
+      ids: [record.id]
+    })
+    if(res.success) {
+      message.success('审核通过成功')
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('审核通过失败')
   }
@@ -293,9 +300,16 @@ const handleBatchResolve = async () => {
   }
   try {
     // TODO: 实现批量审核通过逻辑
-    message.success('批量审核通过成功')
-    selectedRowKeys.value = []
-    loadData()
+    const res = await post('taskAudit.batchResolve', {
+      ids: selectedRowKeys.value
+    })
+    if(res.success) {
+      message.success('批量审核通过成功')
+      selectedRowKeys.value = []
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('批量审核通过失败')
   }
@@ -303,7 +317,7 @@ const handleBatchResolve = async () => {
 
 // 审核拒绝
 const handleReject = (record) => {
-  currentRecord.value = record
+  selectedRowKeys.value = [record.id]
   rejectReason.value = ''
   rejectVisible.value = true
 }
@@ -318,9 +332,17 @@ const handleRejectConfirm = async () => {
   try {
     rejectLoading.value = true
     // TODO: 实现审核拒绝逻辑
-    message.success('审核拒绝成功')
-    rejectVisible.value = false
-    loadData()
+    const res = await post('taskAudit.batchReject', {
+      ids: selectedRowKeys.value,
+      reason: rejectReason.value
+    })
+    if(res.success) {
+      message.success('审核拒绝成功')
+      rejectVisible.value = false
+      loadData()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('审核拒绝失败')
   } finally {
@@ -335,6 +357,8 @@ const handleBatchReject = () => {
     return
   }
   // TODO: 实现批量拒绝逻辑
+  rejectReason.value = ''
+  rejectVisible.value = true
 }
 
 const loadChannelOptions = async () => {
