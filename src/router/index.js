@@ -38,7 +38,7 @@ const routes = [
         path: 'task-audit',
         name: 'TaskAudit',
         component: () => import('@/views/task-audit/list.vue'),
-        meta: { requiresAuth: true, permissions: ['task:audit'], title: '任务审核', icon: 'audit', permission: ['task.audit'] }
+        meta: { requiresAuth: true, permissions: ['task:audit'], title: '任务审核', permission: ['task.audit'] }
       },
       {
         path: 'task-audit/detail/:id',
@@ -50,7 +50,7 @@ const routes = [
         path: 'account',
         name: 'Account',
         component: () => import('@/views/account/list.vue'),
-        meta: { requiresAuth: true, permissions: ['account:list'], title: '账号管理', icon: 'audit', permission: ['account.list'] }
+        meta: { requiresAuth: true, permissions: ['account:list'], title: '账号管理', permission: ['account.list'] }
       },
       {
         path: 'member',
