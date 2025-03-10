@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 13:39:39
+ * @LastEditTime: 2025-03-10 13:55:31
  * @Description: 模拟数据工具
  */
 
@@ -298,8 +298,8 @@ const mockData = {
       },
     };
   },
-  // 账号管理相关接口
-  'account.list': (params) => {
+  // 小二管理相关接口
+  'waiter.list': (params) => {
     return {
       code: 0,
       success: true,
@@ -352,7 +352,7 @@ const mockData = {
             'member:edit',
             'member:view',
             'group:list',
-            'account:list',
+            'waiter:list',
             'article:list',
             'settlement:withdrawal',
             'settlement:otherBills',

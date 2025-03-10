@@ -1,5 +1,5 @@
 <template>
-  <div class="account content-container">
+  <div class="waiter content-container">
     <div class="table-container">
       <div class="table-header">
         <div class="left"></div>
@@ -124,7 +124,7 @@ const permissionsOptions = [
   { title: 'group', permissions: 'group:list' },
   { title: 'withdrawal', permissions: 'settlement:withdrawal' },
   { title: 'otherBills', permissions: 'settlement:otherBills' },
-  { title: 'account', permissions: 'account:list' },
+  { title: 'waiter', permissions: 'waiter:list' },
   { title: 'article', permissions: 'article:list' }
 ]
 
@@ -187,7 +187,7 @@ const handleEdit = (record) => {
 // 删除账号
 const handleDelete = async (record) => {
   try {
-    const res = await post('account.delete', { id: record.id })
+    const res = await post('waiter.delete', { id: record.id })
     if(res.success){
       message.success('删除成功')
       loadData()
@@ -199,8 +199,8 @@ const handleDelete = async (record) => {
   }
 }
 
-const addAccount = async () => {
-  const res = await post('account.add', formData)
+const addWaiter = async () => {
+  const res = await post('waiter.add', formData)
   if(res.success){
     message.success('添加成功')
     formVisible.value = false
@@ -210,8 +210,8 @@ const addAccount = async () => {
   }
 }
 
-const editAccount = async () => {
-  const res = await post('account.edit', formData)
+const editWaiter = async () => {
+  const res = await post('waiter.edit', formData)
   if(res.success){
     message.success('编辑成功')
     formVisible.value = false
@@ -228,10 +228,10 @@ const handleFormOk = async () => {
     formLoading.value = true
     switch(formType.value){
       case 'add':
-        addAccount()
+        addWaiter()
         break
       case 'edit':
-        editAccount()
+        editWaiter()
         break
     }
   } catch (error) {
@@ -245,7 +245,7 @@ const handleFormOk = async () => {
 const loadData = async () => {
   loading.value = true
   try {
-    const res = await get('account.list', {
+    const res = await get('waiter.list', {
       page: pagination.current,
       pageSize: pagination.pageSize
     })
@@ -263,7 +263,7 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.account {
+.waiter {
   .table-header {
     margin-bottom: 16px;
     display: flex;

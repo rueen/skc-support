@@ -41,9 +41,9 @@
         </a-descriptions>
       </div>
 
-      <!-- 报名信息 -->
+      <!-- 提交信息 -->
       <div class="detail-section">
-        <div class="section-title">报名信息</div>
+        <div class="section-title">提交信息</div>
         <a-descriptions :column="2">
           <template v-for="field in taskInfo.customFields" :key="field.title">
             <a-descriptions-item :label="field.title">

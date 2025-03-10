@@ -83,10 +83,10 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['group:list'], title: '群组管理' }
       },
       {
-        path: 'account',
-        component: () => import('@/views/account/index.vue'),
-        name: 'Account',
-        meta: { requiresAuth: true, permissions: ['account:list'], title: '账号管理' }
+        path: 'waiter',
+        component: () => import('@/views/waiter/index.vue'),
+        name: 'Waiter',
+        meta: { requiresAuth: true, permissions: ['waiter:list'], title: '小二管理' }
       },
       {
         path: 'article',

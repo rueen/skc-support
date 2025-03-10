@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 10:01:44
+ * @LastEditTime: 2025-03-10 13:53:10
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -44,12 +44,12 @@ const API_PATH = {
     withdrawalExport: '/settlement/withdrawal/export',
     otherBills: '/settlement/otherBills',
   },
-  // 账号管理相关接口
-  account: {
-    add: '/accounts/add',
-    edit: '/accounts/edit',
-    delete: '/accounts/delete',
-    list: '/accounts/list',
+  // 小二管理相关接口
+  waiter: {
+    add: '/waiters/add',
+    edit: '/waiters/edit',
+    delete: '/waiters/delete',
+    list: '/waiters/list',
   },
   // 用户相关接口
   user: {

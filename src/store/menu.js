@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 15:37:32
+ * @LastEditTime: 2025-03-10 13:56:12
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -17,18 +17,18 @@ const allMenu = [
     permissions: 'task:list',
   },
   {
-    path: '/account-audit',
-    key: 'account-audit',
-    icon: 'safety-outlined',
-    title: 'accountAudit',
-    permissions: 'account:audit',
-  },
-  {
     path: '/task-audit',
     key: 'task-audit',
     icon: 'audit-outlined',
     title: 'taskAudit',
     permissions: 'task:audit',
+  },
+  {
+    path: '/account-audit',
+    key: 'account-audit',
+    icon: 'safety-outlined',
+    title: 'accountAudit',
+    permissions: 'account:audit',
   },
   {
     path: '/member',
@@ -66,11 +66,11 @@ const allMenu = [
     permissions: 'settlement:otherBills',
   },
   {
-    path: '/account',
-    key: 'account',
+    path: '/waiter',
+    key: 'waiter',
     icon: 'user-outlined',
-    title: 'account',
-    permissions: 'account:list',
+    title: 'waiter',
+    permissions: 'waiter:list',
   },
   {
     path: '/article',

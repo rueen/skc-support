@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 15:44:35
+ * @LastEditTime: 2025-03-10 13:53:08
  * @Description: 
  */
 export default {
@@ -17,7 +17,7 @@ export default {
   memberEdit: '编辑会员',
   memberView: '查看会员',
   group: '群组管理',
-  account: '账号管理',
+  waiter: '小二管理',
   article: '文章管理',
   settlement: '结算管理',
   withdrawal: '提现账单',
