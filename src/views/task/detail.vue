@@ -332,6 +332,7 @@ const handleGroupModeChange = (e) => {
 }
 
 // 提交表单
+const submitLoading = ref(false)
 const handleSubmit = () => {
   formRef.value.validate().then(async () => {
     try {
