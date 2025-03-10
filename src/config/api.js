@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 15:11:12
+ * @LastEditTime: 2025-03-10 15:44:11
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -15,10 +15,15 @@ const API_PATH = {
     detail: '/tasks/detail',
     export: '/tasks/export',
   },
+  // 任务审核相关接口
+  taskAudit: {
+    list: '/taskAudits/list',
+    detail: '/taskAudits/detail',
+  },
   // 账号相关接口
   account: {
     list: '/accounts/list',
-    batchApprove: '/accounts/batchApprove',
+    batchResolve: '/accounts/batchResolve',
     batchReject: '/accounts/batchReject',
   },
   // 会员相关接口
@@ -45,8 +50,8 @@ const API_PATH = {
   // 结算相关接口
   settlement: {
     withdrawal: '/settlement/withdrawal',
-    batchPaid: '/settlement/withdrawal/batchPaid',
-    batchFailed: '/settlement/withdrawal/batchFailed',
+    batchResolve: '/settlement/withdrawal/batchResolve',
+    batchReject: '/settlement/withdrawal/batchReject',
     withdrawalExport: '/settlement/withdrawal/export',
     otherBills: '/settlement/otherBills',
   },

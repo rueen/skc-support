@@ -69,7 +69,7 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button type="primary" @click="handleBatchApprove">批量通过</a-button>
+            <a-button type="primary" @click="handleBatchResolve">批量通过</a-button>
             <a-button danger @click="handleBatchReject">批量拒绝</a-button>
           </a-space>
         </div>
@@ -150,7 +150,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
@@ -160,6 +160,7 @@ import {
   TaskAuditStatusColor,
   getLangText
 } from '@/constants/enums'
+import { get, post } from '@/utils/request'
 
 const router = useRouter()
 const { locale } = useI18n()
@@ -180,16 +181,8 @@ const searchForm = reactive({
 })
 
 // 选项数据
-const channelOptions = [
-  { id: 1, name: '抖音' },
-  { id: 2, name: '快手' }
-]
-
-const groupOptions = [
-  { id: 1, name: '群组1' },
-  { id: 2, name: '群组2' },
-  { id: 3, name: '群组3' }
-]
+const channelOptions = ref([])
+const groupOptions = ref([])
 
 // 表格列配置
 const columns = [
@@ -226,17 +219,7 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    taskName: '测试任务1',
-    channelName: '抖音',
-    memberNickname: '测试会员1',
-    groupName: '群组1',
-    reward: 100,
-    auditStatus: TaskAuditStatus.PENDING
-  }
-])
+const tableData = ref([])
 
 const pagination = reactive({
   current: 1,
@@ -303,7 +286,7 @@ const handleApprove = async (record) => {
 }
 
 // 批量审核通过
-const handleBatchApprove = async () => {
+const handleBatchResolve = async () => {
   if (!selectedRowKeys.value.length) {
     message.warning('请选择要通过的任务')
     return
@@ -354,19 +337,60 @@ const handleBatchReject = () => {
   // TODO: 实现批量拒绝逻辑
 }
 
+const loadChannelOptions = async () => {
+  const res = await get('channel.list')
+  if(res.success){
+    channelOptions.value = res.data.list
+  } 
+}
+
+// 获取群组列表
+const loadGroupOptions = async (keyword = '') => {
+  try {
+    const res = await get('group.list', {
+      params: {
+        page: 1,
+        pageSize: 50,
+        keyword
+      }
+    })  
+    if(res.success){
+      groupOptions.value = res.data.list || []
+    }
+  } catch (error) {
+    message.error('获取群组列表失败')
+  }
+}
+
 // 加载数据
 const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    pagination.total = tableData.value.length
+    const res = await get('taskAudit.list', {
+      params: {
+        page: pagination.current,
+        pageSize: pagination.pageSize,
+        ...searchForm
+      }
+    })
+    if(res.success) {
+      tableData.value = res.data.list
+      pagination.total = res.data.total
+    } else {
+      message.error(res.message)
+    }
   } finally {
     loading.value = false
   }
 }
 
 // 初始化
-loadData()
+onMounted(() => {
+  loadData()
+  loadGroupOptions()
+  loadChannelOptions()
+})
 </script>
 
 <style lang="less" scoped>

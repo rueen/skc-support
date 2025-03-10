@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 15:11:31
+ * @LastEditTime: 2025-03-10 15:44:14
  * @Description: 模拟数据工具
  */
 
@@ -92,6 +92,30 @@ const mockData = {
       message: '',
     };
   },
+  // 任务审核相关接口
+  'taskAudit.list': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: {
+        total: 100,
+        list: [
+          {
+            id: 1,
+            taskName: '测试任务1',
+            channelName: '抖音',
+            memberNickname: '测试会员1',
+            groupName: '群组1',
+            reward: 100,
+            auditStatus: 'pending'
+          },
+        ],
+        page: 1,
+        pageSize: 10, 
+      },
+    };
+  },
   // 账号相关接口
   'account.list': (params) => {
     return {
@@ -119,7 +143,7 @@ const mockData = {
       },
     };
   },
-  'account.batchApprove': (params) => {
+  'account.batchResolve': (params) => {
     return {
       code: 0,
       success: true,
@@ -288,14 +312,14 @@ const mockData = {
       },
     };
   },
-  'settlement.batchPaid': (params) => {
+  'settlement.batchResolve': (params) => {
     return {
       code: 0,
       success: true,
       message: '',
     };
   },
-  'settlement.batchFailed': (params) => {
+  'settlement.batchReject': (params) => {
     return {
       code: 0,
       success: true,

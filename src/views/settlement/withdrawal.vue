@@ -53,8 +53,8 @@
               <template #icon><download-outlined /></template>
               导出
             </a-button>
-            <a-button type="primary" @click="handleBatchPaid">批量已打款</a-button>
-            <a-button danger @click="handleBatchFailed">批量打款失败</a-button>
+            <a-button type="primary" @click="handleBatchResolve">批量已打款</a-button>
+            <a-button danger @click="handleBatchReject">批量打款失败</a-button>
           </a-space>
         </div>
       </div>
@@ -77,11 +77,11 @@
             <a-space>
               <a-popconfirm
                 title="确定要标记为已打款吗？"
-                @confirm="handlePaid(record)"
+                @confirm="handleResolve(record)"
               >
                 <a>已打款</a>
               </a-popconfirm>
-              <a class="danger" @click="handleFailed(record)">打款失败</a>
+              <a class="danger" @click="handleReject(record)">打款失败</a>
             </a-space>
           </template>
         </template>
@@ -92,7 +92,7 @@
     <a-modal
       v-model:open="failedVisible"
       title="打款失败原因"
-      @ok="handleFailedConfirm"
+      @ok="handleRejectConfirm"
       :confirmLoading="failedLoading"
     >
       <a-textarea
@@ -231,9 +231,9 @@ const handleExport = async () => {
 }
 
 // 标记已打款
-const handlePaid = async (record) => {
+const handleResolve = async (record) => {
   try {
-    const res = await post('settlement.batchPaid', {
+    const res = await post('settlement.batchResolve', {
       ids: [record.id]
     })
     if(res.success) {
@@ -248,13 +248,13 @@ const handlePaid = async (record) => {
 }
 
 // 批量标记已打款
-const handleBatchPaid = async () => {
+const handleBatchResolve = async () => {
   if (!selectedKeys.value.length) {
     message.warning('请选择要操作的记录')
     return
   }
   try {
-    const res = await post('settlement.batchPaid', {
+    const res = await post('settlement.batchResolve', {
       ids: selectedKeys.value
     })
     if(res.success) {
@@ -270,14 +270,14 @@ const handleBatchPaid = async () => {
 }
 
 // 打款失败
-const handleFailed = (record) => {
+const handleReject = (record) => {
   currentRecord.value = record
   failedReason.value = ''
   failedVisible.value = true
 }
 
 // 批量打款失败
-const handleBatchFailed = () => {
+const handleBatchReject = () => {
   if (!selectedKeys.value.length) {
     message.warning('请选择要操作的记录')
     return
@@ -287,7 +287,7 @@ const handleBatchFailed = () => {
 }
 
 // 确认打款失败
-const handleFailedConfirm = async () => {
+const handleRejectConfirm = async () => {
   if (!failedReason.value) {
     message.error('请输入打款失败原因')
     return
@@ -299,7 +299,7 @@ const handleFailedConfirm = async () => {
       failReason: failedReason.value,
       ids: currentRecord.value ? [currentRecord.value.id] : selectedKeys.value
     }
-    const res = await post('settlement.batchFailed', params)
+    const res = await post('settlement.batchReject', params)
     if(res.success) {
       message.success('操作成功')
       failedVisible.value = false

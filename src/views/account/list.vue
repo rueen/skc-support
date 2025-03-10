@@ -69,7 +69,7 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button type="primary" @click="handleBatchApprove">批量通过</a-button>
+            <a-button type="primary" @click="handleBatchResolve">批量通过</a-button>
             <a-button danger @click="handleBatchReject">批量拒绝</a-button>
           </a-space>
         </div>
@@ -116,7 +116,7 @@
             <a-space>
               <a-popconfirm
                 title="确定要通过该账号吗？"
-                @confirm="handleApprove(record)"
+                @confirm="handleResolve(record)"
                 v-if="record.auditStatus === AccountAuditStatus.PENDING"
               >
                 <a>通过</a>
@@ -282,7 +282,7 @@ const handleTableChange = (pag) => {
 // 审核通过
 const handleApprove = async (record) => {
   try {
-    const res = await post('account.batchApprove', {
+    const res = await post('account.batchResolve', {
       ids: [record.id]
     })
     if(res.success) {
@@ -297,14 +297,14 @@ const handleApprove = async (record) => {
 }
 
 // 批量审核通过
-const handleBatchApprove = async () => {
+const handleBatchResolve = async () => {
   if (!selectedKeys.value.length) {
     message.warning('请选择要通过的账号')
     return
   }
   // TODO: 实现批量审核通过逻辑
   try {
-    const res = await post('account.batchApprove', {
+    const res = await post('account.batchResolve', {
       ids: selectedKeys.value
     })
     if(res.success) {
