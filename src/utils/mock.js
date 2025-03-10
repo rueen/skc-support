@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 13:55:31
+ * @LastEditTime: 2025-03-10 14:14:34
  * @Description: 模拟数据工具
  */
 
@@ -68,6 +68,8 @@ const mockData = {
         "brand":"布鲁克",
         "groupIds":[],
         "groupMode":0,
+        "userRange":1,
+        "taskCount":0,
         "customFields":[
           {"title":"帖子链接","type":"input"},
           {"title":"分享链接","type":"input"},

@@ -130,6 +130,38 @@
           </div>
         </a-form-item>
 
+        <a-form-item label="用户范围" name="userRange">
+          <div class="user-range">
+            <a-radio-group v-model:value="formData.userRange">
+              <a-radio :value="0">全部用户</a-radio>
+              <a-radio :value="1">完成任务次数</a-radio>
+            </a-radio-group>
+            
+            <a-form-item-rest>
+              <div v-if="formData.userRange === 1" class="task-count">
+                <a-form-item name="taskCount">
+                  <a-input-number
+                    v-model:value="formData.taskCount"
+                    :min="0"
+                    :precision="0"
+                    placeholder="请输入次数"
+                    addon-after="次"
+                  />
+                </a-form-item>
+                <a-tooltip>
+                  <template #title>
+                    举例：<br/>
+                    0次，代表新人从未参与过任务的会员可显示并参与<br/>
+                    2次，代表只参与过0次/1次/2次的人可显示并参与<br/>
+                    5次，代表参与过0/1/2/3/4/5次任务的人可显示并参与
+                  </template>
+                  <question-circle-outlined />
+                </a-tooltip>
+              </div>
+            </a-form-item-rest>
+          </div>
+        </a-form-item>
+
         <a-form-item label="任务名额">
           <div class="quota-container">
             <a-space align="baseline">
@@ -238,7 +270,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import {
   TaskType,
@@ -277,7 +309,9 @@ const formData = reactive({
   notice: `1.请尽快完成发布，填写发布链接。
 2.任务结束后无法填写，不能结算。
 3.发布内容不符合要求，将无法审核通过。
-4.填写链接无法访问或其他无关链接，视为放弃结算。`
+4.填写链接无法访问或其他无关链接，视为放弃结算。`,
+  userRange: 0,
+  taskCount: 0
 })
 
 // 表单校验规则
@@ -293,6 +327,16 @@ const rules = {
       validator: (_, value) => {
         if (formData.groupMode === 1 && (!value || value.length === 0)) {
           return Promise.reject('请选择指定群组')
+        }
+        return Promise.resolve()
+      }
+    }
+  ],
+  taskCount: [
+    {
+      validator: (_, value) => {
+        if (formData.userRange === 1 && (value === undefined || value === null)) {
+          return Promise.reject('请输入完成任务次数')
         }
         return Promise.resolve()
       }
@@ -492,6 +536,24 @@ onMounted(() => {
     }
     .ant-form-item{
       margin-bottom: 0;
+    }
+  }
+
+  .user-range {
+    .task-count {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      
+      .ant-form-item {
+        margin-bottom: 0;
+        margin-right: 8px;
+      }
+      
+      .anticon {
+        color: rgba(0, 0, 0, 0.45);
+        cursor: pointer;
+      }
     }
   }
 }
