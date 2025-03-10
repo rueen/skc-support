@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 10:12:48
+ * @LastEditTime: 2025-03-10 11:11:10
  * @Description: 模拟数据工具
  */
 
@@ -58,7 +58,28 @@ const mockData = {
       code: 0,
       success: true,
       message: '',
-      data: {},
+      data: {
+        "taskName":"任务名称",
+        "channelId":1,
+        "category":"宝妈",
+        "type":"image_text",
+        "reward":100,
+        "brand":"布鲁克",
+        "groupIds":[],
+        "groupMode":0,
+        "customFields":[
+          {"title":"帖子链接","type":"input"},
+          {"title":"分享链接","type":"input"},
+          {"title":"数据截图","type":"image"}
+        ],
+        "startTime":"2025-03-10T03:09:17.741Z",
+        "endTime":"2025-03-31T03:09:18.705Z",
+        "unlimitedQuota":true,
+        "fansRequired":"10w+",
+        "contentRequirement":"1、200文字以上\n2、3张图片+",
+        "taskInfo":"这是第一条任务",
+        "notice":"1.请尽快完成发布，填写发布链接。\n2.任务结束后无法填写，不能结算。\n3.发布内容不符合要求，将无法审核通过。\n4.填写链接无法访问或其他无关链接，视为放弃结算。"
+      },
     };
   },
   'task.export': (params) => {

@@ -73,19 +73,19 @@
           <a-input
             v-model:value="formData.fansRequired"
             placeholder="请输入粉丝要求"
-            :disabled="isEdit"
           />
         </a-form-item>
 
         <a-form-item label="任务时间" required>
           <a-row :gutter="8">
             <a-col :span="11">
-              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]" :disabled="isEdit">
+              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]">
                 <a-date-picker
                   v-model:value="formData.startTime"
                   show-time
                   style="width: 100%"
                   placeholder="开始时间"
+                  :format="'YYYY-MM-DD HH:mm:ss'"
                 />
               </a-form-item>
             </a-col>
@@ -93,12 +93,13 @@
               <span>至</span>
             </a-col>
             <a-col :span="11">
-              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]" :disabled="isEdit">
+              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]">
                 <a-date-picker
                   v-model:value="formData.endTime"
                   show-time
                   style="width: 100%"
                   placeholder="结束时间"
+                  :format="'YYYY-MM-DD HH:mm:ss'"
                 />
               </a-form-item>
             </a-col>
@@ -143,7 +144,6 @@
             </a-form-item>
             <a-checkbox
               v-model:checked="formData.unlimitedQuota"
-              :disabled="isEdit"
             >
               不限制
               </a-checkbox>
@@ -203,7 +203,6 @@
             v-model:value="formData.contentRequirement"
             :rows="4"
             placeholder="请输入作品要求"
-            :disabled="isEdit"
           />
         </a-form-item>
 
@@ -212,7 +211,6 @@
             v-model:value="formData.taskInfo"
             :rows="4"
             placeholder="请输入任务信息"
-            :disabled="isEdit"
           />
         </a-form-item>
 
@@ -221,7 +219,6 @@
             v-model:value="formData.notice"
             :rows="4"
             placeholder="请输入温馨提示"
-            :disabled="isEdit"
           />
         </a-form-item>
 
@@ -248,7 +245,8 @@ import {
   TaskTypeLang,
   getLangText
 } from '@/constants/enums'
-import { get } from '@/utils/request'
+import { get, post } from '@/utils/request'
+import dayjs from 'dayjs'
 
 const route = useRoute()
 const router = useRouter()
@@ -342,6 +340,7 @@ const handleSubmit = () => {
         ...formData,
         groupIds: formData.groupMode === 0 ? [] : formData.groupIds
       }
+      console.log(submitData)
       // TODO: 实现提交逻辑
       const res = await post('task.add', submitData)
       if(res.success) {
@@ -351,6 +350,7 @@ const handleSubmit = () => {
         message.error(res.message)
       }
     } catch (error) {
+      console.log(error)
       message.error('提交失败')
     } finally {
       submitLoading.value = false
@@ -367,8 +367,25 @@ const handleCancel = () => {
 const getTaskDetail = async (id) => {
   try {
     // TODO: 实现获取任务详情逻辑
+    const res = await get('task.detail', {
+      params: {
+        id
+      }
+    })
+    if(res.success){
+      const data = res.data || {}
+      // 转换日期字符串为日期对象
+      if (data.startTime) {
+        data.startTime = dayjs(data.startTime)
+      }
+      if (data.endTime) {
+        data.endTime = dayjs(data.endTime)
+      }
+      Object.assign(formData, data)
+    }
   } catch (error) {
-    message.error('获取任务详情失败')
+    console.log(error)
+    message.error(error)
   }
 }
 
