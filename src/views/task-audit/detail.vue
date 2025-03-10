@@ -78,7 +78,7 @@
           <a-space>
             <a-button
               type="primary"
-              @click="handleApprove"
+              @click="handleResolve"
               v-if="auditInfo.status === TaskAuditStatus.PENDING"
             >
               审核通过
@@ -131,6 +131,7 @@ import {
   TaskAuditStatusColor,
   getLangText
 } from '@/constants/enums'
+import { get, post } from '@/utils/request'
 
 const route = useRoute()
 const router = useRouter()
@@ -142,26 +143,7 @@ const rejectLoading = ref(false)
 const rejectReason = ref('')
 
 // 任务信息
-const taskInfo = reactive({
-  taskName: '测试任务1',
-  channelName: '抖音',
-  category: '美食',
-  type: TaskType.IMAGE_TEXT,
-  reward: 100,
-  brand: '测试品牌',
-  groupNames: ['群组1', '群组2'],
-  startTime: '2024-03-01 00:00:00',
-  endTime: '2024-03-31 23:59:59',
-  quota: 10,
-  unlimitedQuota: false,
-  fansRequired: 1000,
-  contentRequirement: '作品要求内容',
-  taskInfo: '任务信息内容',
-  customFields: [
-    { title: '字段1', type: 'input', value: '测试内容1' },
-    { title: '字段2', type: 'image', value: 'https://example.com/image.jpg' }
-  ]
-})
+const taskInfo = reactive({})
 
 // 会员信息
 const memberInfo = reactive({
@@ -192,11 +174,18 @@ const getTaskAuditStatusColor = (status) => {
 }
 
 // 审核通过
-const handleApprove = async () => {
+const handleResolve = async () => {
   try {
     // TODO: 实现审核通过逻辑
-    message.success('审核通过成功')
-    router.back()
+    const res = await post('taskAudit.batchResolve', {
+      ids: [route.params.id]
+    })
+    if(res.success) {
+      message.success('审核通过成功')
+      router.back()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('审核通过失败')
   }
@@ -218,9 +207,17 @@ const handleRejectConfirm = async () => {
   try {
     rejectLoading.value = true
     // TODO: 实现审核拒绝逻辑
-    message.success('审核拒绝成功')
-    rejectVisible.value = false
-    router.back()
+    const res = await post('taskAudit.batchReject', {
+      ids: [route.params.id],
+      reason: rejectReason.value
+    })
+    if(res.success) {
+      message.success('审核拒绝成功')
+      rejectVisible.value = false
+      router.back()
+    } else {
+      message.error(res.message)
+    }
   } catch (error) {
     message.error('审核拒绝失败')
   } finally {
@@ -242,6 +239,14 @@ const handleNext = () => {
 const getDetail = async (id) => {
   try {
     // TODO: 实现获取详情逻辑
+    const res = await get('taskAudit.detail', {
+      params: {
+        id
+      }
+    })
+    if(res.success) {
+      Object.assign(taskInfo, res.data)
+    }
   } catch (error) {
     message.error('获取详情失败')
   }
