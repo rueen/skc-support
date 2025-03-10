@@ -71,7 +71,7 @@
           <template v-else-if="column.key === 'groupLink'">
             <div class="link-text-container">
               <a :href="record.groupLink" target="_blank" class="link-text">{{ record.groupLink }}</a>
-              <a-button type="link" size="small" @click="copyLink(record.groupLink)">
+              <a-button type="link" size="small" @click="handleCopy(record.groupLink)">
                 复制
               </a-button>
             </div>
@@ -408,7 +408,7 @@ const loadMemberOptions = async (keyword = '') => {
 }
 
 // 复制群链接
-const copyLink = (link) => {
+const handleCopy = (link) => {
   navigator.clipboard.writeText(link)
     .then(() => {
       message.success('链接已复制到剪贴板')

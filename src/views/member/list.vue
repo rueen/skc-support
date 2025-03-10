@@ -64,7 +64,7 @@
                 <div class="link-text-container">
                   <span class="label">主页：</span>
                   <a :href="item.homeUrl" target="_blank" class="link-text">{{ item.homeUrl }}</a>
-                  <a-button type="link" size="small" @click="copyLink(item.homeUrl)">
+                  <a-button type="link" size="small" @click="handleCopy(item.homeUrl)">
                     复制
                   </a-button>
                 </div>
@@ -299,7 +299,7 @@ const loadGroupOptions = async (keyword = '') => {
 }
 
 // 复制链接
-const copyLink = (link) => {
+const handleCopy = (link) => {
   navigator.clipboard.writeText(link)
     .then(() => {
       message.success('链接已复制到剪贴板')

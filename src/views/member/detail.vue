@@ -3,7 +3,6 @@
     <page-header
       :title="isEdit ? '编辑会员' : '新增会员'"
       :back="true"
-      class="page-header"
     />
     <div class="form-container">
       <a-form
@@ -271,12 +270,6 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .member-form {
-  .page-header {
-    :deep(.ant-page-header-heading-left) {
-      flex: 1;
-    }
-  }
-
   .form-container {
     background-color: #fff;
     padding: 24px;

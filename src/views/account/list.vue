@@ -90,7 +90,7 @@
                 <div class="link-text-container">
                   <span class="label">主页：</span>
                   <a :href="record.homeUrl" target="_blank" class="link-text">{{ record.homeUrl }}</a>
-                  <a-button type="link" size="small" @click="copyLink(record.homeUrl)">
+                  <a-button type="link" size="small" @click="handleCopy(record.homeUrl)">
                     复制
                   </a-button>
                 </div>
@@ -416,7 +416,7 @@ const loadGroupOptions = async (keyword = '') => {
 }
 
 // 复制链接
-const copyLink = (url) => {
+const handleCopy = (url) => {
   navigator.clipboard.writeText(url).then(() => {
     message.success('复制成功')
   }).catch(() => {

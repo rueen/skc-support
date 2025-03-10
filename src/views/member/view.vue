@@ -3,7 +3,6 @@
     <page-header
       title="会员详情"
       :back="true"
-      class="page-header"
     />
     <div class="detail-container">
       <!-- 会员信息 -->
@@ -11,10 +10,10 @@
         <div class="section-title">会员信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="会员名称">
-            {{ memberInfo.name }}
+            {{ memberInfo.memberNickname }}
           </a-descriptions-item>
           <a-descriptions-item label="会员账号">
-            {{ memberInfo.account }}
+            {{ memberInfo.memberAccount }}
           </a-descriptions-item>
           <a-descriptions-item label="所属群组">
             {{ memberInfo.groupName }}
@@ -44,9 +43,11 @@
               <a-descriptions-item label="账号">{{ account.username }}</a-descriptions-item>
               <a-descriptions-item label="平台">{{ account.channelName }}</a-descriptions-item>
               <a-descriptions-item label="主页">
-                <div class="home-link">
-                  <a :href="account.homeUrl" target="_blank">{{ account.homeUrl }}</a>
-                  <a-button type="link" size="small" @click="handleCopy(account.homeUrl)">复制</a-button>
+                <div class="link-text-container">
+                  <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
+                  <a-button type="link" size="small" @click="handleCopy(account.homeUrl)">
+                    复制
+                  </a-button>
                 </div>
               </a-descriptions-item>
               <a-descriptions-item label="粉丝数">{{ account.followers }}</a-descriptions-item>
@@ -58,7 +59,7 @@
       </div>
 
       <!-- 任务信息 -->
-      <div class="section">
+      <div class="section" style="padding-bottom: 24px;">
         <div class="section-title">任务信息</div>
         <a-row :gutter="16">
           <a-col :span="6">
@@ -142,12 +143,6 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .member-view {
-  .page-header {
-    :deep(.ant-page-header-heading-left) {
-      flex: 1;
-    }
-  }
-
   .detail-container {
     padding: 24px;
     background-color: #fff;
@@ -155,8 +150,12 @@ onMounted(() => {
   }
 
   .section {
-    & + .section {
-      margin-top: 32px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom: none;
     }
 
     .section-title {
@@ -164,9 +163,7 @@ onMounted(() => {
       font-weight: 500;
       color: rgba(0, 0, 0, 0.85);
       margin-bottom: 16px;
-      padding-left: 8px;
       text-align: left;
-      border-left: 3px solid #1890ff;
     }
   }
 
