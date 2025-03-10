@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 21:04:01
+ * @LastEditTime: 2025-03-10 09:29:54
  * @Description: 模拟数据工具
  */
 
@@ -153,6 +153,40 @@ const mockData = {
             createdAt: '2021-01-01 12:00:00',
             updatedAt: '2021-01-01 12:00:00',
           },
+        ],
+        page: 1,
+        pageSize: 10,
+      },
+    };
+  },
+  // 结算相关接口
+  'settlement.otherBills': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+      data: {
+        total: 100,
+        list: [
+          {
+            id: 1,
+            memberName: '张三',
+            billType: 'task_income',
+            amount: 100.00,
+            status: 'settled',
+            createTime: '2024-02-28 10:00:00',
+            updateTime: '2024-02-28 10:00:00',
+          },
+          {
+            id: 2,
+            memberName: '李四',
+            billType: 'invite_reward',
+            amount: 200.00,
+            status: 'failed',
+            failReason: '账户信息有误',
+            createTime: '2024-02-28 11:00:00',
+            updateTime: '2024-02-28 11:00:00',
+          }
         ],
         page: 1,
         pageSize: 10,

@@ -221,7 +221,29 @@ export const OccupationTypeLang = {
     'zh-CN': '学生',
     'en-US': 'Student'
   }
-} 
+}
+
+/**
+ * 结算状态枚举
+ */
+export const SettlementStatus = {
+  SETTLED: 'settled',
+  FAILED: 'failed'
+}
+
+/**
+ * 结算状态多语言
+ */
+export const SettlementStatusLang = {
+  [SettlementStatus.SETTLED]: {
+    zh: '已结算',
+    en: 'Settled'
+  },
+  [SettlementStatus.FAILED]: {
+    zh: '结算失败',
+    en: 'Failed'
+  }
+}
 
 /**
  * 获取多语言文本的工具函数

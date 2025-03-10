@@ -34,8 +34,13 @@
                 style="width: 120px"
                 allow-clear
               >
-                <a-select-option value="settled">已结算</a-select-option>
-                <a-select-option value="failed">结算失败</a-select-option>
+                <a-select-option
+                  v-for="status in Object.values(SettlementStatus)"
+                  :key="status"
+                  :value="status"
+                >
+                  {{ getSettlementStatusText(status) }}
+                </a-select-option>
               </a-select>
             </a-form-item>
             <a-form-item>
@@ -65,12 +70,8 @@
           </template>
           <template v-if="column.key === 'status'">
             <a-tag :color="getStatusColor(record.status)">
-              {{ getStatusText(record.status) }}
+              {{ getSettlementStatusText(record.status) }}
             </a-tag>
-            <a-tooltip v-if="record.status === 'failed'">
-              <template #title>{{ record.failReason }}</template>
-              <info-circle-outlined style="margin-left: 4px" />
-            </a-tooltip>
           </template>
         </template>
       </a-table>
@@ -79,11 +80,14 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
-import { BillType, BillTypeLang, getLangText } from '@/constants/enums'
+import { BillType, BillTypeLang, SettlementStatus, SettlementStatusLang } from '@/constants/enums'
+import { get } from '@/utils/request'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const loading = ref(false)
 
 // 搜索表单
@@ -129,25 +133,7 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    memberName: '张三',
-    billType: BillType.TASK_INCOME,
-    amount: 100.00,
-    createTime: '2024-02-28 10:00:00',
-    status: 'settled'
-  },
-  {
-    id: 2,
-    memberName: '李四',
-    billType: BillType.TASK_INCOME,
-    amount: 200.00,
-    createTime: '2024-02-28 11:00:00',
-    status: 'failed',
-    failReason: '账户信息有误'
-  }
-])
+const tableData = ref([])
 
 const pagination = reactive({
   current: 1,
@@ -157,23 +143,19 @@ const pagination = reactive({
 
 // 获取账单类型文本
 const getBillTypeText = (type) => {
-  return getLangText(BillTypeLang, type)
+  return BillTypeLang[type]?.[locale.value] || type
 }
 
-// 获取状态文本
-const getStatusText = (status) => {
-  const map = {
-    settled: '已结算',
-    failed: '结算失败'
-  }
-  return map[status] || status
+// 获取结算状态文本
+const getSettlementStatusText = (status) => {
+  return SettlementStatusLang[status]?.[locale.value] || status
 }
 
 // 获取状态颜色
 const getStatusColor = (status) => {
   const map = {
-    settled: 'success',
-    failed: 'error'
+    [SettlementStatus.SETTLED]: 'success',
+    [SettlementStatus.FAILED]: 'error'
   }
   return map[status]
 }
@@ -205,14 +187,26 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    pagination.total = tableData.value.length
+    const res = await get('settlement.otherBills', {
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...searchForm
+    })
+    if(res.success){
+      tableData.value = res.data.list
+      pagination.total = res.data.total
+    } else {
+      message.error(res.message)
+    }
   } finally {
     loading.value = false
   }
 }
 
 // 初始化
-loadData()
+onMounted(() => {
+  loadData()
+})
 </script>
 
 <style lang="less" scoped>

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 20:16:24
+ * @LastEditTime: 2025-03-10 09:27:33
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -35,6 +35,10 @@ const API_PATH = {
     add: '/groups/add',
     edit: '/groups/edit',
     delete: '/groups/delete',
+  },
+  // 结算相关接口
+  settlement: {
+    otherBills: '/settlement/otherBills',
   },
   // 账号管理相关接口
   account: {
