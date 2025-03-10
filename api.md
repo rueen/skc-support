@@ -150,7 +150,6 @@ Authorization: Bearer <token>
 - **接口**：`GET /taskSubmitted/list`
 - **描述**：获取已提交列表
 - **请求参数**：支持分页和筛选
-- **请求参数**：
   ```json
   {
     "page": 1,           // 页码
@@ -392,7 +391,7 @@ Authorization: Bearer <token>
 #### 获取渠道列表
 - **接口**：`GET /channels/list`
 - **描述**：获取渠道列表
-- **请求参数**：支持分页
+- **请求参数**：支持分页和筛选
   ```json
   {
     "page": 1,           // 页码
@@ -606,7 +605,7 @@ Authorization: Bearer <token>
 #### 获取小二列表
 - **接口**：`GET /waiters/list`
 - **描述**：获取小二列表
-- **请求参数**：支持分页
+- **请求参数**：支持分页和筛选
   ```json
   {
     "page": 1,           // 页码
