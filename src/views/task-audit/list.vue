@@ -278,7 +278,7 @@ const handleView = (record) => {
 const handleResolve = async (record) => {
   try {
     // TODO: 实现审核通过逻辑
-    const res = await post('taskAudit.batchResolve', {
+    const res = await post('taskSubmitted.batchResolve', {
       ids: [record.id]
     })
     if(res.success) {
@@ -300,7 +300,7 @@ const handleBatchResolve = async () => {
   }
   try {
     // TODO: 实现批量审核通过逻辑
-    const res = await post('taskAudit.batchResolve', {
+    const res = await post('taskSubmitted.batchResolve', {
       ids: selectedRowKeys.value
     })
     if(res.success) {
@@ -332,7 +332,7 @@ const handleRejectConfirm = async () => {
   try {
     rejectLoading.value = true
     // TODO: 实现审核拒绝逻辑
-    const res = await post('taskAudit.batchReject', {
+    const res = await post('taskSubmitted.batchReject', {
       ids: selectedRowKeys.value,
       reason: rejectReason.value
     })
@@ -391,7 +391,7 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    const res = await get('taskAudit.list', {
+    const res = await get('taskSubmitted.list', {
       params: {
         page: pagination.current,
         pageSize: pagination.pageSize,

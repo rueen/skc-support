@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 15:59:15
+ * @LastEditTime: 2025-03-10 16:10:31
  * @Description: 模拟数据工具
  */
 
@@ -93,7 +93,7 @@ const mockData = {
     };
   },
   // 任务审核相关接口
-  'taskAudit.list': (params) => {
+  'taskSubmitted.list': (params) => {
     return {
       code: 0,
       success: true,
@@ -116,21 +116,21 @@ const mockData = {
       },
     };
   },
-  'taskAudit.batchResolve': (params) => {
+  'taskSubmitted.batchResolve': (params) => {
     return {
       code: 0,
       success: true,
       message: '',
     };
   },
-  'taskAudit.batchReject': (params) => {
+  'taskSubmitted.batchReject': (params) => {
     return {
       code: 0,
       success: true,
       message: '',
     };
   },
-  'taskAudit.detail': (params) => {
+  'taskSubmitted.detail': (params) => {
     return {
       code: 0,
       success: true,

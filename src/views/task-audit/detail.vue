@@ -177,7 +177,7 @@ const getTaskAuditStatusColor = (status) => {
 const handleResolve = async () => {
   try {
     // TODO: 实现审核通过逻辑
-    const res = await post('taskAudit.batchResolve', {
+    const res = await post('taskSubmitted.batchResolve', {
       ids: [route.params.id]
     })
     if(res.success) {
@@ -207,7 +207,7 @@ const handleRejectConfirm = async () => {
   try {
     rejectLoading.value = true
     // TODO: 实现审核拒绝逻辑
-    const res = await post('taskAudit.batchReject', {
+    const res = await post('taskSubmitted.batchReject', {
       ids: [route.params.id],
       reason: rejectReason.value
     })
@@ -239,7 +239,7 @@ const handleNext = () => {
 const getDetail = async (id) => {
   try {
     // TODO: 实现获取详情逻辑
-    const res = await get('taskAudit.detail', {
+    const res = await get('taskSubmitted.detail', {
       params: {
         id
       }
