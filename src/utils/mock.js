@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 16:21:52
+ * @LastEditTime: 2025-03-10 16:39:18
  * @Description: 模拟数据工具
  */
 
@@ -22,9 +22,11 @@ const mockData = {
           {
             id: 1,
             taskName: '测试任务1',
+            channelId: 1,
             channelName: 'facebook',
-            status: 'not_started',
-            createTime: '2024-03-01 10:00:00'
+            taskStatus: 'not_started', // 任务状态
+            createdAt: '2024-03-01 10:00:00',
+            updatedAt: '2024-03-01 10:00:00'
           },
         ],
         page: 1,
@@ -62,6 +64,7 @@ const mockData = {
       data: {
         "taskName":"任务名称",
         "channelId":1,
+        "channelName":"抖音",
         "category":"宝妈",
         "type":"image_text",
         "reward":100,

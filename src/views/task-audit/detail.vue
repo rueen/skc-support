@@ -34,10 +34,12 @@
         <a-descriptions :column="2">
           <a-descriptions-item label="会员名称">
             {{ memberInfo.nickname }}
-            <a-tag v-if="memberInfo.isGroupOwner" color="blue">群主</a-tag>
           </a-descriptions-item>
           <a-descriptions-item label="账号">{{ memberInfo.account }}</a-descriptions-item>
-          <a-descriptions-item label="所属群">{{ memberInfo.groupName }}</a-descriptions-item>
+          <a-descriptions-item label="所属群">
+            {{ memberInfo.groupName }}
+            <a-tag v-if="memberInfo.isGroupOwner" color="blue">群主</a-tag>
+          </a-descriptions-item>
         </a-descriptions>
       </div>
 

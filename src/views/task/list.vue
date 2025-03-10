@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 13:38:33
+ * @LastEditTime: 2025-03-10 16:40:35
  * @Description: 
 -->
 <template>
@@ -36,7 +36,7 @@
             </a-form-item>
             <a-form-item label="任务状态">
               <a-select
-                v-model:value="searchForm.status"
+                v-model:value="searchForm.taskStatus"
                 placeholder="请选择状态"
                 style="width: 120px"
                 allow-clear
@@ -80,18 +80,18 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
-            <a-tag :color="getTaskStatusColor(record.status)">
-              {{ getTaskStatusText(record.status) }}
+          <template v-if="column.key === 'taskStatus'">
+            <a-tag :color="getTaskStatusColor(record.taskStatus)">
+              {{ getTaskStatusText(record.taskStatus) }}
             </a-tag>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)" v-if="record.status === TaskStatus.NOT_STARTED">编辑</a>
+              <a @click="handleEdit(record)" v-if="record.taskStatus === TaskStatus.NOT_STARTED">编辑</a>
               <a-popconfirm
                 title="确定要删除该任务吗？"
                 @confirm="handleDelete(record)"
-                v-if="record.status === TaskStatus.NOT_STARTED"
+                v-if="record.taskStatus === TaskStatus.NOT_STARTED"
               >
                 <a class="danger">删除</a>
               </a-popconfirm>
@@ -125,7 +125,7 @@ const loading = ref(false)
 const searchForm = reactive({
   taskName: '',
   channelId: undefined,
-  status: undefined,
+  taskStatus: undefined,
 })
 
 // 渠道选项
@@ -145,13 +145,13 @@ const columns = [
   },
   {
     title: '任务状态',
-    dataIndex: 'status',
-    key: 'status'
+    dataIndex: 'taskStatus',
+    key: 'taskStatus'
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
+    dataIndex: 'createdAt',
+    key: 'createdAt'
   },
   {
     title: '操作',
@@ -189,7 +189,7 @@ const handleSearch = () => {
 const handleReset = () => {
   searchForm.taskName = ''
   searchForm.channelId = undefined
-  searchForm.status = undefined
+  searchForm.taskStatus = undefined
   handleSearch()
 }
 
