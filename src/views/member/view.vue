@@ -135,8 +135,25 @@ const getMemberDetail = async (id) => {
   }
 }
 
+// 获取账号列表
+const getAccountList = async (id) => {
+  try {
+    const res = await get('account.list', {
+      params: {
+        memberId: id
+      }
+    })
+    if(res.success){
+      accountList.value = res.data.list || []
+    }
+  } catch (error) {
+    message.error('获取账号列表失败')
+  }
+}
+
 onMounted(() => {
   getMemberDetail(route.params.id)
+  getAccountList(route.params.id)
 })
 </script>
 
