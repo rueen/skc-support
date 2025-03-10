@@ -113,7 +113,6 @@ const permissionsOptions = [
   { title: 'task', permissions: 'task:list' },
   { title: 'taskCreate', permissions: 'task:create' },
   { title: 'taskEdit', permissions: 'task:edit' },
-  { title: 'taskView', permissions: 'task:view' },
   { title: 'accountAudit', permissions: 'account:audit' },
   { title: 'taskAudit', permissions: 'task:audit' },
   { title: 'taskAuditDetail', permissions: 'task:auditDetail' },

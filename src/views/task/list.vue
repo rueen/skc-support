@@ -1,3 +1,10 @@
+<!--
+ * @Author: diaochan
+ * @Date: 2025-03-02 19:26:47
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-03-10 13:38:33
+ * @Description: 
+-->
 <template>
   <div class="task content-container">
     <div class="table-container">
@@ -80,7 +87,6 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleView(record)">查看</a>
               <a @click="handleEdit(record)" v-if="record.status === TaskStatus.NOT_STARTED">编辑</a>
               <a-popconfirm
                 title="确定要删除该任务吗？"
@@ -198,10 +204,6 @@ const handleAdd = () => {
 
 const handleEdit = (record) => {
   router.push(`/task/edit/${record.id}`)
-}
-
-const handleView = (record) => {
-  router.push(`/task/view/${record.id}`)
 }
 
 const handleDelete = async (record) => {

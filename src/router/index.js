@@ -35,12 +35,6 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['task:edit'], title: '编辑任务', hidden: true }
       },
       {
-        path: 'task/view/:id',
-        component: () => import('@/views/task/view.vue'),
-        name: 'TaskView',
-        meta: { requiresAuth: true, permissions: ['task:view'], title: '任务详情', hidden: true }
-      },
-      {
         path: 'task-audit',
         name: 'TaskAudit',
         component: () => import('@/views/task-audit/list.vue'),
