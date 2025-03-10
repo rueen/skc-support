@@ -214,16 +214,27 @@ const onSelectChange = (keys) => {
 }
 
 // 导出
-const handleExport = () => {
+const handleExport = async () => {
   // TODO: 实现导出逻辑
-  message.success('导出成功')
+  const res = await get('settlement.withdrawalExport', {
+    params: {
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...searchForm
+    }
+  })
+  if(res.success) {
+    message.success('导出成功')
+  } else {
+    message.error(res.message)
+  }
 }
 
 // 标记已打款
 const handlePaid = async (record) => {
   try {
-    const res = await post('settlement.withdrawal.paid', {
-      id: record.id
+    const res = await post('settlement.batchPaid', {
+      ids: [record.id]
     })
     if(res.success) {
       message.success('操作成功')
@@ -243,7 +254,7 @@ const handleBatchPaid = async () => {
     return
   }
   try {
-    const res = await post('settlement.withdrawal.batchPaid', {
+    const res = await post('settlement.batchPaid', {
       ids: selectedKeys.value
     })
     if(res.success) {
@@ -288,7 +299,7 @@ const handleFailedConfirm = async () => {
       failReason: failedReason.value,
       ids: currentRecord.value ? [currentRecord.value.id] : selectedKeys.value
     }
-    const res = await post('settlement.withdrawal.failed', params)
+    const res = await post('settlement.batchFailed', params)
     if(res.success) {
       message.success('操作成功')
       failedVisible.value = false

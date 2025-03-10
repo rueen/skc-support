@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 09:39:11
+ * @LastEditTime: 2025-03-10 10:01:44
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -38,8 +38,11 @@ const API_PATH = {
   },
   // 结算相关接口
   settlement: {
-    otherBills: '/settlement/otherBills',
     withdrawal: '/settlement/withdrawal',
+    batchPaid: '/settlement/withdrawal/batchPaid',
+    batchFailed: '/settlement/withdrawal/batchFailed',
+    withdrawalExport: '/settlement/withdrawal/export',
+    otherBills: '/settlement/otherBills',
   },
   // 账号管理相关接口
   account: {
