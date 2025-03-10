@@ -245,7 +245,13 @@ const handleExport = () => {
 const loadData = async () => {
   loading.value = true
   try {
-    const res = await get('task.list', searchForm)
+    const res = await get('task.list', {
+      params: {
+        page: pagination.current,
+        pageSize: pagination.pageSize,
+        ...searchForm
+      }
+    })
     if(res.success){
       tableData.value = res.data.list
       pagination.total = res.data.total

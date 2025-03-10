@@ -69,11 +69,40 @@
           />
         </a-form-item>
 
-        <a-form-item label="品牌" name="brand">
+        <a-form-item label="粉丝要求" name="fansRequired">
           <a-input
-            v-model:value="formData.brand"
-            placeholder="请输入品牌名称"
+            v-model:value="formData.fansRequired"
+            placeholder="请输入粉丝要求"
+            :disabled="isEdit"
           />
+        </a-form-item>
+
+        <a-form-item label="任务时间" required>
+          <a-row :gutter="8">
+            <a-col :span="11">
+              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]" :disabled="isEdit">
+                <a-date-picker
+                  v-model:value="formData.startTime"
+                  show-time
+                  style="width: 100%"
+                  placeholder="开始时间"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="2" class="text-center">
+              <span>至</span>
+            </a-col>
+            <a-col :span="11">
+              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]" :disabled="isEdit">
+                <a-date-picker
+                  v-model:value="formData.endTime"
+                  show-time
+                  style="width: 100%"
+                  placeholder="结束时间"
+                />
+              </a-form-item>
+            </a-col>
+          </a-row>
         </a-form-item>
 
         <a-form-item label="指定群组" name="groupIds">
@@ -100,7 +129,36 @@
           </div>
         </a-form-item>
 
-        <a-form-item label="自定义字段">
+        <a-form-item label="任务名额">
+          <div class="quota-container">
+            <a-space align="baseline">
+              <a-form-item name="quota">
+                <a-input-number
+                v-model:value="formData.quota"
+                :min="0"
+                :precision="0"
+                :disabled="formData.unlimitedQuota || isEdit"
+                placeholder="请输入任务名额"
+              />
+            </a-form-item>
+            <a-checkbox
+              v-model:checked="formData.unlimitedQuota"
+              :disabled="isEdit"
+            >
+              不限制
+              </a-checkbox>
+            </a-space>
+          </div>
+        </a-form-item>
+
+        <a-form-item label="品牌" name="brand">
+          <a-input
+            v-model:value="formData.brand"
+            placeholder="请输入品牌名称"
+          />
+        </a-form-item>
+
+        <a-form-item label="提交信息字段">
           <div class="custom-fields">
             <div v-for="(field, index) in formData.customFields" :key="index" class="field-item">
               <a-space align="baseline">
@@ -138,66 +196,6 @@
               <plus-outlined />添加字段
             </a-button>
           </div>
-        </a-form-item>
-
-        <a-form-item label="任务时间" required>
-          <a-row :gutter="8">
-            <a-col :span="11">
-              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]" :disabled="isEdit">
-                <a-date-picker
-                  v-model:value="formData.startTime"
-                  show-time
-                  style="width: 100%"
-                  placeholder="开始时间"
-                />
-              </a-form-item>
-            </a-col>
-            <a-col :span="2" class="text-center">
-              <span>至</span>
-            </a-col>
-            <a-col :span="11">
-              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]" :disabled="isEdit">
-                <a-date-picker
-                  v-model:value="formData.endTime"
-                  show-time
-                  style="width: 100%"
-                  placeholder="结束时间"
-                />
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </a-form-item>
-
-        <a-form-item label="任务名额">
-          <a-space align="baseline">
-            <a-form-item name="quota">
-              <a-input-number
-                v-model:value="formData.quota"
-                :min="0"
-                :precision="0"
-                :disabled="formData.unlimitedQuota || isEdit"
-                placeholder="请输入任务名额"
-              />
-            </a-form-item>
-            <a-checkbox
-              v-model:checked="formData.unlimitedQuota"
-              :disabled="isEdit"
-            >
-              不限制
-            </a-checkbox>
-          </a-space>
-        </a-form-item>
-
-        <a-form-item label="粉丝要求" name="fansRequired">
-          <a-input-number
-            v-model:value="formData.fansRequired"
-            :min="0"
-            :precision="0"
-            :step="1000"
-            placeholder="请输入最低粉丝数要求"
-            addon-after="粉丝"
-            :disabled="isEdit"
-          />
         </a-form-item>
 
         <a-form-item label="作品要求" name="contentRequirement">
@@ -308,11 +306,7 @@ const rules = {
 const channelOptions = ref([])
 const groupLoading = ref(false)
 
-const groupOptions = [
-  { id: 1, name: '群组1' },
-  { id: 2, name: '群组2' },
-  { id: 3, name: '群组3' }
-]
+const groupOptions = ref([])
 
 // 自定义字段方法
 const addField = () => {
@@ -348,8 +342,13 @@ const handleSubmit = () => {
         groupIds: formData.groupMode === 0 ? [] : formData.groupIds
       }
       // TODO: 实现提交逻辑
-      message.success('提交成功')
-      router.back()
+      const res = await post('task.add', submitData)
+      if(res.success) {
+        message.success('提交成功')
+        router.back()
+      } else {
+        message.error(res.message)
+      }
     } catch (error) {
       message.error('提交失败')
     } finally {
@@ -372,28 +371,34 @@ const getTaskDetail = async (id) => {
   }
 }
 
-const getChannelList = async () => {
+const loadChannelOptions = async () => {
   const res = await get('channel.list')
   if(res.success){
     channelOptions.value = res.data.list
   } 
 }
 
-const getGroupList = async () => {
+// 获取群组列表
+const loadGroupOptions = async (keyword = '') => {
   try {
-    groupLoading.value = true
-    // TODO: 实现获取群组列表的逻辑
-    // 这里暂时使用静态数据
+    const res = await get('group.list', {
+      params: {
+        page: 1,
+        pageSize: 50,
+        keyword
+      }
+    })  
+    if(res.success){
+      groupOptions.value = res.data.list || []
+    }
   } catch (error) {
     message.error('获取群组列表失败')
-  } finally {
-    groupLoading.value = false
   }
 }
 
 onMounted(() => {
-  getChannelList()
-  getGroupList()
+  loadChannelOptions()
+  loadGroupOptions()
   if (isEdit.value) {
     getTaskDetail(route.params.id)
   }
@@ -422,19 +427,19 @@ onMounted(() => {
     }
   }
 
-  .custom-fields {
-    .field-item {
-      margin-bottom: 16px;
-
-      &:last-child {
-        margin-bottom: 8px;
-      }
-    }
-  }
-
   .text-center {
     text-align: center;
     line-height: 32px;
+  }
+
+  .quota-container {
+    .ant-space-horizontal {
+      display: flex;
+      align-items: center;
+    }
+    .ant-form-item{
+      margin-bottom: 0;
+    }
   }
 }
 </style> 
