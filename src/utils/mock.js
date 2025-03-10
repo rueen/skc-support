@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 16:39:18
+ * @LastEditTime: 2025-03-10 17:12:49
  * @Description: 模拟数据工具
  */
 
@@ -66,7 +66,7 @@ const mockData = {
         "channelId":1,
         "channelName":"抖音",
         "category":"宝妈",
-        "type":"image_text",
+        "taskType":"image_text",
         "reward":100,
         "brand":"布鲁克",
         "groupIds":[],
@@ -95,7 +95,7 @@ const mockData = {
       message: '',
     };
   },
-  // 任务审核相关接口
+  // 已提交任务相关接口
   'taskSubmitted.list': (params) => {
     return {
       code: 0,
@@ -107,9 +107,11 @@ const mockData = {
           {
             id: 1,
             taskName: '测试任务1',
+            channelId: 1,
             channelName: '抖音',
             memberNickname: '测试会员1',
             groupName: '群组1',
+            isGroupOwner: true,
             reward: 100,
             auditStatus: 'pending'
           },
@@ -117,20 +119,6 @@ const mockData = {
         page: 1,
         pageSize: 10, 
       },
-    };
-  },
-  'taskSubmitted.batchResolve': (params) => {
-    return {
-      code: 0,
-      success: true,
-      message: '',
-    };
-  },
-  'taskSubmitted.batchReject': (params) => {
-    return {
-      code: 0,
-      success: true,
-      message: '',
     };
   },
   'taskSubmitted.detail': (params) => {
@@ -148,6 +136,20 @@ const mockData = {
       },
     };
   },
+  'taskSubmitted.batchResolve': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'taskSubmitted.batchReject': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
   // 账号相关接口
   'account.list': (params) => {
     return {
@@ -160,13 +162,15 @@ const mockData = {
           {
             id: 1,
             account: 'test123',
-            channelName: '抖音',
             channelId: 1,
+            channelName: '抖音',
             homeUrl: 'https://example.com/test123',
             fansCount: 1000,
+            friendsCount: 100,
             postsCount: 50,
             memberNickname: '测试会员1',
             groupName: '群组1',
+            isGroupOwner: true,
             auditStatus: 'pending'
           },
         ],    
@@ -201,8 +205,8 @@ const mockData = {
         list: [
           {
             id: 1,
-            name: '张三',
-            account: 'test123',
+            memberNickname: '张三', // 会员昵称
+            memberAccount: 'test123', // 会员账号
             groupId: 1,
             groupName: '群组1',
             isGroupOwner: true,
@@ -216,13 +220,34 @@ const mockData = {
                 homeUrl: 'https://example.com/test123',
               },
             ],
-            createTime: '2024-02-28 10:00:00',
-            updateTime: '2024-02-28 10:00:00',
+            createdAt: '2024-02-28 10:00:00',
+            updatedAt: '2024-02-28 10:00:00',
           },
         ],
         page: 1,
         pageSize: 10,
       },
+    };
+  },
+  'member.add': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'member.edit': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'member.delete': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
     };
   },
   'member.detail': (params) => {
@@ -232,8 +257,8 @@ const mockData = {
       message: '',
       data: {
         id: 1,
-        name: '张三',
-        account: '13800138000',
+        memberNickname: '张三',
+        memberAccount: '13800138000',
         groupId: '1',
         groupName: '群组1',
         isGroupOwner: true,
@@ -285,6 +310,27 @@ const mockData = {
       },
     };
   },
+  'channel.add': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'channel.edit': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'channel.delete': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
   'group.list': (params) => {
     return {
       code: 0,
@@ -309,6 +355,27 @@ const mockData = {
       },
     };
   },
+  'group.add': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'group.edit': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'group.delete': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
   // 结算相关接口
   'settlement.withdrawal': (params) => {
     return {
@@ -320,23 +387,29 @@ const mockData = {
         list: [
           {
             id: 1,
-            memberName: '张三',
-            account: '6222021234567890123',
+            memberNickname: '张三',
+            memberAccount: '13800138000',
+            withdrawalAccount: '6222021234567890123',
+            withdrawalAccountType: 'bank',
             amount: 1000.00,
             realName: '张三',
             status: 'pending',
-            createTime: '2024-02-28 10:00:00',
-            updateTime: '2024-02-28 10:00:00',
+            applyTime: '2024-02-28 10:00:00',
+            createdAt: '2024-02-28 10:00:00',
+            updatedAt: '2024-02-28 10:00:00',
           },
           {
             id: 2,
-            memberName: '李四',
-            account: '6222021234567890124',
+            memberNickname: '李四',
+            memberAccount: '13800138000',
+            withdrawalAccount: '6222021234567890124',
+            withdrawalAccountType: 'bank',
             amount: 2000.00,
             realName: '李四',
             status: 'failed',
-            createTime: '2024-02-28 11:00:00',
-            updateTime: '2024-02-28 11:00:00',
+            applyTime: '2024-02-28 11:00:00',
+            createdAt: '2024-02-28 11:00:00',
+            updatedAt: '2024-02-28 11:00:00',
           }
         ],
         page: 1,
@@ -375,22 +448,24 @@ const mockData = {
         list: [
           {
             id: 1,
-            memberName: '张三',
+            memberNickname: '张三',
+            memberAccount: '13800138000',
             billType: 'task_income',
             amount: 100.00,
             status: 'settled',
-            createTime: '2024-02-28 10:00:00',
-            updateTime: '2024-02-28 10:00:00',
+            createdAt: '2024-02-28 10:00:00',
+            updatedAt: '2024-02-28 10:00:00',
           },
           {
             id: 2,
-            memberName: '李四',
+            memberNickname: '李四',
+            memberAccount: '13800138000',
             billType: 'invite_reward',
             amount: 200.00,
             status: 'failed',
             failReason: '账户信息有误',
-            createTime: '2024-02-28 11:00:00',
-            updateTime: '2024-02-28 11:00:00',
+            createdAt: '2024-02-28 11:00:00',
+            updatedAt: '2024-02-28 11:00:00',
           }
         ],
         page: 1,
@@ -427,6 +502,27 @@ const mockData = {
         page: 1,
         pageSize: 10,
       },
+    };
+  },
+  'waiter.add': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'waiter.edit': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
+    };
+  },
+  'waiter.delete': (params) => {
+    return {
+      code: 0,
+      success: true,
+      message: '',
     };
   },
   // 用户相关接口

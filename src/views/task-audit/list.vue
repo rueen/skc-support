@@ -92,7 +92,10 @@
           <template v-if="column.key === 'member'">
             <div>
               <div>{{ record.memberNickname }}</div>
-              <div class="group-name">{{ record.groupName }}</div>
+              <div class="group-name">
+                <span>{{ record.groupName }}</span>
+                <a-tag v-if="record.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
+              </div>
             </div>
           </template>
           <template v-if="column.key === 'action'">

@@ -44,9 +44,9 @@
           />
         </a-form-item>
 
-        <a-form-item label="任务类型" name="type">
+        <a-form-item label="任务类型" name="taskType">
           <a-select
-            v-model:value="formData.type"
+            v-model:value="formData.taskType"
             placeholder="请选择任务类型"
           >
             <a-select-option
@@ -293,7 +293,7 @@ const formData = reactive({
   taskName: '',
   channelId: undefined,
   category: undefined,
-  type: undefined,
+  taskType: undefined,
   reward: undefined,
   brand: '',
   groupIds: [],
@@ -319,7 +319,7 @@ const rules = {
   taskName: [{ required: true, message: '请输入任务名称' }],
   channelId: [{ required: true, message: '请选择平台渠道' }],
   category: [{ required: true, message: '请输入达人领域' }],
-  type: [{ required: true, message: '请选择任务类型' }],
+  taskType: [{ required: true, message: '请选择任务类型' }],
   reward: [{ required: true, message: '请输入任务奖励' }],
   fansRequired: [{ required: true, message: '请输入粉丝要求' }],
   groupIds: [

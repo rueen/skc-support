@@ -6,7 +6,7 @@
           <a-form layout="inline" :model="searchForm">
             <a-form-item label="会员名称">
               <a-input
-                v-model:value="searchForm.memberName"
+                v-model:value="searchForm.memberNickname"
                 placeholder="请输入会员名称"
                 allow-clear
               />
@@ -91,7 +91,7 @@ const loading = ref(false)
 
 // 搜索表单
 const searchForm = reactive({
-  memberName: '',
+  memberNickname: '',
   billType: undefined,
   status: undefined
 })
@@ -100,8 +100,8 @@ const searchForm = reactive({
 const columns = [
   {
     title: '会员名称',
-    dataIndex: 'memberName',
-    key: 'memberName'
+    dataIndex: 'memberNickname',
+    key: 'memberNickname'
   },
   {
     title: '账单类型',
@@ -121,8 +121,8 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
+    dataIndex: 'createdAt',
+    key: 'createdAt'
   },
   {
     title: '结算状态',
@@ -168,7 +168,7 @@ const handleSearch = () => {
 // 重置
 const handleReset = () => {
   Object.assign(searchForm, {
-    memberName: '',
+    memberNickname: '',
     billType: undefined,
     status: undefined
   })

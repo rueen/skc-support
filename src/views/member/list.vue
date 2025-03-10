@@ -6,7 +6,7 @@
           <a-form layout="inline" :model="searchForm">
             <a-form-item label="会员名称">
               <a-input
-                v-model:value="searchForm.memberName"
+                v-model:value="searchForm.memberNickname"
                 placeholder="请输入会员名称"
                 allow-clear
               />
@@ -133,7 +133,7 @@ const inviteRewardAmount = ref(10.00)
 
 // 查询参数
 const searchForm = reactive({
-  memberName: '',
+  memberNickname: '',
   groupId: undefined
 })
 
@@ -153,8 +153,8 @@ const groupOptions = ref([])
 const columns = [
   {
     title: '会员名称',
-    dataIndex: 'name',
-    key: 'name'
+    dataIndex: 'memberAccount',
+    key: 'memberAccount'
   },
   {
     title: '账号信息',
@@ -166,9 +166,9 @@ const columns = [
     key: 'groupName'
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime',
+    title: '更新时间',
+    dataIndex: 'updatedAt',
+    key: 'updatedAt',
     width: 180
   },
   {
@@ -187,7 +187,7 @@ const handleSearch = () => {
 
 const handleReset = () => {
   Object.assign(searchForm, {
-    memberName: '',
+    memberNickname: '',
     groupId: undefined
   })
   handleSearch()

@@ -6,7 +6,7 @@
           <a-form layout="inline" :model="searchForm">
             <a-form-item label="会员名称">
               <a-input
-                v-model:value="searchForm.memberName"
+                v-model:value="searchForm.memberNickname"
                 placeholder="请输入会员名称"
                 allow-clear
               />
@@ -122,7 +122,7 @@ const failedReason = ref('')
 
 // 搜索表单
 const searchForm = reactive({
-  memberName: '',
+  memberNickname: '',
   status: undefined,
   timeRange: []
 })
@@ -131,18 +131,18 @@ const searchForm = reactive({
 const columns = [
   {
     title: '会员名称',
-    dataIndex: 'memberName',
-    key: 'memberName'
+    dataIndex: 'memberNickname',
+    key: 'memberNickname'
   },
   {
     title: '提现账户',
-    dataIndex: 'account',
-    key: 'account'
+    dataIndex: 'memberAccount',
+    key: 'memberAccount'
   },
   {
     title: '账户类型',
-    dataIndex: 'accountType',
-    key: 'accountType'
+    dataIndex: 'memberAccountType',
+    key: 'memberAccountType'
   },
   {
     title: '申请提现金额',
@@ -157,8 +157,8 @@ const columns = [
   },
   {
     title: '申请时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
+    dataIndex: 'applyTime',
+    key: 'applyTime'
   },
   {
     title: '提现状态',
@@ -195,7 +195,7 @@ const handleSearch = () => {
 // 重置
 const handleReset = () => {
   Object.assign(searchForm, {
-    memberName: '',
+    memberNickname: '',
     status: undefined,
     timeRange: []
   })
@@ -322,7 +322,7 @@ const loadData = async () => {
     const params = {
       page: pagination.current,
       pageSize: pagination.pageSize,
-      memberName: searchForm.memberName,
+      memberNickname: searchForm.memberNickname,
       status: searchForm.status,
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1]

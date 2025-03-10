@@ -97,6 +97,7 @@
               </div>
               <div class="stats">
                 <div class="stat-item">粉丝数：{{ record.fansCount }}</div>
+                <div class="stat-item">好友数：{{ record.friendsCount }}</div>
                 <div class="stat-item">发帖数：{{ record.postsCount }}</div>
               </div>
             </div>
@@ -104,7 +105,10 @@
           <template v-if="column.key === 'member'">
             <div>
               <div>{{ record.memberNickname }}</div>
-              <div class="group-name">{{ record.groupName }}</div>
+              <div class="group-name">
+                <span>{{ record.groupName }}</span>
+                <a-tag v-if="record.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
+              </div>
             </div>
           </template>
           <template v-if="column.key === 'auditStatus'">
