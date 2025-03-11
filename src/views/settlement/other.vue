@@ -121,8 +121,8 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createdAt',
-    key: 'createdAt'
+    dataIndex: 'createTime',
+    key: 'createTime'
   },
   {
     title: '结算状态',

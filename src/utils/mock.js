@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-11 15:22:18
+ * @LastEditTime: 2025-03-11 20:15:35
  * @Description: 模拟数据工具
  */
 
@@ -24,8 +24,7 @@ const mockData = {
             channelId: 1,
             channelName: 'facebook',
             taskStatus: 'not_started', // 任务状态
-            createdAt: '2024-03-01 10:00:00',
-            updatedAt: '2024-03-01 10:00:00'
+            createTime: '2024-03-01 10:00:00'
           },
         ],
         page: 1,
@@ -206,8 +205,7 @@ const mockData = {
                 homeUrl: 'https://example.com/test123',
               },
             ],
-            createdAt: '2024-02-28 10:00:00',
-            updatedAt: '2024-02-28 10:00:00',
+            updateTime: '2024-02-28 10:00:00'
           },
         ],
         page: 1,
@@ -266,8 +264,7 @@ const mockData = {
             id: 1,
             name: 'facebook',
             icon: 'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_4c70b5c61a4c675c57f71de7cc7d27c1~c5_300x300.jpeg?from=2956013662',
-            createdAt: '2021-01-01 12:00:00',
-            updatedAt: '2021-01-01 12:00:00',
+            updateTime: '2021-01-01 12:00:00',
           },
         ],
         page: 1,
@@ -308,8 +305,7 @@ const mockData = {
             ownerId: 1,
             ownerName: '张三',
             memberCount: 100,
-            createdAt: '2021-01-01 12:00:00',
-            updatedAt: '2021-01-01 12:00:00',
+            updateTime: '2021-01-01 12:00:00',
           },
         ],
         page: 1,
@@ -353,8 +349,6 @@ const mockData = {
             realName: '张三',
             withdrawalStatus: 'pending',
             applyTime: '2024-02-28 10:00:00',
-            createdAt: '2024-02-28 10:00:00',
-            updatedAt: '2024-02-28 10:00:00',
           },
           {
             id: 2,
@@ -366,8 +360,6 @@ const mockData = {
             realName: '李四',
             withdrawalStatus: 'failed',
             applyTime: '2024-02-28 11:00:00',
-            createdAt: '2024-02-28 11:00:00',
-            updatedAt: '2024-02-28 11:00:00',
           }
         ],
         page: 1,
@@ -407,8 +399,7 @@ const mockData = {
             billType: 'task_income',
             amount: 100.00,
             settlementStatus: 'settled',
-            createdAt: '2024-02-28 10:00:00',
-            updatedAt: '2024-02-28 10:00:00',
+            createTime: '2024-02-28 10:00:00',
           },
           {
             id: 2,
@@ -418,8 +409,7 @@ const mockData = {
             amount: 200.00,
             settlementStatus: 'failed',
             failReason: '账户信息有误',
-            createdAt: '2024-02-28 11:00:00',
-            updatedAt: '2024-02-28 11:00:00',
+            createTime: '2024-02-28 11:00:00',
           }
         ],
         page: 1,
@@ -440,16 +430,12 @@ const mockData = {
             username: 'admin',
             isAdmin: true,
             remarks: '管理员',
-            createdAt: '2021-01-01 12:00:00',
-            updatedAt: '2021-01-01 12:00:00',
           },
           {
             id: 2,
             username: 'user',
             isAdmin: false,
             remarks: '审核员',
-            createdAt: '2021-01-01 12:00:00',
-            updatedAt: '2021-01-01 12:00:00',
           },
         ],
         page: 1,
@@ -522,8 +508,7 @@ const mockData = {
         title: '用户协议',
         content: '这是用户协议的内容...',
         location: 'userAgreement',
-        createdAt: '2024-02-28 10:00:00',
-        updatedAt: '2024-02-28 10:00:00',
+        updateTime: '2024-02-28 10:00:00',
       },
     };
   },
@@ -536,8 +521,7 @@ const mockData = {
         title: '文章标题',
         content: '文章内容',
         location: 'userAgreement',
-        createdAt: '2024-02-28 10:00:00',
-        updatedAt: '2024-02-28 10:00:00',
+        updateTime: '2024-02-28 10:00:00',
       },
     };
   },

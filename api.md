@@ -163,8 +163,7 @@ Authorization: Bearer <token>
           "channelId": 1,
           "channelName": "facebook",
           "taskStatus": "not_started",
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
+          "createTime": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -271,9 +270,7 @@ Authorization: Bearer <token>
           "groupName": "群组1",
           "isGroupOwner": true,
           "reward": 100,
-          "taskAuditStatus": "pending",
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
+          "taskAuditStatus": "pending"
         }
       ],
       "page": 1,
@@ -300,11 +297,9 @@ Authorization: Bearer <token>
       "relatedTaskId": 1,                  // 关联任务ID
       "relatedMemberId": 1,                // 关联会员ID
       "taskAuditStatus": "pending",            // 审核状态
-      "applyTime": '2025-03-10 09:10:10',  // 报名时间
-      "submitTime": '2025-03-10 09:10:10', // 提交时间
+      "applyTime": "2025-03-10 09:10:10",  // 报名时间
+      "submitTime": "2025-03-10 09:10:10", // 提交时间
       "rejectReason": "",                  // 拒绝原因
-      "createdAt": "2024-03-01 10:00:00",
-      "updatedAt": "2024-03-01 10:00:00"
     }
   }
   ```
@@ -354,8 +349,6 @@ Authorization: Bearer <token>
           "groupName": "群组1",
           "isGroupOwner": true,
           "accountAuditStatus": "pending",
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -411,8 +404,7 @@ Authorization: Bearer <token>
               "homeUrl": "https://example.com/test123",
             },
           ],
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
+          "updateTime": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -500,8 +492,7 @@ Authorization: Bearer <token>
           "id": 1,
           "name": "facebook", 
           "icon": "http://abc",
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
+          "updateTime": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -559,8 +550,7 @@ Authorization: Bearer <token>
           "ownerId": 1,
           "ownerName": "张三",
           "memberCount": 100,
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
+          "updateTime": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -624,8 +614,6 @@ Authorization: Bearer <token>
           "realName": "张三",
           "withdrawalStatus": "pending",
           "applyTime": "2024-02-28 10:00:00",
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -675,8 +663,7 @@ Authorization: Bearer <token>
           "billType": "task_income",
           "amount": 100.00,
           "settlementStatus": "settled",
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
+          "createTime": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -712,8 +699,6 @@ Authorization: Bearer <token>
           "isAdmin": true,
           "remarks": "管理员",
           "permissions": "",  // 权限
-          "createdAt": "2024-03-01 10:00:00",
-          "updatedAt": "2024-03-01 10:00:00"
         }
       ],
       "page": 1,
@@ -788,8 +773,7 @@ Authorization: Bearer <token>
       "title": "用户协议",
       "content": "这是用户协议的内容...",
       "location": "userAgreement",
-      "createdAt": "2024-02-28 10:00:00",
-      "updatedAt": "2024-02-28 10:00:00",
+      "updateTime": "2024-02-28 10:00:00"
     }
   }
   ```

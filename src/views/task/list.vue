@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 16:40:35
+ * @LastEditTime: 2025-03-11 20:06:06
  * @Description: 
 -->
 <template>
@@ -150,8 +150,8 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createdAt',
-    key: 'createdAt'
+    dataIndex: 'createTime',
+    key: 'createTime'
   },
   {
     title: '操作',

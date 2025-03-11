@@ -211,8 +211,8 @@ const columns = [
   },
   {
     title: '更新时间',
-    dataIndex: 'updatedAt',
-    key: 'updatedAt'
+    dataIndex: 'updateTime',
+    key: 'updateTime'
   },
   {
     title: '操作',
