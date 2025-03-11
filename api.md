@@ -359,12 +359,12 @@ CREATE TABLE `articles` (
 
 #### 用户登录
 - **接口**：`POST /users/login`
-- **描述**：用户登录
+- **描述**：用户登录接口，服务端使用 Argon2 验证密码
 - **请求参数**：
   ```json
   {
-    "username": "用户名",
-    "password": "密码"    // Argon2 加密后的密码
+    "username": "admin",     // 用户名
+    "password": "admin123"   // 原始密码（应通过 HTTPS 传输确保安全）
   }
   ```
 - **响应示例**：
@@ -373,10 +373,21 @@ CREATE TABLE `articles` (
     "code": 0,
     "message": "登录成功",
     "data": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "username": "admin",
+      "permissions": [
+        "task:list",
+        "task:create",
+        "task:edit",
+        "task:audit"
+      ]
     }
   }
   ```
+- **密码验证流程**：
+  1. 客户端通过 HTTPS 将原始密码发送到服务器
+  2. 服务器使用 Argon2 的 `verify` 方法验证密码
+  3. 验证成功后返回 token 和用户信息
 
 ### 任务管理
 
@@ -755,7 +766,6 @@ CREATE TABLE `articles` (
     "icon": "http://abc",
   }
   ```
-
 #### 编辑渠道
 - **接口**：`PUT /channels/edit`
 - **描述**：编辑渠道信息
@@ -1011,3 +1021,4 @@ CREATE TABLE `articles` (
     "location": "userAgreement",
   }
   ```
+

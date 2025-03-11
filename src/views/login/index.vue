@@ -57,7 +57,7 @@
         </a-form-item>
 
         <div class="login-tip">
-          默认账号：admin / 123456
+          默认账号：admin / admin123
         </div>
       </a-form>
     </div>
@@ -70,6 +70,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { post } from '@/utils/request';
+import { message } from 'ant-design-vue';
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -78,7 +79,7 @@ const loading = ref(false)
 
 const formState = reactive({
   username: 'admin', // 默认填入用户名
-  password: '123456', // 默认填入密码
+  password: 'admin123', // 默认填入密码
   remember: true
 })
 
@@ -94,7 +95,15 @@ const rules = {
 const handleLogin = async (values) => {
   try {
     loading.value = true
-    const res = await post('user.login', values);
+    
+    // 发送原始密码，由服务器进行 Argon2 验证
+    // 在实际生产环境中，应该使用 HTTPS 确保传输安全
+    const loginParams = {
+      username: values.username,
+      password: values.password
+    };
+    
+    const res = await post('user.login', loginParams);
     if(res.code === 0){
       await userStore.login(res.data)
       router.push('/')
@@ -103,6 +112,7 @@ const handleLogin = async (values) => {
     }
   } catch (error) {
     console.error(error)
+    message.error('登录失败，请稍后重试')
   } finally {
     loading.value = false
   }

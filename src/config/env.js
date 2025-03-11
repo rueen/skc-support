@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:25:10
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-11 19:35:12
+ * @LastEditTime: 2025-03-11 20:54:44
  * @Description: 环境配置文件
  */
 
@@ -25,7 +25,7 @@ const BASE_URL = API_BASE[process.env.NODE_ENV || 'development'];
 // 模拟数据配置
 const MOCK_CONFIG = {
   // 是否启用模拟数据（仅在开发环境启用）
-  enable: true,
+  enable: false,
   // 模拟数据延迟时间（毫秒）
   delay: 300,
 };
