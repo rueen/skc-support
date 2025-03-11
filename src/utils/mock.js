@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-11 20:15:35
+ * @LastEditTime: 2025-03-11 21:28:47
  * @Description: 模拟数据工具
  */
 
@@ -464,8 +464,8 @@ const mockData = {
   // 用户相关接口
   'user.login': (params) => {
     const { username, password } = params;
-    // 由于 Argon2 加密是不可逆的，我们只需要验证用户名，密码验证在前端完成
-    // 在实际后端中，应该使用 argon2.verify(storedHash, inputPassword) 进行验证
+    // 由于 bcrypt 加密是不可逆的，我们只需要验证用户名，密码验证在前端完成
+    // 在实际后端中，应该使用 bcrypt.compare(password, storedHash) 进行验证
     if (username === 'admin') {
       return {
         code: 0,

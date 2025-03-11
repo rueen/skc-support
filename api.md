@@ -326,7 +326,7 @@ CREATE TABLE `bills` (
 CREATE TABLE `waiters` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '小二ID',
   `username` varchar(50) NOT NULL COMMENT '用户名',
-  `password` varchar(255) NOT NULL COMMENT '密码（Argon2加密）',
+  `password` varchar(255) NOT NULL COMMENT '密码（bcrypt加密）',
   `is_admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否管理员：0-否，1-是',
   `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
   `permissions` text DEFAULT NULL COMMENT '权限列表，逗号分隔',
@@ -359,7 +359,7 @@ CREATE TABLE `articles` (
 
 #### 用户登录
 - **接口**：`POST /users/login`
-- **描述**：用户登录接口，服务端使用 Argon2 验证密码
+- **描述**：用户登录接口，服务端使用 bcrypt 验证密码
 - **请求参数**：
   ```json
   {
@@ -386,7 +386,7 @@ CREATE TABLE `articles` (
   ```
 - **密码验证流程**：
   1. 客户端通过 HTTPS 将原始密码发送到服务器
-  2. 服务器使用 Argon2 的 `verify` 方法验证密码
+  2. 服务器使用 bcrypt 的 `compare` 方法验证密码
   3. 验证成功后返回 token 和用户信息
 
 ### 任务管理
