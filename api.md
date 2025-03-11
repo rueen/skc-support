@@ -1,4 +1,4 @@
-# SKC Support API 文档
+# SKC API 文档
 
 ## 目录
 - [基础信息](#基础信息)
@@ -8,7 +8,19 @@
   - [认证方式](#认证方式)
   - [常量/状态枚举说明](#常量状态枚举说明)
   - [小二权限说明](#小二权限说明)
+- [数据库表结构](#数据库表结构)
+  - [任务表](#任务表tasks)
+  - [已提交任务表](#已提交任务表task_submitted)
+  - [账号表](#账号表account)
+  - [会员表](#会员表member)
+  - [渠道表](#渠道表channel)
+  - [群组表](#群组表group)
+  - [提现表](#提现表withdrawal)
+  - [账单表](#账单表bill)
+  - [小二表](#小二表waiter)
+  - [文章表](#文章表article)
 - [API 列表](#api-列表)
+  - [用户认证](#用户认证)
   - [任务管理](#任务管理)
   - [已提交管理](#已提交管理)
   - [账号管理](#账号管理)
@@ -17,7 +29,7 @@
   - [群管理](#群管理)
   - [结算管理](#结算管理)
   - [小二管理](#小二管理)
-  - [用户管理](#用户管理)
+  - [文章管理](#文章管理)
   - [文章管理](#文章管理)
 
 ## 基础信息
@@ -132,7 +144,239 @@ Authorization: Bearer <token>
 | settlement:otherBills | 其他账单 | 管理其他类型账单 |
 | article:list | 文章管理 | 管理系统文章内容 |
 
+## 数据库表结构
+
+### 任务表（tasks）
+
+```sql
+CREATE TABLE `tasks` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
+  `task_name` varchar(100) NOT NULL COMMENT '任务名称',
+  `channel_id` bigint(20) NOT NULL COMMENT '渠道ID',
+  `category` varchar(50) NOT NULL COMMENT '任务类别',
+  `task_type` varchar(20) NOT NULL COMMENT '任务类型：image_text-图文任务，video-视频任务',
+  `reward` decimal(10,2) NOT NULL COMMENT '任务奖励金额',
+  `brand` varchar(100) NOT NULL COMMENT '品牌名称',
+  `group_ids` json DEFAULT NULL COMMENT '群组ID列表',
+  `group_mode` tinyint(1) NOT NULL DEFAULT '0' COMMENT '群组模式',
+  `user_range` tinyint(1) NOT NULL DEFAULT '1' COMMENT '用户范围',
+  `task_count` int(11) NOT NULL DEFAULT '0' COMMENT '任务数量',
+  `custom_fields` json NOT NULL COMMENT '自定义字段',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `unlimited_quota` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否不限名额',
+  `fans_required` varchar(50) DEFAULT NULL COMMENT '粉丝要求',
+  `content_requirement` text COMMENT '内容要求',
+  `task_info` text COMMENT '任务说明',
+  `notice` text COMMENT '温馨提示',
+  `task_status` varchar(20) NOT NULL DEFAULT 'not_started' COMMENT '任务状态：not_started-未开始，processing-进行中，ended-已结束',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_channel_id` (`channel_id`),
+  KEY `idx_task_status` (`task_status`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='任务表';
+```
+
+### 已提交任务表（task_submitted）
+
+```sql
+CREATE TABLE `task_submitted` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '提交ID',
+  `task_id` bigint(20) NOT NULL COMMENT '关联任务ID',
+  `member_id` bigint(20) NOT NULL COMMENT '关联会员ID',
+  `task_audit_status` varchar(20) NOT NULL DEFAULT 'pending' COMMENT '审核状态：pending-待审核，approved-已通过，rejected-已拒绝',
+  `apply_time` datetime DEFAULT NULL COMMENT '报名时间',
+  `submit_time` datetime DEFAULT NULL COMMENT '提交时间',
+  `reject_reason` varchar(255) DEFAULT NULL COMMENT '拒绝原因',
+  `submit_content` json DEFAULT NULL COMMENT '提交内容',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_task_id` (`task_id`),
+  KEY `idx_member_id` (`member_id`),
+  KEY `idx_task_audit_status` (`task_audit_status`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='已提交任务表';
+```
+
+### 账号表（account）
+
+```sql
+CREATE TABLE `accounts` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账号ID',
+  `member_id` bigint(20) NOT NULL COMMENT '会员ID',
+  `channel_id` bigint(20) NOT NULL COMMENT '渠道ID',
+  `account` varchar(100) NOT NULL COMMENT '账号名称',
+  `home_url` varchar(255) DEFAULT NULL COMMENT '主页链接',
+  `fans_count` int(11) DEFAULT '0' COMMENT '粉丝数量',
+  `friends_count` int(11) DEFAULT '0' COMMENT '好友数量',
+  `posts_count` int(11) DEFAULT '0' COMMENT '发布数量',
+  `account_audit_status` varchar(20) NOT NULL DEFAULT 'pending' COMMENT '审核状态：pending-待审核，approved-已通过，rejected-已拒绝',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_member_id` (`member_id`),
+  KEY `idx_channel_id` (`channel_id`),
+  KEY `idx_account_audit_status` (`account_audit_status`),
+  UNIQUE KEY `uk_member_channel_account` (`member_id`,`channel_id`,`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='账号表';
+```
+
+### 会员表（member）
+
+```sql
+CREATE TABLE `members` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '会员ID',
+  `member_nickname` varchar(50) NOT NULL COMMENT '会员昵称',
+  `member_account` varchar(50) NOT NULL COMMENT '会员账号',
+  `group_id` bigint(20) DEFAULT NULL COMMENT '所属群组ID',
+  `inviter_id` bigint(20) DEFAULT NULL COMMENT '邀请人ID',
+  `occupation` varchar(20) DEFAULT NULL COMMENT '职业：housewife-宝妈，freelancer-自由职业，student-学生',
+  `is_group_owner` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是群主：0-否，1-是',
+  `invite_code` varchar(20) DEFAULT NULL COMMENT '邀请码',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_group_id` (`group_id`),
+  KEY `idx_inviter_id` (`inviter_id`),
+  UNIQUE KEY `uk_member_account` (`member_account`),
+  UNIQUE KEY `uk_invite_code` (`invite_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='会员表';
+```
+
+### 渠道表（channel）
+
+```sql
+CREATE TABLE `channels` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '渠道ID',
+  `name` varchar(50) NOT NULL COMMENT '渠道名称',
+  `icon` varchar(255) DEFAULT NULL COMMENT '渠道图标',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='渠道表';
+```
+
+### 群组表（group）
+
+```sql
+CREATE TABLE `groups` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '群组ID',
+  `group_name` varchar(100) NOT NULL COMMENT '群组名称',
+  `group_link` varchar(255) DEFAULT NULL COMMENT '群组链接',
+  `owner_id` bigint(20) DEFAULT NULL COMMENT '群主ID',
+  `member_count` int(11) NOT NULL DEFAULT '0' COMMENT '成员数量',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_owner_id` (`owner_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='群组表';
+```
+
+### 提现表（withdrawal）
+
+```sql
+CREATE TABLE `withdrawals` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '提现ID',
+  `member_id` bigint(20) NOT NULL COMMENT '会员ID',
+  `withdrawal_account` varchar(100) NOT NULL COMMENT '提现账号',
+  `withdrawal_account_type` varchar(20) NOT NULL COMMENT '提现账号类型：bank-银行卡，alipay-支付宝，wechat-微信',
+  `amount` decimal(10,2) NOT NULL COMMENT '提现金额',
+  `real_name` varchar(50) NOT NULL COMMENT '真实姓名',
+  `withdrawal_status` varchar(20) NOT NULL DEFAULT 'pending' COMMENT '提现状态：pending-待处理，success-提现成功，failed-提现失败',
+  `apply_time` datetime NOT NULL COMMENT '申请时间',
+  `process_time` datetime DEFAULT NULL COMMENT '处理时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_member_id` (`member_id`),
+  KEY `idx_withdrawal_status` (`withdrawal_status`),
+  KEY `idx_apply_time` (`apply_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='提现表';
+```
+
+### 账单表（bill）
+
+```sql
+CREATE TABLE `bills` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账单ID',
+  `member_id` bigint(20) NOT NULL COMMENT '会员ID',
+  `bill_type` varchar(20) NOT NULL COMMENT '账单类型：withdrawal-提现，task_income-任务收入，invite_reward-邀请奖励，group_reward-群主奖励',
+  `amount` decimal(10,2) NOT NULL COMMENT '金额',
+  `related_id` bigint(20) DEFAULT NULL COMMENT '关联ID',
+  `settlement_status` varchar(20) NOT NULL DEFAULT 'settled' COMMENT '结算状态：settled-已结算，failed-结算失败',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_member_id` (`member_id`),
+  KEY `idx_bill_type` (`bill_type`),
+  KEY `idx_settlement_status` (`settlement_status`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='账单表';
+```
+
+### 小二表（waiter）
+
+```sql
+CREATE TABLE `waiters` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '小二ID',
+  `username` varchar(50) NOT NULL COMMENT '用户名',
+  `password` varchar(255) NOT NULL COMMENT '密码（Argon2加密）',
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否管理员：0-否，1-是',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
+  `permissions` text DEFAULT NULL COMMENT '权限列表，逗号分隔',
+  `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='小二表';
+```
+
+### 文章表（article）
+
+```sql
+CREATE TABLE `articles` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文章ID',
+  `title` varchar(100) NOT NULL COMMENT '文章标题',
+  `content` text NOT NULL COMMENT '文章内容',
+  `location` varchar(50) NOT NULL COMMENT '文章位置标识',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_location` (`location`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章表';
+```
+
 ## API 列表
+
+### 用户认证
+
+#### 用户登录
+- **接口**：`POST /users/login`
+- **描述**：用户登录
+- **请求参数**：
+  ```json
+  {
+    "username": "用户名",
+    "password": "密码"    // Argon2 加密后的密码
+  }
+  ```
+- **响应示例**：
+  ```json
+  {
+    "code": 0,
+    "message": "登录成功",
+    "data": {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+  }
+  ```
 
 ### 任务管理
 
@@ -728,29 +972,6 @@ Authorization: Bearer <token>
 #### 删除小二
 - **接口**：`DELETE /waiters/delete`
 - **描述**：删除小二
-
-### 用户管理
-
-#### 用户登录
-- **接口**：`POST /users/login`
-- **描述**：用户登录
-- **请求参数**：
-  ```json
-  {
-    "username": "用户名",
-    "password": "密码"    // Argon2 加密后的密码
-  }
-  ```
-- **响应示例**：
-  ```json
-  {
-    "code": 0,
-    "message": "登录成功",
-    "data": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    }
-  }
-  ```
 
 ### 文章管理
 
