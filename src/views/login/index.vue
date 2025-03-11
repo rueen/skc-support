@@ -95,7 +95,7 @@ const handleLogin = async (values) => {
   try {
     loading.value = true
     const res = await post('user.login', values);
-    if(res.success){
+    if(res.code === 0){
       await userStore.login(res.data)
       router.push('/')
     }else{

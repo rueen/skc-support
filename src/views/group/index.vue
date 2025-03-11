@@ -283,7 +283,7 @@ const handleDelete = async (record) => {
   try {
     // TODO: 实现删除逻辑
     const res = await post('group.delete', { id: record.id }) 
-    if(res.success){
+    if(res.code === 0){
       message.success('删除成功')
       loadData()
     } else {
@@ -296,7 +296,7 @@ const handleDelete = async (record) => {
 
 const addGroup = async () => {
   const res = await post('group.add', formData)
-  if(res.success){
+  if(res.code === 0){
     message.success('添加成功')
     modalVisible.value = false
     loadData()
@@ -306,7 +306,7 @@ const addGroup = async () => {
 }
 const editGroup = async () => {
   const res = await post('group.edit', formData)
-  if(res.success){
+  if(res.code === 0){
     message.success('编辑成功')
     modalVisible.value = false
     loadData()
@@ -347,7 +347,7 @@ const loadData = async () => {
         ...searchForm
       }
     })
-    if(res.success) {
+    if(res.code === 0) {
       tableData.value = res.data.list
       pagination.total = res.data.total
     } else {
@@ -399,7 +399,7 @@ const loadMemberOptions = async (keyword = '') => {
         keyword
       }
     })  
-    if(res.success){
+    if(res.code === 0){
       memberOptions.value = res.data.list || []
     }
   } catch (error) {

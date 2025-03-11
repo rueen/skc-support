@@ -284,7 +284,7 @@ const handleResolve = async (record) => {
     const res = await post('taskSubmitted.batchResolve', {
       ids: [record.id]
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('审核通过成功')
       loadData()
     } else {
@@ -306,7 +306,7 @@ const handleBatchResolve = async () => {
     const res = await post('taskSubmitted.batchResolve', {
       ids: selectedRowKeys.value
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('批量审核通过成功')
       selectedRowKeys.value = []
       loadData()
@@ -339,7 +339,7 @@ const handleRejectConfirm = async () => {
       ids: selectedRowKeys.value,
       reason: rejectReason.value
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('审核拒绝成功')
       rejectVisible.value = false
       loadData()
@@ -366,7 +366,7 @@ const handleBatchReject = () => {
 
 const loadChannelOptions = async () => {
   const res = await get('channel.list')
-  if(res.success){
+  if(res.code === 0){
     channelOptions.value = res.data.list
   } 
 }
@@ -381,7 +381,7 @@ const loadGroupOptions = async (keyword = '') => {
         keyword
       }
     })  
-    if(res.success){
+    if(res.code === 0){
       groupOptions.value = res.data.list || []
     }
   } catch (error) {
@@ -401,7 +401,7 @@ const loadData = async () => {
         ...searchForm
       }
     })
-    if(res.success) {
+    if(res.code === 0) {
       tableData.value = res.data.list
       pagination.total = res.data.total
     } else {

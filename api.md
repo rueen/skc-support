@@ -28,7 +28,6 @@
 ```json
 {
   "code": 0,         // 状态码，0 表示成功
-  "success": true,   // 是否成功
   "message": "",     // 提示信息
   "data": {}        // 响应数据
 }
@@ -118,7 +117,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -224,7 +222,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -262,7 +259,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "relatedTaskId": 1,                  // 关联任务ID
@@ -305,7 +301,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -359,7 +354,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -428,7 +422,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "id": 1,
@@ -463,7 +456,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -520,7 +512,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -583,7 +574,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -638,7 +628,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -677,7 +666,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "total": 100,
@@ -736,7 +724,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "登录成功",
     "data": {
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -759,7 +746,6 @@ Authorization: Bearer <token>
   ```json
   {
     "code": 0,
-    "success": true,
     "message": "",
     "data": {
       "id": 1,

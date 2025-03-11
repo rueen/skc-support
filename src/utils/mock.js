@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 21:27:55
+ * @LastEditTime: 2025-03-11 15:22:18
  * @Description: 模拟数据工具
  */
 
@@ -14,7 +14,6 @@ const mockData = {
   'task.list': () => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         total: 100,
@@ -37,7 +36,6 @@ const mockData = {
   'task.add': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
@@ -45,21 +43,18 @@ const mockData = {
     console.log(params)
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'task.delete': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'task.detail': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         "taskName":"任务名称",
@@ -91,7 +86,6 @@ const mockData = {
   'task.export': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
@@ -99,7 +93,6 @@ const mockData = {
   'taskSubmitted.list': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         total: 100,
@@ -124,7 +117,6 @@ const mockData = {
   'taskSubmitted.detail': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         relatedTaskId: 1,
@@ -139,14 +131,12 @@ const mockData = {
   'taskSubmitted.batchResolve': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'taskSubmitted.batchReject': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
@@ -154,7 +144,6 @@ const mockData = {
   'account.list': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',  
       data: {
         total: 100,
@@ -182,14 +171,12 @@ const mockData = {
   'account.batchResolve': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'account.batchReject': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
@@ -198,7 +185,6 @@ const mockData = {
   'member.list': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         total: 100,
@@ -232,28 +218,24 @@ const mockData = {
   'member.add': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'member.edit': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'member.delete': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'member.detail': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         id: 1,
@@ -276,7 +258,6 @@ const mockData = {
   'channel.list': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         total: 100,
@@ -297,21 +278,18 @@ const mockData = {
   'channel.add': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'channel.edit': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'channel.delete': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
@@ -319,7 +297,6 @@ const mockData = {
   'group.list': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: { 
         total: 100,
@@ -343,21 +320,18 @@ const mockData = {
   'group.add': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'group.edit': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'group.delete': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
@@ -365,7 +339,6 @@ const mockData = {
   'settlement.withdrawal': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: { 
         total: 100,
@@ -405,28 +378,24 @@ const mockData = {
   'settlement.batchResolve': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'settlement.batchReject': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'settlement.withdrawalExport': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'settlement.otherBills': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         total: 100,
@@ -462,7 +431,6 @@ const mockData = {
   'waiter.list': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         total: 100,
@@ -492,21 +460,18 @@ const mockData = {
   'waiter.add': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'waiter.edit': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
   'waiter.delete': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
     };
   },
@@ -516,7 +481,6 @@ const mockData = {
     if (username === 'admin' && password === '123456') {
       return {
         code: 0,
-        success: true,
         message: '登录成功',
         data: {
           token: 'mock_token_123456',
@@ -544,7 +508,6 @@ const mockData = {
     }
     return {
       code: 401,
-      success: false,
       message: '用户名或密码错误',
       data: null,
     };
@@ -553,7 +516,6 @@ const mockData = {
   'article.get': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         id: 1,
@@ -568,7 +530,6 @@ const mockData = {
   'article.edit': (params) => {
     return {
       code: 0,
-      success: true,
       message: '',
       data: {
         id: 1,

@@ -217,7 +217,7 @@ const handleDelete = async (record) => {
     const res = await post('member.delete', {
       id: record.id
     })
-    if(res.success){
+    if(res.code === 0){
       message.success('删除成功')
       loadData()
     } else {
@@ -269,7 +269,7 @@ const loadData = async () => {
         ...searchForm
       }
     })
-    if(res.success) {
+    if(res.code === 0) {
       tableData.value = res.data.list
       pagination.total = res.data.total
     } else {
@@ -290,7 +290,7 @@ const loadGroupOptions = async (keyword = '') => {
         keyword
       }
     })  
-    if(res.success){
+    if(res.code === 0){
       groupOptions.value = res.data.list || []
     }
   } catch (error) {

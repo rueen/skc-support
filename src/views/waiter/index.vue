@@ -188,7 +188,7 @@ const handleEdit = (record) => {
 const handleDelete = async (record) => {
   try {
     const res = await post('waiter.delete', { id: record.id })
-    if(res.success){
+    if(res.code === 0){
       message.success('删除成功')
       loadData()
     }else{
@@ -201,7 +201,7 @@ const handleDelete = async (record) => {
 
 const addWaiter = async () => {
   const res = await post('waiter.add', formData)
-  if(res.success){
+  if(res.code === 0){
     message.success('添加成功')
     formVisible.value = false
     loadData()
@@ -212,7 +212,7 @@ const addWaiter = async () => {
 
 const editWaiter = async () => {
   const res = await post('waiter.edit', formData)
-  if(res.success){
+  if(res.code === 0){
     message.success('编辑成功')
     formVisible.value = false
     loadData()

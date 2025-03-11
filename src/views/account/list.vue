@@ -289,7 +289,7 @@ const handleApprove = async (record) => {
     const res = await post('account.batchResolve', {
       ids: [record.id]
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('操作成功')
       loadData()
     } else {
@@ -311,7 +311,7 @@ const handleBatchResolve = async () => {
     const res = await post('account.batchResolve', {
       ids: selectedKeys.value
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('操作成功')
       selectedKeys.value = []
       loadData()
@@ -352,7 +352,7 @@ const handleRejectConfirm = async () => {
       ids: selectedKeys.value,
       reason: rejectReason.value
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('操作成功')
       selectedKeys.value = []
       rejectVisible.value = false
@@ -379,7 +379,7 @@ const loadData = async () => {
         ...searchForm
       }
     })
-    if(res.success) {
+    if(res.code === 0) {
       tableData.value = res.data.list
       pagination.total = res.data.total
     } else {
@@ -392,7 +392,7 @@ const loadData = async () => {
 
 const loadChannelOptions = async () => {
   const res = await get('channel.list')
-  if(res.success){
+  if(res.code === 0){
     channelOptions.value = res.data.list
   } 
 }
@@ -407,7 +407,7 @@ const loadGroupOptions = async (keyword = '') => {
         keyword
       }
     })  
-    if(res.success){
+    if(res.code === 0){
       groupOptions.value = res.data.list || []
     }
   } catch (error) {

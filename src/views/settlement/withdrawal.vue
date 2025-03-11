@@ -223,7 +223,7 @@ const handleExport = async () => {
       ...searchForm
     }
   })
-  if(res.success) {
+  if(res.code === 0) {
     message.success('导出成功')
   } else {
     message.error(res.message)
@@ -236,7 +236,7 @@ const handleResolve = async (record) => {
     const res = await post('settlement.batchResolve', {
       ids: [record.id]
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('操作成功')
       loadData()
     } else {
@@ -257,7 +257,7 @@ const handleBatchResolve = async () => {
     const res = await post('settlement.batchResolve', {
       ids: selectedKeys.value
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('操作成功')
       selectedKeys.value = []
       loadData()
@@ -300,7 +300,7 @@ const handleRejectConfirm = async () => {
       ids: currentRecord.value ? [currentRecord.value.id] : selectedKeys.value
     }
     const res = await post('settlement.batchReject', params)
-    if(res.success) {
+    if(res.code === 0) {
       message.success('操作成功')
       failedVisible.value = false
       selectedKeys.value = []
@@ -328,7 +328,7 @@ const loadData = async () => {
       endTime: searchForm.timeRange?.[1]
     }
     const res = await get('settlement.withdrawal', { params })
-    if(res.success){
+    if(res.code === 0){
       tableData.value = res.data.list || []
       pagination.total = res.data.total || 0
     } else {

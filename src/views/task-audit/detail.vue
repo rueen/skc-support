@@ -172,7 +172,7 @@ const handleResolve = async () => {
     const res = await post('taskSubmitted.batchResolve', {
       ids: [route.params.id]
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('审核通过成功')
       router.back()
     } else {
@@ -203,7 +203,7 @@ const handleRejectConfirm = async () => {
       ids: [route.params.id],
       reason: rejectReason.value
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('审核拒绝成功')
       rejectVisible.value = false
       router.back()
@@ -235,7 +235,7 @@ const getTaskDetail = async (taskId) => {
         id: taskId
       }
     })
-    if(res.success) {
+    if(res.code === 0) {
       Object.assign(taskInfo, res.data)
     } else {
       message.error(res.message)
@@ -253,7 +253,7 @@ const getMemberDetail = async (memberId) => {
         id: memberId
       }
     })
-    if(res.success) {
+    if(res.code === 0) {
       Object.assign(memberInfo, res.data)
     } else {
       message.error(res.message)
@@ -271,7 +271,7 @@ const getDetail = async (id) => {
         id
       }
     })
-    if(res.success) {
+    if(res.code === 0) {
       Object.assign(taskSubmittedInfo, res.data)
       // 获取关联的任务和会员信息
       if(res.data.relatedTaskId) {

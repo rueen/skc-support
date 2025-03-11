@@ -209,7 +209,7 @@ const handleEdit = (record) => {
 const handleDelete = async (record) => {
   try {
     const res = await get('task.delete', { id: record.id })
-    if(res.success){
+    if(res.code === 0){
       message.success('删除成功')
       loadData()
     } else {
@@ -232,7 +232,7 @@ const handleExport = () => {
           channelId: searchForm.channelId
         }
         const res = await get('task.export', params)
-        if(res.success){
+        if(res.code === 0){
           message.success('导出成功')
         } else {
           message.error(res.message)
@@ -254,7 +254,7 @@ const loadData = async () => {
         ...searchForm
       }
     })
-    if(res.success){
+    if(res.code === 0){
       tableData.value = res.data.list
       pagination.total = res.data.total
     } else {
@@ -267,7 +267,7 @@ const loadData = async () => {
 
 const loadChannelOptions = async () => {
   const res = await get('channel.list')
-  if(res.success){
+  if(res.code === 0){
     channelOptions.value = res.data.list
   } 
 }

@@ -114,7 +114,7 @@ const handleModalOk = async () => {
         location: formData.location,
         ...formData
       })
-      if (res.success) {
+      if (res.code === 0) {
         message.success('保存成功')
         modalVisible.value = false
       } else {
@@ -138,7 +138,7 @@ const loadUserAgreement = async () => {
         location: 'userAgreement'
       }
     })
-    if (res.success) {
+    if (res.code === 0) {
       tableData.value.push(res.data || {})
     }
   } finally {
@@ -155,7 +155,7 @@ const loadPrivacyPolicy = async () => {
         location: 'privacyPolicy'
       }
     })
-    if (res.success) {
+    if (res.code === 0) {
       tableData.value.push(res.data || {})
     }
   } finally {

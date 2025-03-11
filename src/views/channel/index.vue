@@ -176,7 +176,7 @@ const handleEdit = (record) => {
 const handleDelete = async (record) => {
   try {
     const res = await post('channel.delete', { id: record.id })
-    if(res.success){
+    if(res.code === 0){
       message.success('删除成功')
       loadData()
     }else{
@@ -202,7 +202,7 @@ const beforeUpload = (file) => {
 
 const addChannel = async () => {
   const res = await post('channel.add', formData)
-  if(res.success){
+  if(res.code === 0){
     message.success('添加成功')
     modalVisible.value = false
     loadData()
@@ -213,7 +213,7 @@ const addChannel = async () => {
 
 const editChannel = async () => {
   const res = await post('channel.edit', formData)
-  if(res.success){
+  if(res.code === 0){
     message.success('编辑成功')
     modalVisible.value = false
     loadData()

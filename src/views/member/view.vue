@@ -127,7 +127,7 @@ const getMemberDetail = async (id) => {
         id: route.params.id
       }
     })
-    if(res.success){
+    if(res.code === 0){
       Object.assign(memberInfo, res.data || {})
     }
   } catch (error) {
@@ -143,7 +143,7 @@ const getAccountList = async (id) => {
         memberId: id
       }
     })
-    if(res.success){
+    if(res.code === 0){
       accountList.value = res.data.list || []
     }
   } catch (error) {

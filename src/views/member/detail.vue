@@ -172,7 +172,7 @@ const loadGroupOptions = async () => {
         keyword: ''
       }
     })
-    if(res.success){
+    if(res.code === 0){
       groupOptions.value = res.data.list || []
     }
   } finally {
@@ -190,7 +190,7 @@ const loadInviterOptions = async () => {
         pageSize: 50
       }
     })
-    if(res.success){
+    if(res.code === 0){
       inviterOptions.value = res.data.list || []
     }
   } finally {
@@ -209,7 +209,7 @@ const loadMemberInfo = async () => {
         id: route.params.id
       }
     })
-    if(res.success){
+    if(res.code === 0){
       Object.assign(formState, res.data)
     }
   } catch (error) {
@@ -220,7 +220,7 @@ const loadMemberInfo = async () => {
 
 const addMember = async () => {
   const res = await post('member.add', formState)
-  if(res.success){
+  if(res.code === 0){
     message.success('提交成功')
     router.back()
   } else {
@@ -229,7 +229,7 @@ const addMember = async () => {
 }
 const editMember = async () => {
   const res = await post('member.edit', formState)
-  if(res.success){
+  if(res.code === 0){
     message.success('提交成功')
     router.back()
   } else {

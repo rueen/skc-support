@@ -191,7 +191,7 @@ const loadData = async () => {
       pageSize: pagination.pageSize,
       ...searchForm
     })
-    if(res.success){
+    if(res.code === 0){
       tableData.value = res.data.list
       pagination.total = res.data.total
     } else {

@@ -385,7 +385,7 @@ const addTask = async () => {
     }
     // TODO: 实现提交逻辑
     const res = await post('task.add', submitData)
-    if(res.success) {
+    if(res.code === 0) {
       message.success('提交成功')
       router.back()
     } else {
@@ -413,7 +413,7 @@ const editTask = async () => {
       id: route.params.id,
       ...formData,
     })
-    if(res.success) {
+    if(res.code === 0) {
       message.success('提交成功')
       router.back()
     } else {
@@ -451,7 +451,7 @@ const getTaskDetail = async (id) => {
         id
       }
     })
-    if(res.success){
+    if(res.code === 0){
       const data = res.data || {}
       // 转换日期字符串为日期对象
       if (data.startTime) {
@@ -470,7 +470,7 @@ const getTaskDetail = async (id) => {
 
 const loadChannelOptions = async () => {
   const res = await get('channel.list')
-  if(res.success){
+  if(res.code === 0){
     channelOptions.value = res.data.list
   } 
 }
@@ -485,7 +485,7 @@ const loadGroupOptions = async (keyword = '') => {
         keyword
       }
     })  
-    if(res.success){
+    if(res.code === 0){
       groupOptions.value = res.data.list || []
     }
   } catch (error) {

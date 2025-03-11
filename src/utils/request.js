@@ -39,7 +39,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (!res.success) {
+    if (!res.code === 0) {
       message.error(res.message || '请求失败')
       console.error('接口返回错误:', res.message)
       
