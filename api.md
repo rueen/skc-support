@@ -753,7 +753,7 @@ Authorization: Bearer <token>
   ```json
   {
     "username": "用户名",
-    "password": "密码"
+    "password": "密码"    // Argon2 加密后的密码
   }
   ```
 - **响应示例**：
