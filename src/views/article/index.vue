@@ -129,37 +129,44 @@ const handleModalOk = async () => {
 }
 
 // 加载数据
-const loadData = async () => {
+const loadUserAgreement = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    let list = [];
-    const userAgreementRes = await get('article.get', {
+    const res = await get('article.get', {
       params: {
         location: 'userAgreement'
       }
     })
-    if (userAgreementRes.success) {
-      list.push(userAgreementRes.data || {})
+    if (res.success) {
+      tableData.value.push(res.data || {})
     }
-    const privacyPolicyRes = await get('article.get', {
+  } finally {
+    loading.value = false
+  }
+}
+
+const loadPrivacyPolicy = async () => {
+  loading.value = true
+  try {
+    // TODO: 实现数据加载逻辑
+    const res = await get('article.get', {
       params: {
         location: 'privacyPolicy'
       }
     })
-    if (privacyPolicyRes.success) {
-      list.push(privacyPolicyRes.data || {})
+    if (res.success) {
+      tableData.value.push(res.data || {})
     }
-    tableData.value = list
   } finally {
     loading.value = false
   }
 }
 
 // 初始化
-// 初始化
 onMounted(() => {
-  loadData()
+  loadUserAgreement()
+  loadPrivacyPolicy()
 })
 </script>
 

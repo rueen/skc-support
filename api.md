@@ -2,7 +2,10 @@
 
 ## 目录
 - [基础信息](#基础信息)
-- [通用说明](#通用说明)
+  - [环境说明](#环境说明)
+  - [通用响应格式](#通用响应格式)
+  - [认证方式](#认证方式)
+  - [常量/状态枚举说明](#常量状态枚举说明)
 - [API 列表](#api-列表)
   - [任务管理](#任务管理)
   - [已提交管理](#已提交管理)
@@ -36,6 +39,63 @@
 ```
 Authorization: Bearer <token>
 ```
+
+### 常量/状态枚举说明
+
+#### 任务状态 (taskStatus)
+| 状态 | 说明 |
+|------|------|
+| not_started | 未开始 |
+| processing | 进行中 |
+| ended | 已结束 |
+
+#### 任务类型 (taskType)
+| 类型 | 说明 |
+|------|------|
+| image_text | 图文任务 |
+| video | 视频任务 |
+
+#### 任务审核状态 (taskAuditStatus)
+| 状态 | 说明 |
+|------|------|
+| pending | 待审核 |
+| approved | 已通过 |
+| rejected | 已拒绝 |
+
+#### 账号审核状态 (accountAuditStatus)
+| 状态 | 说明 |
+|------|------|
+| pending | 待审核 |
+| approved | 已通过 |
+| rejected | 已拒绝 |
+
+#### 提现状态 (withdrawalStatus)
+| 状态 | 说明 |
+|------|------|
+| pending | 待处理 |
+| success | 提现成功 |
+| failed | 提现失败 |
+
+#### 账单类型 (billType)
+| 类型 | 说明 |
+|------|------|
+| withdrawal | 提现 |
+| task_income | 任务收入 |
+| invite_reward | 邀请奖励 |
+| group_reward | 群主奖励 |
+
+#### 职业类型 (occupationType)
+| 类型 | 说明 |
+|------|------|
+| housewife | 宝妈 |
+| freelancer | 自由职业 |
+| student | 学生 |
+
+#### 结算状态 (settlementStatus)
+| 状态 | 说明 |
+|------|------|
+| settled | 已结算 |
+| failed | 结算失败 |
 
 ## API 列表
 
