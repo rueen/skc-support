@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-08 21:22:01
+ * @LastEditTime: 2025-03-11 19:13:52
  * @Description: API 请求工具
  */
 
@@ -20,6 +20,11 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
+    // 登录接口不需要添加token
+    if (config.url.includes('/users/login')) {
+      return config
+    }
+    
     // 从 cookie 中获取 token
     const token = Cookies.get('token')
     
@@ -39,7 +44,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (!res.code === 0) {
+    if (res.code !== 0) {
       message.error(res.message || '请求失败')
       console.error('接口返回错误:', res.message)
       
@@ -98,9 +103,9 @@ export const request = async (apiName, params = {}, options = {}) => {
   
   // 根据请求方法确定如何发送参数
   if (method.toLowerCase() === 'get') {
-    requestOptions.params = data
+    requestOptions.params = params
   } else {
-    requestOptions.data = data
+    requestOptions.data = params
   }
   
   // 发送请求
