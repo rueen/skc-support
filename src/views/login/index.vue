@@ -112,7 +112,6 @@ const handleLogin = async (values) => {
     }
   } catch (error) {
     console.error(error)
-    message.error('登录失败，请稍后重试')
   } finally {
     loading.value = false
   }

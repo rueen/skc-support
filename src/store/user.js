@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:58
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-09 10:43:33
+ * @LastEditTime: 2025-03-11 21:40:41
  * @Description: 
  */
 import { defineStore } from 'pinia'
@@ -22,16 +22,16 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
-    login({ username, token: _token, permissions }) {
-      if (username && _token) {
+    login({ token: _token, user }) {
+      if (_token && user && user.id != null) {
         this.token = _token
         Cookies.set('token', this.token)
         this.userInfo = {
-          username: username
+          username: user.username
         }
         // 存储用户信息
         localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
-        this.permissions = permissions;
+        this.permissions = user.permissions ? user.permissions.split(',') : [];
         localStorage.setItem('permissions', JSON.stringify(this.permissions));
         message.success('登录成功')
         return true
