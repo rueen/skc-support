@@ -106,7 +106,20 @@ const formData = reactive({
 // 表单校验规则
 const rules = {
   username: [{ required: true, message: '请输入用户名' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'change' }]
+  password: [{ 
+    required: true,
+    message: '请输入密码',
+    trigger: 'change',
+    validator: (rule, value) => {
+      if (formType.value === 'edit' && !value) {
+        return Promise.resolve()
+      }
+      if (formType.value === 'add' && !value) {
+        return Promise.reject('请输入密码')
+      }
+      return Promise.resolve()
+    }
+  }]
 }
 
 // 权限选项
@@ -223,11 +236,17 @@ const addWaiter = async () => {
 
 const editWaiter = async () => {
   try {
-    const res = await put('waiter.edit', {
+    const params = {
       id: currentId.value,
-      ...formData,
+      username: formData.username,
+      remarks: formData.remarks,
       permissions: formData.permissions.join(',')
-    })
+    }
+    // 只有当密码不为空时才添加密码字段
+    if (formData.password) {
+      params.password = formData.password
+    }
+    const res = await put('waiter.edit', params)
     if(res.code === 0){
       message.success('编辑成功')
       formVisible.value = false
@@ -245,6 +264,11 @@ const editWaiter = async () => {
 // 确认表单
 const handleFormOk = async () => {
   try {
+    // 根据表单类型动态设置验证规则
+    if (formType.value === 'edit') {
+      // 编辑时移除密码的必填验证
+      formRef.value.clearValidate('password')
+    }
     await formRef.value.validate()
     formLoading.value = true
     switch(formType.value){
