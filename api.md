@@ -950,7 +950,7 @@ CREATE TABLE `articles` (
         {
           "id": 1,
           "username": "admin",
-          "isAdmin": true,
+          "is_admin": true,
           "remarks": "管理员",
           "permissions": "",  // 权限
         }

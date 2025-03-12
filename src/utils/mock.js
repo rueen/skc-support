@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-11 21:28:47
+ * @LastEditTime: 2025-03-12 10:37:46
  * @Description: 模拟数据工具
  */
 
@@ -428,13 +428,13 @@ const mockData = {
           {
             id: 1,
             username: 'admin',
-            isAdmin: true,
+            is_admin: true,
             remarks: '管理员',
           },
           {
             id: 2,
             username: 'user',
-            isAdmin: false,
+            is_admin: false,
             remarks: '审核员',
           },
         ],

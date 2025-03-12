@@ -20,11 +20,11 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)" v-if="!record.isAdmin">编辑</a>
+              <a @click="handleEdit(record)">编辑</a>
               <a-popconfirm
                 title="确定要删除该账号吗？"
                 @confirm="handleDelete(record)"
-                v-if="!record.isAdmin"
+                v-if="!record.is_admin"
               >
                 <a class="danger">删除</a>
               </a-popconfirm>
@@ -180,7 +180,7 @@ const handleEdit = (record) => {
   formData.username = record.username
   formData.password = ''
   formData.remarks = record.remarks
-  formData.permissions = record.permissions
+  formData.permissions = record.permissions.split(',')
   formVisible.value = true
 }
 
@@ -200,24 +200,44 @@ const handleDelete = async (record) => {
 }
 
 const addWaiter = async () => {
-  const res = await post('waiter.add', formData)
-  if(res.code === 0){
-    message.success('添加成功')
-    formVisible.value = false
-    loadData()
-  } else {
-    message.error(res.message)
+  try {
+    const res = await post('waiter.add', {
+      ...formData,
+      permissions: formData.permissions.join(',')
+    })
+    if(res.code === 0){
+      message.success('添加成功')
+      formVisible.value = false
+      loadData()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error('添加失败')
+    console.error(error)
+  } finally {
+    formLoading.value = false
   }
 }
 
 const editWaiter = async () => {
-  const res = await post('waiter.edit', formData)
-  if(res.code === 0){
-    message.success('编辑成功')
-    formVisible.value = false
-    loadData()
-  } else {
-    message.error(res.message)
+  try {
+    const res = await post('waiter.edit', {
+      ...formData,
+      permissions: formData.permissions.join(',')
+    })
+    if(res.code === 0){
+      message.success('编辑成功')
+      formVisible.value = false
+      loadData()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error('编辑失败')
+    console.error(error)
+  } finally {
+    formLoading.value = false
   }
 }
 
