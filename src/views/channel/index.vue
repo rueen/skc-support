@@ -19,7 +19,11 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'icon'">
-            <img :src="record.icon" alt="渠道图标" class="channel-icon" />
+            <a-image
+              :width="40"
+              :height="40"
+              :src="record.icon"
+            />
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -83,7 +87,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-import { get, post } from '@/utils/request'
+import { get, post, put, del } from '@/utils/request'
 import config from '@/config/env'
 
 const loading = ref(false)
@@ -189,7 +193,7 @@ const handleEdit = (record) => {
 // 删除渠道
 const handleDelete = async (record) => {
   try {
-    const res = await post('channel.delete', { id: record.id })
+    const res = await del('channel.delete', { id: record.id })
     if(res.code === 0){
       message.success('删除成功')
       loadData()
@@ -255,7 +259,7 @@ const addChannel = async () => {
 }
 
 const editChannel = async () => {
-  const res = await post('channel.edit', formData)
+  const res = await put('channel.edit', formData)
   if(res.code === 0){
     message.success('编辑成功')
     modalVisible.value = false
@@ -313,13 +317,6 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-  }
-
-  .channel-icon {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 4px;
   }
 
   .danger {
