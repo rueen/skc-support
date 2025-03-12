@@ -76,17 +76,19 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { get, post } from '@/utils/request'
+import { get, post, put, del } from '@/utils/request'
 
 const loading = ref(false)
 const modalVisible = ref(false)
 const modalLoading = ref(false)
 const modalType = ref('add') // add, edit
 const formRef = ref()
+const currentId = ref(null)
 
 // 表单数据
 const formData = reactive({
   title: '',
+  location: '',
   content: ''
 })
 
@@ -136,11 +138,12 @@ const modalTitle = computed(() => {
 
 const handleDelete = async (record) => {
   try {
-    const res = await post('article.delete', {
+    const res = await del('article.delete', {
       id: record.id
     })
     if (res.code === 0) {
       message.success('删除成功')
+      loadData()
     } else {
       message.error(res.message)
     }
@@ -165,6 +168,7 @@ const handleEdit = (record) => {
   formData.location = record.location
   formData.content = record.content
   modalVisible.value = true
+  currentId.value = record.id
 }
 
 const addArticle = async () => {
@@ -176,6 +180,7 @@ const addArticle = async () => {
     if (res.code === 0) {
       message.success('添加成功')
       modalVisible.value = false
+      loadData()
     } else {
       message.error(res.message)
     }
@@ -189,12 +194,14 @@ const addArticle = async () => {
 const editArticle = async () => {
   modalLoading.value = true
   try {
-    const res = await post('article.edit', {
+    const res = await put('article.edit', {
+      id: currentId.value,
       ...formData
     })
     if (res.code === 0) {
       message.success('保存成功')
       modalVisible.value = false
+      loadData()
     } else {
       message.error(res.message)
     }

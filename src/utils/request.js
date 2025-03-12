@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-12 14:20:40
+ * @LastEditTime: 2025-03-12 15:51:21
  * @Description: API 请求工具
  */
 
@@ -57,7 +57,7 @@ service.interceptors.response.use(
       message.error('登录已过期，请重新登录')
       Cookies.remove('token')
       window.location.href = '/login'
-    } else if(error.response.status === 400) {
+    } else if([400, 403, 404].indexOf(error.response.status) > -1) {
       // 参数错误
       message.error(error.response.data.message)
     } else {
