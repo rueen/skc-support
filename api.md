@@ -985,13 +985,15 @@ CREATE TABLE `articles` (
 
 ### 文章管理
 
-#### 获取文章
-- **接口**：`GET /articles/get`
+#### 获取文章列表
+- **接口**：`GET /articles/list`
 - **描述**：获取文章内容
-- **请求参数**：
+- **请求参数**：支持分页和筛选
   ```json
   {
-    "location": "userAgreement"
+    "page": 1,           // 页码
+    "pageSize": 10,      // 每页条数
+    "keyword": "",      // 搜索关键字（可选）
   }
   ```
 - **响应示例**：
@@ -1000,25 +1002,41 @@ CREATE TABLE `articles` (
     "code": 0,
     "message": "",
     "data": {
-      "id": 1,
-      "title": "用户协议",
-      "content": "这是用户协议的内容...",
-      "location": "userAgreement",
-      "updateTime": "2024-02-28 10:00:00"
+      "total": 100,
+      "list": [
+        {
+          "id": 1,
+          "title": "用户协议",
+          "content": "这是用户协议的内容...",
+          "location": "userAgreement",
+          "updateTime": "2024-02-28 10:00:00"
+        }
+      ],
+      "page": 1,
+      "pageSize": 10
     }
   }
   ```
 
-#### 编辑文章
-- **接口**：`PUT /articles/edit`
-- **描述**：编辑文章内容
+#### 添加文章
+- **接口**：`POST /articles/add`
+- **描述**：添加新渠道
 - **请求参数**：
   ```json
   {
-    "id": 1,
     "title": "用户协议",
     "content": "这是用户协议的内容...",
-    "location": "userAgreement",
+    "location": "userAgreement",      // 需要确保唯一性
+    "updateTime": "2024-02-28 10:00:00"
   }
   ```
+#### 编辑文章
+- **接口**：`PUT /articles/edit`
+- **描述**：编辑文章信息
+- **请求参数**：与添加文章相同，需要额外传入 `id` 或 `location` 字段
+
+#### 删除文章
+- **接口**：`DELETE /articles/delete`
+- **描述**：删除文章
+- **请求参数**：`id` 或 `location`
 

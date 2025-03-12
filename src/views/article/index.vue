@@ -1,16 +1,31 @@
 <template>
   <div class="article content-container">
     <div class="table-container">
+      <div class="table-header">
+        <div class="left"></div>
+        <div class="right">
+          <a-button type="primary" @click="handleAdd">
+            添加文章
+          </a-button>
+        </div>
+      </div>
+
       <a-table
         :columns="columns"
         :data-source="tableData"
         :loading="loading"
-        :pagination="false"
+        :pagination="pagination"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleEdit(record)">编辑</a>
+              <a-popconfirm
+                title="确定要删除该文章吗？"
+                @confirm="handleDelete(record)"
+              >
+                <a class="danger">删除</a>
+              </a-popconfirm>
             </a-space>
           </template>
         </template>
@@ -20,7 +35,7 @@
     <!-- 编辑文章弹窗 -->
     <a-modal
       v-model:open="modalVisible"
-      title="编辑文章"
+      :title="modalTitle"
       :width="800"
       :confirmLoading="modalLoading"
       @ok="handleModalOk"
@@ -38,6 +53,12 @@
             placeholder="请输入文章标题"
           />
         </a-form-item>
+        <a-form-item label="location" name="location">
+          <a-input
+            v-model:value="formData.location"
+            placeholder="英文字母、数字（不要以数字开头）、下划线"
+          />
+        </a-form-item>
         <a-form-item label="文章内容" name="content">
           <div class="editor-wrapper">
             <a-textarea
@@ -53,18 +74,18 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 
 const loading = ref(false)
 const modalVisible = ref(false)
 const modalLoading = ref(false)
+const modalType = ref('add') // add, edit
 const formRef = ref()
 
 // 表单数据
 const formData = reactive({
-  id: null,
   title: '',
   content: ''
 })
@@ -72,6 +93,7 @@ const formData = reactive({
 // 表单校验规则
 const rules = {
   title: [{ required: true, message: '请输入文章标题' }],
+  location: [{ required: true, message: '请输入location' }],
   content: [{ required: true, message: '请输入文章内容' }]
 }
 
@@ -84,8 +106,8 @@ const columns = [
   },
   {
     title: '更新时间',
-    dataIndex: 'updateTime',
-    key: 'updateTime'
+    dataIndex: 'update_time',
+    key: 'update_time'
   },
   {
     title: '操作',
@@ -97,66 +119,116 @@ const columns = [
 // 表格数据
 const tableData = ref([])
 
+const pagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0
+})
+
+// 计算弹窗标题
+const modalTitle = computed(() => {
+  const titles = {
+    add: '添加文章',
+    edit: '编辑文章'
+  }
+  return titles[modalType.value]
+})
+
+const handleDelete = async (record) => {
+  try {
+    const res = await post('article.delete', {
+      id: record.id
+    })
+    if (res.code === 0) {
+      message.success('删除成功')
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// 添加文章
+const handleAdd = () => {
+  modalType.value = 'add'
+  formData.title = ''
+  formData.location = ''
+  formData.content = ''
+  modalVisible.value = true
+}
+
 // 编辑文章
 const handleEdit = (record) => {
-  formData.id = record.id
+  modalType.value = 'edit'
   formData.title = record.title
+  formData.location = record.location
   formData.content = record.content
   modalVisible.value = true
 }
 
-// 确认编辑
-const handleModalOk = async () => {
-  formRef.value.validate().then(async () => {
-    modalLoading.value = true
-    try {
-      const res = await post('article.edit', {
-        location: formData.location,
-        ...formData
-      })
-      if (res.code === 0) {
-        message.success('保存成功')
-        modalVisible.value = false
-      } else {
-        message.error(res.message)
-      }
-    } catch (error) {
-      console.error(error)
-    } finally {
-      modalLoading.value = false
-    }
-  })
-}
-
-// 加载数据
-const loadUserAgreement = async () => {
-  loading.value = true
+const addArticle = async () => {
+  modalLoading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    const res = await get('article.get', {
-      params: {
-        location: 'userAgreement'
-      }
+    const res = await post('article.add', {
+      ...formData
     })
     if (res.code === 0) {
-      tableData.value.push(res.data || {})
+      message.success('添加成功')
+      modalVisible.value = false
+    } else {
+      message.error(res.message)
     }
+  } catch (error) {
+    console.error(error)
   } finally {
-    loading.value = false
+    modalLoading.value = false
   }
 }
 
-const loadPrivacyPolicy = async () => {
-  loading.value = true
+const editArticle = async () => {
+  modalLoading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    const res = await get('article.get', {
-      params: {
-        location: 'privacyPolicy'
-      }
+    const res = await post('article.edit', {
+      ...formData
     })
     if (res.code === 0) {
-      tableData.value.push(res.data || {})
+      message.success('保存成功')
+      modalVisible.value = false
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    modalLoading.value = false
+  }
+}
+
+// 确认编辑
+const handleModalOk = async () => {
+  await formRef.value.validate()
+  switch (modalType.value) {
+    case 'add':
+      await addArticle()
+      break
+    case 'edit':
+      await editArticle()
+      break
+  }
+}
+const loadData = async () => {
+  loading.value = true
+  try {
+    const res = await get('article.list', {
+      page: pagination.current,
+      pageSize: pagination.pageSize
+    })
+    if(res.code === 0){
+      tableData.value = res.data.list
+      pagination.total = res.data.total
+    } else {
+      message.error(res.message)
     }
   } finally {
     loading.value = false
@@ -165,8 +237,7 @@ const loadPrivacyPolicy = async () => {
 
 // 初始化
 onMounted(() => {
-  loadUserAgreement()
-  loadPrivacyPolicy()
+  loadData()
 })
 </script>
 

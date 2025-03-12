@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 19:03:11
+ * @LastEditTime: 2025-03-12 15:11:13
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -70,8 +70,10 @@ const API_PATH = {
   },
   // 文章相关接口
   article: {
-    get: '/articles/get',
+    list: '/articles/list',
+    add: '/articles/add',
     edit: '/articles/edit',
+    delete: '/articles/delete',
   },
 }
 

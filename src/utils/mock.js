@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-12 10:37:46
+ * @LastEditTime: 2025-03-12 15:26:55
  * @Description: 模拟数据工具
  */
 
@@ -501,16 +501,32 @@ const mockData = {
     };
   },
   // 文章相关接口
-  'article.get': (params) => {
+  'article.list': (params) => {
+    return {
+      code: 0,
+      message: '',
+      data: {
+        total: 100,
+        list: [
+          {
+            id: 1,
+            title: '用户协议',
+            location: "userAgreement",
+            content: '这是用户协议的内容...',
+            update_time: '2024-02-28 10:00:00',
+          },
+        ],  
+        page: 1,
+        pageSize: 10,
+      },
+    };
+  },
+  'article.add': (params) => {
     return {
       code: 0,
       message: '',
       data: {
         id: 1,
-        title: '用户协议',
-        content: '这是用户协议的内容...',
-        location: 'userAgreement',
-        updateTime: '2024-02-28 10:00:00',
       },
     };
   },
@@ -518,13 +534,12 @@ const mockData = {
     return {
       code: 0,
       message: '',
-      data: {
-        id: 1,
-        title: '文章标题',
-        content: '文章内容',
-        location: 'userAgreement',
-        updateTime: '2024-02-28 10:00:00',
-      },
+    };
+  },
+  'article.delete': (params) => {
+    return {
+      code: 0,
+      message: '',
     };
   },
 };
