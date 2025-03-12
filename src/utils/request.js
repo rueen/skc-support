@@ -93,6 +93,18 @@ export const request = async (apiName, params = {}, options = {}) => {
   // 构建请求 URL
   let url = apiPath
   
+  // 替换 URL 中的参数（例如 /api/:id 替换为 /api/1）
+  if (options.urlParams) {
+    url = url.replace(/:([^/]+)/g, (match, key) => {
+      const value = options.urlParams[key]
+      if (value === undefined) {
+        console.warn(`URL 参数 ${key} 未提供`)
+        return match
+      }
+      return value
+    })
+  }
+  
   // 根据请求方法确定如何发送参数
   const method = options.method || 'get'
   const requestOptions = {

@@ -110,6 +110,7 @@ const formData = reactive({
   name: '',
   icon: ''
 })
+const currentId = ref()
 
 // 表单校验规则
 const rules = {
@@ -177,6 +178,7 @@ const handleAdd = () => {
 // 编辑渠道
 const handleEdit = (record) => {
   modalType.value = 'edit'
+  currentId.value = record.id  // 保存 id 用于编辑请求
   formData.name = record.name
   formData.icon = record.icon
   fileList.value = record.icon ? [
@@ -193,7 +195,12 @@ const handleEdit = (record) => {
 // 删除渠道
 const handleDelete = async (record) => {
   try {
-    const res = await del('channel.delete', { id: record.id })
+    const res = await del('channel.delete', {}, {
+    // 替换 URL 中的 :id 参数
+    urlParams: {
+      id: record.id
+    }
+  })
     if(res.code === 0){
       message.success('删除成功')
       loadData()
@@ -259,7 +266,15 @@ const addChannel = async () => {
 }
 
 const editChannel = async () => {
-  const res = await put('channel.edit', formData)
+  const res = await put('channel.edit', {
+    ...formData,
+    id: currentId.value
+  }, {
+    // 替换 URL 中的 :id 参数
+    urlParams: {
+      id: currentId.value
+    }
+  })
   if(res.code === 0){
     message.success('编辑成功')
     modalVisible.value = false
