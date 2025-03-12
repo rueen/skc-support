@@ -53,7 +53,11 @@
         <a-form-item label="渠道图标" name="icon">
           <a-upload
             v-model:file-list="fileList"
+            :action="uploadConfig.action"
+            :headers="uploadConfig.headers"
             :before-upload="beforeUpload"
+            @success="handleUploadSuccess"
+            @error="handleUploadError"
             accept="image/*"
             list-type="picture-card"
             :max-count="1"
@@ -80,12 +84,22 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
+import config from '@/config/env'
+
 const loading = ref(false)
 const modalVisible = ref(false)
 const modalLoading = ref(false)
 const modalType = ref('add') // add, edit
 const formRef = ref()
 const fileList = ref([])
+
+// 上传配置
+const uploadConfig = {
+  action: config.imageUploadUrl,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  }
+}
 
 // 表单数据
 const formData = reactive({
@@ -114,8 +128,8 @@ const columns = [
   },
   {
     title: '更新时间',
-    dataIndex: 'updateTime',
-    key: 'updateTime'
+    dataIndex: 'update_time',
+    key: 'update_time'
   },
   {
     title: '操作',
@@ -161,14 +175,14 @@ const handleEdit = (record) => {
   modalType.value = 'edit'
   formData.name = record.name
   formData.icon = record.icon
-  fileList.value = [
+  fileList.value = record.icon ? [
     {
       uid: '-1',
       name: 'image.png',
       status: 'done',
       url: record.icon
     }
-  ]
+  ] : []
   modalVisible.value = true
 }
 
@@ -187,17 +201,46 @@ const handleDelete = async (record) => {
   }
 }
 
+// 上传成功回调
+const handleUploadSuccess = (res) => {
+  if (res.code === 0) {
+    formData.icon = res.data.url
+    fileList.value = [
+      {
+        uid: '-1',
+        name: 'image.png',
+        status: 'done',
+        url: formData.icon
+      }
+    ];
+    message.success('上传成功')
+  } else {
+    message.error(response.message || '上传失败')
+    // 移除失败的文件
+    fileList.value = fileList.value.filter(item => item.uid !== file.uid)
+  }
+}
+
+// 上传失败回调
+const handleUploadError = () => {
+  message.error('上传失败')
+  // 清空文件列表
+  fileList.value = []
+}
+
 // 上传前校验
 const beforeUpload = (file) => {
   const isImage = file.type.startsWith('image/')
   if (!isImage) {
     message.error('只能上传图片文件！')
+    return false
   }
-  const isLt2M = file.size / 1024 / 1024 < 2
+  const isLt2M = file.size / 1024 / 1024 < 1
   if (!isLt2M) {
-    message.error('图片必须小于 2MB！')
+    message.error('图片必须小于 1MB！')
+    return false
   }
-  return isImage && isLt2M
+  return true
 }
 
 const addChannel = async () => {
