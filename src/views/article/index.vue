@@ -140,6 +140,10 @@ const handleDelete = async (record) => {
   try {
     const res = await del('article.delete', {
       id: record.id
+    }, {
+      urlParams: {
+        id: record.id
+      }
     })
     if (res.code === 0) {
       message.success('删除成功')
@@ -197,6 +201,10 @@ const editArticle = async () => {
     const res = await put('article.edit', {
       id: currentId.value,
       ...formData
+    }, {
+      urlParams: {
+        id: currentId.value
+      }
     })
     if (res.code === 0) {
       message.success('保存成功')

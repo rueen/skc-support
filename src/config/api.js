@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-12 19:31:05
+ * @LastEditTime: 2025-03-12 19:40:51
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -59,10 +59,10 @@ const API_PATH = {
   },
   // 小二管理相关接口
   waiter: {
-    list: '/waiters/list',
-    add: '/waiters/add',
-    edit: '/waiters/edit',
-    delete: '/waiters/delete',
+    list: '/waiters',
+    add: '/waiters',
+    edit: '/waiters/:id',
+    delete: '/waiters/:id',
   },
   // 用户相关接口
   user: {
@@ -70,10 +70,10 @@ const API_PATH = {
   },
   // 文章相关接口
   article: {
-    list: '/articles/list',
-    add: '/articles/add',
-    edit: '/articles/edit',
-    delete: '/articles/delete',
+    list: '/articles',
+    add: '/articles',
+    edit: '/articles/:id',
+    delete: '/articles/:id',
   },
 }
 

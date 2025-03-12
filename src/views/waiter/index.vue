@@ -186,7 +186,11 @@ const handleEdit = (record) => {
 // 删除账号
 const handleDelete = async (record) => {
   try {
-    const res = await del('waiter.delete', { id: record.id })
+    const res = await del('waiter.delete', { id: record.id }, {
+      urlParams: {
+        id: record.id
+      }
+    })
     if(res.code === 0){
       message.success('删除成功')
       loadData()
@@ -232,7 +236,11 @@ const editWaiter = async () => {
     if (formData.password) {
       params.password = formData.password
     }
-    const res = await put('waiter.edit', params)
+    const res = await put('waiter.edit', params, {
+      urlParams: {
+        id: currentId.value
+      }
+    })
     if(res.code === 0){
       message.success('编辑成功')
       formVisible.value = false
