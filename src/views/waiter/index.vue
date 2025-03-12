@@ -86,13 +86,14 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
-import { get, post } from '@/utils/request'
+import { get, post, del, put } from '@/utils/request'
 
 const loading = ref(false)
 const formVisible = ref(false)
 const formLoading = ref(false)
 const formType = ref('add') // add, edit
 const formRef = ref()
+const currentId = ref(null)
 
 // 表单数据
 const formData = reactive({
@@ -176,6 +177,7 @@ const handleAdd = () => {
 
 // 编辑账号
 const handleEdit = (record) => {
+  currentId.value = record.id
   formType.value = 'edit'
   formData.username = record.username
   formData.password = ''
@@ -187,7 +189,7 @@ const handleEdit = (record) => {
 // 删除账号
 const handleDelete = async (record) => {
   try {
-    const res = await post('waiter.delete', { id: record.id })
+    const res = await del('waiter.delete', { id: record.id })
     if(res.code === 0){
       message.success('删除成功')
       loadData()
@@ -214,7 +216,6 @@ const addWaiter = async () => {
     }
   } catch (error) {
     message.error('添加失败')
-    console.error(error)
   } finally {
     formLoading.value = false
   }
@@ -222,7 +223,8 @@ const addWaiter = async () => {
 
 const editWaiter = async () => {
   try {
-    const res = await post('waiter.edit', {
+    const res = await put('waiter.edit', {
+      id: currentId.value,
       ...formData,
       permissions: formData.permissions.join(',')
     })
@@ -235,7 +237,6 @@ const editWaiter = async () => {
     }
   } catch (error) {
     message.error('编辑失败')
-    console.error(error)
   } finally {
     formLoading.value = false
   }
