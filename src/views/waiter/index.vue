@@ -44,11 +44,14 @@
       <a-form
         ref="formRef"
         :model="formData"
-        :rules="rules"
         :label-col="{ span: 6 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="用户名" name="username">
+        <a-form-item
+          label="用户名"
+          name="username"
+          :rules="[{ required: true, message: '请输入用户名' }]"
+        >
           <a-input
             v-model:value="formData.username"
             placeholder="请输入用户名"
@@ -57,7 +60,7 @@
         <a-form-item
           label="密码"
           name="password"
-          :required="formType === 'add'"
+          :rules="[{ required: formType === 'add', message: '请输入密码' }]"
         >
           <a-input-password
             v-model:value="formData.password"
@@ -102,25 +105,6 @@ const formData = reactive({
   remarks: '',
   permissions: []
 })
-
-// 表单校验规则
-const rules = {
-  username: [{ required: true, message: '请输入用户名' }],
-  password: [{ 
-    required: true,
-    message: '请输入密码',
-    trigger: 'change',
-    validator: (rule, value) => {
-      if (formType.value === 'edit' && !value) {
-        return Promise.resolve()
-      }
-      if (formType.value === 'add' && !value) {
-        return Promise.reject('请输入密码')
-      }
-      return Promise.resolve()
-    }
-  }]
-}
 
 // 权限选项
 const permissionsOptions = [
@@ -264,11 +248,6 @@ const editWaiter = async () => {
 // 确认表单
 const handleFormOk = async () => {
   try {
-    // 根据表单类型动态设置验证规则
-    if (formType.value === 'edit') {
-      // 编辑时移除密码的必填验证
-      formRef.value.clearValidate('password')
-    }
     await formRef.value.validate()
     formLoading.value = true
     switch(formType.value){
