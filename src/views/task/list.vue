@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-11 20:06:06
+ * @LastEditTime: 2025-03-12 09:29:55
  * @Description: 
 -->
 <template>
@@ -248,11 +248,9 @@ const loadData = async () => {
   loading.value = true
   try {
     const res = await get('task.list', {
-      params: {
-        page: pagination.current,
-        pageSize: pagination.pageSize,
-        ...searchForm
-      }
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...searchForm
     })
     if(res.code === 0){
       tableData.value = res.data.list
