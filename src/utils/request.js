@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-11 19:13:52
+ * @LastEditTime: 2025-03-12 14:20:40
  * @Description: API 请求工具
  */
 
@@ -47,23 +47,23 @@ service.interceptors.response.use(
     if (res.code !== 0) {
       message.error(res.message || '请求失败')
       console.error('接口返回错误:', res.message)
-      
-      // 如果是未登录状态，则跳转到登录页
-      if (res.code === 401) {
-        // 清除 token
-        Cookies.remove('token')
-        // 跳转到登录页
-        window.location.href = '/login'
-      }
-      
       return Promise.reject(new Error(res.message || '未知错误'))
     }
-    
     return res
   },
   error => {
-    console.error('响应错误:', error)
-    return Promise.reject(error)
+    // 如果是未登录状态，则跳转到登录页
+    if(error.response.status === 401){
+      message.error('登录已过期，请重新登录')
+      Cookies.remove('token')
+      window.location.href = '/login'
+    } else if(error.response.status === 400) {
+      // 参数错误
+      message.error(error.response.data.message)
+    } else {
+      console.error('响应错误:', error)
+      return Promise.reject(error)
+    }
   }
 )
 

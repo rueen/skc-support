@@ -200,6 +200,7 @@ const handleDelete = async (record) => {
 
 const addWaiter = async () => {
   try {
+    formLoading.value = true
     const res = await post('waiter.add', {
       ...formData,
       permissions: formData.permissions.join(',')
@@ -220,6 +221,7 @@ const addWaiter = async () => {
 
 const editWaiter = async () => {
   try {
+    formLoading.value = true
     const params = {
       id: currentId.value,
       username: formData.username,
@@ -247,21 +249,14 @@ const editWaiter = async () => {
 
 // 确认表单
 const handleFormOk = async () => {
-  try {
-    await formRef.value.validate()
-    formLoading.value = true
-    switch(formType.value){
-      case 'add':
-        addWaiter()
-        break
-      case 'edit':
-        editWaiter()
-        break
-    }
-  } catch (error) {
-    console.error(error)
-  } finally {
-    formLoading.value = false
+  await formRef.value.validate()
+  switch(formType.value){
+    case 'add':
+      addWaiter()
+      break
+    case 'edit':
+      editWaiter()
+      break
   }
 }
 
