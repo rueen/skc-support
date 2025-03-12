@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-12 19:40:51
+ * @LastEditTime: 2025-03-12 20:05:12
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -30,10 +30,10 @@ const API_PATH = {
   },
   // 会员相关接口
   member: {
-    list: '/members/list',
-    add: '/members/add',
-    edit: '/members/edit',
-    delete: '/members/delete',
+    list: '/members',
+    add: '/members',
+    edit: '/members/:id',
+    delete: '/members/:id',
     detail: '/members/detail',
   },
   // 渠道管理相关接口
@@ -44,10 +44,10 @@ const API_PATH = {
     delete: '/channels/:id',
   },
   group: {
-    list: '/groups/list',
-    add: '/groups/add',
-    edit: '/groups/edit',
-    delete: '/groups/delete',
+    list: '/groups',
+    add: '/groups',
+    edit: '/groups/:id',
+    delete: '/groups/:id',
   },
   // 结算相关接口
   settlement: {

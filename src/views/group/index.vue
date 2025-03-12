@@ -151,7 +151,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, SettingOutlined } from '@ant-design/icons-vue'
-import { get, post } from '@/utils/request'
+import { get, post, put, del } from '@/utils/request'
 
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -174,12 +174,12 @@ const formData = reactive({
   groupLink: '',
   ownerId: undefined
 })
+const currentId = ref(undefined)
 
 // 表单校验规则
 const rules = {
   groupName: [{ required: true, message: '请输入群名称' }],
-  groupLink: [{ required: true, message: '请输入群链接' }],
-  ownerId: [{ required: true, message: '请选择群主' }]
+  groupLink: [{ required: true, message: '请输入群链接' }]
 }
 
 // 会员选项（群主）
@@ -271,6 +271,7 @@ const handleAdd = () => {
 
 // 编辑群
 const handleEdit = (record) => {
+  currentId.value = record.id
   modalType.value = 'edit'
   formData.groupName = record.groupName
   formData.groupLink = record.groupLink
@@ -282,7 +283,11 @@ const handleEdit = (record) => {
 const handleDelete = async (record) => {
   try {
     // TODO: 实现删除逻辑
-    const res = await post('group.delete', { id: record.id }) 
+    const res = await del('group.delete', { id: record.id }, {
+      urlParams: {
+        id: record.id
+      }
+    }) 
     if(res.code === 0){
       message.success('删除成功')
       loadData()
@@ -305,7 +310,11 @@ const addGroup = async () => {
   }
 }
 const editGroup = async () => {
-  const res = await post('group.edit', formData)
+  const res = await put('group.edit', formData, {
+    urlParams: {
+      id: currentId.value
+    }
+  })
   if(res.code === 0){
     message.success('编辑成功')
     modalVisible.value = false
@@ -341,11 +350,9 @@ const loadData = async () => {
   try {
     // TODO: 实现数据加载逻辑
     const res = await get('group.list', {
-      params: {
-        page: pagination.current,
-        pageSize: pagination.pageSize,
-        ...searchForm
-      }
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...searchForm
     })
     if(res.code === 0) {
       tableData.value = res.data.list
@@ -393,11 +400,9 @@ const loadMemberOptions = async (keyword = '') => {
   try {
     // TODO: 实现获取会员列表逻辑
     const res = await get('member.list', {
-      params: {
-        page: 1,
-        pageSize: 50,
-        keyword
-      }
+      page: 1,
+      pageSize: 50,
+      keyword
     })  
     if(res.code === 0){
       memberOptions.value = res.data.list || []
