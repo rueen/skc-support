@@ -392,7 +392,7 @@ CREATE TABLE `articles` (
 ### 任务管理
 
 #### 获取任务列表
-- **接口**：`GET /tasks/list`
+- **接口**：`GET /tasks`
 - **描述**：获取任务列表，支持分页和筛选
 - **请求参数**：
   ```json
@@ -428,7 +428,7 @@ CREATE TABLE `articles` (
   ```
 
 #### 创建任务
-- **接口**：`POST /tasks/add`
+- **接口**：`POST /tasks`
 - **描述**：创建新任务
 - **请求参数**：
   ```json
@@ -463,12 +463,12 @@ CREATE TABLE `articles` (
   ```
 
 #### 编辑任务
-- **接口**：`PUT /tasks/edit`
+- **接口**：`PUT /tasks/:id`
 - **描述**：编辑已有任务
 - **请求参数**：与创建任务相同，需要额外传入 `id` 字段
 
 #### 删除任务
-- **接口**：`DELETE /tasks/delete`
+- **接口**：`DELETE /tasks/:id`
 - **描述**：删除任务
 - **请求参数**：
   ```json
@@ -495,7 +495,7 @@ CREATE TABLE `articles` (
 ### 已提交管理
 
 #### 获取已提交列表
-- **接口**：`GET /taskSubmitted/list`
+- **接口**：`GET /taskSubmitted`
 - **描述**：获取已提交列表
 - **请求参数**：支持分页和筛选
   ```json
@@ -570,7 +570,7 @@ CREATE TABLE `articles` (
 ### 账号管理
 
 #### 获取账号列表
-- **接口**：`GET /accounts/list`
+- **接口**：`GET /accounts`
 - **描述**：获取账号列表
 - **请求参数**：支持分页和筛选
   ```json
@@ -623,7 +623,7 @@ CREATE TABLE `articles` (
 ### 会员管理
 
 #### 获取会员列表
-- **接口**：`GET /members/list`
+- **接口**：`GET /members`
 - **描述**：获取会员列表
 - **请求参数**：支持分页和筛选
   ```json
@@ -669,7 +669,7 @@ CREATE TABLE `articles` (
   ```
 
 #### 添加会员
-- **接口**：`POST /members/add`
+- **接口**：`POST /members`
 - **描述**：添加新会员
 - **请求参数**：
   ```json
@@ -684,12 +684,12 @@ CREATE TABLE `articles` (
   ```
 
 #### 编辑会员
-- **接口**：`PUT /members/edit`
+- **接口**：`PUT /members/:id`
 - **描述**：编辑会员信息
 - **请求参数**：与添加会员相同，需要额外传入 `id` 字段
 
 #### 删除会员
-- **接口**：`DELETE /members/delete`
+- **接口**：`DELETE /members/:id`
 - **描述**：删除会员
 
 #### 获取会员详情
@@ -725,7 +725,7 @@ CREATE TABLE `articles` (
 ### 渠道管理
 
 #### 获取渠道列表
-- **接口**：`GET /channels/list`
+- **接口**：`GET /channels`
 - **描述**：获取渠道列表
 - **请求参数**：支持分页和筛选
   ```json
@@ -757,7 +757,7 @@ CREATE TABLE `articles` (
   ```
 
 #### 添加渠道
-- **接口**：`POST /channels/add`
+- **接口**：`POST /channels`
 - **描述**：添加新渠道
 - **请求参数**：
   ```json
@@ -767,18 +767,18 @@ CREATE TABLE `articles` (
   }
   ```
 #### 编辑渠道
-- **接口**：`PUT /channels/edit`
+- **接口**：`PUT /channels/:id`
 - **描述**：编辑渠道信息
 - **请求参数**：与添加新渠道相同，需要额外传入 `id` 字段
 
 #### 删除渠道
-- **接口**：`DELETE /channels/delete`
+- **接口**：`DELETE /channels/:id`
 - **描述**：删除渠道
 
 ### 群管理
 
 #### 群列表
-- **接口**：`GET /group/list`
+- **接口**：`GET /group`
 - **描述**：获取群列表
 - **请求参数**：支持分页和筛选
   ```json
@@ -814,7 +814,7 @@ CREATE TABLE `articles` (
   ```
 
 #### 添加群
-- **接口**：`POST /group/add`
+- **接口**：`POST /group`
 - **描述**：添加新渠道
 - **请求参数**：
   ```json
@@ -826,12 +826,12 @@ CREATE TABLE `articles` (
   ```
 
 #### 编辑群
-- **接口**：`PUT /group/edit`
+- **接口**：`PUT /group/:id`
 - **描述**：编辑群信息
 - **请求参数**：与添加群相同，需要额外传入 `id` 字段
 
 #### 删除群
-- **接口**：`DELETE /group/delete`
+- **接口**：`DELETE /group/:id`
 - **描述**：删除群
 
 ### 结算管理
@@ -929,7 +929,7 @@ CREATE TABLE `articles` (
 ### 小二管理
 
 #### 获取小二列表
-- **接口**：`GET /waiters/list`
+- **接口**：`GET /waiters`
 - **描述**：获取小二列表
 - **请求参数**：支持分页和筛选
   ```json
@@ -962,7 +962,7 @@ CREATE TABLE `articles` (
   ```
 
 #### 添加小二
-- **接口**：`POST /waiters/add`
+- **接口**：`POST /waiters`
 - **描述**：添加新小二
 - **请求参数**：
   ```json
@@ -975,18 +975,18 @@ CREATE TABLE `articles` (
   ```
 
 #### 编辑小二
-- **接口**：`PUT /waiters/edit`
+- **接口**：`PUT /waiters/:id`
 - **描述**：编辑小二信息
 - **请求参数**：与添加小二相同，需要额外传入 `id` 字段
 
 #### 删除小二
-- **接口**：`DELETE /waiters/delete`
+- **接口**：`DELETE /waiters/:id`
 - **描述**：删除小二
 
 ### 文章管理
 
 #### 获取文章列表
-- **接口**：`GET /articles/list`
+- **接口**：`GET /articles`
 - **描述**：获取文章内容
 - **请求参数**：支持分页和筛选
   ```json
@@ -1019,7 +1019,7 @@ CREATE TABLE `articles` (
   ```
 
 #### 添加文章
-- **接口**：`POST /articles/add`
+- **接口**：`POST /articles`
 - **描述**：添加新渠道
 - **请求参数**：
   ```json
@@ -1031,12 +1031,12 @@ CREATE TABLE `articles` (
   }
   ```
 #### 编辑文章
-- **接口**：`PUT /articles/edit`
+- **接口**：`PUT /articles/:id`
 - **描述**：编辑文章信息
 - **请求参数**：与添加文章相同，需要额外传入 `id` 或 `location` 字段
 
 #### 删除文章
-- **接口**：`DELETE /articles/delete`
+- **接口**：`DELETE /articles/:id`
 - **描述**：删除文章
 - **请求参数**：`id` 或 `location`
 
