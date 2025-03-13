@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-13 20:20:50
+ * @LastEditTime: 2025-03-13 20:29:45
  * @Description: 
 -->
 <template>
@@ -116,6 +116,7 @@ import {
   getLangText
 } from '@/constants/enums'
 import { get, del } from '@/utils/request'
+import { downloadByApi } from '@/utils/download'
 
 const router = useRouter()
 const { locale } = useI18n()
@@ -230,19 +231,27 @@ const handleExport = () => {
     content: '确定要导出当前筛选条件下的所有任务数据吗？',
     onOk: async () => {
       try {
-        // TODO: 实现导出逻辑
+        // 显示加载中提示
+        const loadingMessage = message.loading('正在导出数据，请稍候...', 0)
+        
+        // 构建导出参数，使用当前的筛选条件
         const params = {
           taskName: searchForm.taskName,
-          channelId: searchForm.channelId
+          channelId: searchForm.channelId,
+          taskStatus: searchForm.taskStatus
         }
-        const res = await get('task.export', params)
-        if(res.code === 0){
-          message.success('导出成功')
-        } else {
-          message.error(res.message)
-        }
+        
+        // 调用下载API
+        await downloadByApi('task.export', params, `任务列表_${new Date().toLocaleDateString()}.xlsx`)
+        
+        // 关闭加载提示
+        loadingMessage()
+        
+        // 显示成功提示
+        message.success('导出成功')
       } catch (error) {
-        message.error('导出失败')
+        console.error('导出失败:', error)
+        message.error('导出失败，请稍后重试')
       }
     }
   })
