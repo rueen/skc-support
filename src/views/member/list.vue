@@ -123,7 +123,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { PlusOutlined, GiftOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-import { get, post } from '@/utils/request'
+import { get, del } from '@/utils/request'
 
 const router = useRouter()
 const loading = ref(false)
@@ -214,8 +214,10 @@ const handleView = (record) => {
 const handleDelete = async (record) => {
   try {
     // TODO: 实现删除逻辑
-    const res = await post('member.delete', {
-      id: record.id
+    const res = await del('member.delete', {}, {
+      urlParams: {
+        id: record.id
+      }
     })
     if(res.code === 0){
       message.success('删除成功')

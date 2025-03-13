@@ -122,8 +122,8 @@ const handleCopy = (text) => {
 // 获取会员详情
 const getMemberDetail = async (id) => {
   try {
-    const res = await get('member.detail', {
-      params: {
+    const res = await get('member.detail', {}, {
+      urlParams: {
         id: route.params.id
       }
     })
@@ -139,9 +139,7 @@ const getMemberDetail = async (id) => {
 const getAccountList = async (id) => {
   try {
     const res = await get('account.list', {
-      params: {
-        memberId: id
-      }
+      memberId: id
     })
     if(res.code === 0){
       accountList.value = res.data.list || []
