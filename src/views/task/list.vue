@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-12 09:29:55
+ * @LastEditTime: 2025-03-13 19:06:48
  * @Description: 
 -->
 <template>
@@ -115,7 +115,7 @@ import {
   TaskStatusColor,
   getLangText
 } from '@/constants/enums'
-import { get } from '@/utils/request'
+import { get, del } from '@/utils/request'
 
 const router = useRouter()
 const { locale } = useI18n()
@@ -208,7 +208,11 @@ const handleEdit = (record) => {
 
 const handleDelete = async (record) => {
   try {
-    const res = await get('task.delete', { id: record.id })
+    const res = await del('task.delete', {}, {
+      urlParams: {
+        id: record.id
+      }
+    })
     if(res.code === 0){
       message.success('删除成功')
       loadData()
