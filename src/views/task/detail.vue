@@ -277,7 +277,7 @@ import {
   TaskTypeLang,
   getLangText
 } from '@/constants/enums'
-import { get, post } from '@/utils/request'
+import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
 
 const route = useRoute()
@@ -409,9 +409,12 @@ const editTask = async () => {
       endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null
     }
     // TODO: 实现提交逻辑
-    const res = await post('task.edit', {
-      id: route.params.id,
+    const res = await put('task.edit', {
       ...formData,
+    }, {
+      urlParams: {
+        id: route.params.id
+      }
     })
     if(res.code === 0) {
       message.success('提交成功')
@@ -446,8 +449,8 @@ const handleCancel = () => {
 const getTaskDetail = async (id) => {
   try {
     // TODO: 实现获取任务详情逻辑
-    const res = await get('task.detail', {
-      params: {
+    const res = await get('task.detail', {}, {
+      urlParams: {
         id
       }
     })
@@ -479,11 +482,9 @@ const loadChannelOptions = async () => {
 const loadGroupOptions = async (keyword = '') => {
   try {
     const res = await get('group.list', {
-      params: {
-        page: 1,
-        pageSize: 50,
-        keyword
-      }
+      page: 1,
+      pageSize: 50,
+      keyword
     })  
     if(res.code === 0){
       groupOptions.value = res.data.list || []

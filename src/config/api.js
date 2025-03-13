@@ -2,23 +2,23 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-13 15:26:50
+ * @LastEditTime: 2025-03-13 17:14:24
  * @Description: API 路径配置
  */
 const API_PATH = {
   // 任务相关接口
   task: {
-    list: '/tasks/list',
-    add: '/tasks/add',
-    edit: '/tasks/edit',
-    delete: '/tasks/delete',
-    detail: '/tasks/detail',
+    list: '/tasks',
+    add: '/tasks',
+    edit: '/tasks/:id',
+    delete: '/tasks/:id',
+    detail: '/tasks/:id',
     export: '/tasks/export',
   },
   // 已提交任务相关接口
   taskSubmitted: {
     list: '/taskSubmitted/list',
-    detail: '/taskSubmitted/detail',
+    detail: '/taskSubmitted/:id',
     batchResolve: '/taskSubmitted/batchResolve',
     batchReject: '/taskSubmitted/batchReject',
   },
