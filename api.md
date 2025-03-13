@@ -34,6 +34,7 @@
 - [注意事项](#注意事项)
   - [安全要求](#安全要求)
   - [其他要求](#其他要求)
+  - [命名规范](#命名规范)
 
 ## 基础信息
 
@@ -1056,3 +1057,13 @@ CREATE TABLE `articles` (
 - 遵循 RESTful API 设计原则
 - 为这个项目中的所有代码写上详细注释
 - 充分考虑安全因素
+
+#### 命名规范
+- 字段命名采用驼峰命名法（camelCase）
+  - 正确示例：`userName`、`taskStatus`、`createTime`
+  - 错误示例：`user_name`、`TaskStatus`、`create_time`
+- URL 路径使用小写字母和连字符（kebab-case）
+  - 正确示例：`/api/task-submitted`
+  - 错误示例：`/api/taskSubmitted`、`/api/task_submitted`
+- 常量使用全大写和下划线
+  - 正确示例：`MAX_RETRY_COUNT`、`DEFAULT_TIMEOUT`
