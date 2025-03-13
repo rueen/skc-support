@@ -7,22 +7,22 @@
     <div class="form-container">
       <a-form
         ref="formRef"
-        :model="formState"
+        :model="formData"
         :rules="rules"
         :label-col="{ span: 4 }"
         :wrapper-col="{ span: 16 }"
       >
         <a-form-item label="会员名称" name="memberNickname">
-          <a-input v-model:value="formState.memberNickname" placeholder="请输入会员名称" />
+          <a-input v-model:value="formData.memberNickname" placeholder="请输入会员名称" />
         </a-form-item>
         
         <a-form-item label="账号" name="memberAccount">
-          <a-input v-model:value="formState.memberAccount" placeholder="请输入账号（手机号/邮箱）" />
+          <a-input v-model:value="formData.memberAccount" placeholder="请输入账号（手机号/邮箱）" />
         </a-form-item>
         
         <a-form-item label="所属群" name="groupId">
           <a-select
-            v-model:value="formState.groupId"
+            v-model:value="formData.groupId"
             placeholder="请选择所属群"
             :loading="groupLoading"
           >
@@ -38,7 +38,7 @@
 
         <a-form-item label="邀请人" name="inviterId">
           <a-select
-            v-model:value="formState.inviterId"
+            v-model:value="formData.inviterId"
             placeholder="请选择邀请人"
             :loading="inviterLoading"
             show-search
@@ -56,7 +56,7 @@
 
         <a-form-item label="职业" name="occupation">
           <a-select
-            v-model:value="formState.occupation"
+            v-model:value="formData.occupation"
             placeholder="请选择职业"
             style="width: 200px"
           >
@@ -71,7 +71,7 @@
         </a-form-item>
         
         <a-form-item label="群主标识" name="isGroupOwner">
-          <a-switch v-model:checked="formState.isGroupOwner" />
+          <a-switch v-model:checked="formData.isGroupOwner" />
         </a-form-item>
         
         <a-form-item :wrapper-col="{ offset: 4 }">
@@ -94,7 +94,7 @@ import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { OccupationType, OccupationTypeLang } from '@/constants/enums'
 import { useI18n } from 'vue-i18n'
-import { get, post } from '@/utils/request'
+import { get, post, put } from '@/utils/request'
 
 const route = useRoute()
 const router = useRouter()
@@ -104,7 +104,7 @@ const { t, locale } = useI18n()
 const isEdit = computed(() => !!route.params.id)
 
 // 表单数据
-const formState = reactive({
+const formData = reactive({
   memberNickname: '',
   memberAccount: '',
   occupation: undefined,
@@ -203,7 +203,15 @@ const loadMemberInfo = async () => {
       }
     })
     if(res.code === 0){
-      Object.assign(formState, res.data)
+      const data = res.data;
+      Object.assign(formData, {
+        memberNickname: data.memberNickname,
+        memberAccount: data.memberAccount,
+        occupation: data.occupation,
+        groupId: data.groupId,
+        isGroupOwner: data.isGroupOwner,
+        inviterId: data.inviterId,
+      })
     }
   } catch (error) {
     message.error('加载会员信息失败')
@@ -212,7 +220,7 @@ const loadMemberInfo = async () => {
 }
 
 const addMember = async () => {
-  const res = await post('member.add', formState)
+  const res = await post('member.add', formData)
   if(res.code === 0){
     message.success('提交成功')
     router.back()
@@ -221,7 +229,11 @@ const addMember = async () => {
   }
 }
 const editMember = async () => {
-  const res = await post('member.edit', formState)
+  const res = await put('member.edit', formData, {
+    urlParams: {
+      id: route.params.id
+    }
+  })
   if(res.code === 0){
     message.success('提交成功')
     router.back()
