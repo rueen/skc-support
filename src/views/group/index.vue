@@ -19,7 +19,7 @@
                 style="width: 200px"
               >
                 <a-select-option v-for="item in memberOptions" :key="item.id" :value="item.id">
-                  {{ item.name }}
+                  {{ item.groupName }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -112,7 +112,7 @@
             placeholder="请选择群主"
           >
             <a-select-option v-for="item in memberOptions" :key="item.id" :value="item.id">
-              {{ item.name }}
+              {{ item.groupName }}
             </a-select-option>
           </a-select>
         </a-form-item>
