@@ -120,9 +120,16 @@
                 mode="multiple"
                 placeholder="请选择群组"
                 style="width: 100%; margin-top: 8px"
-                :options="groupOptions"
                 :loading="groupLoading"
-              />
+              >
+                <a-select-option
+                  v-for="item in groupOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.groupName }}
+                </a-select-option>
+              </a-select>
               <div v-else class="group-tip">
                 所有群组的会员都可以接取该任务
               </div>
@@ -410,7 +417,7 @@ const editTask = async () => {
     }
     // TODO: 实现提交逻辑
     const res = await put('task.edit', {
-      ...formData,
+      ...submitData,
     }, {
       urlParams: {
         id: route.params.id
@@ -455,7 +462,12 @@ const getTaskDetail = async (id) => {
       }
     })
     if(res.code === 0){
-      const data = res.data || {}
+      let data = {};
+      for(let key in res.data) {
+        if(key !== 'groups') {
+          data[key] = res.data[key]
+        }
+      }
       // 转换日期字符串为日期对象
       if (data.startTime) {
         data.startTime = dayjs(data.startTime)
