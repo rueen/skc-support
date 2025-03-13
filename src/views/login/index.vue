@@ -8,13 +8,13 @@
       
       <a-form
         ref="formRef"
-        :model="formState"
+        :model="formData"
         :rules="rules"
         @finish="handleLogin"
       >
         <a-form-item name="username">
           <a-input
-            v-model:value="formState.username"
+            v-model:value="formData.username"
             size="large"
             :placeholder="$t('login.username')"
           >
@@ -26,7 +26,7 @@
         
         <a-form-item name="password">
           <a-input-password
-            v-model:value="formState.password"
+            v-model:value="formData.password"
             size="large"
             :placeholder="$t('login.password')"
           >
@@ -38,7 +38,7 @@
         
         <a-form-item>
           <a-checkbox
-            v-model:checked="formState.remember"
+            v-model:checked="formData.remember"
           >
             {{ $t('login.rememberMe') }}
           </a-checkbox>
@@ -77,7 +77,7 @@ const userStore = useUserStore()
 const formRef = ref()
 const loading = ref(false)
 
-const formState = reactive({
+const formData = reactive({
   username: 'admin', // 默认填入用户名
   password: 'admin123', // 默认填入密码
   remember: true
