@@ -31,7 +31,7 @@
               :key="item.id"
               :value="item.id"
             >
-              {{ item.name }}
+              {{ item.groupName }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -49,7 +49,7 @@
               :key="item.id"
               :value="item.id"
             >
-              {{ item.name }}
+              {{ item.memberNickname }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -141,9 +141,6 @@ const rules = {
   ],
   groupId: [
     { required: true, message: '请选择所属群' }
-  ],
-  inviterId: [
-    { required: true, message: '请选择邀请人' }
   ]
 }
 
@@ -166,11 +163,9 @@ const loadGroupOptions = async () => {
   try {
     // TODO: 实现加载群组选项的逻辑
     const res = await get('group.list', {
-      params: {
-        page: 1,
-        pageSize: 50,
-        keyword: ''
-      }
+      page: 1,
+      pageSize: 50,
+      keyword: ''
     })
     if(res.code === 0){
       groupOptions.value = res.data.list || []
@@ -185,10 +180,8 @@ const loadInviterOptions = async () => {
   inviterLoading.value = true
   try {
     const res = await get('member.list', {
-      params: {
-        page: 1,
-        pageSize: 50
-      }
+      page: 1,
+      pageSize: 50
     })
     if(res.code === 0){
       inviterOptions.value = res.data.list || []
@@ -204,8 +197,8 @@ const loadMemberInfo = async () => {
   
   try {
     // TODO: 实现加载会员信息的逻辑
-    const res = await get('member.detail', {
-      params: {
+    const res = await get('member.detail', {}, {
+      urlParams: {
         id: route.params.id
       }
     })

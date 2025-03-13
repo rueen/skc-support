@@ -23,7 +23,7 @@
                   :key="item.id"
                   :value="item.id"
                 >
-                  {{ item.name }}
+                  {{ item.groupName }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -153,8 +153,8 @@ const groupOptions = ref([])
 const columns = [
   {
     title: '会员名称',
-    dataIndex: 'memberAccount',
-    key: 'memberAccount'
+    dataIndex: 'memberNickname',
+    key: 'memberNickname'
   },
   {
     title: '账号信息',
@@ -263,11 +263,9 @@ const loadData = async () => {
   try {
     // TODO: 实现数据加载逻辑
     const res = await get('member.list', {
-      params: {
-        page: pagination.current,
-        pageSize: pagination.pageSize,
-        ...searchForm
-      }
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...searchForm
     })
     if(res.code === 0) {
       tableData.value = res.data.list
@@ -284,11 +282,9 @@ const loadData = async () => {
 const loadGroupOptions = async (keyword = '') => {
   try {
     const res = await get('group.list', {
-      params: {
-        page: 1,
-        pageSize: 50,
-        keyword
-      }
+      page: 1,
+      pageSize: 50,
+      keyword
     })  
     if(res.code === 0){
       groupOptions.value = res.data.list || []
