@@ -133,8 +133,8 @@ const columns = [
   },
   {
     title: '更新时间',
-    dataIndex: 'update_time',
-    key: 'update_time'
+    dataIndex: 'updateTime',
+    key: 'updateTime'
   },
   {
     title: '操作',

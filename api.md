@@ -1059,11 +1059,7 @@ CREATE TABLE `articles` (
 - 充分考虑安全因素
 
 #### 命名规范
-- 字段命名采用驼峰命名法（camelCase）
-  - 正确示例：`userName`、`taskStatus`、`createTime`
-  - 错误示例：`user_name`、`TaskStatus`、`create_time`
-- URL 路径使用小写字母和连字符（kebab-case）
-  - 正确示例：`/api/task-submitted`
-  - 错误示例：`/api/taskSubmitted`、`/api/task_submitted`
-- 常量使用全大写和下划线
-  - 正确示例：`MAX_RETRY_COUNT`、`DEFAULT_TIMEOUT`
+- 数据库表字段：使用下划线命名法（snake_case）
+  - 例如：create_time、update_time、last_login_time
+- API 响应字段：使用驼峰命名法（camelCase）
+  - 例如：createTime、updateTime、lastLoginTime

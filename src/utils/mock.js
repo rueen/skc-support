@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-12 15:26:55
+ * @LastEditTime: 2025-03-13 16:23:46
  * @Description: 模拟数据工具
  */
 
@@ -513,7 +513,7 @@ const mockData = {
             title: '用户协议',
             location: "userAgreement",
             content: '这是用户协议的内容...',
-            update_time: '2024-02-28 10:00:00',
+            updateTime: '2024-02-28 10:00:00',
           },
         ],  
         page: 1,
