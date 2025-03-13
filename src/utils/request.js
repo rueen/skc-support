@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-12 15:51:21
+ * @LastEditTime: 2025-03-13 12:05:00
  * @Description: API 请求工具
  */
 
@@ -11,6 +11,7 @@ import { message } from 'ant-design-vue'
 import Cookies from 'js-cookie'
 import config from '@/config/env'
 import { mockRequest } from './mock'
+import filterEmptyParams from './filterEmptyParams'
 
 const service = axios.create({
   baseURL: config.baseUrl,
@@ -75,9 +76,12 @@ service.interceptors.response.use(
  * @return {Promise} - 返回请求结果
  */
 export const request = async (apiName, params = {}, options = {}) => {
+  // 过滤掉参数中的空字符串
+  const filteredParams = options.filterEmpty !== false ? filterEmptyParams(params) : params;
+  
   // 如果启用了模拟数据，则使用模拟数据
   if (config.mock.enable) {
-    return mockRequest(apiName, params)
+    return mockRequest(apiName, filteredParams)
   }
   
   // 解析 API 名称
@@ -115,9 +119,9 @@ export const request = async (apiName, params = {}, options = {}) => {
   
   // 根据请求方法确定如何发送参数
   if (method.toLowerCase() === 'get') {
-    requestOptions.params = params
+    requestOptions.params = filteredParams
   } else {
-    requestOptions.data = params
+    requestOptions.data = filteredParams
   }
   
   // 发送请求
