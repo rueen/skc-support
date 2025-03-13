@@ -117,10 +117,12 @@
               <a-select
                 v-if="formData.groupMode === 1"
                 v-model:value="formData.groupIds"
+                show-search
+                :filter-option="false"
                 mode="multiple"
                 placeholder="请选择群组"
                 style="width: 100%; margin-top: 8px"
-                :loading="groupLoading"
+                @search="loadGroupOptions"
               >
                 <a-select-option
                   v-for="item in groupOptions"
@@ -353,7 +355,6 @@ const rules = {
 
 // 选项数据
 const channelOptions = ref([])
-const groupLoading = ref(false)
 
 const groupOptions = ref([])
 
@@ -496,7 +497,7 @@ const loadGroupOptions = async (keyword = '') => {
     const res = await get('group.list', {
       page: 1,
       pageSize: 50,
-      keyword
+      groupName: keyword
     })  
     if(res.code === 0){
       groupOptions.value = res.data.list || []

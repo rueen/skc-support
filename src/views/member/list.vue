@@ -15,8 +15,11 @@
               <a-select
                 v-model:value="searchForm.groupId"
                 placeholder="请选择群组"
-                style="width: 120px"
                 allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadGroupOptions"
+                style="width: 200px"
               >
                 <a-select-option
                   v-for="item in groupOptions"
@@ -286,7 +289,7 @@ const loadGroupOptions = async (keyword = '') => {
     const res = await get('group.list', {
       page: 1,
       pageSize: 50,
-      keyword
+      groupName: keyword
     })  
     if(res.code === 0){
       groupOptions.value = res.data.list || []

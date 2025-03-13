@@ -25,6 +25,10 @@
             v-model:value="formData.groupId"
             placeholder="请选择所属群"
             :loading="groupLoading"
+            allow-clear
+            show-search
+            :filter-option="false"
+            @search="loadGroupOptions"
           >
           <a-select-option
               v-for="item in groupOptions"
@@ -158,14 +162,14 @@ const filterInviter = (input, option) => {
 }
 
 // 加载群组选项
-const loadGroupOptions = async () => {
+const loadGroupOptions = async (keyword = '') => {
   groupLoading.value = true
   try {
     // TODO: 实现加载群组选项的逻辑
     const res = await get('group.list', {
       page: 1,
       pageSize: 50,
-      keyword: ''
+      groupName: keyword
     })
     if(res.code === 0){
       groupOptions.value = res.data.list || []

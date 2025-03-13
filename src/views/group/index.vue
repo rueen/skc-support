@@ -16,10 +16,13 @@
                 v-model:value="searchForm.ownerId"
                 placeholder="请选择群主"
                 allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadMemberOptions"
                 style="width: 200px"
               >
                 <a-select-option v-for="item in memberOptions" :key="item.id" :value="item.id">
-                  {{ item.groupName }}
+                  {{ item.memberNickname }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -110,9 +113,13 @@
           <a-select
             v-model:value="formData.ownerId"
             placeholder="请选择群主"
+            allow-clear
+            show-search
+            :filter-option="false"
+            @search="loadMemberOptions"
           >
             <a-select-option v-for="item in memberOptions" :key="item.id" :value="item.id">
-              {{ item.groupName }}
+              {{ item.memberNickname }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -402,7 +409,7 @@ const loadMemberOptions = async (keyword = '') => {
     const res = await get('member.list', {
       page: 1,
       pageSize: 50,
-      keyword
+      memberNickname: keyword
     })  
     if(res.code === 0){
       memberOptions.value = res.data.list || []
