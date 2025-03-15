@@ -4,10 +4,10 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="会员名称">
+            <a-form-item label="会员昵称">
               <a-input
                 v-model:value="searchForm.memberNickname"
-                placeholder="请输入会员名称"
+                placeholder="请输入会员昵称"
                 allow-clear
               />
             </a-form-item>
@@ -155,7 +155,7 @@ const groupOptions = ref([])
 // 表格列定义
 const columns = [
   {
-    title: '会员名称',
+    title: '会员昵称',
     dataIndex: 'memberNickname',
     key: 'memberNickname'
   },

@@ -9,7 +9,7 @@
       <div class="section">
         <div class="section-title">会员信息</div>
         <a-descriptions :column="2">
-          <a-descriptions-item label="会员名称">
+          <a-descriptions-item label="会员昵称">
             {{ memberInfo.memberNickname }}
           </a-descriptions-item>
           <a-descriptions-item label="会员账号">

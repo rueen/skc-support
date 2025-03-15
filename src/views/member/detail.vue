@@ -12,8 +12,8 @@
         :label-col="{ span: 4 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="会员名称" name="memberNickname">
-          <a-input v-model:value="formData.memberNickname" placeholder="请输入会员名称" />
+        <a-form-item label="会员昵称" name="memberNickname">
+          <a-input v-model:value="formData.memberNickname" placeholder="请输入会员昵称" />
         </a-form-item>
         
         <a-form-item label="账号" name="memberAccount">
@@ -120,7 +120,7 @@ const formData = reactive({
 // 表单校验规则
 const rules = {
   memberNickname: [
-    { required: true, message: '请输入会员名称' }
+    { required: true, message: '请输入会员昵称' }
   ],
   memberAccount: [
     { required: true, message: '请输入账号' },

@@ -634,7 +634,7 @@ CREATE TABLE `articles` (
   {
     "page": 1,           // 页码
     "pageSize": 10,      // 每页条数
-    "memberNickname": "",      // 会员名称（可选）
+    "memberNickname": "",      // 会员昵称（可选）
     "groupId": "",    // 所属群组（可选）
   }
   ```
@@ -678,7 +678,7 @@ CREATE TABLE `articles` (
 - **请求参数**：
   ```json
   {
-    "memberNickname": "",           // 会员名称
+    "memberNickname": "",           // 会员昵称
     "memberAccount": "",      // 会员账号
     "groupId": 1,    // 所属群组ID
     "inviterId": 1,  // 邀请人ID
@@ -712,7 +712,7 @@ CREATE TABLE `articles` (
     "message": "",
     "data": {
       "id": 1,
-      "memberNickname": "",           // 会员名称
+      "memberNickname": "",           // 会员昵称
       "memberAccount": "",      // 会员账号
       "groupId": 1,    // 所属群组ID
       "groupName": "群组1",
@@ -848,7 +848,7 @@ CREATE TABLE `articles` (
   {
     "page": 1,           // 页码
     "pageSize": 10,      // 每页条数
-    "memberNickname": "",      // 会员名称（可选）
+    "memberNickname": "",      // 会员昵称（可选）
     "withdrawalStatus": "",    // 提现状态（可选）
     "startTime": null,    // 开始时间（可选）
     "endTime": null       // 结束时间
@@ -901,7 +901,7 @@ CREATE TABLE `articles` (
   {
     "page": 1,           // 页码
     "pageSize": 10,      // 每页条数
-    "memberNickname": "",      // 会员名称（可选）
+    "memberNickname": "",      // 会员昵称（可选）
     "billType": "",    // 账单类型（可选）
     "settlementStatus": "",    // 结算状态（可选）
   }
