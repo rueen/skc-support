@@ -2,16 +2,15 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:58
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-11 21:40:41
+ * @LastEditTime: 2025-03-15 21:57:40
  * @Description: 
  */
 import { defineStore } from 'pinia'
 import { message } from 'ant-design-vue'
-import Cookies from 'js-cookie'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    token: Cookies.get('token') || '',
+    token: localStorage.getItem('token') || '',
     userInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
     permissions: JSON.parse(localStorage.getItem('permissions')) || [],
     isUserInfoLoaded: false,
@@ -25,7 +24,7 @@ export const useUserStore = defineStore('user', {
     login({ token: _token, user }) {
       if (_token && user && user.id != null) {
         this.token = _token
-        Cookies.set('token', this.token)
+        localStorage.setItem('token', this.token)
         this.userInfo = {
           username: user.username
         }
@@ -63,7 +62,7 @@ export const useUserStore = defineStore('user', {
       this.userInfo = {}
       this.permissions = []
       this.isUserInfoLoaded = false
-      Cookies.remove('token')
+      localStorage.removeItem('token')
       localStorage.removeItem('userInfo');
     }
   }

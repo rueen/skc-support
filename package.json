@@ -13,7 +13,6 @@
     "ant-design-vue": "^4.x.x",
     "argon2": "^0.41.1",
     "axios": "^1.8.1",
-    "js-cookie": "^3.0.5",
     "less": "^4.x.x",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.1",

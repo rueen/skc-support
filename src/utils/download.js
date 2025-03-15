@@ -2,13 +2,12 @@
  * @Author: diaochan
  * @Date: 2025-03-13 12:30:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-13 12:30:00
+ * @LastEditTime: 2025-03-15 21:58:00
  * @Description: 文件下载工具函数
  */
 
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-import Cookies from 'js-cookie'
 import config from '@/config/env'
 
 /**
@@ -30,8 +29,7 @@ export const downloadFile = (url, params = {}, filename = '', options = {}) => {
   // 添加请求拦截器
   downloadService.interceptors.request.use(
     config => {
-      // 从 cookie 中获取 token
-      const token = Cookies.get('token')
+      const token = localStorage.getItem('token')
       
       // 如果有 token，则添加到请求头中
       if (token) {
@@ -119,7 +117,7 @@ export const downloadFile = (url, params = {}, filename = '', options = {}) => {
       // 服务器返回了错误状态码
       if (error.response.status === 401) {
         errorMessage = '登录已过期，请重新登录'
-        Cookies.remove('token')
+        localStorage.removeItem('token')
         window.location.href = '/login'
       } else {
         // 尝试解析错误信息

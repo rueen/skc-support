@@ -2,13 +2,12 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-13 12:05:00
+ * @LastEditTime: 2025-03-15 21:58:22
  * @Description: API 请求工具
  */
 
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-import Cookies from 'js-cookie'
 import config from '@/config/env'
 import { mockRequest } from './mock'
 import filterEmptyParams from './filterEmptyParams'
@@ -26,8 +25,7 @@ service.interceptors.request.use(
       return config
     }
     
-    // 从 cookie 中获取 token
-    const token = Cookies.get('token')
+    const token = localStorage.getItem('token')
     
     // 如果有 token，则添加到请求头中
     if (token) {
@@ -56,7 +54,7 @@ service.interceptors.response.use(
     // 如果是未登录状态，则跳转到登录页
     if(error.response.status === 401){
       message.error('登录已过期，请重新登录')
-      Cookies.remove('token')
+      localStorage.removeItem('token')
       window.location.href = '/login'
     } else if([400, 403, 404].indexOf(error.response.status) > -1) {
       // 参数错误
