@@ -90,10 +90,6 @@
           </a-select>
         </a-form-item>
         
-        <a-form-item label="群主标识" name="isGroupOwner">
-          <a-switch v-model:checked="formData.isGroupOwner" />
-        </a-form-item>
-        
         <a-form-item :wrapper-col="{ offset: 4 }">
           <a-space>
             <a-button type="primary" :loading="submitLoading" @click="handleSubmit">
@@ -130,7 +126,6 @@ const formData = reactive({
   password: '',
   occupation: undefined,
   groupId: undefined,
-  isGroupOwner: false,
   inviterId: undefined,
 })
 
@@ -230,7 +225,6 @@ const loadMemberInfo = async () => {
         memberAccount: data.memberAccount,
         occupation: data.occupation,
         groupId: data.groupId,
-        isGroupOwner: data.isGroupOwner,
         inviterId: data.inviterId,
       })
     }
