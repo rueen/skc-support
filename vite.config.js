@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-03 11:05:22
+ * @LastEditTime: 2025-03-15 15:22:58
  * @Description: 
  */
 import { defineConfig } from 'vite'
@@ -11,7 +11,7 @@ import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => ({
-  base: '/skc-support/',
+  // base: '/skc-support/',
   plugins: [vue()],
   resolve: {
     alias: {

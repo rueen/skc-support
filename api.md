@@ -39,7 +39,7 @@
 ## 基础信息
 
 ### 环境说明
-- 开发环境：`http://localhost:3001/api/support`
+- 开发环境：`http://localhost:3002/api/support`
 - 生产环境：`https://api.example.com/api/support`
 
 ### 通用响应格式
