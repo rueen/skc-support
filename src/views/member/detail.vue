@@ -12,11 +12,27 @@
         :label-col="{ span: 4 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="会员昵称" name="memberNickname">
+        <a-form-item
+          label="会员昵称"
+          name="memberNickname"
+          :rules="rules.memberNickname"
+        >
           <a-input v-model:value="formData.memberNickname" placeholder="请输入会员昵称" />
         </a-form-item>
+
+        <a-form-item
+          label="密码"
+          name="password"
+          :rules="[{ required: !isEdit, message: '请输入密码' }]"
+        >
+          <a-input v-model:value="formData.password" placeholder="请输入密码" />
+        </a-form-item>
         
-        <a-form-item label="账号" name="memberAccount">
+        <a-form-item
+          label="账号"
+          name="memberAccount"
+          :rules="rules.memberAccount"
+        >
           <a-input v-model:value="formData.memberAccount" placeholder="请输入账号（手机号/邮箱）" />
         </a-form-item>
         
@@ -111,6 +127,7 @@ const isEdit = computed(() => !!route.params.id)
 const formData = reactive({
   memberNickname: '',
   memberAccount: '',
+  password: '',
   occupation: undefined,
   groupId: undefined,
   isGroupOwner: false,
