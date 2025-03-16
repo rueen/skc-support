@@ -124,7 +124,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { get, post } from '@/utils/request'
-import { getTaskTypeEnum, getTaskAuditStatusEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
+
+const taskTypeJson = enumStore.jsonEnum.TaskType
+const taskAuditStatusJson = enumStore.jsonEnum.TaskAuditStatus
 
 const route = useRoute()
 const router = useRouter()
@@ -263,29 +268,7 @@ const getDetail = async (id) => {
   }
 }
 
-const taskTypeList = ref([])
-const taskTypeJson = reactive({})
-const loadTaskTypeEnum = async () => {
-  const res = await getTaskTypeEnum();
-  taskTypeList.value = Object.values(res)
-  Object.values(res).map(item => {
-    taskTypeJson[item.value] = item.text
-  })
-}
-
-const taskAuditStatusList = ref([])
-const taskAuditStatusJson = reactive({})
-const loadTaskAuditStatusEnum = async () => {
-  const res = await getTaskAuditStatusEnum();
-  taskAuditStatusList.value = Object.values(res)
-  Object.values(res).map(item => {
-    taskAuditStatusJson[item.value] = item.text
-  })
-}
-
 onMounted(() => {
-  loadTaskTypeEnum()
-  loadTaskAuditStatusEnum()
   getDetail(route.params.id)
 })
 </script>

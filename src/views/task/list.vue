@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 21:01:05
+ * @LastEditTime: 2025-03-16 21:25:49
  * @Description: 
 -->
 <template>
@@ -107,10 +107,14 @@ import { message, Modal } from 'ant-design-vue'
 import { PlusOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { get, del } from '@/utils/request'
 import { downloadByApi } from '@/utils/download'
-import { getTaskStatusEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
 
 const router = useRouter()
 const loading = ref(false)
+const enumStore = useEnumStore()
+
+const taskStatusList = enumStore.arrEnum.TaskStatus
+const taskStatusJson = enumStore.jsonEnum.TaskStatus
 
 // 搜索表单
 const searchForm = reactive({
@@ -263,18 +267,8 @@ const loadChannelOptions = async () => {
   } 
 }
 
-const taskStatusList = ref([])
-const taskStatusJson = reactive({})
-const loadTaskStatusEnum = async () => {
-  const res = await getTaskStatusEnum();
-  taskStatusList.value = Object.values(res)
-  Object.values(res).map(item => {
-    taskStatusJson[item.value] = item.text
-  })
-}
 // 初始化
 onMounted(async () => {
-  loadTaskStatusEnum()
   loadData()
   loadChannelOptions()
 })

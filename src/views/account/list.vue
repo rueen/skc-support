@@ -156,7 +156,12 @@
 import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
-import { getAccountAuditStatusEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
+
+const accountAuditStatusList = enumStore.arrEnum.AccountAuditStatus
+const accountAuditStatusJson = enumStore.jsonEnum.AccountAuditStatus
 
 const loading = ref(false)
 const selectedKeys = ref([])
@@ -405,19 +410,8 @@ const handleCopy = (url) => {
   })
 }
 
-const accountAuditStatusList = ref([])
-const accountAuditStatusJson = reactive({})
-const loadAccountAuditStatusEnum = async () => {
-  const res = await getAccountAuditStatusEnum();
-  accountAuditStatusList.value = Object.values(res)
-  Object.values(res).map(item => {
-    accountAuditStatusJson[item.value] = item.text
-  })
-}
-
 // 初始化
 onMounted(() => {
-  loadAccountAuditStatusEnum()
   loadData()
   loadGroupOptions()
   loadChannelOptions()

@@ -109,7 +109,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { get, post, put } from '@/utils/request'
-import { getOccupationTypeEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
+
+const occupationTypeList = enumStore.arrEnum.OccupationType
 
 const route = useRoute()
 const router = useRouter()
@@ -274,18 +278,7 @@ const handleSubmit = () => {
   })
 }
 
-const occupationTypeList = ref([])
-const occupationTypeJson = reactive({})
-const loadOccupationTypeEnum = async () => {
-  const res = await getOccupationTypeEnum();
-  occupationTypeList.value = Object.values(res)
-  Object.values(res).map(item => {
-    occupationTypeJson[item.value] = item.text
-  })
-}
-
 onMounted(() => {
-  loadOccupationTypeEnum()
   loadGroupOptions()
   loadInviterOptions()
   loadMemberInfo()

@@ -107,7 +107,12 @@ import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { DownloadOutlined } from '@ant-design/icons-vue'
 import { get, post } from '@/utils/request'
-import { getWithdrawalStatusEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
+
+const withdrawalStatusList = enumStore.arrEnum.WithdrawalStatus
+const withdrawalStatusJson = enumStore.jsonEnum.WithdrawalStatus
 
 const loading = ref(false)
 const currentRecord = ref(null)
@@ -330,18 +335,8 @@ const loadData = async () => {
   }
 }
 
-const withdrawalStatusList = ref([])
-const withdrawalStatusJson = reactive({})
-const loadWithdrawalStatusEnum = async () => {
-  const res = await getWithdrawalStatusEnum();
-  withdrawalStatusList.value = Object.values(res)
-  Object.values(res).map(item => {
-    withdrawalStatusJson[item.value] = item.text
-  })
-}
 // 初始化
 onMounted(() => {
-  loadWithdrawalStatusEnum()
   loadData()
 })
 </script>

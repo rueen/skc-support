@@ -155,7 +155,12 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
-import { getTaskAuditStatusEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
+
+const taskAuditStatusList = enumStore.arrEnum.TaskAuditStatus
+const taskAuditStatusJson = enumStore.jsonEnum.TaskAuditStatus
 
 const router = useRouter()
 const loading = ref(false)
@@ -393,20 +398,8 @@ const loadData = async () => {
   }
 }
 
-
-const taskAuditStatusList = ref([])
-const taskAuditStatusJson = reactive({})
-const loadTaskAuditStatusEnum = async () => {
-  const res = await getTaskAuditStatusEnum();
-  taskAuditStatusList.value = Object.values(res)
-  Object.values(res).map(item => {
-    taskAuditStatusJson[item.value] = item.text
-  })
-}
-
 // 初始化
 onMounted(() => {
-  loadTaskAuditStatusEnum()
   loadData()
   loadGroupOptions()
   loadChannelOptions()

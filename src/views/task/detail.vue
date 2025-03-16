@@ -282,7 +282,11 @@ import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
-import { getTaskTypeEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
+
+const taskTypeList = enumStore.arrEnum.TaskType
 
 const route = useRoute()
 const router = useRouter()
@@ -496,17 +500,7 @@ const loadGroupOptions = async (keyword = '') => {
   }
 }
 
-const taskTypeList = ref([])
-const taskTypeJson = reactive({})
-const loadTaskTypeEnum = async () => {
-  const res = await getTaskTypeEnum();
-  taskTypeList.value = Object.values(res)
-  Object.values(res).map(item => {
-    taskTypeJson[item.value] = item.text
-  })
-}
 onMounted(() => {
-  loadTaskTypeEnum()
   loadChannelOptions()
   loadGroupOptions()
   if (isEdit.value) {

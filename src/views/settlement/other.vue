@@ -81,7 +81,14 @@
 import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { get } from '@/utils/request'
-import { getBillTypeEnum, getSettlementStatusEnum } from '@/utils/enum';
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
+
+const billTypeList = enumStore.arrEnum.BillType
+const billTypeJson = enumStore.jsonEnum.BillType
+const settlementStatusList = enumStore.arrEnum.SettlementStatus
+const settlementStatusJson = enumStore.jsonEnum.SettlementStatus
 
 const loading = ref(false)
 
@@ -179,30 +186,8 @@ const loadData = async () => {
   }
 }
 
-const billTypeList = ref([])
-const billTypeJson = reactive({})
-const loadBillTypeEnum = async () => {
-  const res = await getBillTypeEnum();
-  billTypeList.value = Object.values(res)
-  Object.values(res).map(item => {
-    billTypeJson[item.value] = item.text
-  })
-}
-
-const settlementStatusList = ref([])
-const settlementStatusJson = reactive({})
-const loadSettlementStatusEnum = async () => {
-  const res = await getSettlementStatusEnum();
-  settlementStatusList.value = Object.values(res) 
-  Object.values(res).map(item => {
-    settlementStatusJson[item.value] = item.text
-  })
-}
-
 // 初始化
 onMounted(() => {
-  loadBillTypeEnum()
-  loadSettlementStatusEnum()
   loadData()
 })
 </script>
