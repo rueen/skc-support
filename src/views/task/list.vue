@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-13 20:29:45
+ * @LastEditTime: 2025-03-16 17:18:46
  * @Description: 
 -->
 <template>
@@ -42,11 +42,11 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="status in Object.values(TaskStatus)"
-                  :key="status"
-                  :value="status"
+                  v-for="option in taskStatusList"
+                  :key="option.value"
+                  :value="option.value"
                 >
-                  {{ getTaskStatusText(status) }}
+                  {{ option.text }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -81,17 +81,14 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'taskStatus'">
-            <a-tag :color="getTaskStatusColor(record.taskStatus)">
-              {{ getTaskStatusText(record.taskStatus) }}
-            </a-tag>
+            {{ taskStatusJson[record.taskStatus] }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)" v-if="record.taskStatus === TaskStatus.NOT_STARTED">编辑</a>
+              <a @click="handleEdit(record)">编辑</a>
               <a-popconfirm
                 title="确定要删除该任务吗？"
                 @confirm="handleDelete(record)"
-                v-if="record.taskStatus === TaskStatus.NOT_STARTED"
               >
                 <a class="danger">删除</a>
               </a-popconfirm>
@@ -106,21 +103,16 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import { message, Modal } from 'ant-design-vue'
 import { PlusOutlined, DownloadOutlined } from '@ant-design/icons-vue'
-import {
-  TaskStatus,
-  TaskStatusLang,
-  TaskStatusColor,
-  getLangText
-} from '@/constants/enums'
 import { get, del } from '@/utils/request'
 import { downloadByApi } from '@/utils/download'
+import { getTaskStatusEnum } from '@/utils/enum';
 
 const router = useRouter()
-const { locale } = useI18n()
 const loading = ref(false)
+const taskStatusList = ref([])
+const taskStatusJson = reactive({})
 
 // 搜索表单
 const searchForm = reactive({
@@ -170,16 +162,6 @@ const pagination = reactive({
   pageSize: 10,
   total: 0
 })
-
-// 获取任务状态文本
-const getTaskStatusText = (status) => {
-  return getLangText(TaskStatusLang, status, locale.value)
-}
-
-// 获取任务状态颜色
-const getTaskStatusColor = (status) => {
-  return TaskStatusColor[status]
-}
 
 // 方法定义
 const handleSearch = () => {
@@ -283,8 +265,16 @@ const loadChannelOptions = async () => {
   } 
 }
 
+const loadTaskStatusEnum = async () => {
+  const res = await getTaskStatusEnum();
+  taskStatusList.value = Object.values(res)
+  Object.values(res).map(item => {
+    taskStatusJson[item.value] = item.text
+  })
+}
 // 初始化
-onMounted(() => {
+onMounted(async () => {
+  loadTaskStatusEnum()
   loadData()
   loadChannelOptions()
 })

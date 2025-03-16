@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 10:57:40
+ * @LastEditTime: 2025-03-16 12:25:30
  * @Description: API 请求工具
  */
 
@@ -12,60 +12,86 @@ import config from '@/config/env'
 import { mockRequest } from './mock'
 import filterEmptyParams from './filterEmptyParams'
 
-const service = axios.create({
-  baseURL: config.baseUrl,
+// 公共API服务（用于图片上传、获取枚举常量等）
+const publicService = axios.create({
+  baseURL: config.publicApiUrl,
   timeout: 10000
 })
 
-// 请求拦截器
-service.interceptors.request.use(
-  config => {
-    // 登录接口不需要添加token
-    if (config.url.includes('/users/login')) {
-      return config
-    }
-    
-    const token = localStorage.getItem('token')
-    
-    // 如果有 token，则添加到请求头中
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
-    }
-    return config
-  },
-  error => {
-    console.error('请求错误:', error)
-    return Promise.reject(error)
-  }
-)
+// 业务API服务（用于业务接口）
+const businessService = axios.create({
+  baseURL: config.businessApiUrl,
+  timeout: 10000
+})
 
-// 响应拦截器
-service.interceptors.response.use(
-  response => {
-    const res = response.data
-    if (res.code !== 0) {
-      message.error(res.message || '请求失败')
-      console.error('接口返回错误:', res.message)
-      return Promise.reject(new Error(res.message || '未知错误'))
-    }
-    return res
-  },
-  error => {
-    // 如果是未登录状态，则跳转到登录页
-    if(error.response.status === 401){
-      localStorage.removeItem('token')
-      // 获取当前路径
-      const currentPath = window.location.pathname
-      // 如果不是登录页，则跳转到登录页
-      if (currentPath !== '/login') {
-        window.location.href = '/login'
+// 配置请求拦截器
+const setupInterceptors = (service) => {
+  // 请求拦截器
+  service.interceptors.request.use(
+    config => {
+      // 登录接口不需要添加token
+      if (config.url.includes('/users/login')) {
+        return config
       }
+      
+      const token = localStorage.getItem('token')
+      
+      // 如果有 token，则添加到请求头中
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`
+      }
+      return config
+    },
+    error => {
+      console.error('请求错误:', error)
+      return Promise.reject(error)
     }
-    message.error(error.response.data.message)
-    console.error('响应错误:', error)
-    return Promise.reject(error)
-  }
-)
+  )
+
+  // 响应拦截器
+  service.interceptors.response.use(
+    response => {
+      const res = response.data
+      if (res.code !== 0) {
+        message.error(res.message || '请求失败')
+        console.error('接口返回错误:', res.message)
+        return Promise.reject(new Error(res.message || '未知错误'))
+      }
+      return res
+    },
+    error => {
+      // 如果是未登录状态，则跳转到登录页
+      if(error.response && error.response.status === 401){
+        localStorage.removeItem('token')
+        // 获取当前路径
+        const currentPath = window.location.pathname
+        // 如果不是登录页，则跳转到登录页
+        if (currentPath !== '/login') {
+          window.location.href = '/login'
+        }
+      }
+      message.error(error.response?.data?.message || '请求失败')
+      console.error('响应错误:', error)
+      return Promise.reject(error)
+    }
+  )
+}
+
+// 为两个服务配置拦截器
+setupInterceptors(publicService)
+setupInterceptors(businessService)
+
+/**
+ * 判断API是否为公共API
+ * @param {String} apiName - API名称
+ * @returns {Boolean} - 是否为公共API
+ */
+const isPublicApi = (apiName) => {
+  // 公共API模块列表
+  const publicModules = ['system', 'upload']
+  const [module] = apiName.split('.')
+  return publicModules.includes(module)
+}
 
 /**
  * 发送请求
@@ -122,6 +148,9 @@ export const request = async (apiName, params = {}, options = {}) => {
   } else {
     requestOptions.data = filteredParams
   }
+  
+  // 根据API类型选择不同的服务
+  const service = isPublicApi(apiName) ? publicService : businessService
   
   // 发送请求
   return service(requestOptions)

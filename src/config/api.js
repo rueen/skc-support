@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 11:34:17
+ * @LastEditTime: 2025-03-16 12:30:20
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -77,6 +77,15 @@ const API_PATH = {
     add: '/articles',
     edit: '/articles/:id',
     delete: '/articles/:id',
+  },
+  // 系统相关接口（公共API）
+  system: {
+    enum: '/enums/:enumType',
+  },
+  // 上传相关接口（公共API）
+  upload: {
+    image: '/upload/image',
+    file: '/upload/file',
   },
 }
 
