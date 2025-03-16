@@ -12,7 +12,7 @@
           <a-descriptions-item label="任务名称">{{ taskInfo.taskName }}</a-descriptions-item>
           <a-descriptions-item label="平台渠道">{{ taskInfo.channelName }}</a-descriptions-item>
           <a-descriptions-item label="达人领域">{{ taskInfo.category }}</a-descriptions-item>
-          <a-descriptions-item label="任务类型">{{ getTaskTypeText(taskInfo.type) }}</a-descriptions-item>
+          <a-descriptions-item label="任务类型">{{ taskTypeJson[taskInfo.type] }}</a-descriptions-item>
           <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
           <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
           <a-descriptions-item label="指定群组">{{ taskInfo.groupNames?.join('、') }}</a-descriptions-item>
@@ -65,11 +65,9 @@
           <a-descriptions-item label="报名时间">{{ taskSubmittedInfo.applyTime }}</a-descriptions-item>
           <a-descriptions-item label="提交时间">{{ taskSubmittedInfo.submitTime }}</a-descriptions-item>
           <a-descriptions-item label="审核状态">
-            <a-tag :color="getTaskAuditStatusColor(taskSubmittedInfo.taskAuditStatus)">
-              {{ getTaskAuditStatusText(taskSubmittedInfo.taskAuditStatus) }}
-            </a-tag>
+            {{ taskAuditStatusJson[taskSubmittedInfo.taskAuditStatus] }}
           </a-descriptions-item>
-          <template v-if="taskSubmittedInfo.taskAuditStatus === TaskAuditStatus.REJECTED">
+          <template v-if="taskSubmittedInfo.taskAuditStatus === 'rejected'">
             <a-descriptions-item label="拒绝原因">{{ taskSubmittedInfo.rejectReason }}</a-descriptions-item>
           </template>
         </a-descriptions>
@@ -82,14 +80,14 @@
             <a-button
               type="primary"
               @click="handleResolve"
-              v-if="taskSubmittedInfo.taskAuditStatus === TaskAuditStatus.PENDING"
+              v-if="taskSubmittedInfo.taskAuditStatus === 'pending'"
             >
               审核通过
             </a-button>
             <a-button
               danger
               @click="handleReject"
-              v-if="taskSubmittedInfo.taskAuditStatus === TaskAuditStatus.PENDING"
+              v-if="taskSubmittedInfo.taskAuditStatus === 'pending'"
             >
               审核拒绝
             </a-button>
@@ -123,21 +121,13 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
-import {
-  TaskTypeLang,
-  TaskAuditStatus,
-  TaskAuditStatusLang,
-  TaskAuditStatusColor,
-  getLangText
-} from '@/constants/enums'
 import { get, post } from '@/utils/request'
+import { getTaskTypeEnum, getTaskAuditStatusEnum } from '@/utils/enum';
 
 const route = useRoute()
 const router = useRouter()
-const { locale } = useI18n()
 
 // 弹窗状态
 const rejectVisible = ref(false)
@@ -151,19 +141,6 @@ const taskInfo = reactive({})
 
 // 会员信息
 const memberInfo = reactive({})
-
-// 获取文本方法
-const getTaskTypeText = (type) => {
-  return getLangText(TaskTypeLang, type, locale.value)
-}
-
-const getTaskAuditStatusText = (status) => {
-  return getLangText(TaskAuditStatusLang, status, locale.value)
-}
-
-const getTaskAuditStatusColor = (status) => {
-  return TaskAuditStatusColor[status]
-}
 
 // 审核通过
 const handleResolve = async () => {
@@ -286,7 +263,29 @@ const getDetail = async (id) => {
   }
 }
 
+const taskTypeList = ref([])
+const taskTypeJson = reactive({})
+const loadTaskTypeEnum = async () => {
+  const res = await getTaskTypeEnum();
+  taskTypeList.value = Object.values(res)
+  Object.values(res).map(item => {
+    taskTypeJson[item.value] = item.text
+  })
+}
+
+const taskAuditStatusList = ref([])
+const taskAuditStatusJson = reactive({})
+const loadTaskAuditStatusEnum = async () => {
+  const res = await getTaskAuditStatusEnum();
+  taskAuditStatusList.value = Object.values(res)
+  Object.values(res).map(item => {
+    taskAuditStatusJson[item.value] = item.text
+  })
+}
+
 onMounted(() => {
+  loadTaskTypeEnum()
+  loadTaskAuditStatusEnum()
   getDetail(route.params.id)
 })
 </script>

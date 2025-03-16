@@ -19,11 +19,11 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="type in Object.values(BillType)"
-                  :key="type"
-                  :value="type"
+                  v-for="option in billTypeList"
+                  :key="option.value"
+                  :value="option.value"
                 >
-                  {{ getBillTypeText(type) }}
+                  {{ option.text }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -35,11 +35,11 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="status in Object.values(SettlementStatus)"
-                  :key="status"
-                  :value="status"
+                  v-for="option in settlementStatusList"
+                  :key="option.value"
+                  :value="option.value"
                 >
-                  {{ getSettlementStatusText(status) }}
+                  {{ option.text }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -66,12 +66,10 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'billType'">
-            {{ getBillTypeText(record.billType) }}
+            {{ billTypeJson[record.billType] }}
           </template>
           <template v-if="column.key === 'settlementStatus'">
-            <a-tag :color="getStatusColor(record.settlementStatus)">
-              {{ getSettlementStatusText(record.settlementStatus) }}
-            </a-tag>
+            {{ settlementStatusJson[record.settlementStatus] }}
           </template>
         </template>
       </a-table>
@@ -82,11 +80,9 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
-import { BillType, BillTypeLang, SettlementStatus, SettlementStatusLang } from '@/constants/enums'
 import { get } from '@/utils/request'
-import { useI18n } from 'vue-i18n'
+import { getBillTypeEnum, getSettlementStatusEnum } from '@/utils/enum';
 
-const { t, locale } = useI18n()
 const loading = ref(false)
 
 // 搜索表单
@@ -140,25 +136,6 @@ const pagination = reactive({
   total: 0
 })
 
-// 获取账单类型文本
-const getBillTypeText = (type) => {
-  return BillTypeLang[type]?.[locale.value] || type
-}
-
-// 获取结算状态文本
-const getSettlementStatusText = (status) => {
-  return SettlementStatusLang[status]?.[locale.value] || status
-}
-
-// 获取状态颜色
-const getStatusColor = (status) => {
-  const map = {
-    [SettlementStatus.SETTLED]: 'success',
-    [SettlementStatus.FAILED]: 'error'
-  }
-  return map[status]
-}
-
 // 搜索
 const handleSearch = () => {
   pagination.current = 1
@@ -202,8 +179,30 @@ const loadData = async () => {
   }
 }
 
+const billTypeList = ref([])
+const billTypeJson = reactive({})
+const loadBillTypeEnum = async () => {
+  const res = await getBillTypeEnum();
+  billTypeList.value = Object.values(res)
+  Object.values(res).map(item => {
+    billTypeJson[item.value] = item.text
+  })
+}
+
+const settlementStatusList = ref([])
+const settlementStatusJson = reactive({})
+const loadSettlementStatusEnum = async () => {
+  const res = await getSettlementStatusEnum();
+  settlementStatusList.value = Object.values(res) 
+  Object.values(res).map(item => {
+    settlementStatusJson[item.value] = item.text
+  })
+}
+
 // 初始化
 onMounted(() => {
+  loadBillTypeEnum()
+  loadSettlementStatusEnum()
   loadData()
 })
 </script>

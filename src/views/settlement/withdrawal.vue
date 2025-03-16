@@ -19,11 +19,11 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="status in Object.values(WithdrawalStatus)"
-                  :key="status"
-                  :value="status"
+                  v-for="option in withdrawalStatusList"
+                  :key="option.value"
+                  :value="option.value"
                 >
-                  {{ getWithdrawalStatusText(status) }}
+                  {{ option.text }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -69,9 +69,7 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'withdrawalStatus'">
-            <a-tag :color="WithdrawalStatusColor[record.withdrawalStatus]">
-              {{ getWithdrawalStatusText(record.withdrawalStatus) }}
-            </a-tag>
+            {{ withdrawalStatusJson[record.withdrawalStatus] }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -108,11 +106,9 @@
 import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { DownloadOutlined } from '@ant-design/icons-vue'
-import { WithdrawalStatus, WithdrawalStatusLang, WithdrawalStatusColor } from '@/constants/enums'
 import { get, post } from '@/utils/request'
-import { useI18n } from 'vue-i18n'
+import { getWithdrawalStatusEnum } from '@/utils/enum';
 
-const { t, locale } = useI18n()
 const loading = ref(false)
 const currentRecord = ref(null)
 const selectedKeys = ref([])
@@ -180,11 +176,6 @@ const pagination = reactive({
   pageSize: 10,
   total: 0
 })
-
-// 获取提现状态文本
-const getWithdrawalStatusText = (status) => {
-  return WithdrawalStatusLang[status]?.[locale.value] || status
-}
 
 // 搜索
 const handleSearch = () => {
@@ -339,8 +330,18 @@ const loadData = async () => {
   }
 }
 
+const withdrawalStatusList = ref([])
+const withdrawalStatusJson = reactive({})
+const loadWithdrawalStatusEnum = async () => {
+  const res = await getWithdrawalStatusEnum();
+  withdrawalStatusList.value = Object.values(res)
+  Object.values(res).map(item => {
+    withdrawalStatusJson[item.value] = item.text
+  })
+}
 // 初始化
 onMounted(() => {
+  loadWithdrawalStatusEnum()
   loadData()
 })
 </script>

@@ -35,11 +35,11 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="status in Object.values(AccountAuditStatus)"
-                  :key="status"
-                  :value="status"
+                  v-for="option in accountAuditStatusList"
+                  :key="option.value"
+                  :value="option.value"
                 >
-                  {{ getAccountAuditStatusText(status) }}
+                  {{ option.text }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -112,23 +112,21 @@
             </div>
           </template>
           <template v-if="column.key === 'accountAuditStatus'">
-            <a-tag :color="getAccountAuditStatusColor(record.accountAuditStatus)">
-              {{ getAccountAuditStatusText(record.accountAuditStatus) }}
-            </a-tag>
+            {{ accountAuditStatusJson[record.accountAuditStatus] }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a-popconfirm
                 title="确定要通过该账号吗？"
                 @confirm="handleResolve(record)"
-                v-if="record.accountAuditStatus === AccountAuditStatus.PENDING"
+                v-if="record.accountAuditStatus === 'pending'"
               >
                 <a>通过</a>
               </a-popconfirm>
               <a-popconfirm
                 title="确定要拒绝该账号吗？"
                 @confirm="handleReject(record)"
-                v-if="record.accountAuditStatus === AccountAuditStatus.PENDING"
+                v-if="record.accountAuditStatus === 'pending'"
               >
                 <a class="danger">拒绝</a>
               </a-popconfirm>
@@ -156,17 +154,10 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
-import {
-  AccountAuditStatus,
-  AccountAuditStatusLang,
-  AccountAuditStatusColor,
-  getLangText
-} from '@/constants/enums'
 import { get, post } from '@/utils/request'
+import { getAccountAuditStatusEnum } from '@/utils/enum';
 
-const { locale } = useI18n()
 const loading = ref(false)
 const selectedKeys = ref([])
 const rejectVisible = ref(false)
@@ -240,23 +231,13 @@ const tableData = ref([
     postsCount: 50,
     memberNickname: '测试会员1',
     groupName: '群组1',
-    accountAuditStatus: AccountAuditStatus.PENDING
+    accountAuditStatus: 'pending'
   }
 ])
 
 // 选择行变化
 const onSelectChange = (keys) => {
   selectedKeys.value = keys
-}
-
-// 获取状态文本
-const getAccountAuditStatusText = (status) => {
-  return getLangText(AccountAuditStatusLang, status, locale.value)
-}
-
-// 获取状态颜色
-const getAccountAuditStatusColor = (status) => {
-  return AccountAuditStatusColor[status]
 }
 
 // 搜索
@@ -424,8 +405,19 @@ const handleCopy = (url) => {
   })
 }
 
+const accountAuditStatusList = ref([])
+const accountAuditStatusJson = reactive({})
+const loadAccountAuditStatusEnum = async () => {
+  const res = await getAccountAuditStatusEnum();
+  accountAuditStatusList.value = Object.values(res)
+  Object.values(res).map(item => {
+    accountAuditStatusJson[item.value] = item.text
+  })
+}
+
 // 初始化
 onMounted(() => {
+  loadAccountAuditStatusEnum()
   loadData()
   loadGroupOptions()
   loadChannelOptions()

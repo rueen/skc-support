@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-16 11:40:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 17:09:34
+ * @LastEditTime: 2025-03-16 19:07:03
  * @Description: 枚举工具函数
  */
 
@@ -107,6 +107,16 @@ export const getBillTypeEnum = () => {
   return getEnum('BillType', lang)
 }
 
+/** 
+ * 获取结算状态枚举
+ * @param {String} lang - 语言代码，默认为 zh-CN
+ * @returns {Promise<Object>} - 返回结算状态枚举对象
+ */
+export const getSettlementStatusEnum = () => {
+  const lang = localStorage.getItem('language') || 'zh-CN'
+  return getEnum('SettlementStatus', lang)
+}
+
 /**
  * 获取职业类型枚举
  * @param {String} lang - 语言代码，默认为 zh-CN
@@ -126,5 +136,6 @@ export default {
   getAccountAuditStatusEnum,
   getWithdrawalStatusEnum,
   getBillTypeEnum,
+  getSettlementStatusEnum,
   getOccupationTypeEnum
 } 

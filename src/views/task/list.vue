@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 17:18:46
+ * @LastEditTime: 2025-03-16 18:39:31
  * @Description: 
 -->
 <template>
@@ -111,8 +111,6 @@ import { getTaskStatusEnum } from '@/utils/enum';
 
 const router = useRouter()
 const loading = ref(false)
-const taskStatusList = ref([])
-const taskStatusJson = reactive({})
 
 // 搜索表单
 const searchForm = reactive({
@@ -265,6 +263,8 @@ const loadChannelOptions = async () => {
   } 
 }
 
+const taskStatusList = ref([])
+const taskStatusJson = reactive({})
 const loadTaskStatusEnum = async () => {
   const res = await getTaskStatusEnum();
   taskStatusList.value = Object.values(res)

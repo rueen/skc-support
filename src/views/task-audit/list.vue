@@ -35,11 +35,11 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="status in Object.values(TaskAuditStatus)"
-                  :key="status"
-                  :value="status"
+                  v-for="option in taskAuditStatusList"
+                  :key="option.value"
+                  :value="option.value"
                 >
-                  {{ getTaskAuditStatusText(status) }}
+                  {{ option.text }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -85,9 +85,7 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'taskAuditStatus'">
-            <a-tag :color="getTaskAuditStatusColor(record.taskAuditStatus)">
-              {{ getTaskAuditStatusText(record.taskAuditStatus) }}
-            </a-tag>
+            {{ taskAuditStatusJson[record.taskAuditStatus] }}
           </template>
           <template v-if="column.key === 'member'">
             <div>
@@ -104,14 +102,14 @@
               <a-popconfirm
                 title="确定要通过该任务吗？"
                 @confirm="handleResolve(record)"
-                v-if="record.taskAuditStatus === TaskAuditStatus.PENDING"
+                v-if="record.taskAuditStatus === 'pending'"
               >
                 <a>通过</a>
               </a-popconfirm>
               <a-popconfirm
                 title="确定要拒绝该任务吗？"
                 @confirm="handleReject(record)"
-                v-if="record.taskAuditStatus === TaskAuditStatus.PENDING"
+                v-if="record.taskAuditStatus === 'pending'"
               >
                 <a class="danger">拒绝</a>
               </a-popconfirm>
@@ -155,18 +153,11 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
-import {
-  TaskAuditStatus,
-  TaskAuditStatusLang,
-  TaskAuditStatusColor,
-  getLangText
-} from '@/constants/enums'
 import { get, post } from '@/utils/request'
+import { getTaskAuditStatusEnum } from '@/utils/enum';
 
 const router = useRouter()
-const { locale } = useI18n()
 const loading = ref(false)
 const detailVisible = ref(false)
 const rejectVisible = ref(false)
@@ -237,18 +228,8 @@ const rowSelection = {
     selectedRowKeys.value = keys
   },
   getCheckboxProps: (record) => ({
-    disabled: record.taskAuditStatus !== TaskAuditStatus.PENDING
+    disabled: record.taskAuditStatus !== 'pending'
   })
-}
-
-// 获取任务审核状态文本
-const getTaskAuditStatusText = (status) => {
-  return getLangText(TaskAuditStatusLang, status, locale.value)
-}
-
-// 获取任务审核状态颜色
-const getTaskAuditStatusColor = (status) => {
-  return TaskAuditStatusColor[status]
 }
 
 // 搜索
@@ -412,8 +393,20 @@ const loadData = async () => {
   }
 }
 
+
+const taskAuditStatusList = ref([])
+const taskAuditStatusJson = reactive({})
+const loadTaskAuditStatusEnum = async () => {
+  const res = await getTaskAuditStatusEnum();
+  taskAuditStatusList.value = Object.values(res)
+  Object.values(res).map(item => {
+    taskAuditStatusJson[item.value] = item.text
+  })
+}
+
 // 初始化
 onMounted(() => {
+  loadTaskAuditStatusEnum()
   loadData()
   loadGroupOptions()
   loadChannelOptions()

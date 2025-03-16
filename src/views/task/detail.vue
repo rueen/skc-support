@@ -50,11 +50,11 @@
             placeholder="请选择任务类型"
           >
             <a-select-option
-              v-for="type in Object.values(TaskType)"
-              :key="type"
-              :value="type"
+              v-for="option in taskTypeList"
+              :key="option.value"
+              :value="option.value"
             >
-              {{ getTaskTypeText(type) }}
+              {{ option.text }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -277,21 +277,15 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
-import {
-  TaskType,
-  TaskTypeLang,
-  getLangText
-} from '@/constants/enums'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
+import { getTaskTypeEnum } from '@/utils/enum';
 
 const route = useRoute()
 const router = useRouter()
-const { locale } = useI18n()
 const formRef = ref()
 
 // 页面状态
@@ -367,11 +361,6 @@ const addField = () => {
 
 const removeField = (index) => {
   formData.customFields.splice(index, 1)
-}
-
-// 获取任务类型文本
-const getTaskTypeText = (type) => {
-  return getLangText(TaskTypeLang, type, locale.value)
 }
 
 // 群组模式变更处理
@@ -507,7 +496,17 @@ const loadGroupOptions = async (keyword = '') => {
   }
 }
 
+const taskTypeList = ref([])
+const taskTypeJson = reactive({})
+const loadTaskTypeEnum = async () => {
+  const res = await getTaskTypeEnum();
+  taskTypeList.value = Object.values(res)
+  Object.values(res).map(item => {
+    taskTypeJson[item.value] = item.text
+  })
+}
 onMounted(() => {
+  loadTaskTypeEnum()
   loadChannelOptions()
   loadGroupOptions()
   if (isEdit.value) {

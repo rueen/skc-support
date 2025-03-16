@@ -81,11 +81,11 @@
             style="width: 200px"
           >
             <a-select-option
-              v-for="type in Object.values(OccupationType)"
-              :key="type"
-              :value="type"
+              v-for="option in occupationTypeList"
+              :key="option.value"
+              :value="option.value"
             >
-              {{ getOccupationTypeText(type) }}
+              {{ option.text }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -108,14 +108,12 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
-import { OccupationType, OccupationTypeLang } from '@/constants/enums'
-import { useI18n } from 'vue-i18n'
 import { get, post, put } from '@/utils/request'
+import { getOccupationTypeEnum } from '@/utils/enum';
 
 const route = useRoute()
 const router = useRouter()
 const formRef = ref()
-const { t, locale } = useI18n()
 
 const isEdit = computed(() => !!route.params.id)
 
@@ -276,12 +274,18 @@ const handleSubmit = () => {
   })
 }
 
-// 获取职业类型文本
-const getOccupationTypeText = (type) => {
-  return OccupationTypeLang[type]?.[locale.value] || type
+const occupationTypeList = ref([])
+const occupationTypeJson = reactive({})
+const loadOccupationTypeEnum = async () => {
+  const res = await getOccupationTypeEnum();
+  occupationTypeList.value = Object.values(res)
+  Object.values(res).map(item => {
+    occupationTypeJson[item.value] = item.text
+  })
 }
 
 onMounted(() => {
+  loadOccupationTypeEnum()
   loadGroupOptions()
   loadInviterOptions()
   loadMemberInfo()
