@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-16 11:40:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 19:07:03
+ * @LastEditTime: 2025-03-16 20:54:29
  * @Description: 枚举工具函数
  */
 
@@ -127,6 +127,17 @@ export const getOccupationTypeEnum = () => {
   return getEnum('OccupationType', lang)
 }
 
+export const getEnumAll = async () => {
+  const lang = localStorage.getItem('language') || 'zh-CN'
+  try {
+    const res = await get('system.enumAll', { lang }, {})
+    return res.data || {}
+  } catch (error) {
+    console.error(`获取枚举常量失败:`, error)
+    return {}
+  }
+}
+
 export default {
   getEnum,
   getEnumText,
@@ -137,5 +148,6 @@ export default {
   getWithdrawalStatusEnum,
   getBillTypeEnum,
   getSettlementStatusEnum,
-  getOccupationTypeEnum
+  getOccupationTypeEnum,
+  getEnumAll
 } 

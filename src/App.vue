@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 19:59:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 11:26:37
+ * @LastEditTime: 2025-03-16 20:57:38
  * @Description: 
 -->
 <template>
@@ -13,8 +13,10 @@
 import { onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { message } from 'ant-design-vue'
+import { useEnumStore } from '@/stores'
 
 const userStore = useUserStore()
+const enumStore = useEnumStore()
 
 // 在应用启动时获取用户信息
 onMounted(async () => {
@@ -22,6 +24,7 @@ onMounted(async () => {
   if (userStore.token) {
     try {
       await userStore.fetchUserInfo()
+      await enumStore.fetchEnum()
     } catch (error) {
       message.error(error.message)
       // 如果获取用户信息失败，可能是 token 过期，清除 token 并跳转到登录页
