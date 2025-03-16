@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-15 21:58:22
+ * @LastEditTime: 2025-03-16 10:57:40
  * @Description: API 请求工具
  */
 
@@ -53,16 +53,17 @@ service.interceptors.response.use(
   error => {
     // 如果是未登录状态，则跳转到登录页
     if(error.response.status === 401){
-      message.error('登录已过期，请重新登录')
       localStorage.removeItem('token')
-      window.location.href = '/login'
-    } else if([400, 403, 404].indexOf(error.response.status) > -1) {
-      // 参数错误
-      message.error(error.response.data.message)
-    } else {
-      console.error('响应错误:', error)
-      return Promise.reject(error)
+      // 获取当前路径
+      const currentPath = window.location.pathname
+      // 如果不是登录页，则跳转到登录页
+      if (currentPath !== '/login') {
+        window.location.href = '/login'
+      }
     }
+    message.error(error.response.data.message)
+    console.error('响应错误:', error)
+    return Promise.reject(error)
   }
 )
 
