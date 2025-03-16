@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/stores/user'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Layout from '@/layouts/Layout.vue'

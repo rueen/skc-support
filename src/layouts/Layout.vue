@@ -83,7 +83,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import {
   MenuFoldOutlined,
@@ -100,7 +100,7 @@ import {
   SafetyOutlined,
   FileOutlined
 } from '@ant-design/icons-vue'
-import { useMenuStore } from '@/store/menu';
+import { useMenuStore } from '@/stores/menu';
 
 // 图标映射函数
 const getIconComponent = (iconName) => {

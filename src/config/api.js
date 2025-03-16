@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-13 17:14:24
+ * @LastEditTime: 2025-03-16 11:34:17
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -64,9 +64,12 @@ const API_PATH = {
     edit: '/waiters/:id',
     delete: '/waiters/:id',
   },
-  // 用户相关接口
+  auth: {
+    login: '/auth/login',
+    logout: '/auth/logout',
+  },
   user: {
-    login: '/users/login',
+    info: '/user/info',
   },
   // 文章相关接口
   article: {

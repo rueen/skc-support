@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-13 16:23:46
+ * @LastEditTime: 2025-03-16 11:28:56
  * @Description: 模拟数据工具
  */
 
@@ -462,7 +462,7 @@ const mockData = {
     };
   },
   // 用户相关接口
-  'user.login': (params) => {
+  'auth.login': (params) => {
     const { username, password } = params;
     // 由于 bcrypt 加密是不可逆的，我们只需要验证用户名，密码验证在前端完成
     // 在实际后端中，应该使用 bcrypt.compare(password, storedHash) 进行验证

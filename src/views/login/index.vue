@@ -67,10 +67,8 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/stores/user'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
-import { post } from '@/utils/request';
-import { message } from 'ant-design-vue';
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -103,13 +101,8 @@ const handleLogin = async (values) => {
       password: values.password
     };
     
-    const res = await post('user.login', loginParams);
-    if(res.code === 0){
-      await userStore.login(res.data)
-      router.push('/')
-    }else{
-      message.error(res.message)
-    }
+    await userStore.login(loginParams)
+    router.push('/')
   } catch (error) {
     console.error(error)
   } finally {
