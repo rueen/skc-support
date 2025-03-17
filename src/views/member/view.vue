@@ -15,6 +15,26 @@
           <a-descriptions-item label="会员账号">
             {{ memberInfo.memberAccount }}
           </a-descriptions-item>
+          <a-descriptions-item label="会员头像">
+            <a-avatar :src="memberInfo.avatar" size="small">
+              <template #icon><UserOutlined /></template>
+            </a-avatar>
+          </a-descriptions-item>
+          <a-descriptions-item label="性别">
+            {{ enumStore.getEnumText('GenderType', memberInfo.gender) }}
+          </a-descriptions-item>
+          <a-descriptions-item label="职业">
+            {{ enumStore.getEnumText('OccupationType', memberInfo.occupation) }}
+          </a-descriptions-item>
+          <a-descriptions-item label="电子邮箱">
+            {{ memberInfo.email }}
+          </a-descriptions-item>
+          <a-descriptions-item label="手机号码">
+            {{ memberInfo.phone }}
+          </a-descriptions-item>
+          <a-descriptions-item label="Telegram">
+            {{ memberInfo.telegram }}
+          </a-descriptions-item>
           <a-descriptions-item label="所属群组">
             {{ memberInfo.groupName }}
             <a-tag v-if="memberInfo.isGroupOwner" color="blue" style="margin-left: 8px">群主</a-tag>
@@ -26,8 +46,8 @@
             {{ memberInfo.inviteCode }}
           </a-descriptions-item>
           <a-descriptions-item label="邀请链接">
-            <span>{{ memberInfo.inviteUrl }}</span>
-            <a-button type="link" size="small" @click="handleCopy(memberInfo.inviteUrl)">
+            <span>{{ memberInfo.inviteCode }}</span>
+            <a-button type="link" size="small" @click="handleCopy(memberInfo.inviteCode)">
               复制
             </a-button>
           </a-descriptions-item>
@@ -103,7 +123,10 @@ import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { get } from '@/utils/request'
+import { UserOutlined } from '@ant-design/icons-vue'
+import { useEnumStore } from '@/stores'
 
+const enumStore = useEnumStore()
 const route = useRoute()
 
 // 会员信息
