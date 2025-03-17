@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 19:59:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-17 15:37:19
+ * @LastEditTime: 2025-03-17 16:06:04
  * @Description: 
 -->
 <template>
@@ -35,7 +35,6 @@ onMounted(async () => {
       }
     }
   }
-
   // 加载枚举数据
   await enumStore.fetchEnum()
 })
