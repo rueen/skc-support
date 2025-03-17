@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 19:59:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 21:24:33
+ * @LastEditTime: 2025-03-17 15:37:19
  * @Description: 
 -->
 <template>
@@ -24,7 +24,6 @@ onMounted(async () => {
   if (userStore.token) {
     try {
       await userStore.fetchUserInfo()
-      await enumStore.fetchEnum()
     } catch (error) {
       message.error(error.message)
       // 如果获取用户信息失败，可能是 token 过期，清除 token 并跳转到登录页
@@ -36,6 +35,9 @@ onMounted(async () => {
       }
     }
   }
+
+  // 加载枚举数据
+  await enumStore.fetchEnum()
 })
 </script>
 

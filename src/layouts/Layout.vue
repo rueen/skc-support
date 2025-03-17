@@ -127,7 +127,7 @@ const route = useRoute()
 const userStore = useUserStore()
 const { locale } = useI18n()
 const collapsed = ref(false)
-const userInfo = computed(() => userStore.userInfo)
+const userInfo = computed(() => userStore.userInfo || {})
 const currentLang = ref(locale.value)
 
 // 根据当前路由设置选中的菜单项

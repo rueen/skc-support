@@ -12,7 +12,7 @@
           <a-descriptions-item label="任务名称">{{ taskInfo.taskName }}</a-descriptions-item>
           <a-descriptions-item label="平台渠道">{{ taskInfo.channelName }}</a-descriptions-item>
           <a-descriptions-item label="达人领域">{{ taskInfo.category }}</a-descriptions-item>
-          <a-descriptions-item label="任务类型">{{ taskTypeJson[taskInfo.type] }}</a-descriptions-item>
+          <a-descriptions-item label="任务类型">{{ enumStore.getEnumText('TaskType', taskInfo.type) }}</a-descriptions-item>
           <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
           <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
           <a-descriptions-item label="指定群组">{{ taskInfo.groupNames?.join('、') }}</a-descriptions-item>
@@ -65,7 +65,7 @@
           <a-descriptions-item label="报名时间">{{ taskSubmittedInfo.applyTime }}</a-descriptions-item>
           <a-descriptions-item label="提交时间">{{ taskSubmittedInfo.submitTime }}</a-descriptions-item>
           <a-descriptions-item label="审核状态">
-            {{ taskAuditStatusJson[taskSubmittedInfo.taskAuditStatus] }}
+            {{ enumStore.getEnumText('TaskAuditStatus', taskSubmittedInfo.taskAuditStatus) }}
           </a-descriptions-item>
           <template v-if="taskSubmittedInfo.taskAuditStatus === 'rejected'">
             <a-descriptions-item label="拒绝原因">{{ taskSubmittedInfo.rejectReason }}</a-descriptions-item>
@@ -119,7 +119,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
@@ -128,8 +128,16 @@ import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-const taskTypeJson = enumStore.jsonEnum.TaskType
-const taskAuditStatusJson = enumStore.jsonEnum.TaskAuditStatus
+// 计算任务类型选项
+const taskTypeOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('TaskType')
+})
 
 const route = useRoute()
 const router = useRouter()

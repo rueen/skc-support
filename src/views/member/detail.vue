@@ -81,7 +81,7 @@
             style="width: 200px"
           >
             <a-select-option
-              v-for="option in occupationTypeList"
+              v-for="option in occupationTypeOptions"
               :key="option.value"
               :value="option.value"
             >
@@ -113,7 +113,16 @@ import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-const occupationTypeList = enumStore.arrEnum.OccupationType
+// 计算职业类型选项
+const occupationTypeOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+  
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('OccupationType')
+})
 
 const route = useRoute()
 const router = useRouter()

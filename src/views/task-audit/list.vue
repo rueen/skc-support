@@ -35,7 +35,7 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="option in taskAuditStatusList"
+                  v-for="option in taskAuditStatusOptions"
                   :key="option.value"
                   :value="option.value"
                 >
@@ -85,7 +85,7 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'taskAuditStatus'">
-            {{ taskAuditStatusJson[record.taskAuditStatus] }}
+            {{ enumStore.getEnumText('TaskAuditStatus', record.taskAuditStatus) }}
           </template>
           <template v-if="column.key === 'member'">
             <div>
@@ -151,7 +151,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
@@ -159,8 +159,16 @@ import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-const taskAuditStatusList = enumStore.arrEnum.TaskAuditStatus
-const taskAuditStatusJson = enumStore.jsonEnum.TaskAuditStatus
+// 计算审核状态选项
+const taskAuditStatusOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  } 
+
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('TaskAuditStatus')
+})
 
 const router = useRouter()
 const loading = ref(false)

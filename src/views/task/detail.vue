@@ -50,7 +50,7 @@
             placeholder="请选择任务类型"
           >
             <a-select-option
-              v-for="option in taskTypeList"
+              v-for="option in taskTypeOptions"
               :key="option.value"
               :value="option.value"
             >
@@ -286,7 +286,16 @@ import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-const taskTypeList = enumStore.arrEnum.TaskType
+// 计算任务类型选项 
+const taskTypeOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('TaskType')
+})
 
 const route = useRoute()
 const router = useRouter()

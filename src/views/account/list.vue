@@ -35,7 +35,7 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="option in accountAuditStatusList"
+                  v-for="option in accountAuditStatusOptions"
                   :key="option.value"
                   :value="option.value"
                 >
@@ -112,7 +112,7 @@
             </div>
           </template>
           <template v-if="column.key === 'accountAuditStatus'">
-            {{ accountAuditStatusJson[record.accountAuditStatus] }}
+            {{ enumStore.getEnumText('AccountAuditStatus', record.accountAuditStatus) }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -153,15 +153,23 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-const accountAuditStatusList = enumStore.arrEnum.AccountAuditStatus
-const accountAuditStatusJson = enumStore.jsonEnum.AccountAuditStatus
+// 计算审核状态选项
+const accountAuditStatusOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('AccountAuditStatus')
+})
 
 const loading = ref(false)
 const selectedKeys = ref([])

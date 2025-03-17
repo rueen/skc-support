@@ -19,7 +19,7 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="option in billTypeList"
+                  v-for="option in billTypeOptions"
                   :key="option.value"
                   :value="option.value"
                 >
@@ -35,7 +35,7 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="option in settlementStatusList"
+                  v-for="option in settlementStatusOptions"
                   :key="option.value"
                   :value="option.value"
                 >
@@ -66,10 +66,10 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'billType'">
-            {{ billTypeJson[record.billType] }}
+            {{ enumStore.getEnumText('BillType', record.billType) }}
           </template>
           <template v-if="column.key === 'settlementStatus'">
-            {{ settlementStatusJson[record.settlementStatus] }}
+            {{ enumStore.getEnumText('SettlementStatus', record.settlementStatus) }}
           </template>
         </template>
       </a-table>
@@ -78,17 +78,33 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { get } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-const billTypeList = enumStore.arrEnum.BillType
-const billTypeJson = enumStore.jsonEnum.BillType
-const settlementStatusList = enumStore.arrEnum.SettlementStatus
-const settlementStatusJson = enumStore.jsonEnum.SettlementStatus
+// 计算账单类型选项
+const billTypeOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('BillType')
+})
+
+const settlementStatusOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('SettlementStatus')
+})
 
 const loading = ref(false)
 

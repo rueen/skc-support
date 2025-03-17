@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 21:25:49
+ * @LastEditTime: 2025-03-17 15:41:21
  * @Description: 
 -->
 <template>
@@ -37,13 +37,12 @@
             <a-form-item label="任务状态">
               <a-select
                 v-model:value="searchForm.taskStatus"
-                placeholder="请选择状态"
-                style="width: 120px"
-                allow-clear
+                placeholder="请选择任务状态"
+                allowClear
               >
-                <a-select-option
-                  v-for="option in taskStatusList"
-                  :key="option.value"
+                <a-select-option 
+                  v-for="option in taskStatusOptions" 
+                  :key="option.value" 
                   :value="option.value"
                 >
                   {{ option.text }}
@@ -81,7 +80,7 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'taskStatus'">
-            {{ taskStatusJson[record.taskStatus] }}
+              {{ enumStore.getEnumText('TaskStatus', record.taskStatus) }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -101,7 +100,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import { PlusOutlined, DownloadOutlined } from '@ant-design/icons-vue'
@@ -113,9 +112,6 @@ const router = useRouter()
 const loading = ref(false)
 const enumStore = useEnumStore()
 
-const taskStatusList = enumStore.arrEnum.TaskStatus
-const taskStatusJson = enumStore.jsonEnum.TaskStatus
-
 // 搜索表单
 const searchForm = reactive({
   taskName: '',
@@ -125,6 +121,17 @@ const searchForm = reactive({
 
 // 渠道选项
 const channelOptions = ref([])
+
+// 计算任务状态选项
+const taskStatusOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+  
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('TaskStatus')
+})
 
 // 表格列配置
 const columns = [
@@ -141,7 +148,11 @@ const columns = [
   {
     title: '任务状态',
     dataIndex: 'taskStatus',
-    key: 'taskStatus'
+    key: 'taskStatus',
+    customRender: ({ text }) => {
+      // 使用store提供的方法获取枚举文本
+      return enumStore.getEnumText('TaskStatus', text)
+    }
   },
   {
     title: '创建时间',

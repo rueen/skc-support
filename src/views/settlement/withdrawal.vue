@@ -19,7 +19,7 @@
                 allow-clear
               >
                 <a-select-option
-                  v-for="option in withdrawalStatusList"
+                  v-for="option in withdrawalStatusOptions"
                   :key="option.value"
                   :value="option.value"
                 >
@@ -69,7 +69,7 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'withdrawalStatus'">
-            {{ withdrawalStatusJson[record.withdrawalStatus] }}
+            {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { DownloadOutlined } from '@ant-design/icons-vue'
 import { get, post } from '@/utils/request'
@@ -111,8 +111,16 @@ import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-const withdrawalStatusList = enumStore.arrEnum.WithdrawalStatus
-const withdrawalStatusJson = enumStore.jsonEnum.WithdrawalStatus
+// 计算提现状态选项
+const withdrawalStatusOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('WithdrawalStatus')
+})
 
 const loading = ref(false)
 const currentRecord = ref(null)
