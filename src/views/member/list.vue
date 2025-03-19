@@ -63,7 +63,12 @@
           <template v-if="column.key === 'accountList'">
             <div style="display: inline-block;">
               <div v-for="item in record.accountList">
-                <div>账号：{{ item.account }}</div>
+                <div>
+                  <a-space>
+                    账号：{{ item.account }}
+                    <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', item.accountAuditStatus) }}</a-tag>
+                  </a-space>
+                </div>
                 <div class="link-text-container">
                   <span class="label">主页：</span>
                   <a :href="item.homeUrl" target="_blank" class="link-text">{{ item.homeUrl }}</a>
@@ -127,6 +132,9 @@ import { PlusOutlined, GiftOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { get, del } from '@/utils/request'
+import { useEnumStore } from '@/stores'
+
+const enumStore = useEnumStore()
 
 const router = useRouter()
 const loading = ref(false)
@@ -160,7 +168,12 @@ const columns = [
     key: 'memberNickname'
   },
   {
-    title: '账号信息',
+    title: '账号',
+    dataIndex: 'memberAccount',
+    key: 'memberAccount'
+  },
+  {
+    title: '渠道账号信息',
     key: 'accountList'
   },
   {
