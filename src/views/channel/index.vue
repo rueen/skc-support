@@ -14,8 +14,7 @@
         :columns="columns"
         :data-source="tableData"
         :loading="loading"
-        :pagination="pagination"
-        @change="handleTableChange"
+        :pagination="false"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'icon'">
@@ -78,6 +77,9 @@
             placeholder="请输入渠道名称"
           />
         </a-form-item>
+        <a-form-item label="自定义字段" name="customFields">
+          <a-checkbox-group v-model:value="formData.customFields" :options="customFieldsOptions" />
+        </a-form-item>
       </a-form>
     </a-modal>
   </div>
@@ -96,7 +98,11 @@ const modalLoading = ref(false)
 const modalType = ref('add') // add, edit
 const formRef = ref()
 const fileList = ref([])
-
+const customFieldsOptions = ref([
+  { label: '粉丝数', value: 'fansCount' },
+  { label: '好友数', value: 'friendsCount' },
+  { label: '发帖数', value: 'postsCount' },
+])
 // 上传配置
 const uploadConfig = {
   action: config.imageUploadUrl,
@@ -108,7 +114,8 @@ const uploadConfig = {
 // 表单数据
 const formData = reactive({
   name: '',
-  icon: ''
+  icon: '',
+  customFields: ['fansCount']
 })
 const currentId = ref()
 
@@ -145,11 +152,6 @@ const columns = [
 
 // 表格数据
 const tableData = ref([])
-const pagination = reactive({
-  current: 1,
-  pageSize: 10,
-  total: 0
-})
 
 // 计算弹窗标题
 const modalTitle = computed(() => {
@@ -159,12 +161,6 @@ const modalTitle = computed(() => {
   }
   return titles[modalType.value]
 })
-
-// 表格变化
-const handleTableChange = (pag) => {
-  Object.assign(pagination, pag)
-  loadData()
-}
 
 // 添加渠道
 const handleAdd = () => {
@@ -286,6 +282,7 @@ const editChannel = async () => {
 
 // 确认弹窗
 const handleModalOk = async () => {
+  console.log(formData.customFields)
   try {
     await formRef.value.validate()
     modalLoading.value = true
@@ -309,11 +306,10 @@ const loadData = async () => {
   loading.value = true
   try {
     const res = await get('channel.list', {
-      page: pagination.current,
-      pageSize: pagination.pageSize
+      page: 1,
+      pageSize: 200
     })
     tableData.value = res.data.list
-    pagination.total = res.data.total
   } finally {
     loading.value = false
   }
