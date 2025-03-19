@@ -190,7 +190,7 @@ const rejectReason = ref('')
 const searchForm = reactive({
   account: '',
   channelId: undefined,
-  accountAuditStatus: undefined,
+  accountAuditStatus: 'pending',
   groupId: undefined
 })
 
