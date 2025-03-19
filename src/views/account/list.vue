@@ -49,13 +49,16 @@
                 placeholder="请选择群组"
                 style="width: 120px"
                 allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadGroupOptions"
               >
                 <a-select-option
                   v-for="item in groupOptions"
                   :key="item.id"
                   :value="item.id"
                 >
-                  {{ item.name }}
+                  {{ item.groupName }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -84,6 +87,14 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'account'">
+            <div>
+              <div>
+                <img :src="record.channelIcon" alt="渠道图标" style="width: 20px; height: 20px; border-radius: 50%;">
+                <span>{{ record.account }}</span>
+              </div>
+            </div>
+          </template>
           <template v-if="column.key === 'accountInfo'">
             <div class="account-info">
               <div class="home-url">
@@ -96,9 +107,9 @@
                 </div>
               </div>
               <div class="stats">
-                <div class="stat-item">粉丝数：{{ record.fansCount }}</div>
-                <div class="stat-item">好友数：{{ record.friendsCount }}</div>
-                <div class="stat-item">发帖数：{{ record.postsCount }}</div>
+                <div class="stat-item" v-if="record.channelCustomFields.includes('fansCount')">粉丝数：{{ record.fansCount }}</div>
+                <div class="stat-item" v-if="record.channelCustomFields.includes('friendsCount')">好友数：{{ record.friendsCount }}</div>
+                <div class="stat-item" v-if="record.channelCustomFields.includes('postsCount')">发帖数：{{ record.postsCount }}</div>
               </div>
             </div>
           </template>
@@ -177,14 +188,6 @@ const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
 
-// 分页配置
-const pagination = reactive({
-  current: 1,
-  pageSize: 10,
-  total: 0,
-  showTotal: total => `共 ${total} 条`
-})
-
 // 搜索表单
 const searchForm = reactive({
   account: '',
@@ -202,17 +205,11 @@ const groupOptions = ref([])
 // 表格列配置
 const columns = [
   {
-    title: '账号',
-    dataIndex: 'account',
+    title: '账号名称',
     key: 'account'
   },
   {
-    title: '平台渠道',
-    dataIndex: 'channelName',
-    key: 'channelName'
-  },
-  {
-    title: '账号信息',
+    title: '账号详情',
     key: 'accountInfo'
   },
   {
@@ -233,20 +230,13 @@ const columns = [
 ]
 
 // 表格数据
-const tableData = ref([
-  {
-    id: 1,
-    account: 'test123',
-    channelName: '抖音',
-    channelId: 1,
-    homeUrl: 'https://example.com/test123',
-    fansCount: 1000,
-    postsCount: 50,
-    memberNickname: '测试会员1',
-    groupName: '群组1',
-    accountAuditStatus: 'pending'
-  }
-])
+const tableData = ref([])
+// 分页配置
+const pagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0
+})
 
 // 选择行变化
 const onSelectChange = (keys) => {
@@ -367,11 +357,9 @@ const loadData = async () => {
   try {
     // TODO: 实现数据加载逻辑
     const res = await get('account.list', {
-      params: {
-        page: pagination.current,
-        pageSize: pagination.pageSize,
-        ...searchForm
-      }
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...searchForm
     })
     if(res.code === 0) {
       tableData.value = res.data.list
@@ -395,11 +383,9 @@ const loadChannelOptions = async () => {
 const loadGroupOptions = async (keyword = '') => {
   try {
     const res = await get('group.list', {
-      params: {
-        page: 1,
-        pageSize: 50,
-        keyword
-      }
+      page: 1,
+      pageSize: 50,
+      groupName: keyword
     })  
     if(res.code === 0){
       groupOptions.value = res.data.list || []

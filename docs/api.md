@@ -584,7 +584,8 @@ CREATE TABLE `articles` (
     "account": "",       // 账号（可选）
     "channelId": 1,      // 渠道ID（可选）
     "accountAuditStatus": "",   // 账号审核状态
-    "groupId": 1         // 所属群ID
+    "groupId": 1,        // 所属群ID
+    "memberId": 1        // 会员ID
   }
   ```
 - **响应示例**：
@@ -597,17 +598,20 @@ CREATE TABLE `articles` (
       "list": [
         {
           "id": 1,
-          "account": "test123",
-          "channelId": 1,
-          "channelName": "抖音",
-          "homeUrl": "https://example.com/test123",
-          "fansCount": 1000,
-          "friendsCount": 100,
-          "postsCount": 50,
-          "memberNickname": "测试会员1",
-          "groupName": "群组1",
-          "isGroupOwner": true,
-          "accountAuditStatus": "pending",
+          "account": "test123", // 账号名称
+          "accountAuditStatus": "pending", // 账号审核状态
+          "homeUrl": "https://example.com/test123", // 主页链接
+          "fansCount": 1000, // 粉丝数
+          "friendsCount": 100, // 好友数
+          "postsCount": 50,  // 发帖数
+          "channelId": 1,       // 该账号关联的渠道ID
+          "channelName": "抖音",// 渠道名称
+          "channelIcon": "http://123", // 渠道icon
+          "channelCustomFields": ["fansCount", "postsCount"], // 渠道自定义字段
+          "memberId": 1, // 该账号所属会员ID
+          "memberNickname": "测试会员1", // 会员昵称
+          "groupName": "群组1", // 会员所属群
+          "isGroupOwner": true, // 该会员是否是群主
         }
       ],
       "page": 1,

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 20:58:05
+ * @LastEditTime: 2025-03-19 15:08:23
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -24,7 +24,7 @@ const API_PATH = {
   },
   // 账号相关接口
   account: {
-    list: '/accounts/list',
+    list: '/accounts',
     batchResolve: '/accounts/batchResolve',
     batchReject: '/accounts/batchReject',
   },
