@@ -88,12 +88,10 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'account'">
-            <div>
-              <div>
-                <img :src="record.channelIcon" alt="渠道图标" style="width: 20px; height: 20px; border-radius: 50%;">
-                <span>{{ record.account }}</span>
-              </div>
-            </div>
+            <a-space>
+              <a-avatar :src="record.channelIcon" size="small" />
+              <span>{{ record.account }}</span>
+            </a-space>
           </template>
           <template v-if="column.key === 'accountInfo'">
             <div class="account-info">

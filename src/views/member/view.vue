@@ -60,8 +60,12 @@
         <div class="account-list">
           <div v-for="account in accountList" :key="account.channelId">
             <a-descriptions :column="1">
-              <a-descriptions-item label="账号">{{ account.username }}</a-descriptions-item>
-              <a-descriptions-item label="平台">{{ account.channelName }}</a-descriptions-item>
+              <a-descriptions-item label="账号">
+                <a-space>
+                  <a-avatar :src="account.channelIcon" size="small" />
+                  <span>{{ account.account }}</span>
+                </a-space>
+              </a-descriptions-item>
               <a-descriptions-item label="主页">
                 <div class="link-text-container">
                   <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
@@ -70,9 +74,9 @@
                   </a-button>
                 </div>
               </a-descriptions-item>
-              <a-descriptions-item label="粉丝数">{{ account.followers }}</a-descriptions-item>
-              <a-descriptions-item label="好友数">{{ account.friends }}</a-descriptions-item>
-              <a-descriptions-item label="发帖数">{{ account.posts }}</a-descriptions-item>
+              <a-descriptions-item label="粉丝数" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
+              <a-descriptions-item label="好友数" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
+              <a-descriptions-item label="发帖数" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
             </a-descriptions>
           </div>
         </div>
