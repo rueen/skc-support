@@ -1,0 +1,21 @@
+{
+  "app": {
+    "title": "SKC Support System"
+  },
+  "menu": {
+    "task": "Tasks",
+    "taskAudit": "Task Review",
+    "account": "Account Review",
+    "member": "Members",
+    "channel": "Channels",
+    "group": "Groups",
+    "withdrawal": "Withdrawal Bills",
+    "otherBills": "Other Bills",
+    "waiter": "Support Staff",
+    "article": "Articles",
+    "systemConfig": "System Config"
+  },
+  "header": {
+    "logout": "Logout"
+  }
+} 
