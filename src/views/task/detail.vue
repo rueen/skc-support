@@ -70,8 +70,10 @@
         </a-form-item>
 
         <a-form-item label="粉丝要求" name="fansRequired">
-          <a-input
+          <a-input-number
             v-model:value="formData.fansRequired"
+            :min="0"
+            :step="1"
             placeholder="请输入粉丝要求"
           />
         </a-form-item>
