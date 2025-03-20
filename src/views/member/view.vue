@@ -36,8 +36,10 @@
             {{ memberInfo.telegram }}
           </a-descriptions-item>
           <a-descriptions-item label="所属群组">
-            {{ memberInfo.groupName }}
-            <a-tag v-if="memberInfo.isGroupOwner" color="blue" style="margin-left: 8px">群主</a-tag>
+            <div v-for="item in memberInfo.groups" :key="item.id">
+              {{ item.groupName }}
+              <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 8px">群主</a-tag>
+            </div>
           </a-descriptions-item>
           <a-descriptions-item label="邀请人">
             {{ memberInfo.inviterName }}
