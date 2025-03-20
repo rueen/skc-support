@@ -132,13 +132,14 @@
 import { ref, reactive, onMounted } from 'vue'
 import { PlusOutlined, GiftOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
 const router = useRouter()
+const route = useRoute()
 const loading = ref(false)
 const configVisible = ref(false)
 const configLoading = ref(false)
@@ -147,7 +148,7 @@ const inviteRewardAmount = ref(10.00)
 // 查询参数
 const searchForm = reactive({
   memberNickname: '',
-  groupId: undefined
+  groupId: route.query.groupId
 })
 
 // 表格数据

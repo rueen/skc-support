@@ -60,6 +60,10 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'memberCount'">
+            {{ record.memberCount }}
+            <a-typography-link @click="handleViewMember(record)">查看</a-typography-link>
+          </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleEdit(record)">编辑</a>
@@ -159,6 +163,9 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, SettingOutlined } from '@ant-design/icons-vue'
 import { get, post, put, del } from '@/utils/request'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -211,8 +218,7 @@ const columns = [
     key: 'ownerName'
   },
   {
-    title: '会员人数',
-    dataIndex: 'memberCount',
+    title: '成员人数',
     key: 'memberCount',
     align: 'right'
   },
@@ -274,6 +280,10 @@ const handleAdd = () => {
   formData.groupLink = ''
   formData.ownerId = undefined
   modalVisible.value = true
+}
+
+const handleViewMember = (record) => {
+  router.push(`/member?groupId=${record.id}`)
 }
 
 // 编辑群
