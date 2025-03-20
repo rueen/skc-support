@@ -40,9 +40,9 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button @click="handleConfigCommission">
+            <a-button @click="handleConfig">
               <template #icon><setting-outlined /></template>
-              收益配置
+              群配置
             </a-button>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
@@ -129,13 +129,13 @@
     <!-- 群主收益配置弹窗 -->
     <a-modal
       v-model:open="configVisible"
-      title="群主收益配置"
+      title="群配置"
       @ok="handleConfigSave"
       :confirmLoading="configLoading"
     >
       <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
         <a-form-item
-          label="收益比例"
+          label="群主收益比例"
           extra="设置群主可获得的任务收益分成比例"
         >
           <a-input-number
@@ -373,7 +373,7 @@ const loadData = async () => {
 }
 
 // 打开收益配置弹窗
-const handleConfigCommission = async () => {
+const handleConfig = async () => {
   configVisible.value = true
   await getOwnerCommissionConfig()
 }
