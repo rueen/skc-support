@@ -36,11 +36,32 @@
           <a-input v-model:value="formData.memberNickname" placeholder="请输入会员昵称" />
         </a-form-item>
         
-        <a-form-item label="所属群" name="groupId">
+        <a-form-item label="邀请人" name="inviterId">
           <a-select
-            v-model:value="formData.groupId"
+            v-model:value="formData.inviterId"
+            placeholder="请选择邀请人"
+            :loading="inviterLoading"
+            show-search
+            allow-clear
+            :filter-option="filterInviter"
+            @select="handleInviterSelect"
+          >
+            <a-select-option
+              v-for="item in inviterOptions"
+              :key="item.id"
+              :value="item.id"
+            >
+              {{ item.memberNickname }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item label="所属群" name="groupIds">
+          <a-select
+            v-model:value="formData.groupIds"
             placeholder="请选择所属群"
             :loading="groupLoading"
+            mode="multiple"
             allow-clear
             show-search
             :filter-option="false"
@@ -52,24 +73,6 @@
               :value="item.id"
             >
               {{ item.groupName }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-
-        <a-form-item label="邀请人" name="inviterId">
-          <a-select
-            v-model:value="formData.inviterId"
-            placeholder="请选择邀请人"
-            :loading="inviterLoading"
-            show-search
-            :filter-option="filterInviter"
-          >
-            <a-select-option
-              v-for="item in inviterOptions"
-              :key="item.id"
-              :value="item.id"
-            >
-              {{ item.memberNickname }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -105,7 +108,7 @@ const formData = reactive({
   memberNickname: '',
   memberAccount: '',
   password: '',
-  groupId: undefined,
+  groupIds: [],
   inviterId: undefined,
 })
 
@@ -155,7 +158,8 @@ const loadGroupOptions = async (keyword = '') => {
     const res = await get('group.list', {
       page: 1,
       pageSize: 50,
-      groupName: keyword
+      groupName: keyword,
+      memberId: formData.inviterId
     })
     if(res.code === 0){
       groupOptions.value = res.data.list || []
@@ -163,6 +167,11 @@ const loadGroupOptions = async (keyword = '') => {
   } finally {
     groupLoading.value = false
   }
+}
+
+// 邀请人选择
+const handleInviterSelect = (value) => {
+  loadGroupOptions()
 }
 
 // 加载邀请人选项
@@ -197,7 +206,7 @@ const loadMemberInfo = async () => {
       Object.assign(formData, {
         memberNickname: data.memberNickname,
         memberAccount: data.memberAccount,
-        groupId: data.groupId,
+        groupIds: data.groups.map(item => item.groupId),
         inviterId: data.inviterId,
       })
     }
@@ -249,10 +258,10 @@ const handleSubmit = () => {
   })
 }
 
-onMounted(() => {
-  loadGroupOptions()
-  loadInviterOptions()
-  loadMemberInfo()
+onMounted(async () => {
+  await loadMemberInfo()
+  await loadInviterOptions()
+  await loadGroupOptions()
 })
 </script>
 

@@ -66,6 +66,7 @@
                 <a-space>
                   <a-avatar :src="account.channelIcon" size="small" />
                   <span>{{ account.account }}</span>
+                  <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', account.accountAuditStatus) }}</a-tag>
                 </a-space>
               </a-descriptions-item>
               <a-descriptions-item label="主页">
