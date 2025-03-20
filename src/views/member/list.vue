@@ -79,9 +79,11 @@
               </div>
             </div>
           </template>
-          <template v-if="column.key === 'groupName'">
-            <span>{{ record.groupName }}</span>
-            <a-tag v-if="record.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
+          <template v-if="column.key === 'groups'">
+            <div v-for="item in record.groups">
+              <span>{{ item.groupName }}</span>
+              <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
+            </div>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -178,8 +180,8 @@ const columns = [
   },
   {
     title: '所属群组',
-    dataIndex: 'groupName',
-    key: 'groupName'
+    dataIndex: 'groups',
+    key: 'groups'
   },
   {
     title: '更新时间',
@@ -228,21 +230,16 @@ const handleView = (record) => {
 }
 
 const handleDelete = async (record) => {
-  try {
-    // TODO: 实现删除逻辑
-    const res = await del('member.delete', {}, {
-      urlParams: {
-        id: record.id
-      }
-    })
-    if(res.code === 0){
-      message.success('删除成功')
-      loadData()
-    } else {
-      message.error(res.message)
+  const res = await del('member.delete', {}, {
+    urlParams: {
+      id: record.id
     }
-  } catch (error) {
-    message.error('删除失败')
+  })
+  if(res.code === 0){
+    message.success('删除成功')
+    loadData()
+  } else {
+    message.error(res.message)
   }
 }
 

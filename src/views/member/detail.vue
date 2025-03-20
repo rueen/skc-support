@@ -13,11 +13,11 @@
         :wrapper-col="{ span: 16 }"
       >
         <a-form-item
-          label="会员昵称"
-          name="memberNickname"
-          :rules="rules.memberNickname"
+          label="账号"
+          name="memberAccount"
+          :rules="rules.memberAccount"
         >
-          <a-input v-model:value="formData.memberNickname" placeholder="请输入会员昵称" />
+          <a-input v-model:value="formData.memberAccount" placeholder="请输入账号（手机号/邮箱）" />
         </a-form-item>
 
         <a-form-item
@@ -29,11 +29,11 @@
         </a-form-item>
         
         <a-form-item
-          label="账号"
-          name="memberAccount"
-          :rules="rules.memberAccount"
+          label="会员昵称"
+          name="memberNickname"
+          :rules="rules.memberNickname"
         >
-          <a-input v-model:value="formData.memberAccount" placeholder="请输入账号（手机号/邮箱）" />
+          <a-input v-model:value="formData.memberNickname" placeholder="请输入会员昵称" />
         </a-form-item>
         
         <a-form-item label="所属群" name="groupId">
@@ -73,22 +73,6 @@
             </a-select-option>
           </a-select>
         </a-form-item>
-
-        <a-form-item label="职业" name="occupation">
-          <a-select
-            v-model:value="formData.occupation"
-            placeholder="请选择职业"
-            style="width: 200px"
-          >
-            <a-select-option
-              v-for="option in occupationTypeOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.text }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
         
         <a-form-item :wrapper-col="{ offset: 4 }">
           <a-space>
@@ -109,20 +93,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { get, post, put } from '@/utils/request'
-import { useEnumStore } from '@/stores'
-
-const enumStore = useEnumStore()
-
-// 计算职业类型选项
-const occupationTypeOptions = computed(() => {
-  // 如果枚举数据还未加载完成，则返回空数组
-  if (!enumStore.loaded) {
-    return []
-  }
-  
-  // 使用store提供的方法获取选项列表
-  return enumStore.getEnumOptions('OccupationType')
-})
 
 const route = useRoute()
 const router = useRouter()
@@ -135,16 +105,12 @@ const formData = reactive({
   memberNickname: '',
   memberAccount: '',
   password: '',
-  occupation: undefined,
   groupId: undefined,
   inviterId: undefined,
 })
 
 // 表单校验规则
 const rules = {
-  memberNickname: [
-    { required: true, message: '请输入会员昵称' }
-  ],
   memberAccount: [
     { required: true, message: '请输入账号' },
     { 
@@ -165,9 +131,6 @@ const rules = {
         return Promise.reject('请输入正确的手机号或邮箱格式');
       }
     }
-  ],
-  groupId: [
-    { required: true, message: '请选择所属群' }
   ]
 }
 
@@ -234,7 +197,6 @@ const loadMemberInfo = async () => {
       Object.assign(formData, {
         memberNickname: data.memberNickname,
         memberAccount: data.memberAccount,
-        occupation: data.occupation,
         groupId: data.groupId,
         inviterId: data.inviterId,
       })
