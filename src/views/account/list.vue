@@ -79,10 +79,11 @@
       </div>
 
       <a-table
-        :columns="columns"
+        :columns="searchForm.accountAuditStatus === 'rejected' ? columns2 : (searchForm.accountAuditStatus === 'pending' ? columns1 : columns)"
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        rowKey="id"
         :row-selection="{ selectedRowKeys: selectedKeys, onChange: onSelectChange }"
         @change="handleTableChange"
       >
@@ -140,6 +141,9 @@
                 <a class="danger">拒绝</a>
               </a-popconfirm>
             </a-space>
+          </template>
+          <template v-if="column.key === 'rejectReason'">
+            {{ record.rejectReason }}
           </template>
         </template>
       </a-table>
@@ -218,12 +222,20 @@ const columns = [
     title: '审核状态',
     dataIndex: 'accountAuditStatus',
     key: 'accountAuditStatus'
-  },
+  }
+]
+const columns1 = [
+  ...columns,
   {
     title: '操作',
     key: 'action',
-    fixed: 'right',
-    width: 180
+  }
+]
+const columns2 = [
+  ...columns,
+  {
+    title: '拒绝原因',
+    key: 'rejectReason',
   }
 ]
 
@@ -266,7 +278,7 @@ const handleTableChange = (pag) => {
 }
 
 // 审核通过
-const handleApprove = async (record) => {
+const handleResolve = async (record) => {
   try {
     const res = await post('account.batchResolve', {
       ids: [record.id]
@@ -332,7 +344,7 @@ const handleRejectConfirm = async () => {
   try {
     const res = await post('account.batchReject', {
       ids: selectedKeys.value,
-      reason: rejectReason.value
+      rejectReason: rejectReason.value
     })
     if(res.code === 0) {
       message.success('操作成功')
