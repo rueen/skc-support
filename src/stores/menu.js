@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-10 14:22:23
+ * @LastEditTime: 2025-03-18 09:30:23
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -78,6 +78,13 @@ const allMenu = [
     icon: 'file-outlined',
     title: 'article',
     permissions: 'article:list',
+  },
+  {
+    path: '/system/config',
+    key: 'system-config',
+    icon: 'setting-outlined',
+    title: 'systemConfig',
+    permissions: 'system:config',
   },
 ]
 export const useMenuStore = defineStore('menu', {

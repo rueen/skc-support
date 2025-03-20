@@ -230,7 +230,7 @@ import { request } from '@/utils/request';
 // 获取任务状态枚举
 const getTaskStatusEnum = async (lang = 'zh-CN') => {
   try {
-    const res = await request('system.enum', {}, {
+    const res = await request('enum.enumAll', {}, {
       urlParams: { enumType: 'TaskStatus' },
       params: { lang }
     });

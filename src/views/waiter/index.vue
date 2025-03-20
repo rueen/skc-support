@@ -123,7 +123,8 @@ const permissionsOptions = [
   { title: 'withdrawal', permissions: 'settlement:withdrawal' },
   { title: 'otherBills', permissions: 'settlement:otherBills' },
   { title: 'waiter', permissions: 'waiter:list' },
-  { title: 'article', permissions: 'article:list' }
+  { title: 'article', permissions: 'article:list' },
+  { title: 'systemConfig', permissions: 'system:config' }
 ]
 
 // 表格列配置

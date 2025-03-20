@@ -40,10 +40,6 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button @click="handleConfig">
-              <template #icon><setting-outlined /></template>
-              群配置
-            </a-button>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
               新增群组
@@ -129,39 +125,13 @@
         </a-form-item>
       </a-form>
     </a-modal>
-
-    <!-- 群主收益配置弹窗 -->
-    <a-modal
-      v-model:open="configVisible"
-      title="群配置"
-      @ok="handleConfigSave"
-      :confirmLoading="configLoading"
-    >
-      <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
-        <a-form-item
-          label="群主收益比例"
-          extra="设置群主可获得的任务收益分成比例"
-        >
-          <a-input-number
-            v-model:value="ownerCommissionRate"
-            :min="0"
-            :max="100"
-            :precision="1"
-            :step="0.1"
-            :formatter="value => `${value}%`"
-            :parser="value => value.replace('%', '')"
-            style="width: 100%"
-          />
-        </a-form-item>
-      </a-form>
-    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
-import { PlusOutlined, SettingOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined } from '@ant-design/icons-vue'
 import { get, post, put, del } from '@/utils/request'
 import { useRouter } from 'vue-router'
 
@@ -172,9 +142,6 @@ const modalVisible = ref(false)
 const modalLoading = ref(false)
 const modalType = ref('add') // add, edit, view
 const formRef = ref()
-const configVisible = ref(false)
-const configLoading = ref(false)
-const ownerCommissionRate = ref(10.0)
 
 // 搜索表单
 const searchForm = reactive({
@@ -379,36 +346,6 @@ const loadData = async () => {
     }
   } finally {
     loading.value = false
-  }
-}
-
-// 打开收益配置弹窗
-const handleConfig = async () => {
-  configVisible.value = true
-  await getOwnerCommissionConfig()
-}
-
-// 保存收益配置
-const handleConfigSave = async () => {
-  try {
-    configLoading.value = true
-    // TODO: 实现保存配置逻辑
-    message.success('保存成功')
-    configVisible.value = false
-  } catch (error) {
-    message.error('保存失败')
-  } finally {
-    configLoading.value = false
-  }
-}
-
-// 获取群主收益配置
-const getOwnerCommissionConfig = async () => {
-  try {
-    // TODO: 实现获取配置逻辑
-    ownerCommissionRate.value = 10.0
-  } catch (error) {
-    message.error('获取配置失败')
   }
 }
 

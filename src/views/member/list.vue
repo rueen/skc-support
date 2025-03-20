@@ -40,10 +40,6 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button @click="handleConfigInviteReward">
-              <template #icon><gift-outlined /></template>
-              邀请有礼
-            </a-button>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
               新增会员
@@ -100,31 +96,6 @@
         </template>
       </a-table>
     </div>
-
-    <!-- 邀请有礼配置弹窗 -->
-    <a-modal
-      v-model:open="configVisible"
-      title="邀请有礼配置"
-      @ok="handleConfigSave"
-      :confirmLoading="configLoading"
-    >
-      <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
-        <a-form-item
-          label="奖励金额"
-          extra="设置每成功邀请一位新会员的奖励金额"
-        >
-          <a-input-number
-            v-model:value="inviteRewardAmount"
-            :min="0"
-            :precision="2"
-            :step="1"
-            :formatter="value => `¥ ${value}`"
-            :parser="value => value.replace('¥ ', '')"
-            style="width: 100%"
-          />
-        </a-form-item>
-      </a-form>
-    </a-modal>
   </div>
 </template>
 
@@ -141,9 +112,6 @@ const enumStore = useEnumStore()
 const router = useRouter()
 const route = useRoute()
 const loading = ref(false)
-const configVisible = ref(false)
-const configLoading = ref(false)
-const inviteRewardAmount = ref(10.00)
 
 // 查询参数
 const searchForm = reactive({
@@ -241,36 +209,6 @@ const handleDelete = async (record) => {
     loadData()
   } else {
     message.error(res.message)
-  }
-}
-
-// 打开邀请有礼配置弹窗
-const handleConfigInviteReward = async () => {
-  configVisible.value = true
-  await getInviteRewardConfig()
-}
-
-// 保存邀请有礼配置
-const handleConfigSave = async () => {
-  try {
-    configLoading.value = true
-    // TODO: 实现保存配置逻辑
-    message.success('保存成功')
-    configVisible.value = false
-  } catch (error) {
-    message.error('保存失败')
-  } finally {
-    configLoading.value = false
-  }
-}
-
-// 获取邀请有礼配置
-const getInviteRewardConfig = async () => {
-  try {
-    // TODO: 实现获取配置逻辑
-    inviteRewardAmount.value = 10.00
-  } catch (error) {
-    message.error('获取配置失败')
   }
 }
 

@@ -111,6 +111,12 @@ const routes = [
         name: 'Channel',
         component: () => import('@/views/channel/index.vue'),
         meta: { requiresAuth: true, permissions: ['channel:list'], title: '渠道管理' }
+      },
+      {
+        path: 'system/config',
+        name: 'SystemConfig',
+        component: () => import('@/views/system/config.vue'),
+        meta: { requiresAuth: true, permissions: ['system:config'], title: '系统配置' }
       }
     ]
   },

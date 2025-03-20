@@ -1,0 +1,21 @@
+{
+  "app": {
+    "title": "SKC 支持管理系统"
+  },
+  "menu": {
+    "task": "任务管理",
+    "taskAudit": "任务审核",
+    "account": "账号审核",
+    "member": "会员管理",
+    "channel": "渠道管理",
+    "group": "群组管理",
+    "withdrawal": "提现账单",
+    "otherBills": "其他账单",
+    "waiter": "小二管理",
+    "article": "文章管理",
+    "systemConfig": "系统配置"
+  },
+  "header": {
+    "logout": "退出登录"
+  }
+} 

@@ -98,7 +98,8 @@ import {
   AuditOutlined,
   LinkOutlined,
   SafetyOutlined,
-  FileOutlined
+  FileOutlined,
+  SettingOutlined
 } from '@ant-design/icons-vue'
 import { useMenuStore } from '@/stores/menu';
 
@@ -114,7 +115,8 @@ const getIconComponent = (iconName) => {
     'apartment-outlined': ApartmentOutlined,
     'user-outlined': UserOutlined,
     'file-outlined': FileOutlined,
-    'file-text-outlined': FileTextOutlined
+    'file-text-outlined': FileTextOutlined,
+    'setting-outlined': SettingOutlined
   };
   return iconMap[iconName] || null;
 };
