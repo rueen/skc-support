@@ -95,7 +95,6 @@ const formData = reactive({
 // 表单校验规则
 const rules = {
   title: [{ required: true, message: '请输入文章标题' }],
-  location: [{ required: true, message: '请输入location' }],
   content: [{ required: true, message: '请输入文章内容' }]
 }
 
