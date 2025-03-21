@@ -15,6 +15,15 @@ import i18n from './i18n'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.less'
 
+// 引入 Froala Editor
+import 'froala-editor/js/froala_editor.pkgd.min.js'
+import 'froala-editor/js/plugins.pkgd.min.js'
+import 'froala-editor/js/languages/zh_cn.js'
+
+// 引入 Froala Editor 样式
+import 'froala-editor/css/froala_editor.pkgd.min.css'
+import 'froala-editor/css/froala_style.min.css'
+
 // 创建Pinia实例
 const pinia = createPinia()
 

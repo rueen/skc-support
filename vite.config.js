@@ -12,7 +12,15 @@ import { resolve } from 'path'
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => ({
   // base: '/skc-support/',
-  plugins: [vue()],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag === 'froala-editor'
+        }
+      }
+    })
+  ],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
