@@ -42,14 +42,11 @@
             </div>
           </a-descriptions-item>
           <a-descriptions-item label="邀请人">
-            {{ memberInfo.inviterName }}
-          </a-descriptions-item>
-          <a-descriptions-item label="邀请码">
-            {{ memberInfo.inviteCode }}
+            {{ memberInfo.inviterNickname }}
           </a-descriptions-item>
           <a-descriptions-item label="邀请链接">
-            <span>{{ memberInfo.inviteCode }}</span>
-            <a-button type="link" size="small" @click="handleCopy(memberInfo.inviteCode)">
+            <span>{{ inviteUrl }}</span>
+            <a-button type="link" size="small" @click="handleCopy(inviteUrl)">
               复制
             </a-button>
           </a-descriptions-item>
@@ -125,20 +122,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
 import { get } from '@/utils/request'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { useEnumStore } from '@/stores'
-
+import config from '@/config/env'
 const enumStore = useEnumStore()
 const route = useRoute()
 
 // 会员信息
 const memberInfo = reactive({})
 const accountList = ref([])
+const inviteUrl = computed(() => {
+  return `${config.h5Url}?inviteCode=${memberInfo.inviteCode}`
+})
 
 // 复制文本
 const handleCopy = (text) => {

@@ -75,11 +75,15 @@
               </div>
             </div>
           </template>
+          <template v-if="column.key === 'inviterNickname'">
+            {{ record.inviterNickname || '--' }}
+          </template>
           <template v-if="column.key === 'groups'">
             <div v-for="item in record.groups">
               <span>{{ item.groupName }}</span>
               <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
             </div>
+            <span v-if="!record.groups || record.groups.length === 0">--</span>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -101,7 +105,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { PlusOutlined, GiftOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { get, del } from '@/utils/request'
@@ -148,8 +152,11 @@ const columns = [
     key: 'accountList'
   },
   {
+    title: '邀请人',
+    key: 'inviterNickname'
+  },
+  {
     title: '所属群组',
-    dataIndex: 'groups',
     key: 'groups'
   },
   {
@@ -162,7 +169,7 @@ const columns = [
     title: '操作',
     key: 'action',
     fixed: 'right',
-    width: 200
+    width: 150
   }
 ]
 
