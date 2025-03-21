@@ -113,7 +113,17 @@
         <div class="section-title">邀请信息</div>
         <a-row>
           <a-col :span="6">
-            <a-statistic title="邀请好友数" :value="memberInfo.invitedCount" />
+            <a-statistic
+              title="累计邀请"
+              :value="memberInfo.invitedCount"
+            />
+          </a-col>
+          <a-col :span="6">
+            <a-statistic
+              title="邀请奖励"
+              :value="memberInfo.invitedReward"
+              prefix="¥"
+            />
           </a-col>
         </a-row>
       </div>
