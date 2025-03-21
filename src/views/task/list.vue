@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-17 15:41:21
+ * @LastEditTime: 2025-03-21 19:03:45
  * @Description: 
 -->
 <template>
@@ -79,6 +79,9 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'taskTime'">
+            {{ record.startTime }} - {{ record.endTime }}
+          </template>
           <template v-if="column.key === 'taskStatus'">
               {{ enumStore.getEnumText('TaskStatus', record.taskStatus) }}
           </template>
@@ -155,9 +158,8 @@ const columns = [
     }
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
+    title: '任务时间',
+    key: 'taskTime'
   },
   {
     title: '操作',
