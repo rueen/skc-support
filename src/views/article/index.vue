@@ -19,12 +19,13 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
+              <a @click="handlePreview(record)">预览</a>
               <a @click="handleEdit(record)">编辑</a>
               <a-popconfirm
                 title="确定要删除该文章吗？"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">删除</a>
+                <a><a-typography-text type="danger">删除</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -166,7 +167,7 @@ const columns = [
   {
     title: '操作',
     key: 'action',
-    width: 100
+    width: 150
   }
 ]
 
@@ -215,6 +216,10 @@ const handleAdd = () => {
   formData.location = ''
   formData.content = ''
   modalVisible.value = true
+}
+
+const handlePreview = (record) => {
+  window.open(`${config.h5Url}/article/${record.id}`, '_blank')
 }
 
 // 编辑文章
