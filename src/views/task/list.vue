@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-21 19:03:45
+ * @LastEditTime: 2025-03-22 18:59:58
  * @Description: 
 -->
 <template>
@@ -79,8 +79,19 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'taskName'">
+            <a-space>
+              <a-avatar :src="record.channelIcon" />
+              {{ record.taskName }}
+            </a-space>
+          </template>
           <template v-if="column.key === 'taskTime'">
             {{ record.startTime }} - {{ record.endTime }}
+          </template>
+          <template v-if="column.key === 'taskQuota'">
+            <span v-if="record.unlimitedQuota">不限制</span>
+            <span v-else>{{ record.quota }}</span>
+            <span> / {{ record.submittedCount }}</span>
           </template>
           <template v-if="column.key === 'taskStatus'">
               {{ enumStore.getEnumText('TaskStatus', record.taskStatus) }}
@@ -140,13 +151,7 @@ const taskStatusOptions = computed(() => {
 const columns = [
   {
     title: '任务名称',
-    dataIndex: 'taskName',
     key: 'taskName'
-  },
-  {
-    title: '平台渠道',
-    dataIndex: 'channelName',
-    key: 'channelName'
   },
   {
     title: '任务状态',
@@ -156,6 +161,10 @@ const columns = [
       // 使用store提供的方法获取枚举文本
       return enumStore.getEnumText('TaskStatus', text)
     }
+  },
+  {
+    title: '任务名额 / 已提交',
+    key: 'taskQuota'
   },
   {
     title: '任务时间',
