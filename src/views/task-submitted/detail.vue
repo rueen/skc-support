@@ -50,7 +50,7 @@
       <div class="detail-section">
         <div class="section-title">提交信息</div>
         <a-descriptions :column="2">
-          <template v-for="(field, index) in submittedInfo?.submitContent.customFields" :key="index">
+          <template v-for="(field, index) in submittedInfo?.submitContent?.customFields" :key="index">
             <a-descriptions-item :label="field.title">
               <template v-if="field.type === 'image'">
                 <a-image :src="item.url" :width="60" v-for="(item, _index) in field.value" :key="_index" />
@@ -151,19 +151,14 @@ const memberInfo = reactive({})
 
 // 审核通过
 const handleResolve = async () => {
-  try {
-    // TODO: 实现审核通过逻辑
-    const res = await post('taskSubmitted.batchResolve', {
-      ids: [route.params.id]
-    })
-    if(res.code === 0) {
-      message.success('审核通过成功')
-      router.back()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('审核通过失败')
+  const res = await post('taskSubmitted.batchResolve', {
+    ids: [route.params.id]
+  })
+  if(res.code === 0) {
+    message.success('审核通过成功')
+    router.back()
+  } else {
+    message.error(res.message)
   }
 }
 
@@ -180,24 +175,18 @@ const handleRejectConfirm = async () => {
     return
   }
 
-  try {
-    rejectLoading.value = true
-    // TODO: 实现审核拒绝逻辑
-    const res = await post('taskSubmitted.batchReject', {
-      ids: [route.params.id],
-      reason: rejectReason.value
-    })
-    if(res.code === 0) {
-      message.success('审核拒绝成功')
-      rejectVisible.value = false
-      router.back()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('审核拒绝失败')
-  } finally {
-    rejectLoading.value = false
+  rejectLoading.value = true
+  // TODO: 实现审核拒绝逻辑
+  const res = await post('taskSubmitted.batchReject', {
+    ids: [route.params.id],
+    reason: rejectReason.value
+  })
+  if(res.code === 0) {
+    message.success('审核拒绝成功')
+    rejectVisible.value = false
+    router.back()
+  } else {
+    message.error(res.message)
   }
 }
 
@@ -250,7 +239,7 @@ const getMemberDetail = async (memberId) => {
 // 获取详情
 const getDetail = async () => {
   try {
-    const res = await get('task.submittedDetail', {}, {
+    const res = await get('taskSubmitted.detail', {}, {
       urlParams: {
         id: route.params.id
       }

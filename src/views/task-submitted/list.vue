@@ -81,6 +81,7 @@
         :loading="loading"
         :pagination="pagination"
         :row-selection="rowSelection"
+        rowKey="id"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
@@ -183,7 +184,7 @@ const selectedRowKeys = ref([])
 const searchForm = reactive({
   taskName: '',
   channelId: undefined,
-  taskAuditStatus: undefined,
+  taskAuditStatus: 'pending',
   groupId: undefined
 })
 
@@ -273,19 +274,14 @@ const handleView = (record) => {
 
 // 审核通过
 const handleResolve = async (record) => {
-  try {
-    // TODO: 实现审核通过逻辑
-    const res = await post('taskSubmitted.batchResolve', {
-      ids: [record.id]
-    })
-    if(res.code === 0) {
-      message.success('审核通过成功')
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('审核通过失败')
+  const res = await post('taskSubmitted.batchResolve', {
+    ids: [record.id]
+  })
+  if(res.code === 0) {
+    message.success('审核通过成功')
+    loadData()
+  } else {
+    message.error(res.message)
   }
 }
 
@@ -295,20 +291,15 @@ const handleBatchResolve = async () => {
     message.warning('请选择要通过的任务')
     return
   }
-  try {
-    // TODO: 实现批量审核通过逻辑
-    const res = await post('taskSubmitted.batchResolve', {
-      ids: selectedRowKeys.value
-    })
-    if(res.code === 0) {
-      message.success('批量审核通过成功')
-      selectedRowKeys.value = []
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('批量审核通过失败')
+  const res = await post('taskSubmitted.batchResolve', {
+    ids: selectedRowKeys.value
+  })
+  if(res.code === 0) {
+    message.success('批量审核通过成功')
+    selectedRowKeys.value = []
+    loadData()
+  } else {
+    message.error(res.message)
   }
 }
 
@@ -326,24 +317,17 @@ const handleRejectConfirm = async () => {
     return
   }
 
-  try {
-    rejectLoading.value = true
-    // TODO: 实现审核拒绝逻辑
-    const res = await post('taskSubmitted.batchReject', {
-      ids: selectedRowKeys.value,
-      reason: rejectReason.value
-    })
-    if(res.code === 0) {
-      message.success('审核拒绝成功')
-      rejectVisible.value = false
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('审核拒绝失败')
-  } finally {
-    rejectLoading.value = false
+  rejectLoading.value = true
+  const res = await post('taskSubmitted.batchReject', {
+    ids: selectedRowKeys.value,
+    reason: rejectReason.value
+  })
+  if(res.code === 0) {
+    message.success('审核拒绝成功')
+    rejectVisible.value = false
+    loadData()
+  } else {
+    message.error(res.message)
   }
 }
 
@@ -388,7 +372,7 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    const res = await get('task.submitted', {
+    const res = await get('taskSubmitted.list', {
       page: pagination.current,
       pageSize: pagination.pageSize,
       ...searchForm
