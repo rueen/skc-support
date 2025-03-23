@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-21 15:13:13
+ * @LastEditTime: 2025-03-23 16:37:32
  * @Description: 模拟数据工具
  */
 
@@ -477,8 +477,8 @@ const mockData = {
             'task:list',
             'task:create',
             'task:edit',
-            'task:audit',
-            'task:auditDetail',
+            'task:submitted',
+            'task:submittedDetail',
             'account:list',
             'member:list',
             'member:create',

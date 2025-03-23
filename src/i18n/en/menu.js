@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:02
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-20 16:14:36
+ * @LastEditTime: 2025-03-23 16:39:51
  * @Description: 
  */
 export default {
@@ -10,8 +10,8 @@ export default {
   taskCreate: 'Create Task',
   taskEdit: 'Edit Task',
   taskView: 'View Task',
-  taskAudit: 'Task Audit',
-  taskAuditDetail: 'Task Audit Detail',
+  taskSubmitted: 'Task Audit',
+  taskSubmittedDetail: 'Task Audit Detail',
   member: 'Member Management',
   memberCreate: 'Create Member',
   memberEdit: 'Edit Member',

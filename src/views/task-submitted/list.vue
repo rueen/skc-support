@@ -388,12 +388,10 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    const res = await get('taskSubmitted.list', {
-      params: {
-        page: pagination.current,
-        pageSize: pagination.pageSize,
-        ...searchForm
-      }
+    const res = await get('task.submitted', {
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+      ...searchForm
     })
     if(res.code === 0) {
       tableData.value = res.data.list

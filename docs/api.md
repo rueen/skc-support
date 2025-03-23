@@ -134,8 +134,8 @@ Authorization: Bearer <token>
 | task:list | 任务管理 | 查看任务列表 |
 | task:create | 创建任务 | 新建任务 |
 | task:edit | 编辑任务 | 修改任务信息 |
-| task:audit | 任务审核 | 审核已提交的任务 |
-| task:auditDetail | 任务审核详情 | 查看任务审核详情 |
+| task:submitted | 已提交任务 | 已提交列表 |
+| task:submittedDetail | 已提交任务详情 | 查看已提交任务详情 |
 | account:list | 账号审核列表 | 查看账号审核列表 |
 | member:list | 会员管理 | 查看会员列表 |
 | member:create | 创建会员 | 新建会员 |
@@ -383,7 +383,7 @@ CREATE TABLE `articles` (
         "task:list",
         "task:create",
         "task:edit",
-        "task:audit"
+        "task:submitted"
       ]
     }
   }
@@ -499,8 +499,8 @@ CREATE TABLE `articles` (
 ### 已提交管理
 
 #### 获取已提交列表
-- **接口**：`GET /taskSubmitted`
-- **描述**：获取已提交列表
+- **接口**：`GET /tasks/submitted`
+- **描述**：获取已提交任务列表
 - **请求参数**：支持分页和筛选
   ```json
   {
@@ -539,7 +539,7 @@ CREATE TABLE `articles` (
   ```
 
 #### 获取已提交详情
-- **接口**：`GET /taskSubmitted/:id`
+- **接口**：`GET /tasks/submitted/:id`
 - **描述**：获取已提交详情
 - **请求参数**：
   ```json

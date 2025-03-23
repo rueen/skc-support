@@ -35,16 +35,16 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['task:edit'], title: '编辑任务', hidden: true }
       },
       {
-        path: 'task-audit',
-        name: 'TaskAudit',
-        component: () => import('@/views/task-audit/list.vue'),
-        meta: { requiresAuth: true, permissions: ['task:audit'], title: '任务审核', permission: ['task.audit'] }
+        path: 'task-submitted',
+        name: 'TaskSubmitted',
+        component: () => import('@/views/task-submitted/list.vue'),
+        meta: { requiresAuth: true, permissions: ['task:submitted'], title: '任务审核', permission: ['task.audit'] }
       },
       {
-        path: 'task-audit/detail/:id',
-        name: 'TaskAuditDetail',
-        component: () => import('@/views/task-audit/detail.vue'),
-        meta: { requiresAuth: true, permissions: ['task:auditDetail'], title: '任务审核详情', hidden: true }
+        path: 'task-submitted/detail/:id',
+        name: 'TaskSubmittedDetail',
+        component: () => import('@/views/task-submitted/detail.vue'),
+        meta: { requiresAuth: true, permissions: ['task:submittedDetail'], title: '任务审核详情', hidden: true }
       },
       {
         path: 'account',

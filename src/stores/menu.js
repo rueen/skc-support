@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-18 09:30:23
+ * @LastEditTime: 2025-03-23 16:37:40
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -17,11 +17,11 @@ const allMenu = [
     permissions: 'task:list',
   },
   {
-    path: '/task-audit',
-    key: 'task-audit',
+    path: '/task-submitted',
+    key: 'task-submitted',
     icon: 'audit-outlined',
-    title: 'taskAudit',
-    permissions: 'task:audit',
+    title: 'taskSubmitted',
+    permissions: 'task:submitted',
   },
   {
     path: '/account',
