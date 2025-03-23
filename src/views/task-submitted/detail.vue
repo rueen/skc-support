@@ -33,12 +33,15 @@
         <div class="section-title">会员信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="会员昵称">
-            {{ memberInfo.nickname }}
+            {{ memberInfo.memberNickname }}
           </a-descriptions-item>
-          <a-descriptions-item label="账号">{{ memberInfo.account }}</a-descriptions-item>
+          <a-descriptions-item label="账号">{{ memberInfo.memberAccount }}</a-descriptions-item>
           <a-descriptions-item label="所属群">
-            {{ memberInfo.groupName }}
-            <a-tag v-if="memberInfo.isGroupOwner" color="blue">群主</a-tag>
+            <div v-for="item in memberInfo.groups">
+              <span>{{ item.groupName }}</span>
+              <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
+            </div>
+            <span v-if="!memberInfo.groups || memberInfo.groups.length === 0">--</span>
           </a-descriptions-item>
         </a-descriptions>
       </div>
@@ -47,10 +50,10 @@
       <div class="detail-section">
         <div class="section-title">提交信息</div>
         <a-descriptions :column="2">
-          <template v-for="field in taskInfo.customFields" :key="field.title">
+          <template v-for="(field, index) in submittedInfo?.submitContent.customFields" :key="index">
             <a-descriptions-item :label="field.title">
               <template v-if="field.type === 'image'">
-                <a-image :src="field.value" :width="120" />
+                <a-image :src="item.url" :width="60" v-for="(item, _index) in field.value" :key="_index" />
               </template>
               <template v-else>{{ field.value }}</template>
             </a-descriptions-item>
@@ -62,13 +65,13 @@
       <div class="detail-section">
         <div class="section-title">审核信息</div>
         <a-descriptions :column="2">
-          <a-descriptions-item label="报名时间">{{ taskSubmittedInfo.applyTime }}</a-descriptions-item>
-          <a-descriptions-item label="提交时间">{{ taskSubmittedInfo.submitTime }}</a-descriptions-item>
+          <a-descriptions-item label="报名时间">{{ submittedInfo.applyTime }}</a-descriptions-item>
+          <a-descriptions-item label="提交时间">{{ submittedInfo.submitTime }}</a-descriptions-item>
           <a-descriptions-item label="审核状态">
-            {{ enumStore.getEnumText('TaskAuditStatus', taskSubmittedInfo.taskAuditStatus) }}
+            {{ enumStore.getEnumText('TaskAuditStatus', submittedInfo.taskAuditStatus) }}
           </a-descriptions-item>
-          <template v-if="taskSubmittedInfo.taskAuditStatus === 'rejected'">
-            <a-descriptions-item label="拒绝原因">{{ taskSubmittedInfo.rejectReason }}</a-descriptions-item>
+          <template v-if="submittedInfo.taskAuditStatus === 'rejected'">
+            <a-descriptions-item label="拒绝原因">{{ submittedInfo.rejectReason }}</a-descriptions-item>
           </template>
         </a-descriptions>
       </div>
@@ -80,14 +83,14 @@
             <a-button
               type="primary"
               @click="handleResolve"
-              v-if="taskSubmittedInfo.taskAuditStatus === 'pending'"
+              v-if="submittedInfo.taskAuditStatus === 'pending'"
             >
               审核通过
             </a-button>
             <a-button
               danger
               @click="handleReject"
-              v-if="taskSubmittedInfo.taskAuditStatus === 'pending'"
+              v-if="submittedInfo.taskAuditStatus === 'pending'"
             >
               审核拒绝
             </a-button>
@@ -128,17 +131,6 @@ import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
 
-// 计算任务类型选项
-const taskTypeOptions = computed(() => {
-  // 如果枚举数据还未加载完成，则返回空数组
-  if (!enumStore.loaded) {
-    return []
-  }
-
-  // 使用store提供的方法获取选项列表
-  return enumStore.getEnumOptions('TaskType')
-})
-
 const route = useRoute()
 const router = useRouter()
 
@@ -148,7 +140,9 @@ const rejectLoading = ref(false)
 const rejectReason = ref('')
 
 // 已提交任务信息
-const taskSubmittedInfo = reactive({})
+const submittedInfo = reactive({
+  submitContent: {}
+})
 // 任务信息
 const taskInfo = reactive({})
 
@@ -220,8 +214,8 @@ const handleNext = () => {
 // 获取任务详情
 const getTaskDetail = async (taskId) => {
   try {
-    const res = await get('task.detail', {
-      params: {
+    const res = await get('task.detail', {}, {
+      urlParams: {
         id: taskId
       }
     })
@@ -238,8 +232,8 @@ const getTaskDetail = async (taskId) => {
 // 获取会员详情
 const getMemberDetail = async (memberId) => {
   try {
-    const res = await get('member.detail', {
-      params: {
+    const res = await get('member.detail', {}, {
+      urlParams: {
         id: memberId
       }
     })
@@ -254,21 +248,21 @@ const getMemberDetail = async (memberId) => {
 }
 
 // 获取详情
-const getDetail = async (id) => {
+const getDetail = async () => {
   try {
-    const res = await get('taskSubmitted.detail', {
-      params: {
-        id
+    const res = await get('task.submittedDetail', {}, {
+      urlParams: {
+        id: route.params.id
       }
     })
     if(res.code === 0) {
-      Object.assign(taskSubmittedInfo, res.data)
+      Object.assign(submittedInfo, res.data)
       // 获取关联的任务和会员信息
-      if(res.data.relatedTaskId) {
-        await getTaskDetail(res.data.relatedTaskId)
+      if(res.data.taskId != null) {
+        await getTaskDetail(res.data.taskId)
       }
-      if(res.data.relatedMemberId) {
-        await getMemberDetail(res.data.relatedMemberId)
+      if(res.data.memberId != null) {
+        await getMemberDetail(res.data.memberId)
       }
     }
   } catch (error) {
@@ -277,7 +271,7 @@ const getDetail = async (id) => {
 }
 
 onMounted(() => {
-  getDetail(route.params.id)
+  getDetail()
 })
 </script>
 

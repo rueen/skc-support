@@ -268,7 +268,7 @@ const handleTableChange = (pag) => {
 
 // 查看详情
 const handleView = (record) => {
-  router.push(`/task-audit/detail/${record.id}`)
+  router.push(`/task-submitted/detail/${record.id}`)
 }
 
 // 审核通过
