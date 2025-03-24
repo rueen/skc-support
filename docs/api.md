@@ -108,9 +108,9 @@ Authorization: Bearer <token>
 | 类型 | 说明 |
 |------|------|
 | withdrawal | 提现 |
-| task_income | 任务收入 |
+| task_reward | 任务奖励 |
 | invite_reward | 邀请奖励 |
-| group_reward | 群主奖励 |
+| group_owner_commission | 群主奖励 |
 
 #### 职业类型 (occupationType)
 | 类型 | 说明 |
@@ -309,7 +309,7 @@ CREATE TABLE `withdrawals` (
 CREATE TABLE `bills` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账单ID',
   `member_id` bigint(20) NOT NULL COMMENT '会员ID',
-  `bill_type` varchar(20) NOT NULL COMMENT '账单类型：withdrawal-提现，task_income-任务收入，invite_reward-邀请奖励，group_reward-群主奖励',
+  `bill_type` varchar(20) NOT NULL COMMENT '账单类型：withdrawal-提现，task_reward-任务收入，invite_reward-邀请奖励，group_owner_commission-群主奖励',
   `amount` decimal(10,2) NOT NULL COMMENT '金额',
   `related_id` bigint(20) DEFAULT NULL COMMENT '关联ID',
   `settlement_status` varchar(20) NOT NULL DEFAULT 'settled' COMMENT '结算状态：settled-已结算，failed-结算失败',
@@ -922,7 +922,7 @@ CREATE TABLE `articles` (
           "id": 1,
           "memberNickname": "张三",
           "memberAccount": "13800138000",
-          "billType": "task_income",
+          "billType": "task_reward",
           "amount": 100.00,
           "settlementStatus": "settled",
           "createTime": "2024-03-01 10:00:00"

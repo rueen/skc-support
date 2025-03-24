@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-23 16:37:32
+ * @LastEditTime: 2025-03-24 20:11:23
  * @Description: 模拟数据工具
  */
 
@@ -396,7 +396,7 @@ const mockData = {
             id: 1,
             memberNickname: '张三',
             memberAccount: '13800138000',
-            billType: 'task_income',
+            billType: 'task_reward',
             amount: 100.00,
             settlementStatus: 'settled',
             createTime: '2024-02-28 10:00:00',
