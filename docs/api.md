@@ -144,8 +144,8 @@ Authorization: Bearer <token>
 | channel:list | 渠道管理 | 管理渠道信息 |
 | group:list | 群组管理 | 管理群组信息 |
 | waiter:list | 小二管理 | 管理小二账号 |
-| settlement:withdrawal | 提现账单 | 管理提现申请 |
-| settlement:otherBills | 其他账单 | 管理其他类型账单 |
+| finance:withdrawal | 提现账单 | 管理提现申请 |
+| finance:bills | 其他账单 | 管理其他类型账单 |
 | article:list | 文章管理 | 管理系统文章内容 |
 
 ## 数据库表结构
@@ -845,7 +845,7 @@ CREATE TABLE `articles` (
 ### 结算管理
 
 #### 提现管理
-- **接口**：`GET /settlement/withdrawal`
+- **接口**：`GET /finance/withdrawal`
 - **描述**：获取提现记录列表
 - **请求参数**：支持分页和筛选
   ```json
@@ -885,20 +885,20 @@ CREATE TABLE `articles` (
   ```
 
 #### 批量通过提现
-- **接口**：`POST /settlement/withdrawal/batchResolve`
+- **接口**：`POST /finance/withdrawal/batchResolve`
 - **描述**：批量通过提现申请
 
 #### 批量拒绝提现
-- **接口**：`POST /settlement/withdrawal/batchReject`
+- **接口**：`POST /finance/withdrawal/batchReject`
 - **描述**：批量拒绝提现申请
 
 #### 导出提现记录
-- **接口**：`GET /settlement/withdrawal/export`
+- **接口**：`GET /finance/withdrawal/export`
 - **描述**：导出提现记录
 - **请求参数**：支持与提现列表相同的筛选条件
 
 #### 其他账单
-- **接口**：`GET /settlement/otherBills`
+- **接口**：`GET /bills`
 - **描述**：获取其他账单记录
 - **请求参数**：支持分页和筛选
   ```json

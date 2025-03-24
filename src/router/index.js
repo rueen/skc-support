@@ -96,15 +96,15 @@ const routes = [
       },
       {
         path: 'withdrawal',
-        component: () => import('@/views/settlement/withdrawal.vue'),
+        component: () => import('@/views/finance/withdrawal.vue'),
         name: 'Withdrawal',
-        meta: { requiresAuth: true, permissions: ['settlement:withdrawal'], title: '提现账单' }
+        meta: { requiresAuth: true, permissions: ['finance:withdrawal'], title: '提现账单' }
       },
       {
-        path: 'otherBills',
-        component: () => import('@/views/settlement/other.vue'),
-        name: 'OtherBills',
-        meta: { requiresAuth: true, permissions: ['settlement:otherBills'], title: '其他账单' }
+        path: 'bills',
+        component: () => import('@/views/finance/bills.vue'),
+        name: 'bills',
+        meta: { requiresAuth: true, permissions: ['finance:bills'], title: '其他账单' }
       },
       {
         path: 'channel',

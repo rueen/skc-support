@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:02
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-23 16:39:51
+ * @LastEditTime: 2025-03-24 21:02:04
  * @Description: 
  */
 export default {
@@ -19,9 +19,8 @@ export default {
   group: 'Group Management',
   waiter: 'Waiter Management',
   article: 'Article Management',
-  settlement: 'Settlement',
   withdrawal: 'Withdrawal',
-  otherBills: 'Other Bills',
+  bills: 'Bills',
   channel: 'Channel Management',
   account: 'Account Audit',
   systemConfig: 'System Config',

@@ -120,8 +120,8 @@ const permissionsOptions = [
   { title: 'memberView', permissions: 'member:view' },
   { title: 'channel', permissions: 'channel:list' },
   { title: 'group', permissions: 'group:list' },
-  { title: 'withdrawal', permissions: 'settlement:withdrawal' },
-  { title: 'otherBills', permissions: 'settlement:otherBills' },
+  { title: 'withdrawal', permissions: 'finance:withdrawal' },
+  { title: 'bills', permissions: 'finance:bills' },
   { title: 'waiter', permissions: 'waiter:list' },
   { title: 'article', permissions: 'article:list' },
   { title: 'systemConfig', permissions: 'system:config' }

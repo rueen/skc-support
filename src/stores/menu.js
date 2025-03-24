@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-23 16:37:40
+ * @LastEditTime: 2025-03-24 21:02:26
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -56,14 +56,14 @@ const allMenu = [
     key: 'withdrawal',
     icon: 'pay-circle-outlined',
     title: 'withdrawal',
-    permissions: 'settlement:withdrawal',
+    permissions: 'finance:withdrawal',
   },
   {
-    path: '/otherBills',
-    key: 'otherBills',
+    path: '/bills',
+    key: 'bills',
     icon: 'pay-circle-outlined',
-    title: 'otherBills',
-    permissions: 'settlement:otherBills',
+    title: 'bills',
+    permissions: 'finance:bills',
   },
   {
     path: '/waiter',

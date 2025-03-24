@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:30:15
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-24 20:11:23
+ * @LastEditTime: 2025-03-24 21:02:43
  * @Description: 模拟数据工具
  */
 
@@ -331,92 +331,6 @@ const mockData = {
       message: '',
     };
   },
-  // 结算相关接口
-  'settlement.withdrawal': (params) => {
-    return {
-      code: 0,
-      message: '',
-      data: { 
-        total: 100,
-        list: [
-          {
-            id: 1,
-            memberNickname: '张三',
-            memberAccount: '13800138000',
-            withdrawalAccount: '6222021234567890123',
-            withdrawalAccountType: 'bank',
-            amount: 1000.00,
-            realName: '张三',
-            withdrawalStatus: 'pending',
-            applyTime: '2024-02-28 10:00:00',
-          },
-          {
-            id: 2,
-            memberNickname: '李四',
-            memberAccount: '13800138000',
-            withdrawalAccount: '6222021234567890124',
-            withdrawalAccountType: 'bank',
-            amount: 2000.00,
-            realName: '李四',
-            withdrawalStatus: 'failed',
-            applyTime: '2024-02-28 11:00:00',
-          }
-        ],
-        page: 1,
-        pageSize: 10,
-      },
-    };
-  },
-  'settlement.batchResolve': (params) => {
-    return {
-      code: 0,
-      message: '',
-    };
-  },
-  'settlement.batchReject': (params) => {
-    return {
-      code: 0,
-      message: '',
-    };
-  },
-  'settlement.withdrawalExport': (params) => {
-    return {
-      code: 0,
-      message: '',
-    };
-  },
-  'settlement.otherBills': (params) => {
-    return {
-      code: 0,
-      message: '',
-      data: {
-        total: 100,
-        list: [
-          {
-            id: 1,
-            memberNickname: '张三',
-            memberAccount: '13800138000',
-            billType: 'task_reward',
-            amount: 100.00,
-            settlementStatus: 'settled',
-            createTime: '2024-02-28 10:00:00',
-          },
-          {
-            id: 2,
-            memberNickname: '李四',
-            memberAccount: '13800138000',
-            billType: 'invite_reward',
-            amount: 200.00,
-            settlementStatus: 'failed',
-            failReason: '账户信息有误',
-            createTime: '2024-02-28 11:00:00',
-          }
-        ],
-        page: 1,
-        pageSize: 10,
-      },
-    };
-  },
   // 小二管理相关接口
   'waiter.list': (params) => {
     return {
@@ -487,8 +401,6 @@ const mockData = {
             'group:list',
             'waiter:list',
             'article:list',
-            'settlement:withdrawal',
-            'settlement:otherBills',
             'channel:list'
           ],
         },

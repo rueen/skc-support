@@ -220,7 +220,7 @@ const onSelectChange = (keys) => {
 // 导出
 const handleExport = async () => {
   // TODO: 实现导出逻辑
-  const res = await get('settlement.withdrawalExport', {
+  const res = await get('finance.withdrawalExport', {
     params: {
       page: pagination.current,
       pageSize: pagination.pageSize,
@@ -237,7 +237,7 @@ const handleExport = async () => {
 // 标记已打款
 const handleResolve = async (record) => {
   try {
-    const res = await post('settlement.batchResolve', {
+    const res = await post('finance.batchResolve', {
       ids: [record.id]
     })
     if(res.code === 0) {
@@ -258,7 +258,7 @@ const handleBatchResolve = async () => {
     return
   }
   try {
-    const res = await post('settlement.batchResolve', {
+    const res = await post('finance.batchResolve', {
       ids: selectedKeys.value
     })
     if(res.code === 0) {
@@ -303,7 +303,7 @@ const handleRejectConfirm = async () => {
       failReason: failedReason.value,
       ids: currentRecord.value ? [currentRecord.value.id] : selectedKeys.value
     }
-    const res = await post('settlement.batchReject', params)
+    const res = await post('finance.batchReject', params)
     if(res.code === 0) {
       message.success('操作成功')
       failedVisible.value = false
@@ -331,7 +331,7 @@ const loadData = async () => {
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1]
     }
-    const res = await get('settlement.withdrawal', { params })
+    const res = await get('finance.withdrawal', { params })
     if(res.code === 0){
       tableData.value = res.data.list || []
       pagination.total = res.data.total || 0

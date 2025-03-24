@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-23 20:25:15
+ * @LastEditTime: 2025-03-24 21:01:04
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -49,13 +49,13 @@ const API_PATH = {
     edit: '/groups/:id',
     delete: '/groups/:id',
   },
-  // 结算相关接口
-  settlement: {
-    withdrawal: '/settlement/withdrawal',
-    batchResolve: '/settlement/withdrawal/batchResolve',
-    batchReject: '/settlement/withdrawal/batchReject',
-    withdrawalExport: '/settlement/withdrawal/export',
-    otherBills: '/settlement/otherBills',
+  // 金融相关接口
+  finance: {
+    withdrawal: '/finance/withdrawal',
+    batchResolve: '/finance/withdrawal/batchResolve',
+    batchReject: '/finance/withdrawal/batchReject',
+    withdrawalExport: '/finance/withdrawal/export',
+    bills: '/bills',
   },
   // 小二管理相关接口
   waiter: {

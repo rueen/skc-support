@@ -186,7 +186,7 @@ const loadData = async () => {
   loading.value = true
   try {
     // TODO: 实现数据加载逻辑
-    const res = await get('settlement.otherBills', {
+    const res = await get('finance.bills', {
       page: pagination.current,
       pageSize: pagination.pageSize,
       ...searchForm
