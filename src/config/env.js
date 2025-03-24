@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:25:10
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-21 14:09:04
+ * @LastEditTime: 2025-03-24 21:08:13
  * @Description: 环境配置文件
  */
 
@@ -27,8 +27,8 @@ const PUBLIC_API_PATH = {
 
 // 业务 API 路径配置
 const BUSINESS_API_PATH = {
-  development: '/api/support',
-  production: '/api/support',
+  development: '/api/admin',
+  production: '/api/admin',
 };
 
 // 当前环境的基础 API 路径
