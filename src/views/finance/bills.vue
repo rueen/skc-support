@@ -65,11 +65,19 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'taskName'">
+            <a @click="handleTaskDetail(record.taskId)">{{ record.taskName }}</a>
+          </template>
           <template v-if="column.key === 'billType'">
             {{ enumStore.getEnumText('BillType', record.billType) }}
           </template>
           <template v-if="column.key === 'settlementStatus'">
             {{ enumStore.getEnumText('SettlementStatus', record.settlementStatus) }}
+            <info-circle-outlined 
+              v-if="record.settlementStatus === 'failed'" 
+              class="status-icon" 
+              @click="showFailReason(record)"
+            />
           </template>
         </template>
       </a-table>
@@ -79,9 +87,10 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { get } from '@/utils/request'
 import { useEnumStore } from '@/stores'
+import { InfoCircleOutlined } from '@ant-design/icons-vue'
 
 const enumStore = useEnumStore()
 
@@ -115,6 +124,14 @@ const searchForm = reactive({
   settlementStatus: undefined
 })
 
+// 显示失败原因
+const showFailReason = (record) => {
+  Modal.error({
+    title: '结算失败原因',
+    content: record.failureReason,
+  });
+}
+
 // 表格列配置
 const columns = [
   {
@@ -129,7 +146,6 @@ const columns = [
   },
   {
     title: '关联任务',
-    dataIndex: 'taskName',
     key: 'taskName'
   },
   {
@@ -145,7 +161,6 @@ const columns = [
   },
   {
     title: '结算状态',
-    dataIndex: 'settlementStatus',
     key: 'settlementStatus'
   }
 ]
@@ -179,6 +194,14 @@ const handleReset = () => {
 const handleTableChange = (pag) => {
   Object.assign(pagination, pag)
   loadData()
+}
+
+// 任务详情
+const handleTaskDetail = (taskId) => {
+  // router.push({
+  //   path: '/task/detail',
+  //   query: { id: taskId }
+  // })
 }
 
 // 加载数据
@@ -215,6 +238,21 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+  }
+  
+  .status-icon {
+    margin-left: 8px;
+    color: #ff4d4f;
+    cursor: pointer;
+  }
+  
+  .fail-reason-content {
+    min-height: 100px;
+    
+    .no-reason {
+      color: #999;
+      font-style: italic;
+    }
   }
 }
 </style> 
