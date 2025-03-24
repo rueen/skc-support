@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-23 14:52:21
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-23 15:59:56
+ * @LastEditTime: 2025-03-24 21:47:55
  * @Description: 
 -->
 # 提交任务文档
@@ -35,9 +35,9 @@
   }
   ```
 
-### support端获取已提交任务
-- **接口**：`GET /api/support/submitted-tasks`
-- **描述**：support端获取已提交列表
+### admin端获取已提交任务
+- **接口**：`GET /api/admin/submitted-tasks`
+- **描述**：admin端获取已提交列表
 - **请求参数**：支持分页和筛选
   ```json
   {
@@ -81,9 +81,9 @@
   }
   ```
 
-### support端批量审核通过
-- **接口**：`POST /api/support/submitted-tasks/batch-resolve`
-- **描述**：support端批量审核通过
+### admin端批量审核通过
+- **接口**：`POST /api/admin/submitted-tasks/batch-resolve`
+- **描述**：admin端批量审核通过
 - **请求参数**：
   ```json
   {
@@ -91,9 +91,9 @@
   }
   ```
 
-### support端批量审核拒绝
-- **接口**：`POST /api/support/submitted-tasks/batch-reject`
-- **描述**：support端批量审核拒绝
+### admin端批量审核拒绝
+- **接口**：`POST /api/admin/submitted-tasks/batch-reject`
+- **描述**：admin端批量审核拒绝
 - **请求参数**：
   ```json
   {
