@@ -127,6 +127,27 @@
           </a-col>
         </a-row>
       </div>
+
+      <!-- 群组信息 -->
+      <div class="section">
+        <div class="section-title">群组信息</div>
+        <a-row>
+          <a-col :span="6">
+            <a-statistic
+              title="管理群数量"
+              :value="groupsStats.groupCount"
+            />
+          </a-col>
+          <a-col :span="6">
+            <a-statistic
+              title="群收益"
+              :value="groupsStats.totalEarnings"
+              prefix="¥"
+            />
+          </a-col>
+        </a-row>
+      </div>
+
     </div>
   </div>
 </template>
@@ -150,6 +171,9 @@ const inviteUrl = computed(() => {
   return `${config.h5Url}?inviteCode=${memberInfo.inviteCode}`
 })
 
+// 群组信息
+const groupsStats = reactive({})
+
 // 复制文本
 const handleCopy = (text) => {
   navigator.clipboard.writeText(text).then(() => {
@@ -161,37 +185,42 @@ const handleCopy = (text) => {
 
 // 获取会员详情
 const getMemberDetail = async (id) => {
-  try {
-    const res = await get('member.detail', {}, {
-      urlParams: {
-        id: route.params.id
-      }
-    })
-    if(res.code === 0){
-      Object.assign(memberInfo, res.data || {})
+  const res = await get('member.detail', {}, {
+    urlParams: {
+      id: route.params.id
     }
-  } catch (error) {
-    message.error('获取会员详情失败')
+  })
+  if(res.code === 0){
+    Object.assign(memberInfo, res.data || {})
   }
 }
 
 // 获取账号列表
 const getAccountList = async (id) => {
-  try {
-    const res = await get('account.list', {
-      memberId: id
-    })
-    if(res.code === 0){
-      accountList.value = res.data.list || []
+  const res = await get('account.list', {
+    memberId: id
+  })
+  if(res.code === 0){
+    accountList.value = res.data.list || []
+  }
+}
+
+// 获取群组信息
+const getGroupsStats = async (id) => {
+  const res = await get('member.groupsStats', {}, {
+    urlParams: {
+      memberId: id  
     }
-  } catch (error) {
-    message.error('获取账号列表失败')
+  })
+  if(res.code === 0){
+    Object.assign(groupsStats, res.data || {})
   }
 }
 
 onMounted(() => {
   getMemberDetail(route.params.id)
   getAccountList(route.params.id)
+  getGroupsStats(route.params.id)
 })
 </script>
 

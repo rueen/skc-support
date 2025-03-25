@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-24 21:01:04
+ * @LastEditTime: 2025-03-25 21:51:19
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -35,6 +35,7 @@ const API_PATH = {
     edit: '/members/:id',
     delete: '/members/:id',
     detail: '/members/:id',
+    groupsStats: '/members/:memberId/groups/stats',
   },
   // 渠道管理相关接口
   channel: {
