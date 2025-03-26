@@ -50,6 +50,9 @@
               复制
             </a-button>
           </a-descriptions-item>
+          <a-descriptions-item label="账户余额">
+            <span>{{ memberInfo.balance }}</span>
+          </a-descriptions-item>
         </a-descriptions>
       </div>
 
@@ -87,20 +90,12 @@
         <div class="section-title">任务信息</div>
         <a-row :gutter="16">
           <a-col :span="6">
-            <a-statistic title="完成任务次数" :value="memberInfo.taskCount" />
+            <a-statistic title="完成任务次数" :value="taskStats.completedTaskCount" />
           </a-col>
           <a-col :span="6">
             <a-statistic 
-              title="累计获得奖励" 
-              :value="memberInfo.totalReward" 
-              :precision="2"
-              prefix="¥"
-            />
-          </a-col>
-          <a-col :span="6">
-            <a-statistic 
-              title="账户余额" 
-              :value="memberInfo.balance"
+              title="任务奖励" 
+              :value="taskStats.totalTaskReward" 
               :precision="2"
               prefix="¥"
             />
@@ -109,19 +104,19 @@
       </div>
 
       <!-- 邀请信息 -->
-      <div class="section">
+      <div class="section" style="padding-bottom: 24px;">
         <div class="section-title">邀请信息</div>
         <a-row>
           <a-col :span="6">
             <a-statistic
               title="累计邀请"
-              :value="memberInfo.invitedCount"
+              :value="inviteStats.inviteCount"
             />
           </a-col>
           <a-col :span="6">
             <a-statistic
               title="邀请奖励"
-              :value="memberInfo.invitedReward"
+              :value="inviteStats.totalReward"
               prefix="¥"
             />
           </a-col>
@@ -171,6 +166,10 @@ const inviteUrl = computed(() => {
   return `${config.h5Url}?inviteCode=${memberInfo.inviteCode}`
 })
 
+// 任务信息
+const taskStats = reactive({})
+// 邀请信息
+const inviteStats = reactive({})
 // 群组信息
 const groupsStats = reactive({})
 
@@ -205,6 +204,29 @@ const getAccountList = async (id) => {
   }
 }
 
+// 获取任务信息
+const getTaskStats = async (id) => {
+  const res = await get('member.taskStats', {}, {
+    urlParams: {
+      memberId: id  
+    }
+  })
+  if(res.code === 0){
+    Object.assign(taskStats, res.data || {})
+  }
+}
+// 获取邀请信息
+const getInviteInfo = async (id) => {
+  const res = await get('member.inviteStats', {}, {
+    urlParams: {
+      memberId: id  
+    }
+  })
+  if(res.code === 0){
+    Object.assign(inviteStats, res.data || {})
+  }
+}
+
 // 获取群组信息
 const getGroupsStats = async (id) => {
   const res = await get('member.groupsStats', {}, {
@@ -220,6 +242,8 @@ const getGroupsStats = async (id) => {
 onMounted(() => {
   getMemberDetail(route.params.id)
   getAccountList(route.params.id)
+  getTaskStats(route.params.id)
+  getInviteInfo(route.params.id)
   getGroupsStats(route.params.id)
 })
 </script>
