@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:02
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-24 21:02:04
+ * @LastEditTime: 2025-03-26 17:18:27
  * @Description: 
  */
 export default {
@@ -23,5 +23,5 @@ export default {
   bills: 'Bills',
   channel: 'Channel Management',
   account: 'Account Audit',
-  systemConfig: 'System Config',
+  system: 'System Config',
 } 

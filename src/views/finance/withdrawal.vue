@@ -331,7 +331,9 @@ const loadData = async () => {
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1]
     }
-    const res = await get('finance.withdrawal', { params })
+    const res = await get('withdrawals.list', { 
+      ...params
+     })
     if(res.code === 0){
       tableData.value = res.data.list || []
       pagination.total = res.data.total || 0

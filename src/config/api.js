@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-26 12:06:00
+ * @LastEditTime: 2025-03-26 21:15:00
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -73,6 +73,12 @@ const API_PATH = {
   },
   user: {
     info: '/user/info',
+  },
+  // 提现相关接口
+  withdrawals: {
+    list: '/withdrawals',
+    batchResolve: '/withdrawals/batchResolve',
+    batchReject: '/withdrawals/batchReject',
   },
   // 文章相关接口
   article: {

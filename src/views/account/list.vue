@@ -167,7 +167,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 
@@ -279,19 +279,8 @@ const handleTableChange = (pag) => {
 
 // 审核通过
 const handleResolve = async (record) => {
-  try {
-    const res = await post('account.batchResolve', {
-      ids: [record.id]
-    })
-    if(res.code === 0) {
-      message.success('操作成功')
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    console.log(error)
-  }
+  selectedKeys.value = [record.id]
+  handleBatchResolve()
 }
 
 // 批量审核通过
@@ -300,20 +289,23 @@ const handleBatchResolve = async () => {
     message.warning('请选择要通过的账号')
     return
   }
-  // TODO: 实现批量审核通过逻辑
-  try {
-    const res = await post('account.batchResolve', {
-      ids: selectedKeys.value
-    })
-    if(res.code === 0) {
+  const res = await post('account.batchResolve', {
+    ids: selectedKeys.value
+  })
+  if(res.code === 0) {
+    const failed = res.data.failed.map(item => item.reason).join(',')
+    if(failed) {
+      Modal.error({
+        title: '操作失败，失败原因',
+        content: failed,
+      });
+    } else {
       message.success('操作成功')
       selectedKeys.value = []
       loadData()
-    } else {
-      message.error(res.message)
     }
-  } catch (error) {
-   console.log(error)
+  } else {
+    message.error(res.message)
   }
 }
 
