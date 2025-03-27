@@ -64,12 +64,13 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        rowKey="id"
         :row-selection="{ selectedRowKeys: selectedKeys, onChange: onSelectChange }"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'withdrawalStatus'">
-            {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}
+          <template v-if="column.key === 'withdrawal_status'">
+            {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawal_status) }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -94,7 +95,7 @@
       :confirmLoading="failedLoading"
     >
       <a-textarea
-        v-model:value="failedReason"
+        v-model:value="rejectReason"
         placeholder="请输入打款失败原因"
         :rows="4"
       />
@@ -123,16 +124,15 @@ const withdrawalStatusOptions = computed(() => {
 })
 
 const loading = ref(false)
-const currentRecord = ref(null)
 const selectedKeys = ref([])
 const failedVisible = ref(false)
 const failedLoading = ref(false)
-const failedReason = ref('')
+const rejectReason = ref('')
 
 // 搜索表单
 const searchForm = reactive({
   memberNickname: '',
-  withdrawalStatus: undefined,
+  withdrawalStatus: 'pending',
   timeRange: []
 })
 
@@ -140,8 +140,8 @@ const searchForm = reactive({
 const columns = [
   {
     title: '会员昵称',
-    dataIndex: 'memberNickname',
-    key: 'memberNickname'
+    dataIndex: 'member_nickname',
+    key: 'member_nickname'
   },
   {
     title: '提现账户',
@@ -160,9 +160,9 @@ const columns = [
     align: 'right'
   },
   {
-    title: '真实姓名',
-    dataIndex: 'realName',
-    key: 'realName'
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name'
   },
   {
     title: '申请时间',
@@ -171,8 +171,7 @@ const columns = [
   },
   {
     title: '提现状态',
-    dataIndex: 'withdrawalStatus',
-    key: 'withdrawalStatus'
+    key: 'withdrawal_status'
   },
   {
     title: '操作',
@@ -236,19 +235,8 @@ const handleExport = async () => {
 
 // 标记已打款
 const handleResolve = async (record) => {
-  try {
-    const res = await post('finance.batchResolve', {
-      ids: [record.id]
-    })
-    if(res.code === 0) {
-      message.success('操作成功')
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('操作失败')
-  }
+  selectedKeys.value = [record.id]
+  handleBatchResolve()
 }
 
 // 批量标记已打款
@@ -257,26 +245,22 @@ const handleBatchResolve = async () => {
     message.warning('请选择要操作的记录')
     return
   }
-  try {
-    const res = await post('finance.batchResolve', {
-      ids: selectedKeys.value
-    })
-    if(res.code === 0) {
-      message.success('操作成功')
-      selectedKeys.value = []
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('操作失败')
+  const res = await post('withdrawals.batchResolve', {
+    ids: selectedKeys.value
+  })
+  if(res.code === 0) {
+    message.success('操作成功')
+    selectedKeys.value = []
+    loadData()
+  } else {
+    message.error(res.message)
   }
 }
 
 // 打款失败
 const handleReject = (record) => {
-  currentRecord.value = record
-  failedReason.value = ''
+  selectedKeys.value = [record.id]
+  rejectReason.value = ''
   failedVisible.value = true
 }
 
@@ -286,36 +270,29 @@ const handleBatchReject = () => {
     message.warning('请选择要操作的记录')
     return
   }
-  failedReason.value = ''
+  rejectReason.value = ''
   failedVisible.value = true
 }
 
 // 确认打款失败
 const handleRejectConfirm = async () => {
-  if (!failedReason.value) {
+  if (!rejectReason.value) {
     message.error('请输入打款失败原因')
     return
   }
 
-  try {
-    failedLoading.value = true
-    const params = {
-      failReason: failedReason.value,
-      ids: currentRecord.value ? [currentRecord.value.id] : selectedKeys.value
-    }
-    const res = await post('finance.batchReject', params)
-    if(res.code === 0) {
-      message.success('操作成功')
-      failedVisible.value = false
-      selectedKeys.value = []
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('操作失败')
-  } finally {
-    failedLoading.value = false
+  failedLoading.value = true
+  const res = await post('withdrawals.batchReject', {
+    rejectReason: rejectReason.value,
+    ids: selectedKeys.value
+  })
+  if(res.code === 0) {
+    message.success('操作成功')
+    failedVisible.value = false
+    selectedKeys.value = []
+    loadData()
+  } else {
+    message.error(res.message)
   }
 }
 
