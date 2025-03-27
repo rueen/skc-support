@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 19:59:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-17 16:06:04
+ * @LastEditTime: 2025-03-27 15:54:00
  * @Description: 
 -->
 <template>
@@ -27,7 +27,7 @@ onMounted(async () => {
     } catch (error) {
       message.error(error.message)
       // 如果获取用户信息失败，可能是 token 过期，清除 token 并跳转到登录页
-      if (error.code === 401) {
+      if ([401, 404].indexOf(error.response.status) > -1) {
         userStore.clearToken()
         if (route.name !== 'Login') {
           router.push('/login')

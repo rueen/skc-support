@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:58
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-16 11:43:48
+ * @LastEditTime: 2025-03-27 15:51:39
  * @Description: 
  */
 import { defineStore } from 'pinia'
@@ -55,7 +55,7 @@ export const useUserStore = defineStore('user', {
     // 获取用户信息
     async fetchUserInfo() {
       try {
-        const res = await get('user.info')
+        const res = await get('auth.userInfo')
         this.setUserInfo(res.data)
         return res.data
       } catch (error) {

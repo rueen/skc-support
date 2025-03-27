@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-26 17:17:57
+ * @LastEditTime: 2025-03-27 16:07:23
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -80,10 +80,10 @@ const allMenu = [
     permissions: 'article:list',
   },
   {
-    path: '/system',
-    key: 'system',
+    path: '/systemConfig',
+    key: 'systemConfig',
     icon: 'setting-outlined',
-    title: 'system',
+    title: 'systemConfig',
     permissions: 'system:config',
   },
 ]

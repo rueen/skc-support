@@ -136,22 +136,18 @@ const fetchSystemConfig = async () => {
 // 保存系统配置
 const saveSystemConfig = async () => {
   submitting.value = true
-  try {
-    const res = await post('system.saveAllConfig', {
-      configs: formState
-    })
-    
-    if (res && res.code === 0) {
-      message.success('保存系统配置成功')
-      // 保存成功后，切换到查看模式
-      formDisabled.value = true
-    } else {
-      message.error(res.message || '保存失败')
-    }
-  } catch (error) {
-    message.error('保存系统配置失败：' + (error.message || '未知错误'))
-  } finally {
-    submitting.value = false
+  const res = await post('system.saveAllConfig', {
+    configs: formState
+  })
+  
+  submitting.value = false
+  if (res && res.code === 0) {
+    message.success('保存系统配置成功')
+    fetchSystemConfig()
+    // 保存成功后，切换到查看模式
+    formDisabled.value = true
+  } else {
+    message.error(res.message || '保存失败')
   }
 }
 

@@ -72,7 +72,8 @@
             {{ enumStore.getEnumText('BillType', record.billType) }}
           </template>
           <template v-if="column.key === 'settlementStatus'">
-            {{ enumStore.getEnumText('SettlementStatus', record.settlementStatus) }}
+            <span v-if="record.billType === 'withdrawal'">{{ enumStore.getEnumText('WithdrawalStatus', record.settlementStatus) }}</span>
+            <span v-else>{{ enumStore.getEnumText('SettlementStatus', record.settlementStatus) }}</span>
             <info-circle-outlined 
               v-if="record.settlementStatus === 'failed'" 
               class="status-icon" 
@@ -160,7 +161,7 @@ const columns = [
     key: 'createTime'
   },
   {
-    title: '结算状态',
+    title: '状态',
     key: 'settlementStatus'
   }
 ]

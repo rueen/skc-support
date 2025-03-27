@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-26 21:15:00
+ * @LastEditTime: 2025-03-27 18:06:37
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -70,9 +70,7 @@ const API_PATH = {
   auth: {
     login: '/auth/login',
     logout: '/auth/logout',
-  },
-  user: {
-    info: '/user/info',
+    userInfo: '/auth/userInfo',
   },
   // 提现相关接口
   withdrawals: {
@@ -94,13 +92,13 @@ const API_PATH = {
   // 系统相关接口（公共API）
   system: {
     // 获取所有配置 GET
-    getAllConfig: '/system/configs',
+    getAllConfig: '/system-configs',
     // 根据key获取配置 GET
-    getConfigByKey: '/system/config/:key',
+    getConfigByKey: '/system-configs/:key',
     // 根据key更新配置 PUT
-    updateConfigByKey: '/system/config/:key',
+    updateConfigByKey: '/system-configs/:key',
     // 保存所有配置 POST
-    saveAllConfig: '/system/configs',
+    saveAllConfig: '/system-configs',
   },
   // 上传相关接口（公共API）
   upload: {

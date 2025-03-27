@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-26 17:18:37
+ * @LastEditTime: 2025-03-27 16:08:33
  * @Description: 
  */
 export default {
@@ -23,5 +23,5 @@ export default {
   bills: '结算账单',
   channel: '渠道管理',
   account: '账号审核',
-  system: '系统配置',
+  systemConfig: '系统配置',
 } 
