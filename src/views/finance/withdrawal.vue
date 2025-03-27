@@ -49,7 +49,7 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button type="primary" @click="handleExport">
+            <a-button @click="handleExport">
               <template #icon><download-outlined /></template>
               导出
             </a-button>
@@ -105,9 +105,10 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { DownloadOutlined } from '@ant-design/icons-vue'
 import { get, post } from '@/utils/request'
+import { downloadByApi } from '@/utils/download'
 import { useEnumStore } from '@/stores'
 
 const enumStore = useEnumStore()
@@ -217,20 +218,33 @@ const onSelectChange = (keys) => {
 }
 
 // 导出
-const handleExport = async () => {
-  // TODO: 实现导出逻辑
-  const res = await get('finance.withdrawalExport', {
-    params: {
-      page: pagination.current,
-      pageSize: pagination.pageSize,
-      ...searchForm
+const handleExport = () => {
+  Modal.confirm({
+    title: '确认导出',
+    content: '确定要导出当前筛选条件下的所有任务数据吗？',
+    onOk: async () => {
+      // 显示加载中提示
+      const loadingMessage = message.loading('正在导出数据，请稍候...', 0)
+        
+      // 构建导出参数，使用当前的筛选条件
+      const params = {
+        ...searchForm
+      }
+      
+      try {
+        // 调用下载API
+        await downloadByApi('withdrawals.export', params, `提现列表_${new Date().toLocaleDateString()}.xlsx`)
+        // 显示成功提示
+        message.success('导出成功')
+      } catch (error) {
+        console.error('导出失败:', error)
+        message.error('导出失败，请稍后重试')
+      } finally {
+        // 关闭加载提示
+        loadingMessage()
+      }
     }
   })
-  if(res.code === 0) {
-    message.success('导出成功')
-  } else {
-    message.error(res.message)
-  }
 }
 
 // 标记已打款

@@ -72,10 +72,10 @@
             {{ enumStore.getEnumText('BillType', record.billType) }}
           </template>
           <template v-if="column.key === 'settlementStatus'">
-            <span v-if="record.billType === 'withdrawal'">{{ enumStore.getEnumText('WithdrawalStatus', record.settlementStatus) }}</span>
+            <span v-if="record.billType === 'withdrawal'">{{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}</span>
             <span v-else>{{ enumStore.getEnumText('SettlementStatus', record.settlementStatus) }}</span>
             <info-circle-outlined 
-              v-if="record.settlementStatus === 'failed'" 
+              v-if="record.settlementStatus === 'failed' || record.withdrawalStatus === 'failed'" 
               class="status-icon" 
               @click="showFailReason(record)"
             />

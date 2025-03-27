@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-13 12:30:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-15 21:58:00
+ * @LastEditTime: 2025-03-27 21:12:47
  * @Description: 文件下载工具函数
  */
 
@@ -21,7 +21,7 @@ import config from '@/config/env'
 export const downloadFile = (url, params = {}, filename = '', options = {}) => {
   // 创建一个新的 axios 实例，用于文件下载
   const downloadService = axios.create({
-    baseURL: config.baseUrl,
+    baseURL: config.businessApiUrl,
     timeout: 60000, // 下载文件可能需要更长的超时时间
     responseType: 'blob', // 重要：指定响应类型为 blob
   })

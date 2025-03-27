@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-22 18:59:58
+ * @LastEditTime: 2025-03-27 21:07:11
  * @Description: 
 -->
 <template>
@@ -242,9 +242,7 @@ const handleExport = () => {
         
         // 构建导出参数，使用当前的筛选条件
         const params = {
-          taskName: searchForm.taskName,
-          channelId: searchForm.channelId,
-          taskStatus: searchForm.taskStatus
+          ...searchForm
         }
         
         // 调用下载API

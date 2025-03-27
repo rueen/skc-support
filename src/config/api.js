@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-27 19:33:02
+ * @LastEditTime: 2025-03-27 21:08:03
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -56,6 +56,13 @@ const API_PATH = {
   finance: {
     bills: '/bills',
   },
+  // 提现相关接口
+  withdrawals: {
+    list: '/withdrawals',
+    batchResolve: '/withdrawals/batch-approve',
+    batchReject: '/withdrawals/batch-reject',
+    export: '/withdrawals/export',
+  },
   // 小二管理相关接口
   waiter: {
     list: '/waiters',
@@ -67,12 +74,6 @@ const API_PATH = {
     login: '/auth/login',
     logout: '/auth/logout',
     userInfo: '/auth/userInfo',
-  },
-  // 提现相关接口
-  withdrawals: {
-    list: '/withdrawals',
-    batchResolve: '/withdrawals/batch-approve',
-    batchReject: '/withdrawals/batch-reject',
   },
   // 文章相关接口
   article: {
