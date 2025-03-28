@@ -81,7 +81,7 @@
           <template v-if="column.key === 'groups'">
             <div v-for="item in record.groups">
               <span>{{ item.groupName }}</span>
-              <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
+              <a-tag v-if="item.isOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
             </div>
             <span v-if="!record.groups || record.groups.length === 0">--</span>
           </template>

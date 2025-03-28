@@ -117,8 +117,12 @@ const fetchSystemConfig = async () => {
     // 更新表单数据
     if (res && res.data) {
       const json = {};
-      Object.values(res.data).forEach(item => {
-        json[item.key] = item
+      res.data.forEach(item => {
+        json[item.configKey] = {
+          ...item,
+          key: item.configKey,
+          value: item.configValue
+        }
       })
       Object.assign(formState, {
         max_group_members: json.max_group_members.value, // 最大群成员数

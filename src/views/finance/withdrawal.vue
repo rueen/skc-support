@@ -69,8 +69,8 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'withdrawal_status'">
-            {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawal_status) }}
+          <template v-if="column.key === 'withdrawalStatus'">
+            {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
@@ -141,18 +141,18 @@ const searchForm = reactive({
 const columns = [
   {
     title: '会员昵称',
-    dataIndex: 'member_nickname',
-    key: 'member_nickname'
+    dataIndex: 'memberNickname',
+    key: 'memberNickname'
   },
   {
     title: '提现账户',
-    dataIndex: 'memberAccount',
-    key: 'memberAccount'
+    dataIndex: 'account',
+    key: 'account'
   },
   {
     title: '账户类型',
-    dataIndex: 'memberAccountType',
-    key: 'memberAccountType'
+    dataIndex: 'accountType',
+    key: 'accountType'
   },
   {
     title: '申请提现金额',
@@ -167,12 +167,12 @@ const columns = [
   },
   {
     title: '申请时间',
-    dataIndex: 'applyTime',
-    key: 'applyTime'
+    dataIndex: 'createTime',
+    key: 'createTime'
   },
   {
     title: '提现状态',
-    key: 'withdrawal_status'
+    key: 'withdrawalStatus'
   },
   {
     title: '操作',
