@@ -24,7 +24,7 @@
               <a-popconfirm
                 title="确定要删除该账号吗？"
                 @confirm="handleDelete(record)"
-                v-if="!record.is_admin"
+                v-if="!record.isAdmin"
               >
                 <a class="danger">删除</a>
               </a-popconfirm>
