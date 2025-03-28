@@ -83,8 +83,8 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        :row-selection="rowSelection"
         rowKey="id"
-        :row-selection="{ selectedRowKeys: selectedKeys, onChange: onSelectChange }"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
@@ -185,7 +185,7 @@ const accountAuditStatusOptions = computed(() => {
 })
 
 const loading = ref(false)
-const selectedKeys = ref([])
+const selectedRowKeys = ref([])
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
@@ -239,6 +239,17 @@ const columns2 = [
   }
 ]
 
+// 表格选择配置
+const rowSelection = {
+  selectedRowKeys,
+  onChange: (keys) => {
+    selectedRowKeys.value = keys
+  },
+  getCheckboxProps: (record) => ({
+    disabled: record.accountAuditStatus !== 'pending'
+  })
+}
+
 // 表格数据
 const tableData = ref([])
 // 分页配置
@@ -247,11 +258,6 @@ const pagination = reactive({
   pageSize: 10,
   total: 0
 })
-
-// 选择行变化
-const onSelectChange = (keys) => {
-  selectedKeys.value = keys
-}
 
 // 搜索
 const handleSearch = () => {
@@ -279,18 +285,18 @@ const handleTableChange = (pag) => {
 
 // 审核通过
 const handleResolve = async (record) => {
-  selectedKeys.value = [record.id]
+  selectedRowKeys.value = [record.id]
   handleBatchResolve()
 }
 
 // 批量审核通过
 const handleBatchResolve = async () => {
-  if (!selectedKeys.value.length) {
+  if (!selectedRowKeys.value.length) {
     message.warning('请选择要通过的账号')
     return
   }
   const res = await post('account.batchResolve', {
-    ids: selectedKeys.value
+    ids: selectedRowKeys.value
   })
   if(res.code === 0) {
     const failed = res.data.failed.map(item => item.reason).join(',')
@@ -301,7 +307,7 @@ const handleBatchResolve = async () => {
       });
     } else {
       message.success('操作成功')
-      selectedKeys.value = []
+      selectedRowKeys.value = []
       loadData()
     }
   } else {
@@ -311,7 +317,7 @@ const handleBatchResolve = async () => {
 
 // 批量拒绝
 const handleBatchReject = async() => {
-  if (!selectedKeys.value.length) {
+  if (!selectedRowKeys.value.length) {
     message.warning('请选择要拒绝的账号')
     return
   }
@@ -321,7 +327,7 @@ const handleBatchReject = async() => {
 
 // 审核拒绝
 const handleReject = (record) => {
-  selectedKeys.value = [record.id]
+  selectedRowKeys.value = [record.id]
   rejectReason.value = ''
   rejectVisible.value = true
 }
@@ -335,12 +341,12 @@ const handleRejectConfirm = async () => {
   rejectLoading.value = true
   try {
     const res = await post('account.batchReject', {
-      ids: selectedKeys.value,
+      ids: selectedRowKeys.value,
       rejectReason: rejectReason.value
     })
     if(res.code === 0) {
       message.success('操作成功')
-      selectedKeys.value = []
+      selectedRowKeys.value = []
       rejectVisible.value = false
       loadData()
     } else {

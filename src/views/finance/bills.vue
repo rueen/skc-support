@@ -66,7 +66,8 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'taskName'">
-            <a @click="handleTaskDetail(record.taskId)">{{ record.taskName }}</a>
+            <span v-if="record.billType === 'withdrawal'">--</span>
+            <a @click="handleTaskDetail(record.taskId)" v-else>{{ record.taskName }}</a>
           </template>
           <template v-if="column.key === 'billType'">
             {{ enumStore.getEnumText('BillType', record.billType) }}
