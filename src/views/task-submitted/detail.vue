@@ -12,10 +12,13 @@
           <a-descriptions-item label="任务名称">{{ taskInfo.taskName }}</a-descriptions-item>
           <a-descriptions-item label="平台渠道">{{ taskInfo.channelName }}</a-descriptions-item>
           <a-descriptions-item label="达人领域">{{ taskInfo.category }}</a-descriptions-item>
-          <a-descriptions-item label="任务类型">{{ enumStore.getEnumText('TaskType', taskInfo.type) }}</a-descriptions-item>
+          <a-descriptions-item label="任务类型">{{ enumStore.getEnumText('TaskType', taskInfo.taskType) }}</a-descriptions-item>
           <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
           <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
-          <a-descriptions-item label="指定群组">{{ taskInfo.groupNames?.join('、') }}</a-descriptions-item>
+          <a-descriptions-item label="指定群组">
+            <span v-if="taskInfo.groupMode === 0">不指定</span>
+            <span v-else>{{ taskInfo.groupNames?.join('、') }}</span>
+          </a-descriptions-item>
           <a-descriptions-item label="任务时间">
             {{ taskInfo.startTime }} 至 {{ taskInfo.endTime }}
           </a-descriptions-item>
@@ -65,7 +68,6 @@
       <div class="detail-section">
         <div class="section-title">审核信息</div>
         <a-descriptions :column="2">
-          <a-descriptions-item label="报名时间">{{ submittedInfo.applyTime }}</a-descriptions-item>
           <a-descriptions-item label="提交时间">{{ submittedInfo.submitTime }}</a-descriptions-item>
           <a-descriptions-item label="审核状态">
             {{ enumStore.getEnumText('TaskAuditStatus', submittedInfo.taskAuditStatus) }}
@@ -79,18 +81,16 @@
       <!-- 底部按钮 -->
       <div class="footer-btns">
         <div class="left">
-          <a-space>
+          <a-space v-if="submittedInfo.taskAuditStatus === 'pending'">
             <a-button
               type="primary"
               @click="handleResolve"
-              v-if="submittedInfo.taskAuditStatus === 'pending'"
             >
               审核通过
             </a-button>
             <a-button
               danger
               @click="handleReject"
-              v-if="submittedInfo.taskAuditStatus === 'pending'"
             >
               审核拒绝
             </a-button>
@@ -98,8 +98,8 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button @click="handlePrev">上一个</a-button>
-            <a-button @click="handleNext">下一个</a-button>
+            <a-button @click="handlePrev" v-if="submittedInfo.prevTaskId && submittedInfo.prevTaskId !== submittedInfo.nextTaskId">上一个</a-button>
+            <a-button @click="handleNext" v-if="submittedInfo.nextTaskId">下一个</a-button>
           </a-space>
         </div>
       </div>
@@ -122,7 +122,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
@@ -139,6 +139,8 @@ const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
 
+// 已提交任务id
+const submittedId = ref(null)
 // 已提交任务信息
 const submittedInfo = reactive({
   submitContent: {}
@@ -152,11 +154,11 @@ const memberInfo = reactive({})
 // 审核通过
 const handleResolve = async () => {
   const res = await post('taskSubmitted.batchResolve', {
-    ids: [route.params.id]
+    ids: [submittedId.value]
   })
   if(res.code === 0) {
     message.success('审核通过成功')
-    router.back()
+    getDetail()
   } else {
     message.error(res.message)
   }
@@ -176,15 +178,14 @@ const handleRejectConfirm = async () => {
   }
 
   rejectLoading.value = true
-  // TODO: 实现审核拒绝逻辑
   const res = await post('taskSubmitted.batchReject', {
-    ids: [route.params.id],
+    ids: [submittedId.value],
     reason: rejectReason.value
   })
   if(res.code === 0) {
     message.success('审核拒绝成功')
     rejectVisible.value = false
-    router.back()
+    getDetail()
   } else {
     message.error(res.message)
   }
@@ -193,11 +194,17 @@ const handleRejectConfirm = async () => {
 // 上一个
 const handlePrev = () => {
   // TODO: 实现上一个逻辑
+  router.push(`/task-submitted/detail/${submittedInfo.prevTaskId}`)
+  submittedId.value = submittedInfo.prevTaskId
+  getDetail()
 }
 
 // 下一个
 const handleNext = () => {
   // TODO: 实现下一个逻辑
+  router.push(`/task-submitted/detail/${submittedInfo.nextTaskId}`)
+  submittedId.value = submittedInfo.nextTaskId
+  getDetail()
 }
 
 // 获取任务详情
@@ -241,7 +248,7 @@ const getDetail = async () => {
   try {
     const res = await get('taskSubmitted.detail', {}, {
       urlParams: {
-        id: route.params.id
+        id: submittedId.value
       }
     })
     if(res.code === 0) {
@@ -260,6 +267,7 @@ const getDetail = async () => {
 }
 
 onMounted(() => {
+  submittedId.value = route.params.id
   getDetail()
 })
 </script>
