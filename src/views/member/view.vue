@@ -10,10 +10,10 @@
         <div class="section-title">会员信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="会员昵称">
-            {{ memberInfo.memberNickname }}
+            {{ memberInfo.nickname }}
           </a-descriptions-item>
           <a-descriptions-item label="会员账号">
-            {{ memberInfo.memberAccount }}
+            {{ memberInfo.account }}
           </a-descriptions-item>
           <a-descriptions-item label="会员头像">
             <a-avatar :src="memberInfo.avatar" size="small">
@@ -25,24 +25,26 @@
           </a-descriptions-item>
           <a-descriptions-item label="职业">
             {{ enumStore.getEnumText('OccupationType', memberInfo.occupation) }}
+            <span v-if="memberInfo.occupation === null"> - </span>
           </a-descriptions-item>
           <a-descriptions-item label="电子邮箱">
-            {{ memberInfo.email }}
+            {{ memberInfo.email || '-' }}
           </a-descriptions-item>
           <a-descriptions-item label="手机号码">
-            {{ memberInfo.phone }}
+            {{ memberInfo.phone || '-' }}
           </a-descriptions-item>
           <a-descriptions-item label="Telegram">
-            {{ memberInfo.telegram }}
+            {{ memberInfo.telegram || '-' }}
           </a-descriptions-item>
           <a-descriptions-item label="所属群组">
             <div v-for="item in memberInfo.groups" :key="item.id">
               {{ item.groupName }}
               <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 8px">群主</a-tag>
             </div>
+            <span v-if="!memberInfo.groups || !memberInfo.groups.length">未加入群组</span>
           </a-descriptions-item>
           <a-descriptions-item label="邀请人">
-            {{ memberInfo.inviterNickname }}
+            {{ memberInfo.inviterNickname || '-' }}
           </a-descriptions-item>
           <a-descriptions-item label="邀请链接">
             <span>{{ inviteUrl }}</span>

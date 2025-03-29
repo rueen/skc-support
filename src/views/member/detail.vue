@@ -204,8 +204,8 @@ const loadMemberInfo = async () => {
     if(res.code === 0){
       const data = res.data;
       Object.assign(formData, {
-        memberNickname: data.memberNickname,
-        memberAccount: data.memberAccount,
+        memberNickname: data.nickname,
+        memberAccount: data.account,
         groupIds: data.groups.map(item => item.groupId),
         inviterId: data.inviterId,
       })
