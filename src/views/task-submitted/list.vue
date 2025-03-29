@@ -85,6 +85,12 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'taskName'">
+            <a-space>
+              <a-avatar :src="record.channelIcon" size="small" />
+              <span>{{ record.taskName }}</span>
+            </a-space>
+          </template>
           <template v-if="column.key === 'taskAuditStatus'">
             {{ enumStore.getEnumText('TaskAuditStatus', record.taskAuditStatus) }}
           </template>
@@ -196,13 +202,7 @@ const groupOptions = ref([])
 const columns = [
   {
     title: '任务名称',
-    dataIndex: 'taskName',
     key: 'taskName'
-  },
-  {
-    title: '平台渠道',
-    dataIndex: 'channelName',
-    key: 'channelName'
   },
   {
     title: '任务奖励',

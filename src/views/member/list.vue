@@ -139,13 +139,13 @@ const groupOptions = ref([])
 const columns = [
   {
     title: '会员昵称',
-    dataIndex: 'memberNickname',
-    key: 'memberNickname'
+    dataIndex: 'nickname',
+    key: 'nickname'
   },
   {
     title: '账号',
-    dataIndex: 'memberAccount',
-    key: 'memberAccount'
+    dataIndex: 'account',
+    key: 'account'
   },
   {
     title: '渠道账号信息',
