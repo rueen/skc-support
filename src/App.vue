@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 19:59:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-27 15:54:00
+ * @LastEditTime: 2025-03-30 09:42:09
  * @Description: 
 -->
 <template>
@@ -22,18 +22,7 @@ const enumStore = useEnumStore()
 onMounted(async () => {
   // 如果有 token，则获取用户信息
   if (userStore.token) {
-    try {
-      await userStore.fetchUserInfo()
-    } catch (error) {
-      message.error(error.message)
-      // 如果获取用户信息失败，可能是 token 过期，清除 token 并跳转到登录页
-      if ([401, 404].indexOf(error.response.status) > -1) {
-        userStore.clearToken()
-        if (route.name !== 'Login') {
-          router.push('/login')
-        }
-      }
-    }
+    await userStore.fetchUserInfo()
   }
   // 加载枚举数据
   await enumStore.fetchEnum()
