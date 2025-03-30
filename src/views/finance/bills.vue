@@ -65,9 +65,12 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'memberNickname'">
+            <a @click="handleMemberDetail(record)">{{ record.memberNickname }}</a>
+          </template>
           <template v-if="column.key === 'taskName'">
             <span v-if="record.billType === 'withdrawal'">--</span>
-            <a @click="handleTaskDetail(record.taskId)" v-else>{{ record.taskName }}</a>
+            <a @click="handleTaskDetail(record)" v-else>{{ record.taskName }}</a>
           </template>
           <template v-if="column.key === 'billType'">
             {{ enumStore.getEnumText('BillType', record.billType) }}
@@ -93,8 +96,10 @@ import { message, Modal } from 'ant-design-vue'
 import { get } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { InfoCircleOutlined } from '@ant-design/icons-vue'
+import { useRouter } from 'vue-router'
 
 const enumStore = useEnumStore()
+const router = useRouter()
 
 // 计算账单类型选项
 const billTypeOptions = computed(() => {
@@ -138,7 +143,6 @@ const showFailReason = (record) => {
 const columns = [
   {
     title: '会员昵称',
-    dataIndex: 'memberNickname',
     key: 'memberNickname'
   },
   {
@@ -198,12 +202,14 @@ const handleTableChange = (pag) => {
   loadData()
 }
 
+// 会员详情
+const handleMemberDetail = (record) => {
+  router.push(`/member/view/${record.memberId}`)
+}
+
 // 任务详情
-const handleTaskDetail = (taskId) => {
-  // router.push({
-  //   path: '/task/detail',
-  //   query: { id: taskId }
-  // })
+const handleTaskDetail = (record) => {
+  router.push(`/task-submitted/detail/${record.submittedId}`)
 }
 
 // 加载数据

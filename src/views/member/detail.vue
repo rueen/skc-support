@@ -51,7 +51,7 @@
               :key="item.id"
               :value="item.id"
             >
-              {{ item.memberNickname }}
+              {{ item.nickname }}
             </a-select-option>
           </a-select>
         </a-form-item>
