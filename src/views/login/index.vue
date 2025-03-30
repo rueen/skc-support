@@ -55,10 +55,6 @@
             {{ $t('login.login') }}
           </a-button>
         </a-form-item>
-
-        <div class="login-tip">
-          默认账号：admin / admin123
-        </div>
       </a-form>
     </div>
   </div>
@@ -143,13 +139,6 @@ const handleLogin = async (values) => {
         color: @text-color-secondary;
         margin: 0;
       }
-    }
-
-    .login-tip {
-      text-align: center;
-      color: @text-color-secondary;
-      font-size: 14px;
-      margin-top: 16px;
     }
   }
 }
