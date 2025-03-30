@@ -39,7 +39,7 @@
           <a-descriptions-item label="所属群组">
             <div v-for="item in memberInfo.groups" :key="item.id">
               {{ item.groupName }}
-              <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 8px">群主</a-tag>
+              <a-tag v-if="item.isOwner" color="blue" style="margin-left: 8px">群主</a-tag>
             </div>
             <span v-if="!memberInfo.groups || !memberInfo.groups.length">未加入群组</span>
           </a-descriptions-item>

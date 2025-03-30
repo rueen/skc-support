@@ -282,7 +282,6 @@ const editChannel = async () => {
 
 // 确认弹窗
 const handleModalOk = async () => {
-  console.log(formData.customFields)
   try {
     await formRef.value.validate()
     modalLoading.value = true

@@ -36,13 +36,13 @@
         <div class="section-title">会员信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="会员昵称">
-            {{ memberInfo.memberNickname }}
+            {{ memberInfo.nickname }}
           </a-descriptions-item>
-          <a-descriptions-item label="账号">{{ memberInfo.memberAccount }}</a-descriptions-item>
+          <a-descriptions-item label="账号">{{ memberInfo.account }}</a-descriptions-item>
           <a-descriptions-item label="所属群">
             <div v-for="item in memberInfo.groups">
               <span>{{ item.groupName }}</span>
-              <a-tag v-if="item.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
+              <a-tag v-if="item.isOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
             </div>
             <span v-if="!memberInfo.groups || memberInfo.groups.length === 0">--</span>
           </a-descriptions-item>
