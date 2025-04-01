@@ -90,7 +90,7 @@
                 @click="handleExport"
                 v-if="tableData.length"
               >
-                <template #icon><download-outlined /></template>
+                <template #icon><DownloadOutlined /></template>
                 导出
               </a-button>
               <a-button type="primary" @click="handleBatchResolve">批量通过</a-button>
@@ -189,6 +189,7 @@ import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { downloadByApi } from '@/utils/download'
+import { DownloadOutlined } from '@ant-design/icons-vue'
 
 const enumStore = useEnumStore()
 
