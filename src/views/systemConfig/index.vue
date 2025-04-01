@@ -118,16 +118,12 @@ const fetchSystemConfig = async () => {
     if (res && res.data) {
       const json = {};
       res.data.forEach(item => {
-        json[item.configKey] = {
-          ...item,
-          key: item.configKey,
-          value: item.configValue
-        }
+        json[item.config_key] = item
       })
       Object.assign(formState, {
-        max_group_members: json.max_group_members.value, // 最大群成员数
-        group_owner_commission_rate: json.group_owner_commission_rate.value, // 群主收益率
-        invite_reward_amount: json.invite_reward_amount.value // 邀请奖励金额
+        max_group_members: json.max_group_members.config_value, // 最大群成员数
+        group_owner_commission_rate: json.group_owner_commission_rate.config_value, // 群主收益率
+        invite_reward_amount: json.invite_reward_amount.config_value // 邀请奖励金额
       })
     }
   } catch (error) {

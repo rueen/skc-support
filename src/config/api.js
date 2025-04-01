@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-27 21:08:03
+ * @LastEditTime: 2025-03-30 21:20:08
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -90,10 +90,6 @@ const API_PATH = {
   system: {
     // 获取所有配置 GET
     getAllConfig: '/system-configs',
-    // 根据key获取配置 GET
-    getConfigByKey: '/system-configs/:key',
-    // 根据key更新配置 PUT
-    updateConfigByKey: '/system-configs/:key',
     // 保存所有配置 POST
     saveAllConfig: '/system-configs',
   },

@@ -141,8 +141,8 @@ const searchForm = reactive({
 const columns = [
   {
     title: '会员昵称',
-    dataIndex: 'memberNickname',
-    key: 'memberNickname'
+    dataIndex: 'nickname',
+    key: 'nickname'
   },
   {
     title: '提现账户',
