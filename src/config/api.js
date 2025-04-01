@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-30 21:20:08
+ * @LastEditTime: 2025-04-01 19:44:55
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -21,6 +21,7 @@ const API_PATH = {
     detail: '/submitted-tasks/:id',
     batchResolve: '/submitted-tasks/batch-approve',
     batchReject: '/submitted-tasks/batch-reject',
+    export: '/submitted-tasks/export',
   },
   // 账号相关接口
   account: {

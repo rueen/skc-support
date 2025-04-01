@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-13 12:30:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-27 21:12:47
+ * @LastEditTime: 2025-04-01 20:05:06
  * @Description: 文件下载工具函数
  */
 
@@ -19,6 +19,7 @@ import config from '@/config/env'
  * @return {Promise} - 返回下载结果
  */
 export const downloadFile = (url, params = {}, filename = '', options = {}) => {
+  console.log(config.businessApiUrl)
   // 创建一个新的 axios 实例，用于文件下载
   const downloadService = axios.create({
     baseURL: config.businessApiUrl,

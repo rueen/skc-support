@@ -2,79 +2,104 @@
   <div class="task-audit content-container">
     <div class="table-container">
       <div class="table-header">
-        <div class="left">
-          <a-form layout="inline" :model="searchForm">
-            <a-form-item label="任务名称">
-              <a-input
-                v-model:value="searchForm.taskName"
-                placeholder="请输入任务名称"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item label="平台渠道">
-              <a-select
-                v-model:value="searchForm.channelId"
-                placeholder="请选择平台渠道"
-                style="width: 120px"
-                allow-clear
+        <a-form layout="inline" :model="searchForm">
+          <a-form-item label="任务名称">
+            <a-input
+              v-model:value="searchForm.taskName"
+              placeholder="请输入任务名称"
+              allow-clear
+              style="width: 140px;"
+            />
+          </a-form-item>
+          <a-form-item label="平台渠道">
+            <a-select
+              v-model:value="searchForm.channelId"
+              placeholder="请选择平台渠道"
+              allow-clear
+              style="width: 140px;"
+            >
+              <a-select-option
+                v-for="item in channelOptions"
+                :key="item.id"
+                :value="item.id"
               >
-                <a-select-option
-                  v-for="item in channelOptions"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.name }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="审核状态">
-              <a-select
-                v-model:value="searchForm.taskAuditStatus"
-                placeholder="请选择审核状态"
-                style="width: 120px"
-                allow-clear
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item label="审核状态">
+            <a-select
+              v-model:value="searchForm.taskAuditStatus"
+              placeholder="请选择审核状态"
+              allow-clear
+              style="width: 140px;"
+            >
+              <a-select-option
+                v-for="option in taskAuditStatusOptions"
+                :key="option.value"
+                :value="option.value"
               >
-                <a-select-option
-                  v-for="option in taskAuditStatusOptions"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.text }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="所属群组">
-              <a-select
-                v-model:value="searchForm.groupId"
-                placeholder="请选择群组"
-                style="width: 120px"
-                allow-clear
+                {{ option.text }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item label="所属群组">
+            <a-select
+              v-model:value="searchForm.groupId"
+              placeholder="请选择群组"
+              allow-clear
+            >
+              <a-select-option
+                v-for="item in groupOptions"
+                :key="item.id"
+                :value="item.id"
               >
-                <a-select-option
-                  v-for="item in groupOptions"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.name }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item>
-              <a-space>
-                <a-button type="primary" @click="handleSearch">查询</a-button>
-                <a-button @click="handleReset">重置</a-button>
-              </a-space>
-            </a-form-item>
-          </a-form>
-        </div>
-        <div class="right">
-          <a-space>
-            <a-button type="primary" @click="handleBatchResolve">批量通过</a-button>
-            <a-button danger @click="handleBatchReject">批量拒绝</a-button>
-          </a-space>
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item label="提交时间">
+            <a-range-picker
+              v-model:value="searchForm.submitTimeRange"
+              :show-time="{ format: 'HH:mm' }"
+              format="YYYY-MM-DD HH:mm"
+              value-format="YYYY-MM-DD HH:mm:ss"
+              style="width: 280px;"
+            />
+          </a-form-item>
+          <a-form-item label="已完成任务">
+            <a-input-number
+              v-model:value="searchForm.completedTaskCount"
+              :min="0"
+              :max="9999"
+              addon-after="次"
+              style="width: 100px!important"
+            />
+          </a-form-item>
+        </a-form>
+        <div style="width: 100%;display: flex;justify-content: space-between;">
+          <div>
+            <a-space>
+              <a-button type="primary" @click="handleSearch">查询</a-button>
+              <a-button @click="handleReset">重置</a-button>
+            </a-space>
+          </div>
+          <div>
+            <a-space>
+              <a-button
+                @click="handleExport"
+                v-if="tableData.length"
+              >
+                <template #icon><download-outlined /></template>
+                导出
+              </a-button>
+              <a-button type="primary" @click="handleBatchResolve">批量通过</a-button>
+              <a-button danger @click="handleBatchReject">批量拒绝</a-button>
+            </a-space>
+          </div>
         </div>
       </div>
-
+      
       <a-table
         :columns="columns"
         :data-source="tableData"
@@ -160,9 +185,10 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
+import { downloadByApi } from '@/utils/download'
 
 const enumStore = useEnumStore()
 
@@ -191,7 +217,9 @@ const searchForm = reactive({
   taskName: '',
   channelId: undefined,
   taskAuditStatus: 'pending',
-  groupId: undefined
+  groupId: undefined,
+  submitTimeRange: [],
+  completedTaskCount: undefined
 })
 
 // 选项数据
@@ -254,10 +282,14 @@ const handleSearch = () => {
 
 // 重置
 const handleReset = () => {
-  searchForm.taskName = ''
-  searchForm.channelId = undefined
-  searchForm.taskAuditStatus = undefined
-  searchForm.groupId = undefined
+  Object.assign(searchForm, {
+    taskName: '',
+    channelId: undefined,
+    taskAuditStatus: 'pending',
+    groupId: undefined,
+    submitTimeRange: [],
+    completedTaskCount: undefined
+  })
   handleSearch()
 }
 
@@ -349,6 +381,36 @@ const loadChannelOptions = async () => {
   } 
 }
 
+const handleExport = () => {
+  Modal.confirm({
+    title: '确认导出',
+    content: '确定要导出当前筛选条件下的所有任务数据吗？',
+    onOk: async () => {
+      try {
+        // 显示加载中提示
+        const loadingMessage = message.loading('正在导出数据，请稍候...', 0)
+        
+        // 构建导出参数，使用当前的筛选条件
+        const params = {
+          ...searchForm
+        }
+        
+        // 调用下载API
+        await downloadByApi('taskSubmitted.export', params, `已提交任务列表_${new Date().toLocaleDateString()}.xlsx`)
+        
+        // 关闭加载提示
+        loadingMessage()
+        
+        // 显示成功提示
+        message.success('导出成功')
+      } catch (error) {
+        console.error('导出失败:', error)
+        message.error('导出失败，请稍后重试')
+      }
+    }
+  })
+}
+
 // 获取群组列表
 const loadGroupOptions = async (keyword = '') => {
   try {
@@ -371,11 +433,19 @@ const loadGroupOptions = async (keyword = '') => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    const res = await get('taskSubmitted.list', {
+    const params = {
       page: pagination.current,
       pageSize: pagination.pageSize,
-      ...searchForm
+      taskName: searchForm.taskName,
+      channelId: searchForm.channelId,
+      taskAuditStatus: searchForm.taskAuditStatus,
+      groupId: searchForm.groupId,
+      submitStartTime: searchForm.submitTimeRange?.[0],
+      submitEndTime: searchForm.submitTimeRange?.[1],
+      completedTaskCount: searchForm.completedTaskCount
+    }
+    const res = await get('taskSubmitted.list', {
+      ...params
     })
     if(res.code === 0) {
       tableData.value = res.data.list
