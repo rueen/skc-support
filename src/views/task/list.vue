@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-27 21:07:11
+ * @LastEditTime: 2025-04-01 20:31:48
  * @Description: 
 -->
 <template>
@@ -59,10 +59,6 @@
         </div>
         <div class="right">
           <a-space>
-            <a-button @click="handleExport">
-              <template #icon><download-outlined /></template>
-              导出
-            </a-button>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
               新建任务
@@ -229,36 +225,6 @@ const handleDelete = async (record) => {
   } catch (error) {
     message.error('删除失败')
   }
-}
-
-const handleExport = () => {
-  Modal.confirm({
-    title: '确认导出',
-    content: '确定要导出当前筛选条件下的所有任务数据吗？',
-    onOk: async () => {
-      try {
-        // 显示加载中提示
-        const loadingMessage = message.loading('正在导出数据，请稍候...', 0)
-        
-        // 构建导出参数，使用当前的筛选条件
-        const params = {
-          ...searchForm
-        }
-        
-        // 调用下载API
-        await downloadByApi('task.export', params, `任务列表_${new Date().toLocaleDateString()}.xlsx`)
-        
-        // 关闭加载提示
-        loadingMessage()
-        
-        // 显示成功提示
-        message.success('导出成功')
-      } catch (error) {
-        console.error('导出失败:', error)
-        message.error('导出失败，请稍后重试')
-      }
-    }
-  })
 }
 
 const loadData = async () => {
