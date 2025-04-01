@@ -194,7 +194,7 @@ const handleRejectConfirm = async () => {
 // 上一个
 const handlePrev = () => {
   // TODO: 实现上一个逻辑
-  router.push(`/task-submitted/detail/${submittedInfo.prevTaskId}`)
+  router.push(`/submitted-tasks/detail/${submittedInfo.prevTaskId}`)
   submittedId.value = submittedInfo.prevTaskId
   getDetail()
 }
@@ -202,7 +202,7 @@ const handlePrev = () => {
 // 下一个
 const handleNext = () => {
   // TODO: 实现下一个逻辑
-  router.push(`/task-submitted/detail/${submittedInfo.nextTaskId}`)
+  router.push(`/submitted-tasks/detail/${submittedInfo.nextTaskId}`)
   submittedId.value = submittedInfo.nextTaskId
   getDetail()
 }

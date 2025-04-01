@@ -209,7 +209,7 @@ const handleMemberDetail = (record) => {
 
 // 任务详情
 const handleTaskDetail = (record) => {
-  router.push(`/task-submitted/detail/${record.submittedId}`)
+  router.push(`/submitted-tasks/detail/${record.submittedId}`)
 }
 
 // 加载数据
