@@ -124,6 +124,9 @@
           <template v-if="column.key === 'accountAuditStatus'">
             {{ enumStore.getEnumText('AccountAuditStatus', record.accountAuditStatus) }}
           </template>
+          <template v-if="column.key === 'waiterName'">
+            {{ record.waiterName || '--' }}
+          </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a-popconfirm
@@ -222,6 +225,10 @@ const columns = [
     title: '审核状态',
     dataIndex: 'accountAuditStatus',
     key: 'accountAuditStatus'
+  },
+  {
+    title: '审核员',
+    key: 'waiterName'
   }
 ]
 const columns1 = [

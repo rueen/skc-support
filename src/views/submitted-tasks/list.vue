@@ -54,7 +54,7 @@
                 :key="item.id"
                 :value="item.id"
               >
-                {{ item.name }}
+                {{ item.groupName }}
               </a-select-option>
             </a-select>
           </a-form-item>
@@ -246,6 +246,11 @@ const columns = [
     title: '审核状态',
     dataIndex: 'taskAuditStatus',
     key: 'taskAuditStatus'
+  },
+  {
+    title: '审核员',
+    dataIndex: 'waiterName',
+    key: 'waiterName'
   },
   {
     title: '操作',
