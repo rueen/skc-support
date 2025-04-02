@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-27 16:08:33
+ * @LastEditTime: 2025-04-02 21:55:40
  * @Description: 
  */
 export default {
@@ -10,7 +10,8 @@ export default {
   taskCreate: '创建任务',
   taskEdit: '编辑任务',
   taskView: '查看任务',
-  taskSubmitted: '任务审核',
+  taskPreAudit: '任务初审',
+  taskConfirmAudit: '任务复审',
   taskSubmittedDetail: '任务审核详情',
   member: '会员管理',
   memberCreate: '创建会员',

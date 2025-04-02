@@ -96,10 +96,19 @@
         <div class="section-title">审核信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="提交时间">{{ submittedInfo.submitTime }}</a-descriptions-item>
-          <a-descriptions-item label="审核状态">
+          <a-descriptions-item label="初审状态">
+            {{ enumStore.getEnumText('TaskPreAuditStatus', submittedInfo.taskPreAuditStatus) }}
+          </a-descriptions-item>
+          <a-descriptions-item label="初审员">
+            {{ submittedInfo.preWaiterName }}
+          </a-descriptions-item>
+          <a-descriptions-item label="复审状态" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
             {{ enumStore.getEnumText('TaskAuditStatus', submittedInfo.taskAuditStatus) }}
           </a-descriptions-item>
-          <template v-if="submittedInfo.taskAuditStatus === 'rejected'">
+          <a-descriptions-item label="复审员" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
+            {{ submittedInfo.waiterName }}
+          </a-descriptions-item>
+          <template v-if="submittedInfo.auditStatus === 'rejected'">
             <a-descriptions-item label="拒绝原因">{{ submittedInfo.rejectReason }}</a-descriptions-item>
           </template>
         </a-descriptions>
@@ -108,7 +117,7 @@
       <!-- 底部按钮 -->
       <div class="footer-btns">
         <div class="left">
-          <a-space v-if="submittedInfo.taskAuditStatus === 'pending'">
+          <a-space v-if="submittedInfo.auditStatus === 'pending'">
             <a-button
               type="primary"
               @click="handleResolve"
@@ -149,7 +158,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
@@ -160,6 +169,10 @@ const enumStore = useEnumStore()
 
 const route = useRoute()
 const router = useRouter()
+const pageType = route.query.type
+const auditType = computed(() => {
+  return submittedInfo.value.taskPreAuditStatus === 'approved' ? 'confirm' : 'pre'
+})
 
 // 弹窗状态
 const rejectVisible = ref(false)
@@ -180,7 +193,8 @@ const memberInfo = reactive({})
 
 // 审核通过
 const handleResolve = async () => {
-  const res = await post('taskSubmitted.batchResolve', {
+  const url = auditType.value === 'confirm' ? 'taskSubmitted.batchConfirmAuditApprove' : 'taskSubmitted.batchPreAuditApprove'
+  const res = await post(url, {
     ids: [submittedId.value]
   })
   if(res.code === 0) {
@@ -205,7 +219,8 @@ const handleRejectConfirm = async () => {
   }
 
   rejectLoading.value = true
-  const res = await post('taskSubmitted.batchReject', {
+  const url = auditType.value === 'confirm' ? 'taskSubmitted.batchConfirmAuditReject' : 'taskSubmitted.batchPreAuditReject'
+  const res = await post(url, {
     ids: [submittedId.value],
     reason: rejectReason.value
   })
@@ -273,7 +288,9 @@ const getMemberDetail = async (memberId) => {
 // 获取详情
 const getDetail = async () => {
   try {
-    const res = await get('taskSubmitted.detail', {}, {
+    const res = await get('taskSubmitted.detail', {
+      auditType: pageType
+    }, {
       urlParams: {
         id: submittedId.value
       }

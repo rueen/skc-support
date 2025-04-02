@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-01 19:44:55
+ * @LastEditTime: 2025-04-02 21:24:22
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -17,11 +17,15 @@ const API_PATH = {
   },
   // 已提交任务相关接口
   taskSubmitted: {
-    list: '/submitted-tasks',
-    detail: '/submitted-tasks/:id',
-    batchResolve: '/submitted-tasks/batch-approve',
-    batchReject: '/submitted-tasks/batch-reject',
-    export: '/submitted-tasks/export',
+    preAuditList: '/submitted-tasks/pre-audit', // 初审列表
+    preAuditExport: '/submitted-tasks/pre-audit/export', // 初审导出
+    batchPreAuditApprove: '/submitted-tasks/pre-audit/batch-approve', // 批量初审通过
+    batchPreAuditReject: '/submitted-tasks/pre-audit/batch-reject', // 批量初审拒绝
+    confirmAuditList: '/submitted-tasks/confirm-audit', // 复审列表
+    confirmAuditExport: '/submitted-tasks/confirm-audit/export', // 复审导出
+    batchConfirmAuditApprove: '/submitted-tasks/confirm-audit/batch-approve', // 批量复审通过
+    batchConfirmAuditReject: '/submitted-tasks/confirm-audit/batch-reject', // 批量复审拒绝
+    detail: '/submitted-tasks/:id', // 任务详情
   },
   // 账号相关接口
   account: {

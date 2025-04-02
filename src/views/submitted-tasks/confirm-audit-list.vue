@@ -27,10 +27,10 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="审核状态">
+          <a-form-item label="复审状态">
             <a-select
               v-model:value="searchForm.taskAuditStatus"
-              placeholder="请选择审核状态"
+              placeholder="请选择复审状态"
               allow-clear
               style="width: 140px;"
             >
@@ -118,6 +118,12 @@
           </template>
           <template v-if="column.key === 'taskAuditStatus'">
             {{ enumStore.getEnumText('TaskAuditStatus', record.taskAuditStatus) }}
+          </template>
+          <template v-if="column.key === 'preWaiterName'">
+            {{ record.preWaiterName || '--' }}
+          </template>
+          <template v-if="column.key === 'waiterName'">
+            {{ record.waiterName || '--' }}
           </template>
           <template v-if="column.key === 'member'">
             <div>
@@ -248,8 +254,11 @@ const columns = [
     key: 'taskAuditStatus'
   },
   {
-    title: '审核员',
-    dataIndex: 'waiterName',
+    title: '初审员',
+    key: 'preWaiterName'
+  },
+  {
+    title: '复审员',
     key: 'waiterName'
   },
   {
@@ -307,20 +316,13 @@ const handleTableChange = (pag) => {
 
 // 查看详情
 const handleView = (record) => {
-  router.push(`/submitted-tasks/detail/${record.id}`)
+  router.push(`/submitted-tasks/detail/${record.id}?type=confirm`)
 }
 
 // 审核通过
 const handleResolve = async (record) => {
-  const res = await post('taskSubmitted.batchResolve', {
-    ids: [record.id]
-  })
-  if(res.code === 0) {
-    message.success('审核通过成功')
-    loadData()
-  } else {
-    message.error(res.message)
-  }
+  selectedRowKeys.value = [record.id]
+  handleBatchResolve()
 }
 
 // 批量审核通过
@@ -329,7 +331,7 @@ const handleBatchResolve = async () => {
     message.warning('请选择要通过的任务')
     return
   }
-  const res = await post('taskSubmitted.batchResolve', {
+  const res = await post('taskSubmitted.batchConfirmAuditApprove', {
     ids: selectedRowKeys.value
   })
   if(res.code === 0) {
@@ -356,7 +358,7 @@ const handleRejectConfirm = async () => {
   }
 
   rejectLoading.value = true
-  const res = await post('taskSubmitted.batchReject', {
+  const res = await post('taskSubmitted.batchConfirmAuditReject', {
     ids: selectedRowKeys.value,
     reason: rejectReason.value
   })
@@ -402,7 +404,7 @@ const handleExport = () => {
         }
         
         // 调用下载API
-        await downloadByApi('taskSubmitted.export', params, `已提交任务列表_${new Date().toLocaleDateString()}.xlsx`)
+        await downloadByApi('taskSubmitted.confirmAuditExport', params, `复审列表_${new Date().toLocaleDateString()}.xlsx`)
         
         // 关闭加载提示
         loadingMessage()
@@ -450,7 +452,7 @@ const loadData = async () => {
       submitEndTime: searchForm.submitTimeRange?.[1],
       completedTaskCount: searchForm.completedTaskCount
     }
-    const res = await get('taskSubmitted.list', {
+    const res = await get('taskSubmitted.confirmAuditList', {
       ...params
     })
     if(res.code === 0) {
