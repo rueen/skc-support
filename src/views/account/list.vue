@@ -62,6 +62,25 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item label="会员">
+              <a-select
+                v-model:value="searchForm.memberId"
+                placeholder="请选择会员"
+                style="width: 120px"
+                allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadMemberOptions"
+              >
+                <a-select-option
+                  v-for="item in memberOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.nickname }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">查询</a-button>
@@ -198,14 +217,16 @@ const searchForm = reactive({
   account: '',
   channelId: undefined,
   accountAuditStatus: 'pending',
-  groupId: undefined
+  groupId: undefined,
+  memberId: undefined
 })
 
 // 渠道选项
 const channelOptions = ref([])
-
 // 群组选项
 const groupOptions = ref([])
+// 会员选项
+const memberOptions = ref([])
 
 // 表格列配置
 const columns = [
@@ -278,6 +299,7 @@ const handleReset = () => {
   searchForm.channelId = undefined
   searchForm.accountAuditStatus = undefined
   searchForm.groupId = undefined
+  searchForm.memberId = undefined
   handleSearch()
 }
 
@@ -410,6 +432,16 @@ const loadGroupOptions = async (keyword = '') => {
   }
 }
 
+const loadMemberOptions = async (keyword = '') => {
+  const res = await get('member.list', {
+    page: 1,
+    pageSize: 50,
+    memberNickname: keyword
+  })
+  if(res.code === 0){
+    memberOptions.value = res.data.list || []
+  }
+}
 // 复制链接
 const handleCopy = (url) => {
   navigator.clipboard.writeText(url).then(() => {
@@ -424,6 +456,7 @@ onMounted(() => {
   loadData()
   loadGroupOptions()
   loadChannelOptions()
+  loadMemberOptions()
 })
 </script>
 

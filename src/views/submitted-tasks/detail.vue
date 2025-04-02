@@ -6,30 +6,35 @@
     />
     <div class="detail-container">
       <!-- 任务信息 -->
-      <div class="detail-section">
-        <div class="section-title">任务信息</div>
-        <a-descriptions :column="2">
-          <a-descriptions-item label="任务名称">{{ taskInfo.taskName }}</a-descriptions-item>
-          <a-descriptions-item label="平台渠道">{{ taskInfo.channelName }}</a-descriptions-item>
-          <a-descriptions-item label="达人领域">{{ taskInfo.category }}</a-descriptions-item>
-          <a-descriptions-item label="任务类型">{{ enumStore.getEnumText('TaskType', taskInfo.taskType) }}</a-descriptions-item>
-          <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
-          <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
-          <a-descriptions-item label="指定群组">
-            <span v-if="taskInfo.groupMode === 0">不指定</span>
-            <span v-else>{{ taskInfo.groupNames?.join('、') }}</span>
-          </a-descriptions-item>
-          <a-descriptions-item label="任务时间">
-            {{ taskInfo.startTime }} 至 {{ taskInfo.endTime }}
-          </a-descriptions-item>
-          <a-descriptions-item label="任务名额">
-            {{ taskInfo.unlimitedQuota ? '不限制' : taskInfo.quota }}
-          </a-descriptions-item>
-          <a-descriptions-item label="粉丝要求">{{ taskInfo.fansRequired }} 粉丝</a-descriptions-item>
-          <a-descriptions-item label="作品要求">{{ taskInfo.contentRequirement }}</a-descriptions-item>
-          <a-descriptions-item label="任务信息">{{ taskInfo.taskInfo }}</a-descriptions-item>
-        </a-descriptions>
-      </div>
+      <a-collapse ghost class="collapse">
+        <a-collapse-panel header="任务信息">
+          <a-descriptions :column="2">
+            <a-descriptions-item label="任务名称">
+              <a-space>
+                <a-avatar :src="taskInfo.channelIcon" size="small" />
+                <span>{{ taskInfo.taskName }}</span>
+              </a-space>
+            </a-descriptions-item>
+            <a-descriptions-item label="达人领域">{{ taskInfo.category }}</a-descriptions-item>
+            <a-descriptions-item label="任务类型">{{ enumStore.getEnumText('TaskType', taskInfo.taskType) }}</a-descriptions-item>
+            <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
+            <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
+            <a-descriptions-item label="指定群组">
+              <span v-if="taskInfo.groupMode === 0">不指定</span>
+              <span v-else>{{ taskInfo.groupNames?.join('、') }}</span>
+            </a-descriptions-item>
+            <a-descriptions-item label="任务时间">
+              {{ taskInfo.startTime }} 至 {{ taskInfo.endTime }}
+            </a-descriptions-item>
+            <a-descriptions-item label="任务名额">
+              {{ taskInfo.unlimitedQuota ? '不限制' : taskInfo.quota }}
+            </a-descriptions-item>
+            <a-descriptions-item label="粉丝要求">{{ taskInfo.fansRequired }} 粉丝</a-descriptions-item>
+            <a-descriptions-item label="作品要求">{{ taskInfo.contentRequirement }}</a-descriptions-item>
+            <a-descriptions-item label="任务信息">{{ taskInfo.taskInfo }}</a-descriptions-item>
+          </a-descriptions>
+        </a-collapse-panel>
+      </a-collapse>
 
       <!-- 会员信息 -->
       <div class="detail-section">
@@ -47,6 +52,28 @@
             <span v-if="!memberInfo.groups || memberInfo.groups.length === 0">--</span>
           </a-descriptions-item>
         </a-descriptions>
+        <div v-for="account in accountList" :key="account.channelId">
+          <a-descriptions :column="2">
+            <a-descriptions-item label="账号">
+              <a-space>
+                <a-avatar :src="account.channelIcon" size="small" />
+                <span>{{ account.account }}</span>
+                <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', account.accountAuditStatus) }}</a-tag>
+              </a-space>
+            </a-descriptions-item>
+            <a-descriptions-item label="主页">
+              <div class="link-text-container">
+                <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
+                <a-button type="link" size="small" @click="handleCopy(account.homeUrl)">
+                  复制
+                </a-button>
+              </div>
+            </a-descriptions-item>
+            <a-descriptions-item label="粉丝数" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
+            <a-descriptions-item label="好友数" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
+            <a-descriptions-item label="发帖数" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
+          </a-descriptions>
+        </div>
       </div>
 
       <!-- 提交信息 -->
@@ -260,20 +287,50 @@ const getDetail = async () => {
       if(res.data.memberId != null) {
         await getMemberDetail(res.data.memberId)
       }
+      if(res.data.taskId != null && res.data.memberId != null){
+        await getAccountList()
+      }
     }
   } catch (error) {
     message.error('获取详情失败')
   }
 }
 
-onMounted(() => {
+// 获取账号列表
+const accountList = ref([])
+const getAccountList = async () => {
+  const res = await get('account.list', {
+    taskId: submittedInfo.taskId,
+    memberId: submittedInfo.memberId,
+    channelId: taskInfo.channelId
+  })
+  if(res.code === 0){
+    accountList.value = res.data.list || []
+  }
+}
+
+onMounted(async () => {
   submittedId.value = route.params.id
-  getDetail()
+  await getDetail()
 })
 </script>
 
 <style lang="less" scoped>
 .task-audit-detail {
+  .collapse{
+    :deep(.ant-collapse-header) {
+      padding: 16px 0;
+      .ant-collapse-header-text {
+        font-size: 16px;
+        font-weight: 500;
+        text-align: left;
+      }
+    }
+    :deep(.ant-collapse-content-box) {
+      padding: 0;
+    }
+  }
+
   .detail-container {
     padding: 24px;
     background-color: #fff;
