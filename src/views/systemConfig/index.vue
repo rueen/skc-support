@@ -56,6 +56,20 @@
           />
           <div class="form-item-desc">设置每成功邀请一位新会员的奖励金额</div>
         </a-form-item>
+
+        <!-- 提现门槛 -->
+        <a-form-item label="提现门槛" name="withdrawalThreshold">
+          <a-input-number
+            v-model:value="formState.withdrawal_threshold"
+            :min="0"
+            :max="99999"
+            :step="1"
+            addonBefore="¥"
+            placeholder="请输入提现门槛"
+            :disabled="formDisabled"
+          />
+          <div class="form-item-desc">设置用户提现的最低门槛</div>
+        </a-form-item>
         
         <!-- 按钮区域 -->
         <a-form-item :wrapper-col="{ span: 12, offset: 6 }">
@@ -106,6 +120,10 @@ const rules = {
   invite_reward_amount: [
     { required: true, message: '请输入邀请奖励金额', trigger: 'blur' },
     { type: 'number', min: 0, max: 1000, message: '奖励金额必须在 0-1000 之间', trigger: 'blur' }
+  ],
+  withdrawal_threshold: [
+    { required: true, message: '请输入提现门槛', trigger: 'blur' },
+    { type: 'number', min: 0, max: 99999, message: '提现门槛必须在 0-99999 之间', trigger: 'blur' }
   ]
 }
 
@@ -123,7 +141,8 @@ const fetchSystemConfig = async () => {
       Object.assign(formState, {
         max_group_members: json.max_group_members.config_value, // 最大群成员数
         group_owner_commission_rate: json.group_owner_commission_rate.config_value, // 群主收益率
-        invite_reward_amount: json.invite_reward_amount.config_value // 邀请奖励金额
+        invite_reward_amount: json.invite_reward_amount.config_value, // 邀请奖励金额
+        withdrawal_threshold: json.withdrawal_threshold.config_value // 提现门槛
       })
     }
   } catch (error) {

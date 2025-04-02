@@ -300,6 +300,7 @@ const handleRejectConfirm = async () => {
     rejectReason: rejectReason.value,
     ids: selectedKeys.value
   })
+  failedLoading.value = false
   if(res.code === 0) {
     message.success('操作成功')
     failedVisible.value = false
