@@ -65,7 +65,7 @@
         :loading="loading"
         :pagination="pagination"
         rowKey="id"
-        :row-selection="{ selectedRowKeys: selectedKeys, onChange: onSelectChange }"
+        :row-selection="rowSelection"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
@@ -73,7 +73,7 @@
             {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}
           </template>
           <template v-if="column.key === 'action'">
-            <a-space>
+            <a-space v-if="record.withdrawalStatus === 'pending'">
               <a-popconfirm
                 title="确定要标记为已打款吗？"
                 @confirm="handleResolve(record)"
@@ -125,7 +125,6 @@ const withdrawalStatusOptions = computed(() => {
 })
 
 const loading = ref(false)
-const selectedKeys = ref([])
 const failedVisible = ref(false)
 const failedLoading = ref(false)
 const rejectReason = ref('')
@@ -180,6 +179,17 @@ const columns = [
     width: 150
   }
 ]
+const selectedRowKeys = ref([])
+// 表格选择配置
+const rowSelection = {
+  selectedRowKeys,
+  onChange: (keys) => {
+    selectedRowKeys.value = keys
+  },
+  getCheckboxProps: (record) => ({
+    disabled: record.withdrawalStatus !== 'pending'
+  })
+}
 
 // 表格数据
 const tableData = ref([])
@@ -210,11 +220,6 @@ const handleReset = () => {
 const handleTableChange = (pag) => {
   Object.assign(pagination, pag)
   loadData()
-}
-
-// 选择行变化
-const onSelectChange = (keys) => {
-  selectedKeys.value = keys
 }
 
 // 导出
@@ -249,22 +254,22 @@ const handleExport = () => {
 
 // 标记已打款
 const handleResolve = async (record) => {
-  selectedKeys.value = [record.id]
+  selectedRowKeys.value = [record.id]
   handleBatchResolve()
 }
 
 // 批量标记已打款
 const handleBatchResolve = async () => {
-  if (!selectedKeys.value.length) {
+  if (!selectedRowKeys.value.length) {
     message.warning('请选择要操作的记录')
     return
   }
   const res = await post('withdrawals.batchResolve', {
-    ids: selectedKeys.value
+    ids: selectedRowKeys.value
   })
   if(res.code === 0) {
     message.success('操作成功')
-    selectedKeys.value = []
+    selectedRowKeys.value = []
     loadData()
   } else {
     message.error(res.message)
@@ -273,14 +278,14 @@ const handleBatchResolve = async () => {
 
 // 打款失败
 const handleReject = (record) => {
-  selectedKeys.value = [record.id]
+  selectedRowKeys.value = [record.id]
   rejectReason.value = ''
   failedVisible.value = true
 }
 
 // 批量打款失败
 const handleBatchReject = () => {
-  if (!selectedKeys.value.length) {
+  if (!selectedRowKeys.value.length) {
     message.warning('请选择要操作的记录')
     return
   }
@@ -298,13 +303,13 @@ const handleRejectConfirm = async () => {
   failedLoading.value = true
   const res = await post('withdrawals.batchReject', {
     rejectReason: rejectReason.value,
-    ids: selectedKeys.value
+    ids: selectedRowKeys.value
   })
   failedLoading.value = false
   if(res.code === 0) {
     message.success('操作成功')
     failedVisible.value = false
-    selectedKeys.value = []
+    selectedRowKeys.value = []
     loadData()
   } else {
     message.error(res.message)
