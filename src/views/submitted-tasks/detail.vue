@@ -171,7 +171,7 @@ const route = useRoute()
 const router = useRouter()
 const pageType = route.query.type
 const auditType = computed(() => {
-  return submittedInfo.value.taskPreAuditStatus === 'approved' ? 'confirm' : 'pre'
+  return submittedInfo.taskPreAuditStatus === 'approved' ? 'confirm' : 'pre'
 })
 
 // 弹窗状态
@@ -236,7 +236,7 @@ const handleRejectConfirm = async () => {
 // 上一个
 const handlePrev = () => {
   // TODO: 实现上一个逻辑
-  router.push(`/submitted-tasks/detail/${submittedInfo.prevTaskId}`)
+  router.push(`/submitted-tasks/detail/${submittedInfo.prevTaskId}?type=${pageType}`)
   submittedId.value = submittedInfo.prevTaskId
   getDetail()
 }
@@ -244,7 +244,7 @@ const handlePrev = () => {
 // 下一个
 const handleNext = () => {
   // TODO: 实现下一个逻辑
-  router.push(`/submitted-tasks/detail/${submittedInfo.nextTaskId}`)
+  router.push(`/submitted-tasks/detail/${submittedInfo.nextTaskId}?type=${pageType}`)
   submittedId.value = submittedInfo.nextTaskId
   getDetail()
 }
