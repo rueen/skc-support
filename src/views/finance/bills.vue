@@ -80,7 +80,8 @@
             <span v-else>{{ record.amount }}</span>
           </template>
           <template v-if="column.key === 'remark'">
-            <span>{{ record.remark || '--' }}</span>
+            <span v-if="record.remark">{{ record.remark }}(操作人: {{ record.waiterName }})</span>
+            <span v-else>--</span>
           </template>
           <template v-if="column.key === 'settlementStatus'">
             <span v-if="record.billType === 'withdrawal'">{{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}</span>
