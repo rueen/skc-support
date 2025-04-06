@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-06 15:41:34
+ * @LastEditTime: 2025-04-06 17:15:19
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -40,6 +40,7 @@ const API_PATH = {
     edit: '/members/:id',
     delete: '/members/:id',
     detail: '/members/:id',
+    balance: '/members/:memberId/balance',
     taskStats: '/members/:memberId/task/stats',
     inviteStats: '/members/:memberId/invite/stats',
     groupsStats: '/members/:memberId/groups/stats',

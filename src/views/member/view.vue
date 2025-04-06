@@ -230,10 +230,10 @@ const handleCopy = (text) => {
 }
 
 // 获取会员详情
-const getMemberDetail = async (id) => {
+const getMemberDetail = async () => {
   const res = await get('member.detail', {}, {
     urlParams: {
-      id: route.params.id
+      id: memberId.value
     }
   })
   if(res.code === 0){
@@ -241,10 +241,22 @@ const getMemberDetail = async (id) => {
   }
 }
 
+// 获取会员余额
+const getMemberBalance = async () => {
+  const res = await get('member.balance', {}, {
+    urlParams: {
+      memberId: memberId.value
+    }
+  })
+  if(res.code === 0){
+    memberInfo.balance = res.data.balance
+  }
+}
+
 // 获取账号列表
-const getAccountList = async (id) => {
+const getAccountList = async () => {
   const res = await get('account.list', {
-    memberId: id
+    memberId: memberId.value
   })
   if(res.code === 0){
     accountList.value = res.data.list || []
@@ -252,10 +264,10 @@ const getAccountList = async (id) => {
 }
 
 // 获取任务信息
-const getTaskStats = async (id) => {
+const getTaskStats = async () => {
   const res = await get('member.taskStats', {}, {
     urlParams: {
-      memberId: id  
+      memberId: memberId.value
     }
   })
   if(res.code === 0){
@@ -263,10 +275,10 @@ const getTaskStats = async (id) => {
   }
 }
 // 获取邀请信息
-const getInviteInfo = async (id) => {
+const getInviteInfo = async () => {
   const res = await get('member.inviteStats', {}, {
     urlParams: {
-      memberId: id  
+      memberId: memberId.value
     }
   })
   if(res.code === 0){
@@ -275,10 +287,10 @@ const getInviteInfo = async (id) => {
 }
 
 // 获取群组信息
-const getGroupsStats = async (id) => {
+const getGroupsStats = async () => {
   const res = await get('member.groupsStats', {}, {
     urlParams: {
-      memberId: id  
+      memberId: memberId.value
     }
   })
   if(res.code === 0){
@@ -301,39 +313,51 @@ const handleDeduct = () => {
 // 奖励发放
 const handleGrantReward = async () => {
   rewardLoading.value = true
-  const res = await post('member.grantReward', {
-    memberId: memberId.value,
-    amount: rewardForm.amount,
-    remark: rewardForm.remark
-  })
-  if(res.code === 0){
-    message.success('奖励发放成功')
-    rewardVisible.value = false
-  } else {
-    message.error(res.message)
+  try {
+    const res = await post('member.grantReward', {
+      memberId: memberId.value,
+      amount: rewardForm.amount,
+      remark: rewardForm.remark
+    })
+    if(res.code === 0){
+      message.success('奖励发放成功')
+      rewardVisible.value = false;
+      getMemberBalance()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error('奖励发放失败')
+  } finally {
+    rewardLoading.value = false
   }
-  rewardLoading.value = false
 }
 
 // 奖励扣除
 const handleDeductReward = async () => {
   rewardLoading.value = true
-  const res = await post('member.deductReward', {
-    memberId: memberId.value,
-    amount: rewardForm.amount,
-    remark: rewardForm.remark
-  }, {
-    urlParams: {
-      memberId: memberId.value
+  try {
+    const res = await post('member.deductReward', {
+      memberId: memberId.value,
+      amount: rewardForm.amount,
+      remark: rewardForm.remark
+    }, {
+      urlParams: {
+        memberId: memberId.value
+      }
+    })
+    if(res.code === 0){
+      message.success('奖励扣除成功')
+      rewardVisible.value = false
+      getMemberBalance()
+    } else {
+      message.error(res.message)
     }
-  })
-  if(res.code === 0){
-    message.success('奖励扣除成功')
-    rewardVisible.value = false
-  } else {
-    message.error(res.message)
+  } catch (error) {
+    message.error('奖励扣除失败')
+  } finally {
+    rewardLoading.value = false
   }
-  rewardLoading.value = false
 }
 
 // 奖励发放确认
@@ -350,11 +374,12 @@ const handleRewardConfirm = async () => {
 }
 onMounted(() => {
   memberId.value = route.params.id
-  getMemberDetail(route.params.id)
-  getAccountList(route.params.id)
-  getTaskStats(route.params.id)
-  getInviteInfo(route.params.id)
-  getGroupsStats(route.params.id)
+  getMemberDetail()
+  getMemberBalance()
+  getAccountList()
+  getTaskStats()
+  getInviteInfo()
+  getGroupsStats()
 })
 </script>
 
