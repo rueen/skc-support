@@ -53,7 +53,15 @@
             </a-button>
           </a-descriptions-item>
           <a-descriptions-item label="账户余额">
-            <span>{{ memberInfo.balance }}</span>
+            <a-space>
+              <span>{{ memberInfo.balance }}</span>
+              <a-button type="link" size="small" @click="handleReward()">
+                奖励发放
+              </a-button>
+              <a-button type="link" size="small" @click="handleDeduct()">
+                奖励扣除
+              </a-button>
+            </a-space>
           </a-descriptions-item>
         </a-descriptions>
       </div>
@@ -146,6 +154,28 @@
       </div>
 
     </div>
+    <!-- 奖励发放弹窗 -->
+    <a-modal
+      v-model:open="rewardVisible"
+      :title="rewardType === 'grant' ? '奖励发放' : '奖励扣除'"
+      @ok="handleRewardConfirm"
+      :confirmLoading="rewardLoading"
+    > 
+      <a-form
+        ref="rewardFormRef"
+        :model="rewardForm"
+        :rules="rewardRules"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        <a-form-item :label="rewardType === 'grant' ? '奖励金额' : '扣除金额'" name="amount">
+          <a-input v-model:value="rewardForm.amount" />
+        </a-form-item>
+        <a-form-item label="备注" name="remark">
+          <a-textarea v-model:value="rewardForm.remark" :rows="4" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -154,7 +184,7 @@ import { ref, onMounted, reactive, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader/index.vue'
-import { get } from '@/utils/request'
+import { get, post } from '@/utils/request'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { useEnumStore } from '@/stores'
 import config from '@/config/env'
@@ -162,6 +192,7 @@ const enumStore = useEnumStore()
 const route = useRoute()
 
 // 会员信息
+const memberId = ref('')
 const memberInfo = reactive({})
 const accountList = ref([])
 const inviteUrl = computed(() => {
@@ -174,6 +205,20 @@ const taskStats = reactive({})
 const inviteStats = reactive({})
 // 群组信息
 const groupsStats = reactive({})
+
+// 奖励发放弹窗
+const rewardFormRef = ref()
+const rewardVisible = ref(false)
+const rewardType = ref('grant')
+const rewardForm = reactive({
+  amount: '',
+  remark: ''
+})
+const rewardLoading = ref(false)
+const rewardRules = ref({
+  amount: [{ required: true, message: '请输入奖励金额' }],
+  remark: [{ required: true, message: '请输入备注' }]
+})
 
 // 复制文本
 const handleCopy = (text) => {
@@ -241,7 +286,70 @@ const getGroupsStats = async (id) => {
   }
 }
 
+// 奖励发放
+const handleReward = () => {
+  rewardVisible.value = true
+  rewardType.value = 'grant'
+}
+
+// 奖励扣除
+const handleDeduct = () => {
+  rewardVisible.value = true
+  rewardType.value = 'deduct'
+}
+
+// 奖励发放
+const handleGrantReward = async () => {
+  rewardLoading.value = true
+  const res = await post('member.grantReward', {
+    memberId: memberId.value,
+    amount: rewardForm.amount,
+    remark: rewardForm.remark
+  })
+  if(res.code === 0){
+    message.success('奖励发放成功')
+    rewardVisible.value = false
+  } else {
+    message.error(res.message)
+  }
+  rewardLoading.value = false
+}
+
+// 奖励扣除
+const handleDeductReward = async () => {
+  rewardLoading.value = true
+  const res = await post('member.deductReward', {
+    memberId: memberId.value,
+    amount: rewardForm.amount,
+    remark: rewardForm.remark
+  }, {
+    urlParams: {
+      memberId: memberId.value
+    }
+  })
+  if(res.code === 0){
+    message.success('奖励扣除成功')
+    rewardVisible.value = false
+  } else {
+    message.error(res.message)
+  }
+  rewardLoading.value = false
+}
+
+// 奖励发放确认
+const handleRewardConfirm = async () => {
+  await rewardFormRef.value.validate()
+  switch(rewardType.value){
+    case 'grant':
+      handleGrantReward()
+      break
+    case 'deduct':
+      handleDeductReward()
+      break
+  }
+}
 onMounted(() => {
+  memberId.value = route.params.id
   getMemberDetail(route.params.id)
   getAccountList(route.params.id)
   getTaskStats(route.params.id)

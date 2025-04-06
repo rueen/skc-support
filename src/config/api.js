@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-02 21:24:22
+ * @LastEditTime: 2025-04-06 15:41:34
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -43,6 +43,8 @@ const API_PATH = {
     taskStats: '/members/:memberId/task/stats',
     inviteStats: '/members/:memberId/invite/stats',
     groupsStats: '/members/:memberId/groups/stats',
+    grantReward: '/members/grant-reward', // POST 奖励发放  
+    deductReward: '/members/deduct-reward', // POST 奖励扣除
   },
   // 渠道管理相关接口
   channel: {

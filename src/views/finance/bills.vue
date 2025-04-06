@@ -69,11 +69,18 @@
             <a @click="handleMemberDetail(record)">{{ record.memberNickname }}</a>
           </template>
           <template v-if="column.key === 'taskName'">
-            <span v-if="record.billType === 'withdrawal'">--</span>
-            <a @click="handleTaskDetail(record)" v-else>{{ record.taskName }}</a>
+            <a @click="handleTaskDetail(record)" v-if="record.taskName">{{ record.taskName }}</a>
+            <span v-else>--</span>
           </template>
           <template v-if="column.key === 'billType'">
             {{ enumStore.getEnumText('BillType', record.billType) }}
+          </template>
+          <template v-if="column.key === 'amount'">
+            <a-typography-text type="danger" v-if="record.billType === 'reward_deduction'"> - {{ record.amount }}</a-typography-text>
+            <span v-else>{{ record.amount }}</span>
+          </template>
+          <template v-if="column.key === 'remark'">
+            <span>{{ record.remark || '--' }}</span>
           </template>
           <template v-if="column.key === 'settlementStatus'">
             <span v-if="record.billType === 'withdrawal'">{{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}</span>
@@ -159,6 +166,10 @@ const columns = [
     dataIndex: 'amount',
     key: 'amount',
     align: 'right'
+  },
+  {
+    title: '备注',
+    key: 'remark'
   },
   {
     title: '创建时间',
