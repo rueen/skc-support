@@ -6,8 +6,8 @@
           <a-form layout="inline" :model="searchForm">
             <a-form-item label="账号">
               <a-input
-                v-model:value="searchForm.account"
-                placeholder="请输入账号"
+                v-model:value="searchForm.keyword"
+                placeholder="请输入账号 / uid"
                 allow-clear
               />
             </a-form-item>
@@ -218,7 +218,7 @@ const rejectReason = ref('')
 
 // 搜索表单
 const searchForm = reactive({
-  account: '',
+  keyword: '',
   channelId: undefined,
   accountAuditStatus: 'pending',
   groupId: undefined,
@@ -299,7 +299,7 @@ const handleSearch = () => {
 
 // 重置
 const handleReset = () => {
-  searchForm.account = ''
+  searchForm.keyword = ''
   searchForm.channelId = undefined
   searchForm.accountAuditStatus = undefined
   searchForm.groupId = undefined
