@@ -74,8 +74,14 @@ export const useUserStore = defineStore('user', {
         return true; // 超级管理员权限
       }
       
-      if (Array.isArray(requiredPermissions)) {
-        return requiredPermissions.some(permission => this.permissions.includes(permission));
+      // 处理逗号分隔的权限字符串
+      const permissionsArray = typeof requiredPermissions === 'string'
+        ? requiredPermissions.split(',')
+        : requiredPermissions;
+      
+      if (Array.isArray(permissionsArray)) {
+        // 只要有一个权限匹配即可
+        return permissionsArray.some(permission => this.permissions.includes(permission));
       }
       
       return this.permissions.includes(requiredPermissions);

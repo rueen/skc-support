@@ -20,6 +20,7 @@ export default {
   group: 'Group Management',
   waiter: 'Waiter Management',
   article: 'Article Management',
+  finance: 'Financial Management',
   withdrawal: 'Withdrawal',
   bills: 'Bills',
   channel: 'Channel Management',

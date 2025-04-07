@@ -59,18 +59,25 @@ const allMenu = [
     permissions: 'group:list',
   },
   {
-    path: '/withdrawal',
-    key: 'withdrawal',
+    path: '/finance',
+    key: 'finance',
     icon: 'pay-circle-outlined',
-    title: 'withdrawal',
-    permissions: 'finance:withdrawal',
-  },
-  {
-    path: '/bills',
-    key: 'bills',
-    icon: 'pay-circle-outlined',
-    title: 'bills',
-    permissions: 'finance:bills',
+    title: 'finance',
+    permissions: 'finance:withdrawal,finance:bills',
+    children: [
+      {
+        path: '/withdrawal',
+        key: 'withdrawal',
+        title: 'withdrawal',
+        permissions: 'finance:withdrawal',
+      },
+      {
+        path: '/bills',
+        key: 'bills',
+        title: 'bills',
+        permissions: 'finance:bills',
+      },
+    ]
   },
   {
     path: '/waiter',

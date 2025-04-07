@@ -20,6 +20,7 @@ export default {
   group: '群组管理',
   waiter: '小二管理',
   article: '文章管理',
+  finance: '资金管理',
   withdrawal: '提现管理',
   bills: '结算账单',
   channel: '渠道管理',

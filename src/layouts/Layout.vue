@@ -15,13 +15,29 @@
         theme="dark"
         mode="inline"
       >
-        <a-menu-item v-for="item in menuList" :key="item.key">
-          <template #icon>
-            <component :is="getIconComponent(item.icon)" />
-          </template>
-          <span>{{ $t('menu.' + item.title) }}</span>
-          <router-link :to="item.path" />
-        </a-menu-item>
+        <template v-for="item in menuList" :key="item.key">
+          <!-- 含有子菜单的菜单项 -->
+          <a-sub-menu v-if="item.children && item.children.length > 0" :key="item.key">
+            <template #icon>
+              <component :is="getIconComponent(item.icon)" />
+            </template>
+            <template #title>{{ $t('menu.' + item.title) }}</template>
+            
+            <a-menu-item v-for="child in item.children" :key="child.key">
+              <span>{{ $t('menu.' + child.title) }}</span>
+              <router-link :to="child.path" />
+            </a-menu-item>
+          </a-sub-menu>
+          
+          <!-- 没有子菜单的菜单项 -->
+          <a-menu-item v-else :key="item.key">
+            <template #icon>
+              <component :is="getIconComponent(item.icon)" />
+            </template>
+            <span>{{ $t('menu.' + item.title) }}</span>
+            <router-link :to="item.path" />
+          </a-menu-item>
+        </template>
       </a-menu>
     </a-layout-sider>
     
@@ -135,8 +151,28 @@ const currentLang = ref(locale.value)
 // 根据当前路由设置选中的菜单项
 const selectedKeys = computed(() => {
   const path = route.path
-  // 修改为返回一级路径作为 key
-  return [path.split('/')[1] || 'task-audit']
+  const pathSegments = path.split('/').filter(Boolean)
+  
+  // 没有路径片段时返回默认值
+  if (!pathSegments.length) return ['task']
+  
+  // 获取当前路径
+  const currentPath = '/' + pathSegments[0]
+  
+  // 遍历菜单查找匹配项
+  for (const item of menuList.value) {
+    // 如果是子菜单，检查子菜单的路径
+    if (item.children && item.children.length) {
+      for (const child of item.children) {
+        if (child.path === path || child.path === currentPath) {
+          return [child.key]
+        }
+      }
+    }
+  }
+  
+  // 默认返回一级路径
+  return [pathSegments[0]]
 })
 
 const handleLogout = async () => {
