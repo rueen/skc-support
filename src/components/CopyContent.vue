@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <slot>
-      <span>{{ content }}</span>
-    </slot>
-    <CopyOutlined @click="handleCopy" />
+  <div style="display: inline-block;">
+    <a-space>
+      <slot>
+        <span>{{ content }}</span>
+      </slot>
+      <CopyOutlined @click="handleCopy" />
+    </a-space>
   </div>
 </template>
 
