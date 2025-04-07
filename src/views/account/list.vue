@@ -115,13 +115,17 @@
           </template>
           <template v-if="column.key === 'accountInfo'">
             <div class="account-info">
-              <div class="home-url">
+              <div>
                 <div class="link-text-container">
                   <span class="label">主页：</span>
                   <CopyContent :content="record.homeUrl">
                     <a :href="record.homeUrl" target="_blank" class="link-text">{{ record.homeUrl }}</a>
                   </CopyContent>
                 </div>
+              </div>
+              <div>
+                <span class="label">uid：</span>
+                <CopyContent :content="record.uid" />
               </div>
               <div class="stats">
                 <div class="stat-item" v-if="record.channelCustomFields.includes('fansCount')">粉丝数：{{ record.fansCount }}</div>
@@ -474,16 +478,6 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
-    .home-url {
-      display: flex;
-      align-items: center;
-      
-      .label {
-        white-space: nowrap;
-        margin-right: 4px;
-      }
-    }
 
     .stats {
       display: flex;
