@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-07 11:48:38
+ * @LastEditTime: 2025-04-07 17:00:06
  * @Description: FB老账号管理
 -->
 
@@ -57,7 +57,11 @@
               name="file"
               :multiple="false"
               :showUploadList="false"
+              :action="uploadConfig.action"
+              :headers="uploadConfig.headers"
               :beforeUpload="beforeUpload"
+              @success="handleUploadSuccess"
+              @error="handleUploadError"
               accept=".xlsx,.xls"
             >
               <a-button>
@@ -142,9 +146,18 @@ import { PlusOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { get, post, put, del } from '@/utils/request'
 import CopyContent from '@/components/CopyContent.vue'
 import PageHeader from '@/components/PageHeader.vue'
+import config from '@/config/env'
 
 const loading = ref(false)
 const formRef = ref(null)
+
+// 上传配置
+const uploadConfig = {
+  action: `${config.businessApiUrl}/old-accounts-fb/import`,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  }
+}
 
 // 搜索表单
 const searchForm = reactive({
@@ -316,34 +329,34 @@ const beforeUpload = (file) => {
                   file.type === 'application/vnd.ms-excel'
   if (!isExcel) {
     message.error('请上传Excel文件(.xlsx或.xls)')
-    return Upload.LIST_IGNORE
+    return false
   }
   
-  handleImport(file)
-  return false
+  // 提示用户Excel文件要求
+  const key = 'importTip'
+  message.loading({ content: '正在上传和处理Excel文件...', key })
+
+  return true
 }
 
-// 导入账号
-const handleImport = async (file) => {
-  const formData = new FormData()
-  formData.append('file', file)
-  
-  try {
-    const res = await post('oldAccount.import', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    
-    if (res.code === 0) {
-      message.success(`导入成功，共导入${res.data.count}条数据`)
-      loadData()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('导入失败')
+// 上传成功
+const handleUploadSuccess = (res) => {
+  message.destroy('importTip')
+  if (res.code === 0) {
+    // 兼容新老接口格式
+    const data = res.data || {}
+    message.success(`导入成功：${res.message || `总计${data.total || 0}条数据，成功导入${data.imported || 0}条，跳过${data.skipped || 0}条`}`)
+    loadData()
+  } else {
+    message.error(res.message || '导入失败')
   }
+}
+
+// 上传失败
+const handleUploadError = (error) => {
+  console.log(error)
+  message.destroy('importTip')
+  message.error('上传失败')
 }
 
 // 搜索

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-07 11:21:09
+ * @LastEditTime: 2025-04-07 17:00:44
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -36,7 +36,6 @@ const API_PATH = {
   // 老账号相关接口
   oldAccount: {
     list: '/old-accounts-fb',
-    import: '/old-accounts-fb/import',
     add: '/old-accounts-fb',
     edit: '/old-accounts-fb/:id',
     delete: '/old-accounts-fb/:id',
