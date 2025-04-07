@@ -183,7 +183,7 @@
 import { ref, onMounted, reactive, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
-import PageHeader from '@/components/PageHeader/index.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import { get, post } from '@/utils/request'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { useEnumStore } from '@/stores'

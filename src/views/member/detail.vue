@@ -94,7 +94,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import PageHeader from '@/components/PageHeader/index.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import { get, post, put } from '@/utils/request'
 
 const route = useRoute()

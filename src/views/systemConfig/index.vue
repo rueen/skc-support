@@ -87,7 +87,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
-import PageHeader from '@/components/PageHeader/index.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import { get, post } from '@/utils/request'
 
 // 表单引用
