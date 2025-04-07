@@ -193,7 +193,7 @@ const handleResize = () => {
   }
 }
 
-const siderWidth = computed(() => collapsed.value ? 80 : 256)
+const siderWidth = computed(() => collapsed.value ? 80 : 156)
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
@@ -232,6 +232,9 @@ onUnmounted(() => {
     &:hover {
       color: @primary-color;
     }
+  }
+  :deep(.ant-menu-title-content) {
+    text-align: left;
   }
 }
 
