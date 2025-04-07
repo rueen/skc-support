@@ -77,11 +77,11 @@
                 </a-space>
               </a-descriptions-item>
               <a-descriptions-item label="主页">
-                <div class="link-text-container">
-                  <CopyContent :content="account.homeUrl">
+                <CopyContent :content="account.homeUrl">
+                  <div class="link-text-container" style="max-width: 300px;">
                     <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
-                  </CopyContent>
-                </div>
+                  </div>  
+                </CopyContent>
               </a-descriptions-item>
               <a-descriptions-item label="uid">
                 <CopyContent :content="account.uid" />

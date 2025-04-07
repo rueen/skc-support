@@ -62,12 +62,11 @@
               </a-space>
             </a-descriptions-item>
             <a-descriptions-item label="主页">
-              <div class="link-text-container">
-                <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
-                <a-button type="link" size="small" @click="handleCopy(account.homeUrl)">
-                  复制
-                </a-button>
-              </div>
+              <CopyContent :content="account.homeUrl">
+                <div class="link-text-container">
+                  <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
+                </div>
+              </CopyContent>
             </a-descriptions-item>
             <a-descriptions-item label="粉丝数" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
             <a-descriptions-item label="好友数" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
@@ -164,6 +163,7 @@ import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
+import CopyContent from '@/components/CopyContent.vue'
 
 const enumStore = useEnumStore()
 

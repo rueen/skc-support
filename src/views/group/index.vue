@@ -72,12 +72,11 @@
             </a-space>
           </template>
           <template v-else-if="column.key === 'groupLink'">
-            <div class="link-text-container">
-              <a :href="record.groupLink" target="_blank" class="link-text">{{ record.groupLink }}</a>
-              <a-button type="link" size="small" @click="handleCopy(record.groupLink)">
-                复制
-              </a-button>
-            </div>
+            <CopyContent :content="record.groupLink">
+              <div class="link-text-container">
+                <a :href="record.groupLink" target="_blank" class="link-text">{{ record.groupLink }}</a>
+              </div>
+            </CopyContent>
           </template>
         </template>
       </a-table>
@@ -134,6 +133,7 @@ import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { get, post, put, del } from '@/utils/request'
 import { useRouter } from 'vue-router'
+import CopyContent from '@/components/CopyContent.vue'
 
 const router = useRouter()
 
@@ -364,17 +364,6 @@ const loadMemberOptions = async (keyword = '') => {
   } catch (error) {
     message.error('获取会员列表失败')
   }
-}
-
-// 复制群链接
-const handleCopy = (link) => {
-  navigator.clipboard.writeText(link)
-    .then(() => {
-      message.success('链接已复制到剪贴板')
-    })
-    .catch(() => {
-      message.error('复制失败，请手动复制')
-    })
 }
 
 // 初始化
