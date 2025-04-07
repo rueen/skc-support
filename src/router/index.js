@@ -59,6 +59,12 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['account:list'], title: '账号审核' }
       },
       {
+        path: 'account/old',
+        name: 'AccountOld',
+        component: () => import('@/views/account/old-list.vue'),
+        meta: { requiresAuth: true, permissions: ['account:list'], title: '老账号管理' }
+      },
+      {
         path: 'member',
         component: () => import('@/views/member/list.vue'),
         name: 'MemberList',

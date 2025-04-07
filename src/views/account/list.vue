@@ -7,7 +7,7 @@
             <a-form-item label="账号">
               <a-input
                 v-model:value="searchForm.keyword"
-                placeholder="请输入账号 / uid"
+                placeholder="请输入账号名称 / uid"
                 allow-clear
               />
             </a-form-item>
@@ -96,7 +96,9 @@
           </a-space>
         </div>
       </div>
-
+      <div style="text-align: left;margin-bottom: 16px;">
+        <a-button @click="openOldAccount">FB老账号管理</a-button>
+      </div>
       <a-table
         :columns="searchForm.accountAuditStatus === 'rejected' ? columns2 : (searchForm.accountAuditStatus === 'pending' ? columns1 : columns)"
         :data-source="tableData"
@@ -196,7 +198,9 @@ import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const enumStore = useEnumStore()
 
 // 计算审核状态选项
@@ -305,6 +309,11 @@ const handleReset = () => {
   searchForm.groupId = undefined
   searchForm.memberId = undefined
   handleSearch()
+}
+
+// 打开老账号管理
+const openOldAccount = () => {
+  router.push('/account/old')
 }
 
 // 表格变化
