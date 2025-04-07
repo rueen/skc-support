@@ -118,10 +118,9 @@
               <div class="home-url">
                 <div class="link-text-container">
                   <span class="label">主页：</span>
-                  <a :href="record.homeUrl" target="_blank" class="link-text">{{ record.homeUrl }}</a>
-                  <a-button type="link" size="small" @click="handleCopy(record.homeUrl)">
-                    复制
-                  </a-button>
+                  <CopyContent :content="record.homeUrl">
+                    <a :href="record.homeUrl" target="_blank" class="link-text">{{ record.homeUrl }}</a>
+                  </CopyContent>
                 </div>
               </div>
               <div class="stats">
@@ -192,6 +191,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
+import CopyContent from '@/components/CopyContent.vue'
 
 const enumStore = useEnumStore()
 
@@ -441,14 +441,6 @@ const loadMemberOptions = async (keyword = '') => {
   if(res.code === 0){
     memberOptions.value = res.data.list || []
   }
-}
-// 复制链接
-const handleCopy = (url) => {
-  navigator.clipboard.writeText(url).then(() => {
-    message.success('复制成功')
-  }).catch(() => {
-    message.error('复制失败')
-  })
 }
 
 // 初始化
