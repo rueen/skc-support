@@ -67,10 +67,9 @@
                 </div>
                 <div class="link-text-container">
                   <span class="label">主页：</span>
-                  <a :href="item.homeUrl" target="_blank" class="link-text">{{ item.homeUrl }}</a>
-                  <a-button type="link" size="small" @click="handleCopy(item.homeUrl)">
-                    复制
-                  </a-button>
+                  <CopyContent :content="item.homeUrl">
+                    <a :href="item.homeUrl" target="_blank" class="link-text">{{ item.homeUrl }}</a>
+                  </CopyContent>
                 </div>
               </div>
             </div>
@@ -110,6 +109,7 @@ import { message } from 'ant-design-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
+import CopyContent from '@/components/CopyContent.vue'
 
 const enumStore = useEnumStore()
 
@@ -253,17 +253,6 @@ const loadGroupOptions = async (keyword = '') => {
   } catch (error) {
     message.error('获取群组列表失败')
   }
-}
-
-// 复制链接
-const handleCopy = (link) => {
-  navigator.clipboard.writeText(link)
-    .then(() => {
-      message.success('链接已复制到剪贴板')
-    })
-    .catch(() => {
-      message.error('复制失败，请手动复制')
-    })
 }
 
 // 初始化

@@ -47,10 +47,7 @@
             {{ memberInfo.inviterNickname || '-' }}
           </a-descriptions-item>
           <a-descriptions-item label="邀请链接">
-            <span>{{ inviteUrl }}</span>
-            <a-button type="link" size="small" @click="handleCopy(inviteUrl)">
-              复制
-            </a-button>
+            <CopyContent :content="inviteUrl" />
           </a-descriptions-item>
           <a-descriptions-item label="账户余额">
             <a-space>
@@ -81,11 +78,13 @@
               </a-descriptions-item>
               <a-descriptions-item label="主页">
                 <div class="link-text-container">
-                  <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
-                  <a-button type="link" size="small" @click="handleCopy(account.homeUrl)">
-                    复制
-                  </a-button>
+                  <CopyContent :content="account.homeUrl">
+                    <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
+                  </CopyContent>
                 </div>
+              </a-descriptions-item>
+              <a-descriptions-item label="uid">
+                <CopyContent :content="account.uid" />
               </a-descriptions-item>
               <a-descriptions-item label="粉丝数" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
               <a-descriptions-item label="好友数" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
@@ -188,6 +187,7 @@ import { get, post } from '@/utils/request'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { useEnumStore } from '@/stores'
 import config from '@/config/env'
+import CopyContent from '@/components/CopyContent.vue'
 const enumStore = useEnumStore()
 const route = useRoute()
 
@@ -219,15 +219,6 @@ const rewardRules = ref({
   amount: [{ required: true, message: '请输入奖励金额' }],
   remark: [{ required: true, message: '请输入备注' }]
 })
-
-// 复制文本
-const handleCopy = (text) => {
-  navigator.clipboard.writeText(text).then(() => {
-    message.success('复制成功')
-  }).catch(() => {
-    message.error('复制失败')
-  })
-}
 
 // 获取会员详情
 const getMemberDetail = async () => {
