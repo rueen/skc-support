@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-02 21:53:08
+ * @LastEditTime: 2025-04-08 08:00:21
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -109,10 +109,24 @@ export const useMenuStore = defineStore('menu', {
   actions: {
     generateMenu() {
       const userStore = useUserStore();
-      this.accessedMenu = allMenu.filter(item => {
-        if (userStore.hasPermissions(item.permissions)) {
-          return item;
+      const _allMenu = JSON.parse(JSON.stringify(allMenu));
+      this.accessedMenu = _allMenu.filter(item => {
+        // 处理有子菜单的情况
+        if (item.children && item.children.length) {
+          // 过滤掉没有权限的子菜单
+          const accessedChildren = item.children.filter(child => 
+            userStore.hasPermissions(child.permissions)
+          );
+          // 如果有可访问的子菜单，则保留父菜单并更新子菜单列表
+          if (accessedChildren.length > 0) {
+            item.children = accessedChildren;
+            return true;
+          }
+          return false;
         }
+        
+        // 没有子菜单的普通菜单项，直接检查权限
+        return userStore.hasPermissions(item.permissions);
       });
     },
   },
