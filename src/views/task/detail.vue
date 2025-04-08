@@ -1,7 +1,7 @@
 <template>
   <div class="task-form content-container">
     <page-header
-      :title="isEdit ? '编辑任务' : '新建任务'"
+      :title="isEdit ? $t('task.detail.editTitle') : $t('task.detail.createTitle')"
       :back="true"
       class="page-header"
     >
@@ -11,21 +11,21 @@
         ref="formRef"
         :model="formData"
         :rules="rules"
-        :label-col="{ span: 3 }"
-        :wrapper-col="{ span: 20 }"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 18 }"
         layout="horizontal"
       >
-        <a-form-item label="任务名称" name="taskName">
+        <a-form-item :label="$t('task.detail.taskName')" name="taskName">
           <a-input
             v-model:value="formData.taskName"
-            placeholder="请输入任务名称"
+            :placeholder="$t('task.detail.taskNamePlaceholder')"
           />
         </a-form-item>
 
-        <a-form-item label="平台渠道" name="channelId">
+        <a-form-item :label="$t('task.detail.channelId')" name="channelId">
           <a-select
             v-model:value="formData.channelId"
-            placeholder="请选择平台渠道"
+            :placeholder="$t('task.detail.channelPlaceholder')"
           >
             <a-select-option
               v-for="item in channelOptions"
@@ -37,17 +37,17 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item label="达人领域" name="category">
+        <a-form-item :label="$t('task.detail.category')" name="category">
           <a-input
             v-model:value="formData.category"
-            placeholder="请输入达人领域"
+            :placeholder="$t('task.detail.categoryPlaceholder')"
           />
         </a-form-item>
 
-        <a-form-item label="任务类型" name="taskType">
+        <a-form-item :label="$t('task.detail.taskType')" name="taskType">
           <a-select
             v-model:value="formData.taskType"
-            placeholder="请选择任务类型"
+            :placeholder="$t('task.detail.taskTypePlaceholder')"
           >
             <a-select-option
               v-for="option in taskTypeOptions"
@@ -59,34 +59,34 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item label="任务奖励" name="reward">
+        <a-form-item :label="$t('task.detail.reward')" name="reward">
           <a-input-number
             v-model:value="formData.reward"
             :min="0"
             :precision="2"
             :step="0.1"
-            placeholder="请输入任务奖励"
+            :placeholder="$t('task.detail.rewardPlaceholder')"
           />
         </a-form-item>
 
-        <a-form-item label="粉丝要求" name="fansRequired">
+        <a-form-item :label="$t('task.detail.fansRequired')" name="fansRequired">
           <a-input-number
             v-model:value="formData.fansRequired"
             :min="0"
             :step="1"
-            placeholder="请输入粉丝要求"
+            :placeholder="$t('task.detail.fansRequiredPlaceholder')"
           />
         </a-form-item>
 
-        <a-form-item label="任务时间" required>
+        <a-form-item :label="$t('task.detail.taskTime')" required>
           <a-row :gutter="8">
             <a-col :span="11">
-              <a-form-item name="startTime" :rules="[{ required: true, message: '请选择开始时间' }]">
+              <a-form-item name="startTime" :rules="[{ required: true, message: $t('task.detail.validation.startTimeRequired') }]">
                 <a-date-picker
                   v-model:value="formData.startTime"
                   show-time
                   style="width: 100%"
-                  placeholder="开始时间"
+                  :placeholder="$t('task.detail.startTime')"
                   :format="'YYYY-MM-DD HH:mm:ss'"
                 />
               </a-form-item>
@@ -95,12 +95,12 @@
               <span>至</span>
             </a-col>
             <a-col :span="11">
-              <a-form-item name="endTime" :rules="[{ required: true, message: '请选择结束时间' }]">
+              <a-form-item name="endTime" :rules="[{ required: true, message: $t('task.detail.validation.endTimeRequired') }]">
                 <a-date-picker
                   v-model:value="formData.endTime"
                   show-time
                   style="width: 100%"
-                  placeholder="结束时间"
+                  :placeholder="$t('task.detail.endTime')"
                   :format="'YYYY-MM-DD HH:mm:ss'"
                 />
               </a-form-item>
@@ -108,11 +108,11 @@
           </a-row>
         </a-form-item>
 
-        <a-form-item label="指定群组" name="groupIds">
+        <a-form-item :label="$t('task.detail.specifyGroup')" name="groupIds">
           <div class="group-select">
             <a-radio-group v-model:value="formData.groupMode" @change="handleGroupModeChange">
-              <a-radio :value="0">不指定</a-radio>
-              <a-radio :value="1">指定群组</a-radio>
+              <a-radio :value="0">{{ $t('task.detail.noSpecify') }}</a-radio>
+              <a-radio :value="1">{{ $t('task.detail.specifyGroups') }}</a-radio>
             </a-radio-group>
             
             <a-form-item-rest>
@@ -122,7 +122,7 @@
                 show-search
                 :filter-option="false"
                 mode="multiple"
-                placeholder="请选择群组"
+                :placeholder="$t('task.detail.groupPlaceholder')"
                 style="width: 100%; margin-top: 8px"
                 @search="loadGroupOptions"
               >
@@ -135,17 +135,17 @@
                 </a-select-option>
               </a-select>
               <div v-else class="group-tip">
-                所有群组的会员都可以接取该任务
+                {{ $t('task.detail.groupTip') }}
               </div>
             </a-form-item-rest>
           </div>
         </a-form-item>
 
-        <a-form-item label="用户范围" name="userRange">
+        <a-form-item :label="$t('task.detail.userRange')" name="userRange">
           <div class="user-range">
             <a-radio-group v-model:value="formData.userRange">
-              <a-radio :value="0">全部用户</a-radio>
-              <a-radio :value="1">完成任务次数</a-radio>
+              <a-radio :value="0">{{ $t('task.detail.allUsers') }}</a-radio>
+              <a-radio :value="1">{{ $t('task.detail.taskCompletionCount') }}</a-radio>
             </a-radio-group>
             
             <a-form-item-rest>
@@ -155,16 +155,13 @@
                     v-model:value="formData.taskCount"
                     :min="0"
                     :precision="0"
-                    placeholder="请输入次数"
-                    addon-after="次"
+                    :placeholder="$t('task.detail.countPlaceholder')"
+                    :addon-after="$t('task.detail.times')"
                   />
                 </a-form-item>
                 <a-tooltip>
                   <template #title>
-                    举例：<br/>
-                    0：表示新人即从未完成过任务的会员可显示并参与<br/>
-                    2：表示仅完成过0次/1次/2次的会员可显示并参与<br/>
-                    5：表示完成过0/1/2/3/4/5次任务的会员可显示并参与
+                    <div v-html="$t('task.detail.countTip')"></div>
                   </template>
                   <question-circle-outlined />
                 </a-tooltip>
@@ -173,7 +170,7 @@
           </div>
         </a-form-item>
 
-        <a-form-item label="任务名额">
+        <a-form-item :label="$t('task.detail.quota')">
           <div class="quota-container">
             <a-space align="baseline">
               <a-form-item name="quota">
@@ -182,51 +179,51 @@
                 :min="0"
                 :precision="0"
                 :disabled="formData.unlimitedQuota"
-                placeholder="请输入任务名额"
+                :placeholder="$t('task.detail.quotaPlaceholder')"
               />
             </a-form-item>
             <a-checkbox
               v-model:checked="formData.unlimitedQuota"
             >
-              不限制
+              {{ $t('task.detail.unlimited') }}
               </a-checkbox>
             </a-space>
           </div>
         </a-form-item>
 
-        <a-form-item label="品牌" name="brand">
+        <a-form-item :label="$t('task.detail.brand')" name="brand">
           <a-input
             v-model:value="formData.brand"
-            placeholder="请输入品牌名称"
+            :placeholder="$t('task.detail.brandPlaceholder')"
           />
         </a-form-item>
 
-        <a-form-item label="提交信息字段">
+        <a-form-item :label="$t('task.detail.customFields')">
           <div class="custom-fields">
             <div v-for="(field, index) in formData.customFields" :key="index" class="field-item">
               <a-space align="baseline">
                 <a-form-item
                   :name="['customFields', index, 'title']"
-                  :rules="[{ required: true, message: '请输入字段标题' }]"
+                  :rules="[{ required: true, message: $t('task.detail.validation.fieldTitleRequired') }]"
                 >
                   <a-input
                     v-model:value="field.title"
-                    placeholder="请输入字段标题"
+                    :placeholder="$t('task.detail.fieldTitlePlaceholder')"
                   />
                 </a-form-item>
                 <a-select
                   v-model:value="field.type"
                   style="width: 120px"
                 >
-                  <a-select-option value="input">输入框</a-select-option>
-                  <a-select-option value="image">上传图片</a-select-option>
+                  <a-select-option value="input">{{ $t('task.detail.fieldType.input') }}</a-select-option>
+                  <a-select-option value="image">{{ $t('task.detail.fieldType.image') }}</a-select-option>
                 </a-select>
                 <a-button
                   type="link"
                   danger
                   @click="removeField(index)"
                 >
-                  删除
+                  {{ $t('task.detail.deleteField') }}
                 </a-button>
               </a-space>
             </div>
@@ -236,32 +233,32 @@
               block
               @click="addField"
             >
-              <plus-outlined />添加字段
+              <plus-outlined />{{ $t('task.detail.addField') }}
             </a-button>
           </div>
         </a-form-item>
 
-        <a-form-item label="作品要求" name="contentRequirement">
+        <a-form-item :label="$t('task.detail.contentRequirement')" name="contentRequirement">
           <a-textarea
             v-model:value="formData.contentRequirement"
             :rows="4"
-            placeholder="请输入作品要求"
+            :placeholder="$t('task.detail.contentRequirementPlaceholder')"
           />
         </a-form-item>
 
-        <a-form-item label="任务信息" name="taskInfo">
+        <a-form-item :label="$t('task.detail.taskInfo')" name="taskInfo">
           <a-textarea
             v-model:value="formData.taskInfo"
             :rows="4"
-            placeholder="请输入任务信息"
+            :placeholder="$t('task.detail.taskInfoPlaceholder')"
           />
         </a-form-item>
 
-        <a-form-item label="温馨提示" name="notice">
+        <a-form-item :label="$t('task.detail.notice')" name="notice">
           <a-textarea
             v-model:value="formData.notice"
             :rows="4"
-            placeholder="请输入温馨提示"
+            :placeholder="$t('task.detail.noticePlaceholder')"
           />
         </a-form-item>
 
@@ -284,8 +281,11 @@ import PageHeader from '@/components/PageHeader.vue'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
 import { useEnumStore } from '@/stores'
+import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const enumStore = useEnumStore()
+const { t } = useI18n()
 
 // 计算任务类型选项 
 const taskTypeOptions = computed(() => {
@@ -323,27 +323,24 @@ const formData = reactive({
   fansRequired: undefined,
   contentRequirement: '',
   taskInfo: '',
-  notice: `1.请尽快完成发布，填写发布链接。
-2.任务结束后无法填写，不能结算。
-3.发布内容不符合要求，将无法审核通过。
-4.填写链接无法访问或其他无关链接，视为放弃结算。`,
+  notice: t('task.detail.defaultNotice'),
   userRange: 0,
   taskCount: 0
 })
 
 // 表单校验规则
 const rules = {
-  taskName: [{ required: true, message: '请输入任务名称' }],
-  channelId: [{ required: true, message: '请选择平台渠道' }],
-  category: [{ required: true, message: '请输入达人领域' }],
-  taskType: [{ required: true, message: '请选择任务类型' }],
-  reward: [{ required: true, message: '请输入任务奖励' }],
-  fansRequired: [{ required: true, message: '请输入粉丝要求' }],
+  taskName: [{ required: true, message: t('task.detail.validation.taskNameRequired') }],
+  channelId: [{ required: true, message: t('task.detail.validation.channelRequired') }],
+  category: [{ required: true, message: t('task.detail.validation.categoryRequired') }],
+  taskType: [{ required: true, message: t('task.detail.validation.taskTypeRequired') }],
+  reward: [{ required: true, message: t('task.detail.validation.rewardRequired') }],
+  fansRequired: [{ required: true, message: t('task.detail.validation.fansRequired') }],
   groupIds: [
     { 
       validator: (_, value) => {
         if (formData.groupMode === 1 && (!value || value.length === 0)) {
-          return Promise.reject('请选择指定群组')
+          return Promise.reject(t('task.detail.validation.groupRequired'))
         }
         return Promise.resolve()
       }
@@ -353,7 +350,7 @@ const rules = {
     {
       validator: (_, value) => {
         if (formData.userRange === 1 && (value === undefined || value === null)) {
-          return Promise.reject('请输入完成任务次数')
+          return Promise.reject(t('task.detail.validation.taskCountRequired'))
         }
         return Promise.resolve()
       }
@@ -397,13 +394,14 @@ const addTask = async () => {
     // TODO: 实现提交逻辑
     const res = await post('task.add', submitData)
     if(res.code === 0) {
-      message.success('提交成功')
+      message.success(t('task.detail.submitSuccess'))
       router.back()
     } else {
       message.error(res.message)
     }
   } catch (error) {
     console.log(error)
+    message.error(t('task.detail.submitFailed'))
   } finally {
     submitLoading.value = false
   }
@@ -428,13 +426,14 @@ const editTask = async () => {
       }
     })
     if(res.code === 0) {
-      message.success('提交成功')
+      message.success(t('task.detail.submitSuccess'))
       router.back()
     } else {
       message.error(res.message)
     }
   } catch (error) {
     console.log(error)
+    message.error(t('task.detail.submitFailed'))
   } finally {
     submitLoading.value = false
   }
@@ -506,7 +505,7 @@ const loadGroupOptions = async (keyword = '') => {
       groupOptions.value = res.data.list || []
     }
   } catch (error) {
-    message.error('获取群组列表失败')
+    message.error(t('task.detail.loadGroupFailed'))
   }
 }
 
