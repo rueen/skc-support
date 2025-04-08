@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 20:38:02
+ * @LastEditTime: 2025-04-08 21:09:40
  * @Description: 
 -->
 <template>
@@ -11,17 +11,17 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="任务名称">
+            <a-form-item :label="$t('task.search.taskName')">
               <a-input
                 v-model:value="searchForm.taskName"
-                placeholder="请输入任务名称"
+                :placeholder="$t('task.search.taskNamePlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="平台渠道">
+            <a-form-item :label="$t('task.search.channelId')">
               <a-select
                 v-model:value="searchForm.channelId"
-                placeholder="请选择平台渠道"
+                :placeholder="$t('task.search.channelPlaceholder')"
                 style="width: 120px"
                 allow-clear
               >
@@ -34,10 +34,10 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="任务状态">
+            <a-form-item :label="$t('task.search.taskStatus')">
               <a-select
                 v-model:value="searchForm.taskStatus"
-                placeholder="请选择任务状态"
+                :placeholder="$t('task.search.statusPlaceholder')"
                 allowClear
               >
                 <a-select-option 
@@ -61,7 +61,7 @@
           <a-space>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
-              新建任务
+              {{ $t('task.list.create') }}
             </a-button>
           </a-space>
         </div>
@@ -85,7 +85,7 @@
             {{ record.startTime }} - {{ record.endTime }}
           </template>
           <template v-if="column.key === 'taskQuota'">
-            <span v-if="record.unlimitedQuota">不限制</span>
+            <span v-if="record.unlimitedQuota">{{ $t('task.list.unlimited') }}</span>
             <span v-else>{{ record.quota }}</span>
             <span> / {{ record.submittedCount }}</span>
           </template>
@@ -94,12 +94,12 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">编辑</a>
+              <a @click="handleEdit(record)">{{ $t('task.list.edit') }}</a>
               <a-popconfirm
-                title="确定要删除该任务吗？"
+                :title="$t('task.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">删除</a>
+                <a class="danger">{{ $t('task.list.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -115,10 +115,13 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
+import { PlusOutlined } from '@ant-design/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const loading = ref(false)
 const enumStore = useEnumStore()
+const { t } = useI18n()
 
 // 搜索表单
 const searchForm = reactive({
@@ -142,13 +145,13 @@ const taskStatusOptions = computed(() => {
 })
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '任务名称',
+    title: t('task.list.name'),
     key: 'taskName'
   },
   {
-    title: '任务状态',
+    title: t('task.list.status'),
     dataIndex: 'taskStatus',
     key: 'taskStatus',
     customRender: ({ text }) => {
@@ -157,20 +160,20 @@ const columns = [
     }
   },
   {
-    title: '任务名额 / 已提交',
+    title: t('task.list.quota'),
     key: 'taskQuota'
   },
   {
-    title: '任务时间',
+    title: t('task.list.time'),
     key: 'taskTime'
   },
   {
-    title: '操作',
+    title: t('task.list.action'),
     key: 'action',
     fixed: 'right',
     width: 180
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -215,13 +218,13 @@ const handleDelete = async (record) => {
       }
     })
     if(res.code === 0){
-      message.success('删除成功')
+      message.success(t('common.deleteSuccess'))
       loadData()
     } else {
       message.error(res.message)
     }
   } catch (error) {
-    message.error('删除失败')
+    message.error(t('common.deleteFailed'))
   }
 }
 

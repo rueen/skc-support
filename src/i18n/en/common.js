@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 20:51:20
+ * @LastEditTime: 2025-04-08 21:04:20
  * @Description: 
  */
 export default {
@@ -17,4 +17,15 @@ export default {
   confirm: 'Confirm',
   save: 'Save',
   edit: 'Edit',
+  operate: 'Operate',
+  add: 'Add',
+  delete: 'Delete',
+  view: 'View',
+  operation: 'Operation',
+  status: 'Status',
+  deleteConfirm: 'Are you sure to delete?',
+  deleteSuccess: 'Delete success',
+  deleteFailed: 'Delete failed',
+  saveSuccess: 'Save success',
+  saveFailed: 'Save failed'
 } 
