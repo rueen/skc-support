@@ -10,15 +10,15 @@
         <div class="section-title">会员信息</div>
         <a-descriptions :column="2">
           <a-descriptions-item label="会员昵称">
-            {{ memberInfo.nickname }}
+            <a-space>
+              <a-avatar :src="memberInfo.avatar" size="small">
+                <template #icon><UserOutlined /></template>
+              </a-avatar>
+              <span>{{ memberInfo.nickname }}</span>
+            </a-space>
           </a-descriptions-item>
           <a-descriptions-item label="会员账号">
             {{ memberInfo.account }}
-          </a-descriptions-item>
-          <a-descriptions-item label="会员头像">
-            <a-avatar :src="memberInfo.avatar" size="small">
-              <template #icon><UserOutlined /></template>
-            </a-avatar>
           </a-descriptions-item>
           <a-descriptions-item label="性别">
             {{ enumStore.getEnumText('GenderType', memberInfo.gender) }}
@@ -48,6 +48,12 @@
           </a-descriptions-item>
           <a-descriptions-item label="邀请链接">
             <CopyContent :content="inviteUrl" />
+          </a-descriptions-item>
+          <a-descriptions-item label="提现账号">
+            <a-space>
+              <span>{{ memberInfo.withdrawalsAccount.paymentChannelName }}</span>
+              <span>{{ memberInfo.withdrawalsAccount.account || '-' }}</span>
+            </a-space>
           </a-descriptions-item>
           <a-descriptions-item label="账户余额">
             <a-space>
@@ -244,6 +250,17 @@ const getMemberBalance = async () => {
   }
 }
 
+// 获取会员提现账号
+const getMemberWithdrawalsAccount = async () => {
+  const res = await get('member.withdrawalsAccount', {}, {
+    urlParams: {
+      memberId: memberId.value
+    }
+  })
+  if(res.code === 0){
+    memberInfo.withdrawalsAccount = res.data[0] || {}
+  }
+}
 // 获取账号列表
 const getAccountList = async () => {
   const res = await get('account.list', {
@@ -371,6 +388,7 @@ onMounted(() => {
   getTaskStats()
   getInviteInfo()
   getGroupsStats()
+  getMemberWithdrawalsAccount()
 })
 </script>
 
