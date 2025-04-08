@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:02
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-02 21:55:34
+ * @LastEditTime: 2025-04-08 09:09:18
  * @Description: 
  */
 export default {
@@ -23,6 +23,7 @@ export default {
   finance: 'Financial Management',
   withdrawal: 'Withdrawal',
   bills: 'Bills',
+  paymentChannels: 'Payment Channels',
   channel: 'Channel Management',
   account: 'Account Audit',
   systemConfig: 'System Config',

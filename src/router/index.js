@@ -119,6 +119,12 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['finance:bills'], title: '其他账单' }
       },
       {
+        path: 'payment-channels',
+        name: 'PaymentChannels',
+        component: () => import('@/views/finance/payment-channels.vue'),
+        meta: { requiresAuth: true, permissions: ['finance:paymentChannels'], title: '支付渠道' }
+      },
+      {
         path: 'channel',
         name: 'Channel',
         component: () => import('@/views/channel/index.vue'),

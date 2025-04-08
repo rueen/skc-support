@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 08:00:21
+ * @LastEditTime: 2025-04-08 09:08:36
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -77,6 +77,12 @@ const allMenu = [
         title: 'bills',
         permissions: 'finance:bills',
       },
+      {
+        path: '/payment-channels',
+        key: 'payment-channels',
+        title: 'paymentChannels',
+        permissions: 'finance:paymentChannels',
+      }
     ]
   },
   {

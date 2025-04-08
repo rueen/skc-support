@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-02 21:55:40
+ * @LastEditTime: 2025-04-08 09:09:28
  * @Description: 
  */
 export default {
@@ -23,6 +23,7 @@ export default {
   finance: '资金管理',
   withdrawal: '提现管理',
   bills: '结算账单',
+  paymentChannels: '支付渠道',
   channel: '渠道管理',
   account: '账号审核',
   systemConfig: '系统配置',

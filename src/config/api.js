@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-07 17:00:44
+ * @LastEditTime: 2025-04-08 09:11:04
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -77,6 +77,13 @@ const API_PATH = {
     batchResolve: '/withdrawals/batch-approve',
     batchReject: '/withdrawals/batch-reject',
     export: '/withdrawals/export',
+  },
+  // 支付渠道相关接口
+  paymentChannels: {
+    list: '/payment-channels',
+    add: '/payment-channels',
+    edit: '/payment-channels/:id',
+    delete: '/payment-channels/:id',
   },
   // 小二管理相关接口
   waiter: {
