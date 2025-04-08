@@ -56,6 +56,14 @@
           </a-button>
         </a-form-item>
       </a-form>
+      
+      <!-- 添加语言切换 -->
+      <div class="language-switch">
+        <a-radio-group v-model:value="currentLang" button-style="solid" size="small" @change="handleLangChange">
+          <a-radio-button value="zh-CN">简体中文</a-radio-button>
+          <a-radio-button value="en-US">English</a-radio-button>
+        </a-radio-group>
+      </div>
     </div>
   </div>
 </template>
@@ -65,11 +73,23 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const userStore = useUserStore()
+const { locale } = useI18n()
 const formRef = ref()
 const loading = ref(false)
+
+// 当前语言
+const currentLang = ref(localStorage.getItem('language') || 'zh-CN')
+
+// 切换语言
+const handleLangChange = (e) => {
+  const lang = e.target.value
+  locale.value = lang
+  localStorage.setItem('language', lang)
+}
 
 const formData = reactive({
   username: 'admin', // 默认填入用户名
@@ -139,6 +159,11 @@ const handleLogin = async (values) => {
         color: @text-color-secondary;
         margin: 0;
       }
+    }
+    
+    .language-switch {
+      text-align: center;
+      margin-top: 24px;
     }
   }
 }
