@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-07 17:00:06
+ * @LastEditTime: 2025-04-08 20:48:17
  * @Description: FB老账号管理
 -->
 
@@ -45,8 +45,8 @@
             </a-form-item>
             <a-form-item>
               <a-space>
-                <a-button type="primary" @click="handleSearch">查询</a-button>
-                <a-button @click="handleReset">重置</a-button>
+                <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
+                <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
               </a-space>
             </a-form-item>
           </a-form>

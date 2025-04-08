@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-01 20:31:48
+ * @LastEditTime: 2025-04-08 20:38:02
  * @Description: 
 -->
 <template>
@@ -51,8 +51,8 @@
             </a-form-item>
             <a-form-item>
               <a-space>
-                <a-button type="primary" @click="handleSearch">查询</a-button>
-                <a-button @click="handleReset">重置</a-button>
+                <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
+                <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
               </a-space>
             </a-form-item>
           </a-form>
@@ -112,10 +112,8 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { message, Modal } from 'ant-design-vue'
-import { PlusOutlined, DownloadOutlined } from '@ant-design/icons-vue'
+import { message } from 'ant-design-vue'
 import { get, del } from '@/utils/request'
-import { downloadByApi } from '@/utils/download'
 import { useEnumStore } from '@/stores'
 
 const router = useRouter()

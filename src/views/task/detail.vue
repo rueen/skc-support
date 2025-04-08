@@ -267,8 +267,8 @@
 
         <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
           <a-space>
-            <a-button type="primary" @click="handleSubmit">提交</a-button>
-            <a-button @click="handleCancel">取消</a-button>
+            <a-button type="primary" @click="handleSubmit">{{ $t('common.submit') }}</a-button>
+            <a-button @click="handleCancel">{{ $t('common.cancel') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -280,7 +280,6 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'

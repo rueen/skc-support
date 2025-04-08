@@ -74,9 +74,9 @@
         <!-- 按钮区域 -->
         <a-form-item :wrapper-col="{ span: 12, offset: 6 }">
           <a-space>
-            <a-button type="primary" @click="handleSubmit" :loading="submitting" v-if="!formDisabled">保存配置</a-button>
-            <a-button @click="handleEdit" v-if="formDisabled">编辑配置</a-button>
-            <a-button @click="handleReset" v-if="!formDisabled">重置</a-button>
+            <a-button type="primary" @click="handleSubmit" :loading="submitting" v-if="!formDisabled">{{ $t('common.save') }}</a-button>
+            <a-button @click="handleEdit" v-if="formDisabled">{{ $t('common.edit') }}</a-button>
+            <a-button @click="handleReset" v-if="!formDisabled">{{ $t('common.reset') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>

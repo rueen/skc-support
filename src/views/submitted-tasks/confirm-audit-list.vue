@@ -80,8 +80,8 @@
         <div style="width: 100%;display: flex;justify-content: space-between;">
           <div>
             <a-space>
-              <a-button type="primary" @click="handleSearch">查询</a-button>
-              <a-button @click="handleReset">重置</a-button>
+              <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
+              <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
             </a-space>
           </div>
           <div>
@@ -91,10 +91,10 @@
                 v-if="tableData.length"
               >
                 <template #icon><DownloadOutlined /></template>
-                导出
+                {{ $t('common.export') }}
               </a-button>
-              <a-button type="primary" @click="handleBatchResolve">批量通过</a-button>
-              <a-button danger @click="handleBatchReject">批量拒绝</a-button>
+              <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
+              <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
             </a-space>
           </div>
         </div>
@@ -195,7 +195,6 @@ import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { downloadByApi } from '@/utils/download'
-import { DownloadOutlined } from '@ant-design/icons-vue'
 
 const enumStore = useEnumStore()
 

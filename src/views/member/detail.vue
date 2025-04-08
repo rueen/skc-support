@@ -80,9 +80,9 @@
         <a-form-item :wrapper-col="{ offset: 4 }">
           <a-space>
             <a-button type="primary" :loading="submitLoading" @click="handleSubmit">
-              提交
+              {{ $t('common.submit') }}
             </a-button>
-            <a-button @click="$router.back()">取消</a-button>
+            <a-button @click="$router.back()">{{ $t('common.cancel') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>

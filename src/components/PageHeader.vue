@@ -1,9 +1,16 @@
+<!--
+ * @Author: diaochan
+ * @Date: 2025-04-07 09:00:07
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-04-08 20:39:07
+ * @Description: 
+-->
 <template>
   <div class="page-header">
     <div class="header-left">
       <a-button v-if="back" class="back-btn" @click="handleBack">
         <template #icon><left-outlined /></template>
-        返回
+        {{ $t('common.back') }}
       </a-button>
       <div class="title">{{ title }}</div>
     </div>

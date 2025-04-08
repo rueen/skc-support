@@ -32,8 +32,8 @@
             </a-form-item>
             <a-form-item>
               <a-space>
-                <a-button type="primary" @click="handleSearch">查询</a-button>
-                <a-button @click="handleReset">重置</a-button>
+                <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
+                <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
               </a-space>
             </a-form-item>
           </a-form>
