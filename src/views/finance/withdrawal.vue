@@ -49,12 +49,15 @@
         </div>
         <div class="right">
           <a-space>
+            <a-typography-link @click="router.push('/payment-transactions')">
+              查看提现交易记录<RightOutlined />
+            </a-typography-link>
             <a-button @click="handleExport">
               <template #icon><download-outlined /></template>
               导出
             </a-button>
-            <a-button type="primary" @click="handleBatchResolve">批量已打款</a-button>
-            <a-button danger @click="handleBatchReject">批量打款失败</a-button>
+            <a-button type="primary" @click="handleBatchResolve">批量打款</a-button>
+            <a-button danger @click="handleBatchReject">批量拒绝</a-button>
           </a-space>
         </div>
       </div>
@@ -71,6 +74,11 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'withdrawalStatus'">
             {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}
+            <info-circle-outlined 
+              v-if="record.withdrawalStatus === 'failed'" 
+              class="status-icon" 
+              @click="showFailReason(record)"
+            />
           </template>
           <template v-if="column.key === 'action'">
             <a-space v-if="record.withdrawalStatus === 'pending'">
@@ -78,10 +86,11 @@
                 title="确定要标记为已打款吗？"
                 @confirm="handleResolve(record)"
               >
-                <a>已打款</a>
+                <a>打款</a>
               </a-popconfirm>
-              <a class="danger" @click="handleReject(record)">打款失败</a>
+              <a class="danger" @click="handleReject(record)">拒绝</a>
             </a-space>
+            <a @click="router.push(`/payment-transactions?withdrawalId=${record.id}`)" v-if="record.withdrawalStatus === 'failed'">查看交易记录</a>
           </template>
         </template>
       </a-table>
@@ -110,7 +119,9 @@ import { DownloadOutlined } from '@ant-design/icons-vue'
 import { get, post } from '@/utils/request'
 import { downloadByApi } from '@/utils/download'
 import { useEnumStore } from '@/stores'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const enumStore = useEnumStore()
 
 // 计算提现状态选项
@@ -150,8 +161,8 @@ const columns = [
   },
   {
     title: '账户类型',
-    dataIndex: 'accountType',
-    key: 'accountType'
+    dataIndex: 'paymentChannelName',
+    key: 'paymentChannelName'
   },
   {
     title: '申请提现金额',
@@ -250,6 +261,14 @@ const handleExport = () => {
       }
     }
   })
+}
+
+// 显示失败原因
+const showFailReason = (record) => {
+  Modal.error({
+    title: '结算失败原因',
+    content: record.rejectReason,
+  });
 }
 
 // 标记已打款
@@ -359,6 +378,12 @@ onMounted(() => {
 
   .danger {
     color: #ff4d4f;
+  }
+
+  .status-icon {
+    margin-left: 8px;
+    color: #ff4d4f;
+    cursor: pointer;
   }
 }
 </style> 

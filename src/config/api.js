@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 10:29:51
+ * @LastEditTime: 2025-04-08 16:49:06
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -78,6 +78,8 @@ const API_PATH = {
     batchResolve: '/withdrawals/batch-approve',
     batchReject: '/withdrawals/batch-reject',
     export: '/withdrawals/export',
+    paymentTransactions: '/withdrawals/payment-transactions',
+    retry: '/withdrawals/payment-transactions/:orderId/retry', // 重试
   },
   // 支付渠道相关接口
   paymentChannels: {

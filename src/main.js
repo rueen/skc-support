@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-07 09:00:48
+ * @LastEditTime: 2025-04-08 16:40:21
  * @Description: 
  */
 import { createApp } from 'vue'
@@ -12,7 +12,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import Antd from 'ant-design-vue'
 import i18n from './i18n'
-import { CopyOutlined } from '@ant-design/icons-vue'
+import { CopyOutlined, RightOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.less'
 
@@ -37,5 +37,8 @@ app.use(router)
 app.use(Antd)
 app.use(i18n)
 app.component('CopyOutlined', CopyOutlined)
+app.component('RightOutlined', RightOutlined)
+app.component('InfoCircleOutlined', InfoCircleOutlined)
+
 // 挂载应用
 app.mount('#app')

@@ -51,8 +51,8 @@
           </a-descriptions-item>
           <a-descriptions-item label="提现账号">
             <a-space>
-              <span>{{ memberInfo.withdrawalsAccount.paymentChannelName }}</span>
-              <span>{{ memberInfo.withdrawalsAccount.account || '-' }}</span>
+              <span>{{ memberInfo?.withdrawalsAccount?.paymentChannelName || '-' }}</span>
+              <span>{{ memberInfo?.withdrawalsAccount?.account || '-' }}</span>
             </a-space>
           </a-descriptions-item>
           <a-descriptions-item label="账户余额">

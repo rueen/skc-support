@@ -113,6 +113,12 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['finance:withdrawal'], title: '提现账单' }
       },
       {
+        path: 'payment-transactions',
+        component: () => import('@/views/finance/payment-transactions.vue'),
+        name: 'PaymentTransactions',
+        meta: { requiresAuth: true, permissions: ['finance:withdrawal'], title: '交易记录' }
+      },
+      {
         path: 'bills',
         component: () => import('@/views/finance/bills.vue'),
         name: 'bills',

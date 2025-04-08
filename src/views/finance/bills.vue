@@ -103,7 +103,6 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { get } from '@/utils/request'
 import { useEnumStore } from '@/stores'
-import { InfoCircleOutlined } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 
 const enumStore = useEnumStore()
