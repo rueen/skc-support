@@ -130,7 +130,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
 import { get, post, put, del } from '@/utils/request'
 import { useRouter } from 'vue-router'
 import CopyContent from '@/components/CopyContent.vue'

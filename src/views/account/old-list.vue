@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 20:48:17
+ * @LastEditTime: 2025-04-08 20:54:08
  * @Description: FB老账号管理
 -->
 
@@ -142,7 +142,6 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { get, post, put, del } from '@/utils/request'
 import CopyContent from '@/components/CopyContent.vue'
 import PageHeader from '@/components/PageHeader.vue'

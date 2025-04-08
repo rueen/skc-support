@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:07
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 20:39:07
+ * @LastEditTime: 2025-04-08 20:55:21
  * @Description: 
 -->
 <template>
@@ -22,7 +22,6 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { LeftOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
 

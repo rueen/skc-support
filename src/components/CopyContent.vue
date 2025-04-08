@@ -1,3 +1,10 @@
+<!--
+ * @Author: diaochan
+ * @Date: 2025-04-07 09:03:52
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-04-08 20:54:48
+ * @Description: 
+-->
 <template>
   <div style="display: inline-block;">
     <a-space>
@@ -11,7 +18,6 @@
 
 <script setup>
 import { message } from 'ant-design-vue'
-import { CopyOutlined } from '@ant-design/icons-vue'
 
 const props = defineProps({
   content: {

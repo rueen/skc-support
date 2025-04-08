@@ -87,7 +87,6 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { get, post, put, del } from '@/utils/request'
 import config from '@/config/env'

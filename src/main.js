@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 20:43:57
+ * @LastEditTime: 2025-04-08 21:01:10
  * @Description: 
  */
 import { createApp } from 'vue'
@@ -18,7 +18,24 @@ import {
   InfoCircleOutlined,
   PlusOutlined,
   QuestionCircleOutlined,
-  DownloadOutlined
+  DownloadOutlined,
+  UploadOutlined,
+  LeftOutlined,
+  UserOutlined,
+  LockOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  TeamOutlined,
+  FileTextOutlined,
+  PayCircleOutlined,
+  LogoutOutlined,
+  ApartmentOutlined,
+  ProfileOutlined,
+  AuditOutlined,
+  LinkOutlined,
+  SafetyOutlined,
+  FileOutlined,
+  SettingOutlined
 } from '@ant-design/icons-vue'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.less'
@@ -49,6 +66,23 @@ app.component('InfoCircleOutlined', InfoCircleOutlined)
 app.component('PlusOutlined', PlusOutlined)
 app.component('QuestionCircleOutlined', QuestionCircleOutlined)
 app.component('DownloadOutlined', DownloadOutlined)
+app.component('UploadOutlined', UploadOutlined)
+app.component('LeftOutlined', LeftOutlined)
+app.component('UserOutlined', UserOutlined)
+app.component('LockOutlined', LockOutlined)
+app.component('MenuFoldOutlined', MenuFoldOutlined)
+app.component('MenuUnfoldOutlined', MenuUnfoldOutlined)
+app.component('TeamOutlined', TeamOutlined)
+app.component('FileTextOutlined', FileTextOutlined)
+app.component('PayCircleOutlined', PayCircleOutlined)
+app.component('LogoutOutlined', LogoutOutlined)
+app.component('ApartmentOutlined', ApartmentOutlined)
+app.component('ProfileOutlined', ProfileOutlined)
+app.component('AuditOutlined', AuditOutlined)
+app.component('LinkOutlined', LinkOutlined)
+app.component('SafetyOutlined', SafetyOutlined)
+app.component('FileOutlined', FileOutlined)
+app.component('SettingOutlined', SettingOutlined)
 
 // 挂载应用
 app.mount('#app')

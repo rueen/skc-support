@@ -104,7 +104,6 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { get, del } from '@/utils/request'

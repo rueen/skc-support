@@ -115,7 +115,6 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { DownloadOutlined } from '@ant-design/icons-vue'
 import { get, post } from '@/utils/request'
 import { downloadByApi } from '@/utils/download'
 import { useEnumStore } from '@/stores'

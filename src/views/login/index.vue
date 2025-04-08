@@ -72,7 +72,6 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const router = useRouter()

@@ -19,7 +19,7 @@
           <!-- 含有子菜单的菜单项 -->
           <a-sub-menu v-if="item.children && item.children.length > 0" :key="item.key">
             <template #icon>
-              <component :is="getIconComponent(item.icon)" />
+              <component :is="item.icon" />
             </template>
             <template #title>{{ $t('menu.' + item.title) }}</template>
             
@@ -32,7 +32,7 @@
           <!-- 没有子菜单的菜单项 -->
           <a-menu-item v-else :key="item.key">
             <template #icon>
-              <component :is="getIconComponent(item.icon)" />
+              <component :is="item.icon" />
             </template>
             <span>{{ $t('menu.' + item.title) }}</span>
             <router-link :to="item.path" />
@@ -101,41 +101,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  TeamOutlined,
-  UserOutlined,
-  FileTextOutlined,
-  PayCircleOutlined,
-  LogoutOutlined,
-  ApartmentOutlined,
-  ProfileOutlined,
-  AuditOutlined,
-  LinkOutlined,
-  SafetyOutlined,
-  FileOutlined,
-  SettingOutlined
-} from '@ant-design/icons-vue'
 import { useMenuStore } from '@/stores/menu';
-
-// 图标映射函数
-const getIconComponent = (iconName) => {
-  const iconMap = {
-    'profile-outlined': ProfileOutlined,
-    'safety-outlined': SafetyOutlined,
-    'audit-outlined': AuditOutlined,
-    'team-outlined': TeamOutlined,
-    'pay-circle-outlined': PayCircleOutlined,
-    'link-outlined': LinkOutlined,
-    'apartment-outlined': ApartmentOutlined,
-    'user-outlined': UserOutlined,
-    'file-outlined': FileOutlined,
-    'file-text-outlined': FileTextOutlined,
-    'setting-outlined': SettingOutlined
-  };
-  return iconMap[iconName] || null;
-};
 
 const menuStore = useMenuStore();
 menuStore.generateMenu();

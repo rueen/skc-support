@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 09:08:36
+ * @LastEditTime: 2025-04-08 21:00:52
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -12,56 +12,56 @@ const allMenu = [
   {
     path: '/task',
     key: 'task',
-    icon: 'profile-outlined',
+    icon: 'ProfileOutlined',
     title: 'task',
     permissions: 'task:list',
   },
   {
     path: '/pre-audit-tasks',
     key: 'pre-audit-tasks',
-    icon: 'audit-outlined',
+    icon: 'AuditOutlined',
     title: 'taskPreAudit',
     permissions: 'task:preAudit',
   },
   {
     path: '/confirm-audit-tasks',
     key: 'confirm-audit-tasks',
-    icon: 'audit-outlined',
+    icon: 'AuditOutlined',
     title: 'taskConfirmAudit',
     permissions: 'task:confirmAudit',
   },
   {
     path: '/account',
     key: 'account',
-    icon: 'safety-outlined',
+    icon: 'SafetyOutlined',
     title: 'account',
     permissions: 'account:list',
   },
   {
     path: '/member',
     key: 'member',
-    icon: 'team-outlined',
+    icon: 'TeamOutlined',
     title: 'member',
     permissions: 'member:list',
   },
   {
     path: '/channel',
     key: 'channel',
-    icon: 'link-outlined',
+    icon: 'LinkOutlined',
     title: 'channel',
     permissions: 'channel:list',
   },
   {
     path: '/group',
     key: 'group',
-    icon: 'team-outlined',
+    icon: 'TeamOutlined',
     title: 'group',
     permissions: 'group:list',
   },
   {
     path: '/finance',
     key: 'finance',
-    icon: 'pay-circle-outlined',
+    icon: 'PayCircleOutlined',
     title: 'finance',
     permissions: 'finance:withdrawal,finance:bills',
     children: [
@@ -88,21 +88,21 @@ const allMenu = [
   {
     path: '/waiter',
     key: 'waiter',
-    icon: 'user-outlined',
+    icon: 'UserOutlined',
     title: 'waiter',
     permissions: 'waiter:list',
   },
   {
     path: '/article',
     key: 'article',
-    icon: 'file-outlined',
+    icon: 'FileOutlined',
     title: 'article',
     permissions: 'article:list',
   },
   {
     path: '/systemConfig',
     key: 'systemConfig',
-    icon: 'setting-outlined',
+    icon: 'SettingOutlined',
     title: 'systemConfig',
     permissions: 'system:config',
   },
