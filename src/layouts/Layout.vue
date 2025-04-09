@@ -74,8 +74,10 @@
                 <template #overlay>
                   <a-menu>
                     <a-menu-item key="logout" @click="handleLogout">
-                      <logout-outlined />
-                      <span>{{ $t('header.logout') }}</span>
+                      <a-space>
+                        <logout-outlined />
+                        <span>{{ $t('header.logout') }}</span>
+                      </a-space>
                     </a-menu-item>
                   </a-menu>
                 </template>
