@@ -5,7 +5,8 @@
         <div class="left"></div>
         <div class="right">
           <a-button type="primary" @click="handleAdd">
-            添加文章
+            <plus-outlined />
+            {{ $t('article.add') }}
           </a-button>
         </div>
       </div>
@@ -19,13 +20,13 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handlePreview(record)">预览</a>
-              <a @click="handleEdit(record)">编辑</a>
+              <a @click="handlePreview(record)">{{ $t('article.preview') }}</a>
+              <a @click="handleEdit(record)">{{ $t('article.edit') }}</a>
               <a-popconfirm
-                title="确定要删除该文章吗？"
+                :title="$t('article.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a><a-typography-text type="danger">删除</a-typography-text></a>
+                <a><a-typography-text type="danger">{{ $t('article.delete') }}</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -48,19 +49,19 @@
         :label-col="{ span: 4 }"
         :wrapper-col="{ span: 19 }"
       >
-        <a-form-item label="文章标题" name="title">
+        <a-form-item :label="$t('article.title')" name="title">
           <a-input
             v-model:value="formData.title"
-            placeholder="请输入文章标题"
+            :placeholder="$t('article.titlePlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="location" name="location">
+        <a-form-item :label="$t('article.location')" name="location">
           <a-input
             v-model:value="formData.location"
-            placeholder="英文字母、数字（不要以数字开头）、下划线"
+            :placeholder="$t('article.locationPlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="文章内容" name="content">
+        <a-form-item :label="$t('article.content')" name="content">
           <div class="editor-wrapper">
             <textarea ref="editorEl"></textarea>
           </div>
@@ -78,6 +79,9 @@ import config from '@/config/env'
 // 直接导入Froala Editor
 import 'froala-editor/js/froala_editor.pkgd.min.js'
 import FroalaEditor from 'froala-editor'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -153,23 +157,23 @@ const rules = {
 }
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '文章标题',
+    title: t('article.title'),
     dataIndex: 'title',
     key: 'title'
   },
   {
-    title: '更新时间',
+    title: t('article.updateTime'),
     dataIndex: 'updateTime',
     key: 'updateTime'
   },
   {
-    title: '操作',
+    title: t('article.action'),
     key: 'action',
-    width: 150
+    width: 200
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -183,8 +187,8 @@ const pagination = reactive({
 // 计算弹窗标题
 const modalTitle = computed(() => {
   const titles = {
-    add: '添加文章',
-    edit: '编辑文章'
+    add: t('article.addTitle'),
+    edit: t('article.editTitle')
   }
   return titles[modalType.value]
 })

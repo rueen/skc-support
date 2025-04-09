@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:08:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:28:26
+ * @LastEditTime: 2025-04-09 11:36:21
  * @Description: 
  */
 import common from './common'
@@ -17,6 +17,7 @@ import group from './group'
 import withdrawal from './withdrawal'
 import financial from './financial'
 import waiter from './waiter'
+import article from './article'
 
 export default {
   common,
@@ -31,6 +32,7 @@ export default {
   withdrawal,
   financial,
   waiter,
+  article,
   header: {
     logout: '退出登录',
     switchLang: '切换语言'
