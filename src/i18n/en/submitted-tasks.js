@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 09:00:00
+ * @LastEditTime: 2025-04-09 09:02:58
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -10,7 +10,7 @@ export default {
   search: {
     taskName: 'Task Name',
     taskNamePlaceholder: 'Enter task name',
-    channelId: 'Channel',
+    channel: 'Channel',
     channelPlaceholder: 'Select platform channel',
     taskPreAuditStatus: 'Pre-Audit Status',
     taskPreAuditStatusPlaceholder: 'Select pre-audit status',

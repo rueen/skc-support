@@ -11,10 +11,10 @@
               style="width: 140px;"
             />
           </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.channelId')">
+          <a-form-item :label="$t('submittedTasks.search.channel')">
             <a-select
               v-model:value="searchForm.channelId"
-              :placeholder="$t('submittedTasks.search.channelIdPlaceholder')"
+              :placeholder="$t('submittedTasks.search.channelPlaceholder')"
               allow-clear
               style="width: 140px;"
             >
@@ -235,7 +235,7 @@ const channelOptions = ref([])
 const groupOptions = ref([])
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
     title: t('submittedTasks.list.taskName'),
     key: 'taskName'
@@ -268,7 +268,7 @@ const columns = [
     fixed: 'right',
     width: 180
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])

@@ -2,14 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 08:59:19
+ * @LastEditTime: 2025-04-09 09:03:08
  * @Description: 提交任务审核中文翻译
  */
 export default {
   search: {
     taskName: '任务名称',
     taskNamePlaceholder: '请输入任务名称',
-    channelId: '平台渠道',
+    channel: '平台渠道',
     channelPlaceholder: '请选择平台渠道',
     taskPreAuditStatus: '初审状态',
     taskPreAuditStatusPlaceholder: '请选择初审状态',
