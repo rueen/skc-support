@@ -5,7 +5,7 @@
         <div class="left"></div>
         <div class="right">
           <a-button type="primary" @click="handleAdd">
-            添加支付渠道
+            {{ $t('financial.paymentChannels.add') }}
           </a-button>
         </div>
       </div>
@@ -19,12 +19,12 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">编辑</a>
+              <a @click="handleEdit(record)">{{ $t('financial.paymentChannels.edit') }}</a>
               <a-popconfirm
-                title="确定要删除该渠道吗？"
+                :title="$t('financial.paymentChannels.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">删除</a>
+                <a class="danger">{{ $t('financial.paymentChannels.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -46,28 +46,28 @@
         :label-col="{ span: 6 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="支付渠道名称" name="name">
+        <a-form-item :label="$t('financial.paymentChannels.channelName')" name="name">
           <a-input
             v-model:value="formData.name"
-            placeholder="请输入支付渠道名称"
+            :placeholder="$t('financial.paymentChannels.channelNamePlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="银行名称" name="bank">
+        <a-form-item :label="$t('financial.paymentChannels.bankName')" name="bank">
           <a-input
             v-model:value="formData.bank"
-            placeholder="请输入银行名称"
+            :placeholder="$t('financial.paymentChannels.bankNamePlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="商户ID" name="merchantId">
+        <a-form-item :label="$t('financial.paymentChannels.merchantId')" name="merchantId">
           <a-input
             v-model:value="formData.merchantId"
-            placeholder="请输入商户ID"
+            :placeholder="$t('financial.paymentChannels.merchantIdPlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="密钥" name="secretKey">
+        <a-form-item :label="$t('financial.paymentChannels.secretKey')" name="secretKey">
           <a-input
             v-model:value="formData.secretKey"
-            placeholder="请输入密钥"
+            :placeholder="$t('financial.paymentChannels.secretKeyPlaceholder')"
           />
         </a-form-item>
       </a-form>
@@ -79,6 +79,9 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, post, put, del } from '@/utils/request'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -97,41 +100,39 @@ const currentId = ref()
 
 // 表单校验规则
 const rules = {
-  name: [{ required: true, message: '请输入支付渠道名称' }],
-  bank: [{ required: true, message: '请输入银行名称' }],
-  merchantId: [{ required: true, message: '请输入商户ID' }]
+  name: [{ required: true, message: t('financial.paymentChannels.channelNamePlaceholder') }],
+  bank: [{ required: true, message: t('financial.paymentChannels.bankNamePlaceholder') }],
+  merchantId: [{ required: true, message: t('financial.paymentChannels.merchantIdPlaceholder') }]
 }
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '渠道名称',
+    title: t('financial.paymentChannels.channelName'),
     dataIndex: 'name',
     key: 'name'
   },
   {
-    title: '银行名称',
+    title: t('financial.paymentChannels.bankName'),
     dataIndex: 'bank',
     key: 'bank',
-    width: 100
   },
   {
-    title: '商户ID',
+    title: t('financial.paymentChannels.merchantId'),
     dataIndex: 'merchantId',
     key: 'merchantId',
-    width: 100
   },
   {
-    title: '更新时间',
+    title: t('financial.paymentChannels.updateTime'),
     dataIndex: 'updateTime',
     key: 'updateTime'
   },
   {
-    title: '操作',
+    title: t('financial.paymentChannels.action'),
     key: 'action',
     width: 200
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -139,8 +140,8 @@ const tableData = ref([])
 // 计算弹窗标题
 const modalTitle = computed(() => {
   const titles = {
-    add: '添加支付渠道',
-    edit: '编辑支付渠道'
+    add: t('financial.paymentChannels.addTitle'),
+    edit: t('financial.paymentChannels.editTitle')
   }
   return titles[modalType.value]
 })

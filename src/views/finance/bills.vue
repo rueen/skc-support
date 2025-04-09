@@ -4,17 +4,17 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="会员昵称">
+            <a-form-item :label="$t('financial.bills.memberNickname')">
               <a-input
                 v-model:value="searchForm.memberNickname"
-                placeholder="请输入会员昵称"
+                :placeholder="$t('financial.bills.memberNicknamePlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="账单类型">
+            <a-form-item :label="$t('financial.bills.billType')">
               <a-select
                 v-model:value="searchForm.billType"
-                placeholder="请选择账单类型"
+                :placeholder="$t('financial.bills.billTypePlaceholder')"
                 style="width: 120px"
                 allow-clear
               >
@@ -27,10 +27,10 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="结算状态">
+            <a-form-item :label="$t('financial.bills.settlementStatus')">
               <a-select
                 v-model:value="searchForm.settlementStatus"
-                placeholder="请选择结算状态"
+                :placeholder="$t('financial.bills.settlementStatusPlaceholder')"
                 style="width: 120px"
                 allow-clear
               >
@@ -80,7 +80,7 @@
             <span v-else>{{ record.amount }}</span>
           </template>
           <template v-if="column.key === 'remark'">
-            <span v-if="record.remark">{{ record.remark }}(操作人: {{ record.waiterName }})</span>
+            <span v-if="record.remark">{{ record.remark }}({{ $t('financial.bills.operator') }}: {{ record.waiterName }})</span>
             <span v-else>--</span>
           </template>
           <template v-if="column.key === 'settlementStatus'">
@@ -104,7 +104,9 @@ import { message, Modal } from 'ant-design-vue'
 import { get } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const enumStore = useEnumStore()
 const router = useRouter()
 
@@ -147,40 +149,40 @@ const showFailReason = (record) => {
 }
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '会员昵称',
+    title: t('financial.bills.memberNickname'),
     key: 'memberNickname'
   },
   {
-    title: '账单类型',
+    title: t('financial.bills.billType'),
     dataIndex: 'billType',
     key: 'billType'
   },
   {
-    title: '关联任务',
+    title: t('financial.bills.relatedTaskName'),
     key: 'taskName'
   },
   {
-    title: '金额',
+    title: t('financial.bills.amount'),
     dataIndex: 'amount',
     key: 'amount',
     align: 'right'
   },
   {
-    title: '备注',
+    title: t('financial.bills.remark'),
     key: 'remark'
   },
   {
-    title: '创建时间',
+    title: t('financial.bills.createTime'),
     dataIndex: 'createTime',
     key: 'createTime'
   },
   {
-    title: '状态',
+    title: t('financial.bills.settlementStatus'),
     key: 'settlementStatus'
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])

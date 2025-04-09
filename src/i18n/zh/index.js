@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:08:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 10:46:42
+ * @LastEditTime: 2025-04-09 11:10:18
  * @Description: 
  */
 import common from './common'
@@ -15,6 +15,8 @@ import member from './member'
 import channel from './channel'
 import group from './group'
 import withdrawal from './withdrawal'
+import financial from './financial'
+
 export default {
   common,
   login,
@@ -26,6 +28,7 @@ export default {
   channel,
   group,
   withdrawal,
+  financial,
   header: {
     logout: '退出登录',
     switchLang: '切换语言'
