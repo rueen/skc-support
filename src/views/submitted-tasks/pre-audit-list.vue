@@ -3,18 +3,18 @@
     <div class="table-container">
       <div class="table-header">
         <a-form layout="inline" :model="searchForm">
-          <a-form-item label="任务名称">
+          <a-form-item :label="$t('submittedTasks.search.taskName')">
             <a-input
               v-model:value="searchForm.taskName"
-              placeholder="请输入任务名称"
+              :placeholder="$t('submittedTasks.search.taskNamePlaceholder')"
               allow-clear
               style="width: 140px;"
             />
           </a-form-item>
-          <a-form-item label="平台渠道">
+          <a-form-item :label="$t('submittedTasks.search.channelId')">
             <a-select
               v-model:value="searchForm.channelId"
-              placeholder="请选择平台渠道"
+              :placeholder="$t('submittedTasks.search.channelIdPlaceholder')"
               allow-clear
               style="width: 140px;"
             >
@@ -27,10 +27,10 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="初审状态">
+          <a-form-item :label="$t('submittedTasks.search.taskPreAuditStatus')">
             <a-select
               v-model:value="searchForm.taskPreAuditStatus"
-              placeholder="请选择初审状态"
+              :placeholder="$t('submittedTasks.search.taskPreAuditStatusPlaceholder')"
               allow-clear
               style="width: 140px;"
             >
@@ -43,10 +43,10 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="所属群组">
+          <a-form-item :label="$t('submittedTasks.search.groupId')">
             <a-select
               v-model:value="searchForm.groupId"
-              placeholder="请选择群组"
+              :placeholder="$t('submittedTasks.search.groupIdPlaceholder')"
               allow-clear
             >
               <a-select-option
@@ -58,7 +58,7 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="提交时间">
+          <a-form-item :label="$t('submittedTasks.search.submitTime')">
             <a-range-picker
               v-model:value="searchForm.submitTimeRange"
               :show-time="{ format: 'HH:mm' }"
@@ -67,12 +67,12 @@
               style="width: 280px;"
             />
           </a-form-item>
-          <a-form-item label="已完成任务">
+          <a-form-item :label="$t('submittedTasks.search.completedTaskCount')">
             <a-input-number
               v-model:value="searchForm.completedTaskCount"
               :min="0"
               :max="9999"
-              addon-after="次"
+              :addon-after="$t('submittedTasks.search.times')"
               style="width: 100px!important"
             />
           </a-form-item>
@@ -133,20 +133,20 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleView(record)">查看</a>
+              <a @click="handleView(record)">{{ $t('submittedTasks.list.view') }}</a>
               <a-popconfirm
-                title="确定要通过该任务吗？"
+                :title="$t('submittedTasks.list.confirmResolve')"
                 @confirm="handleResolve(record)"
                 v-if="record.taskPreAuditStatus === 'pending'"
               >
-                <a>通过</a>
+                <a>{{ $t('submittedTasks.list.resolve') }}</a>
               </a-popconfirm>
               <a-popconfirm
-                title="确定要拒绝该任务吗？"
+                :title="$t('submittedTasks.list.confirmReject')"
                 @confirm="handleReject(record)"
                 v-if="record.taskPreAuditStatus === 'pending'"
               >
-                <a class="danger">拒绝</a>
+                <a class="danger">{{ $t('submittedTasks.list.reject') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -154,31 +154,16 @@
       </a-table>
     </div>
 
-    <!-- 查看详情弹窗 -->
-    <a-modal
-      v-model:open="detailVisible"
-      title="任务详情"
-      :footer="null"
-    >
-      <a-descriptions :column="1">
-        <a-descriptions-item label="任务名称">{{ currentRecord?.taskName }}</a-descriptions-item>
-        <a-descriptions-item label="任务类型">{{ currentRecord?.taskType }}</a-descriptions-item>
-        <a-descriptions-item label="任务描述">{{ currentRecord?.description }}</a-descriptions-item>
-        <a-descriptions-item label="任务奖励">{{ currentRecord?.reward }}</a-descriptions-item>
-        <a-descriptions-item label="创建时间">{{ currentRecord?.createTime }}</a-descriptions-item>
-      </a-descriptions>
-    </a-modal>
-
     <!-- 拒绝原因弹窗 -->
     <a-modal
       v-model:open="rejectVisible"
-      title="拒绝原因"
+      :title="$t('submittedTasks.list.rejectReason')"
       @ok="handleRejectConfirm"
       :confirmLoading="rejectLoading"
     >
       <a-textarea
         v-model:value="rejectReason"
-        placeholder="请输入拒绝原因"
+        :placeholder="$t('submittedTasks.list.rejectReasonPlaceholder')"
         :rows="4"
       />
     </a-modal>
@@ -192,8 +177,10 @@ import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { downloadByApi } from '@/utils/download'
+import { useI18n } from 'vue-i18n'
 
 const enumStore = useEnumStore()
+const { t } = useI18n()
 
 // 计算审核状态选项
 const taskPreAuditStatusOptions = computed(() => {
@@ -208,11 +195,9 @@ const taskPreAuditStatusOptions = computed(() => {
 
 const router = useRouter()
 const loading = ref(false)
-const detailVisible = ref(false)
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
-const currentRecord = ref(null)
 const selectedRowKeys = ref([])
 
 // 搜索表单
@@ -232,29 +217,29 @@ const groupOptions = ref([])
 // 表格列配置
 const columns = [
   {
-    title: '任务名称',
+    title: t('submittedTasks.list.taskName'),
     key: 'taskName'
   },
   {
-    title: '任务奖励',
+    title: t('submittedTasks.list.reward'),
     dataIndex: 'reward',
     key: 'reward'
   },
   {
-    title: '会员信息',
+    title: t('submittedTasks.list.memberInfo'),
     key: 'member'
   },
   {
-    title: '审核状态',
+    title: t('submittedTasks.list.status'),
     dataIndex: 'taskPreAuditStatus',
     key: 'taskPreAuditStatus'
   },
   {
-    title: '初审员',
+    title: t('submittedTasks.list.preAuditor'),
     key: 'preWaiterName'
   },
   {
-    title: '操作',
+    title: t('submittedTasks.list.action'),
     key: 'action',
     fixed: 'right',
     width: 180
@@ -320,14 +305,14 @@ const handleResolve = async (record) => {
 // 批量审核通过
 const handleBatchResolve = async () => {
   if (!selectedRowKeys.value.length) {
-    message.warning('请选择要通过的任务')
+    message.warning(t('submittedTasks.list.selectTask'))
     return
   }
   const res = await post('taskSubmitted.batchPreAuditApprove', {
     ids: selectedRowKeys.value
   })
   if(res.code === 0) {
-    message.success('批量审核通过成功')
+    message.success(t('submittedTasks.list.batchResolveSuccess'))
     selectedRowKeys.value = []
     loadData()
   } else {
@@ -345,7 +330,7 @@ const handleReject = (record) => {
 // 确认拒绝
 const handleRejectConfirm = async () => {
   if (!rejectReason.value) {
-    message.error('请输入拒绝原因')
+    message.error(t('submittedTasks.list.rejectReasonRequired'))
     return
   }
 
@@ -355,7 +340,7 @@ const handleRejectConfirm = async () => {
     reason: rejectReason.value
   })
   if(res.code === 0) {
-    message.success('审核拒绝成功')
+    message.success(t('submittedTasks.list.rejectSuccess'))
     rejectVisible.value = false
     loadData()
   } else {
@@ -366,7 +351,7 @@ const handleRejectConfirm = async () => {
 // 批量拒绝
 const handleBatchReject = () => {
   if (!selectedRowKeys.value.length) {
-    message.warning('请选择要拒绝的任务')
+    message.warning(t('submittedTasks.list.selectTask'))
     return
   }
   // TODO: 实现批量拒绝逻辑
@@ -383,12 +368,12 @@ const loadChannelOptions = async () => {
 
 const handleExport = () => {
   Modal.confirm({
-    title: '确认导出',
-    content: '确定要导出当前筛选条件下的所有任务数据吗？',
+    title: t('submittedTasks.list.export'),
+    content: t('submittedTasks.list.confirmExportContent'),
     onOk: async () => {
       try {
         // 显示加载中提示
-        const loadingMessage = message.loading('正在导出数据，请稍候...', 0)
+        const loadingMessage = message.loading(t('submittedTasks.list.exporting'), 0)
         
         // 构建导出参数，使用当前的筛选条件
         const params = {
@@ -396,16 +381,16 @@ const handleExport = () => {
         }
         
         // 调用下载API
-        await downloadByApi('taskSubmitted.preAuditExport', params, `初审列表_${new Date().toLocaleDateString()}.xlsx`)
+        await downloadByApi('taskSubmitted.preAuditExport', params, `pre_audit_tasks_${new Date().toLocaleDateString()}.xlsx`)
         
         // 关闭加载提示
         loadingMessage()
         
         // 显示成功提示
-        message.success('导出成功')
+        message.success(t('submittedTasks.list.exportSuccess'))
       } catch (error) {
         console.error('导出失败:', error)
-        message.error('导出失败，请稍后重试')
+        message.error(t('submittedTasks.list.exportFailed'))
       }
     }
   })

@@ -1,50 +1,50 @@
 <template>
   <div class="task-audit-detail content-container">
     <page-header
-      title="任务审核详情"
+      :title="$t('submittedTasks.detail.title')"
       :back="true"
     />
     <div class="detail-container">
       <!-- 任务信息 -->
       <a-collapse ghost class="collapse">
-        <a-collapse-panel header="任务信息">
+        <a-collapse-panel :header="$t('submittedTasks.detail.taskInfo')">
           <a-descriptions :column="2">
-            <a-descriptions-item label="任务名称">
+            <a-descriptions-item :label="$t('submittedTasks.detail.taskName')">
               <a-space>
                 <a-avatar :src="taskInfo.channelIcon" size="small" />
                 <span>{{ taskInfo.taskName }}</span>
               </a-space>
             </a-descriptions-item>
-            <a-descriptions-item label="达人领域">{{ taskInfo.category }}</a-descriptions-item>
-            <a-descriptions-item label="任务类型">{{ enumStore.getEnumText('TaskType', taskInfo.taskType) }}</a-descriptions-item>
-            <a-descriptions-item label="任务奖励">{{ taskInfo.reward }} 元</a-descriptions-item>
-            <a-descriptions-item label="品牌">{{ taskInfo.brand }}</a-descriptions-item>
-            <a-descriptions-item label="指定群组">
-              <span v-if="taskInfo.groupMode === 0">不指定</span>
+            <a-descriptions-item :label="$t('submittedTasks.detail.category')">{{ taskInfo.category }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.taskType')">{{ enumStore.getEnumText('TaskType', taskInfo.taskType) }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.reward')">{{ taskInfo.reward }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.brand')">{{ taskInfo.brand }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.specifyGroup')">
+              <span v-if="taskInfo.groupMode === 0">{{ $t('submittedTasks.detail.noSpecify') }}</span>
               <span v-else>{{ taskInfo.groupNames?.join('、') }}</span>
             </a-descriptions-item>
-            <a-descriptions-item label="任务时间">
-              {{ taskInfo.startTime }} 至 {{ taskInfo.endTime }}
+            <a-descriptions-item :label="$t('submittedTasks.detail.taskTime')">
+              {{ taskInfo.startTime }} {{ $t('submittedTasks.detail.to') }} {{ taskInfo.endTime }}
             </a-descriptions-item>
-            <a-descriptions-item label="任务名额">
-              {{ taskInfo.unlimitedQuota ? '不限制' : taskInfo.quota }}
+            <a-descriptions-item :label="$t('submittedTasks.detail.quota')">
+              {{ taskInfo.unlimitedQuota ? $t('submittedTasks.detail.noLimit') : taskInfo.quota }}
             </a-descriptions-item>
-            <a-descriptions-item label="粉丝要求">{{ taskInfo.fansRequired }} 粉丝</a-descriptions-item>
-            <a-descriptions-item label="作品要求">{{ taskInfo.contentRequirement }}</a-descriptions-item>
-            <a-descriptions-item label="任务信息">{{ taskInfo.taskInfo }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.fansRequired')">{{ taskInfo.fansRequired }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.contentRequirement')">{{ taskInfo.contentRequirement }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.taskInfo')">{{ taskInfo.taskInfo }}</a-descriptions-item>
           </a-descriptions>
         </a-collapse-panel>
       </a-collapse>
 
       <!-- 会员信息 -->
       <div class="detail-section">
-        <div class="section-title">会员信息</div>
+        <div class="section-title">{{ $t('submittedTasks.detail.memberInfo') }}</div>
         <a-descriptions :column="2">
-          <a-descriptions-item label="会员昵称">
+          <a-descriptions-item :label="$t('submittedTasks.detail.memberNickname')">
             {{ memberInfo.nickname }}
           </a-descriptions-item>
-          <a-descriptions-item label="账号">{{ memberInfo.account }}</a-descriptions-item>
-          <a-descriptions-item label="所属群">
+          <a-descriptions-item :label="$t('submittedTasks.detail.account')">{{ memberInfo.account }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('submittedTasks.detail.group')">
             <div v-for="item in memberInfo.groups">
               <span>{{ item.groupName }}</span>
               <a-tag v-if="item.isOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
@@ -54,30 +54,30 @@
         </a-descriptions>
         <div v-for="account in accountList" :key="account.channelId">
           <a-descriptions :column="2">
-            <a-descriptions-item label="账号">
+            <a-descriptions-item :label="$t('submittedTasks.detail.account')">
               <a-space>
                 <a-avatar :src="account.channelIcon" size="small" />
                 <span>{{ account.account }}</span>
                 <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', account.accountAuditStatus) }}</a-tag>
               </a-space>
             </a-descriptions-item>
-            <a-descriptions-item label="主页">
+            <a-descriptions-item :label="$t('submittedTasks.detail.homepage')">
               <CopyContent :content="account.homeUrl">
                 <div class="link-text-container">
                   <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
                 </div>
               </CopyContent>
             </a-descriptions-item>
-            <a-descriptions-item label="粉丝数" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
-            <a-descriptions-item label="好友数" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
-            <a-descriptions-item label="发帖数" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.fansCount')" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.friendsCount')" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.postsCount')" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
           </a-descriptions>
         </div>
       </div>
 
       <!-- 提交信息 -->
       <div class="detail-section">
-        <div class="section-title">提交信息</div>
+        <div class="section-title">{{ $t('submittedTasks.detail.submitInfo') }}</div>
         <a-descriptions :column="2">
           <template v-for="(field, index) in submittedInfo?.submitContent?.customFields" :key="index">
             <a-descriptions-item :label="field.title">
@@ -92,23 +92,23 @@
 
       <!-- 审核信息 -->
       <div class="detail-section">
-        <div class="section-title">审核信息</div>
+        <div class="section-title">{{ $t('submittedTasks.detail.auditInfo') }}</div>
         <a-descriptions :column="2">
-          <a-descriptions-item label="提交时间">{{ submittedInfo.submitTime }}</a-descriptions-item>
-          <a-descriptions-item label="初审状态">
+          <a-descriptions-item :label="$t('submittedTasks.detail.submitTime')">{{ submittedInfo.submitTime }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('submittedTasks.detail.preAuditStatus')">
             {{ enumStore.getEnumText('TaskPreAuditStatus', submittedInfo.taskPreAuditStatus) }}
           </a-descriptions-item>
-          <a-descriptions-item label="初审员">
+          <a-descriptions-item :label="$t('submittedTasks.detail.preAuditor')">
             {{ submittedInfo.preWaiterName }}
           </a-descriptions-item>
-          <a-descriptions-item label="复审状态" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
+          <a-descriptions-item :label="$t('submittedTasks.detail.confirmAuditStatus')" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
             {{ enumStore.getEnumText('TaskAuditStatus', submittedInfo.taskAuditStatus) }}
           </a-descriptions-item>
-          <a-descriptions-item label="复审员" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
+          <a-descriptions-item :label="$t('submittedTasks.detail.confirmAuditor')" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
             {{ submittedInfo.waiterName }}
           </a-descriptions-item>
           <template v-if="submittedInfo.auditStatus === 'rejected'">
-            <a-descriptions-item label="拒绝原因">{{ submittedInfo.rejectReason }}</a-descriptions-item>
+            <a-descriptions-item :label="$t('submittedTasks.detail.rejectReason')">{{ submittedInfo.rejectReason }}</a-descriptions-item>
           </template>
         </a-descriptions>
       </div>
@@ -121,20 +121,24 @@
               type="primary"
               @click="handleResolve"
             >
-              审核通过
+              {{ $t('submittedTasks.detail.approve') }}
             </a-button>
             <a-button
               danger
               @click="handleReject"
             >
-              审核拒绝
+              {{ $t('submittedTasks.detail.reject') }}
             </a-button>
           </a-space>
         </div>
         <div class="right">
           <a-space>
-            <a-button @click="handlePrev" v-if="submittedInfo.prevTaskId && submittedInfo.prevTaskId !== submittedInfo.nextTaskId">上一个</a-button>
-            <a-button @click="handleNext" v-if="submittedInfo.nextTaskId">下一个</a-button>
+            <a-button @click="handlePrev" v-if="submittedInfo.prevTaskId && submittedInfo.prevTaskId !== submittedInfo.nextTaskId">
+              {{ $t('submittedTasks.detail.prev') }}
+            </a-button>
+            <a-button @click="handleNext" v-if="submittedInfo.nextTaskId">
+              {{ $t('submittedTasks.detail.next') }}
+            </a-button>
           </a-space>
         </div>
       </div>
@@ -143,13 +147,13 @@
     <!-- 拒绝原因弹窗 -->
     <a-modal
       v-model:open="rejectVisible"
-      title="拒绝原因"
+      :title="$t('submittedTasks.detail.rejectReason')"
       @ok="handleRejectConfirm"
       :confirmLoading="rejectLoading"
     >
       <a-textarea
         v-model:value="rejectReason"
-        placeholder="请输入拒绝原因"
+        :placeholder="$t('submittedTasks.detail.rejectReasonPlaceholder')"
         :rows="4"
       />
     </a-modal>
@@ -198,7 +202,7 @@ const handleResolve = async () => {
     ids: [submittedId.value]
   })
   if(res.code === 0) {
-    message.success('审核通过成功')
+    message.success($t('submittedTasks.detail.resolveSuccess'))
     getDetail()
   } else {
     message.error(res.message)
@@ -214,7 +218,7 @@ const handleReject = () => {
 // 确认拒绝
 const handleRejectConfirm = async () => {
   if (!rejectReason.value) {
-    message.error('请输入拒绝原因')
+    message.error($t('submittedTasks.detail.rejectReasonRequired'))
     return
   }
 
@@ -225,7 +229,7 @@ const handleRejectConfirm = async () => {
     reason: rejectReason.value
   })
   if(res.code === 0) {
-    message.success('审核拒绝成功')
+    message.success($t('submittedTasks.detail.rejectSuccess'))
     rejectVisible.value = false
     getDetail()
   } else {
@@ -263,7 +267,7 @@ const getTaskDetail = async (taskId) => {
       message.error(res.message)
     }
   } catch (error) {
-    message.error('获取任务详情失败')
+    message.error($t('submittedTasks.detail.getTaskDetailFailed'))
   }
 }
 
@@ -281,7 +285,7 @@ const getMemberDetail = async (memberId) => {
       message.error(res.message)
     }
   } catch (error) {
-    message.error('获取会员详情失败')
+    message.error($t('submittedTasks.detail.getMemberDetailFailed'))
   }
 }
 
@@ -309,7 +313,7 @@ const getDetail = async () => {
       }
     }
   } catch (error) {
-    message.error('获取详情失败')
+    message.error($t('submittedTasks.detail.getDetailFailed'))
   }
 }
 

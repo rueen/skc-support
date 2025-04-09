@@ -3,18 +3,18 @@
     <div class="table-container">
       <div class="table-header">
         <a-form layout="inline" :model="searchForm">
-          <a-form-item label="任务名称">
+          <a-form-item :label="$t('submittedTasks.search.taskName')">
             <a-input
               v-model:value="searchForm.taskName"
-              placeholder="请输入任务名称"
+              :placeholder="$t('submittedTasks.search.taskNamePlaceholder')"
               allow-clear
               style="width: 140px;"
             />
           </a-form-item>
-          <a-form-item label="平台渠道">
+          <a-form-item :label="$t('submittedTasks.search.channelId')">
             <a-select
               v-model:value="searchForm.channelId"
-              placeholder="请选择平台渠道"
+              :placeholder="$t('submittedTasks.search.channelIdPlaceholder')"
               allow-clear
               style="width: 140px;"
             >
@@ -27,10 +27,10 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="复审状态">
+          <a-form-item :label="$t('submittedTasks.search.taskAuditStatus')">
             <a-select
               v-model:value="searchForm.taskAuditStatus"
-              placeholder="请选择复审状态"
+              :placeholder="$t('submittedTasks.search.taskAuditStatusPlaceholder')"
               allow-clear
               style="width: 140px;"
             >
@@ -43,10 +43,10 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="所属群组">
+          <a-form-item :label="$t('submittedTasks.search.groupId')">
             <a-select
               v-model:value="searchForm.groupId"
-              placeholder="请选择群组"
+              :placeholder="$t('submittedTasks.search.groupIdPlaceholder')"
               allow-clear
             >
               <a-select-option
@@ -58,7 +58,7 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="提交时间">
+          <a-form-item :label="$t('submittedTasks.search.submitTime')">
             <a-range-picker
               v-model:value="searchForm.submitTimeRange"
               :show-time="{ format: 'HH:mm' }"
@@ -67,12 +67,12 @@
               style="width: 280px;"
             />
           </a-form-item>
-          <a-form-item label="已完成任务">
+          <a-form-item :label="$t('submittedTasks.search.completedTaskCount')">
             <a-input-number
               v-model:value="searchForm.completedTaskCount"
               :min="0"
               :max="9999"
-              addon-after="次"
+              :addon-after="$t('submittedTasks.search.times')"
               style="width: 100px!important"
             />
           </a-form-item>
@@ -195,8 +195,10 @@ import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { downloadByApi } from '@/utils/download'
+import { useI18n } from 'vue-i18n'
 
 const enumStore = useEnumStore()
+const { t } = useI18n()
 
 // 计算审核状态选项
 const taskAuditStatusOptions = computed(() => {
@@ -235,33 +237,33 @@ const groupOptions = ref([])
 // 表格列配置
 const columns = [
   {
-    title: '任务名称',
+    title: t('submittedTasks.list.taskName'),
     key: 'taskName'
   },
   {
-    title: '任务奖励',
+    title: t('submittedTasks.list.reward'),
     dataIndex: 'reward',
     key: 'reward'
   },
   {
-    title: '会员信息',
+    title: t('submittedTasks.list.memberInfo'),
     key: 'member'
   },
   {
-    title: '审核状态',
+    title: t('submittedTasks.list.status'),
     dataIndex: 'taskAuditStatus',
     key: 'taskAuditStatus'
   },
   {
-    title: '初审员',
+    title: t('submittedTasks.list.preAuditor'),
     key: 'preWaiterName'
   },
   {
-    title: '复审员',
+    title: t('submittedTasks.list.confirmAuditor'),
     key: 'waiterName'
   },
   {
-    title: '操作',
+    title: t('submittedTasks.list.action'),
     key: 'action',
     fixed: 'right',
     width: 180

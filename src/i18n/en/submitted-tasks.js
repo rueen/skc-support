@@ -6,73 +6,66 @@
  * @Description: Submitted tasks audit English translations
  */
 export default {
-  // Common
-  common: {
-    taskName: 'Task Name',
-    channelId: 'Platform Channel',
-    reward: 'Task Reward',
-    memberInfo: 'Member Info',
-    taskReward: 'Task Reward',
-    submitTime: 'Submit Time',
-    completedTaskCount: 'Completed Tasks',
-    groupId: 'Group',
-    isGroupOwner: 'Owner',
-    times: 'times',
-    view: 'View',
-    approve: 'Approve',
-    reject: 'Reject',
-    approveConfirm: 'Are you sure you want to approve this task?',
-    rejectConfirm: 'Are you sure you want to reject this task?',
-    rejectReason: 'Rejection Reason',
-    rejectReasonPlaceholder: 'Enter rejection reason',
-    rejectReasonRequired: 'Please enter rejection reason',
-    approveSuccess: 'Approved successfully',
-    rejectSuccess: 'Rejected successfully',
-    prev: 'Previous',
-    next: 'Next'
-  },
-  
-  // Pre-audit list page
-  preAudit: {
-    title: 'Task Pre-Audit',
-    status: 'Pre-Audit Status',
-    statusPlaceholder: 'Select pre-audit status',
-    auditor: 'Pre-Auditor'
-  },
-  
-  // Confirm audit list page
-  confirmAudit: {
-    title: 'Task Confirm Audit',
-    status: 'Confirm Audit Status',
-    statusPlaceholder: 'Select confirm audit status',
-    preAuditor: 'Pre-Auditor',
-    auditor: 'Confirm Auditor'
-  },
-  
   // Search form
   search: {
     taskName: 'Task Name',
     taskNamePlaceholder: 'Enter task name',
-    channelId: 'Platform Channel',
+    channelId: 'Channel',
     channelPlaceholder: 'Select platform channel',
+    taskPreAuditStatus: 'Pre-Audit Status',
+    taskPreAuditStatusPlaceholder: 'Select pre-audit status',
+    taskAuditStatus: 'Audit Status',
+    taskAuditStatusPlaceholder: 'Select audit status',
     groupId: 'Group',
-    groupPlaceholder: 'Select group',
+    groupIdPlaceholder: 'Select group',
     submitTime: 'Submit Time',
-    completedTaskCount: 'Completed Tasks'
+    completedTaskCount: 'Completed Tasks',
+    times: 'times'
+  },
+
+  list: {
+    taskName: 'Task Name',
+    reward: 'Task Reward',
+    memberInfo: 'Member Info',
+    status: 'Status',
+    preAuditor: 'Pre-Auditor',
+    confirmAuditor: 'Auditor',
+    action: 'Action',
+    view: 'View',
+    resolve: 'Resolve',
+    reject: 'Reject',
+    confirmResolve: 'Are you sure you want to resolve this task?',
+    confirmReject: 'Are you sure you want to reject this task?',
+    rejectReason: 'Rejection Reason',
+    rejectReasonPlaceholder: 'Enter rejection reason',
+    selectTask: 'Please select task',
+    batchResolveSuccess: 'Batch resolve success',
+    rejectSuccess: 'Reject success',
+    confirmExport: 'Confirm Export',
+    confirmExportContent: 'Are you sure you want to export the task data under the current filter conditions?',
+    rejectReasonRequired: 'Please enter the rejection reason',
+    export: 'Export',
+    confirmExportContent: 'Are you sure you want to export the task data under the current filter conditions?',
+    exporting: 'Exporting data, please wait...',
+    exportSuccess: 'Export success',
+    exportFailed: 'Export failed, please try again later'
   },
   
   // Detail page
   detail: {
     title: 'Task Audit Detail',
+    taskName: 'Task Name',
     taskInfo: 'Task Information',
     category: 'Creator Category',
     taskType: 'Task Type',
+    reward: 'Reward',
     brand: 'Brand',
     specifyGroup: 'Specify Groups',
     noSpecify: 'No specification',
     taskTime: 'Task Time',
     to: 'to',
     quota: 'Task Quota',
+    noLimit: 'No limit',
     unlimited: 'Unlimited',
     fansRequired: 'Fans Requirement',
     fans: 'fans',
@@ -82,7 +75,7 @@ export default {
     memberInfo: 'Member Information',
     memberNickname: 'Member Nickname',
     account: 'Account',
-    memberGroup: 'Member Group',
+    group: 'Group',
     homepage: 'Homepage',
     fansCount: 'Fans Count',
     friendsCount: 'Friends Count',
