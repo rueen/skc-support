@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 21:04:27
+ * @LastEditTime: 2025-04-09 15:31:48
  * @Description: 
  */
 export default {
@@ -27,5 +27,7 @@ export default {
   deleteSuccess: '删除成功',
   deleteFailed: '删除失败',
   saveSuccess: '保存成功',
-  saveFailed: '保存失败'
+  saveFailed: '保存失败',
+
+  groupOwner: '群主'
 } 

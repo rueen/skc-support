@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 21:04:20
+ * @LastEditTime: 2025-04-09 15:31:15
  * @Description: 
  */
 export default {
@@ -27,5 +27,7 @@ export default {
   deleteSuccess: 'Delete success',
   deleteFailed: 'Delete failed',
   saveSuccess: 'Save success',
-  saveFailed: 'Save failed'
+  saveFailed: 'Save failed',
+
+  groupOwner: 'Owner'
 } 

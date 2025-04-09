@@ -45,10 +45,10 @@
           </a-descriptions-item>
           <a-descriptions-item :label="$t('submittedTasks.detail.account')">{{ memberInfo.account }}</a-descriptions-item>
           <a-descriptions-item :label="$t('submittedTasks.detail.group')">
-            <div v-for="item in memberInfo.groups">
+            <a-space v-for="item in memberInfo.groups">
               <span>{{ item.groupName }}</span>
-              <a-tag v-if="item.isOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
-            </div>
+              <GroupOwner v-if="item.isOwner" />
+            </a-space>
             <span v-if="!memberInfo.groups || memberInfo.groups.length === 0">--</span>
           </a-descriptions-item>
         </a-descriptions>
@@ -168,7 +168,7 @@ import PageHeader from '@/components/PageHeader.vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
-
+import GroupOwner from '@/components/GroupOwner.vue'
 const enumStore = useEnumStore()
 
 const route = useRoute()

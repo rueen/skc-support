@@ -37,10 +37,10 @@
             {{ memberInfo.telegram || '-' }}
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.view.group')">
-            <div v-for="item in memberInfo.groups" :key="item.id">
+            <a-space v-for="item in memberInfo.groups" :key="item.id">
               {{ item.groupName }}
-              <a-tag v-if="item.isOwner" color="blue" style="margin-left: 8px">群主</a-tag>
-            </div>
+              <GroupOwner v-if="item.isOwner" />
+            </a-space>
             <span v-if="!memberInfo.groups || !memberInfo.groups.length"> - </span>
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.view.inviter')">
@@ -191,6 +191,7 @@ import { useEnumStore } from '@/stores'
 import config from '@/config/env'
 import CopyContent from '@/components/CopyContent.vue'
 import { useI18n } from 'vue-i18n'
+import GroupOwner from '@/components/GroupOwner.vue'
 
 const { t } = useI18n()
 const enumStore = useEnumStore()

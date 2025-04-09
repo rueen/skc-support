@@ -139,10 +139,10 @@
           <template v-if="column.key === 'member'">
             <div>
               <div>{{ record.memberNickname }}</div>
-              <div class="group-name">
+              <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
-                <a-tag v-if="record.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
-              </div>
+                <GroupOwner v-if="record.isGroupOwner" />
+              </a-space>
             </div>
           </template>
           <template v-if="column.key === 'accountAuditStatus'">
@@ -200,6 +200,7 @@ import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import GroupOwner from '@/components/GroupOwner.vue'
 
 const router = useRouter()
 const enumStore = useEnumStore()

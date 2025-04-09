@@ -124,11 +124,11 @@
           </template>
           <template v-if="column.key === 'member'">
             <div>
-              <div>{{ record.memberNickname }}</div>
-              <div class="group-name">
+              <div>{{ record.nickname }}</div>
+              <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
-                <a-tag v-if="record.isGroupOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
-              </div>
+                <GroupOwner v-if="record.isOwner" />
+              </a-space>
             </div>
           </template>
           <template v-if="column.key === 'action'">
@@ -178,6 +178,7 @@ import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { downloadByApi } from '@/utils/download'
 import { useI18n } from 'vue-i18n'
+import GroupOwner from '@/components/GroupOwner.vue'
 
 const enumStore = useEnumStore()
 const { t } = useI18n()

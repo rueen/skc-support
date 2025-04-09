@@ -78,10 +78,10 @@
             {{ record.inviterNickname || '--' }}
           </template>
           <template v-if="column.key === 'groups'">
-            <div v-for="item in record.groups">
+            <a-space v-for="item in record.groups">
               <span>{{ item.groupName }}</span>
-              <a-tag v-if="item.isOwner" color="blue" style="margin-left: 10px;">群主</a-tag>
-            </div>
+              <GroupOwner v-if="item.isOwner" />
+            </a-space>
             <span v-if="!record.groups || record.groups.length === 0">--</span>
           </template>
           <template v-if="column.key === 'action'">
@@ -110,6 +110,7 @@ import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import { useI18n } from 'vue-i18n'
+import GroupOwner from '@/components/GroupOwner.vue'
 
 const enumStore = useEnumStore()
 const { t } = useI18n()
