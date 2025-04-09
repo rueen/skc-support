@@ -4,17 +4,17 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="账号">
+            <a-form-item :label="$t('account.search.account')">
               <a-input
                 v-model:value="searchForm.keyword"
-                placeholder="请输入账号名称 / uid"
+                :placeholder="$t('account.search.accountPlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="平台渠道">
+            <a-form-item :label="$t('account.search.channel')">
               <a-select
                 v-model:value="searchForm.channelId"
-                placeholder="请选择平台渠道"
+                :placeholder="$t('account.search.channelPlaceholder')"
                 style="width: 120px"
                 allow-clear
               >
@@ -27,10 +27,10 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="审核状态">
+            <a-form-item :label="$t('account.search.auditStatus')">
               <a-select
                 v-model:value="searchForm.accountAuditStatus"
-                placeholder="请选择审核状态"
+                :placeholder="$t('account.search.auditStatusPlaceholder')"
                 style="width: 120px"
                 allow-clear
               >
@@ -43,10 +43,10 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="所属群组">
+            <a-form-item :label="$t('account.search.group')">
               <a-select
                 v-model:value="searchForm.groupId"
-                placeholder="请选择群组"
+                :placeholder="$t('account.search.groupPlaceholder')"
                 style="width: 120px"
                 allow-clear
                 show-search
@@ -62,10 +62,10 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="会员">
+            <a-form-item :label="$t('account.search.member')">
               <a-select
                 v-model:value="searchForm.memberId"
-                placeholder="请选择会员"
+                :placeholder="$t('account.search.memberPlaceholder')"
                 style="width: 120px"
                 allow-clear
                 show-search
@@ -97,7 +97,7 @@
         </div>
       </div>
       <div style="text-align: left;margin-bottom: 16px;">
-        <a-button @click="openOldAccount">FB老账号管理</a-button>
+        <a-button @click="openOldAccount">{{ $t('account.list.oldAccount') }}</a-button>
       </div>
       <a-table
         :columns="searchForm.accountAuditStatus === 'rejected' ? columns2 : (searchForm.accountAuditStatus === 'pending' ? columns1 : columns)"
@@ -119,7 +119,7 @@
             <div class="account-info">
               <div>
                 <div class="link-text-container">
-                  <span class="label">主页：</span>
+                  <span class="label">{{ $t('account.list.homepage') }}：</span>
                   <CopyContent :content="record.homeUrl">
                     <a :href="record.homeUrl" target="_blank" class="link-text">{{ record.homeUrl }}</a>
                   </CopyContent>
@@ -130,9 +130,9 @@
                 <CopyContent :content="record.uid" />
               </div>
               <div class="stats">
-                <div class="stat-item" v-if="record.channelCustomFields.includes('fansCount')">粉丝数：{{ record.fansCount }}</div>
-                <div class="stat-item" v-if="record.channelCustomFields.includes('friendsCount')">好友数：{{ record.friendsCount }}</div>
-                <div class="stat-item" v-if="record.channelCustomFields.includes('postsCount')">发帖数：{{ record.postsCount }}</div>
+                <div class="stat-item" v-if="record.channelCustomFields.includes('fansCount')">{{ $t('account.list.fansCount') }}：{{ record.fansCount }}</div>
+                <div class="stat-item" v-if="record.channelCustomFields.includes('friendsCount')">{{ $t('account.list.friendsCount') }}：{{ record.friendsCount }}</div>
+                <div class="stat-item" v-if="record.channelCustomFields.includes('postsCount')">{{ $t('account.list.postsCount') }}：{{ record.postsCount }}</div>
               </div>
             </div>
           </template>
@@ -154,18 +154,18 @@
           <template v-if="column.key === 'action'">
             <a-space>
               <a-popconfirm
-                title="确定要通过该账号吗？"
+                :title="$t('account.list.resolveConfirm')"
                 @confirm="handleResolve(record)"
                 v-if="record.accountAuditStatus === 'pending'"
               >
-                <a>通过</a>
+                <a>{{ $t('account.list.resolve') }}</a>
               </a-popconfirm>
               <a-popconfirm
-                title="确定要拒绝该账号吗？"
+                :title="$t('account.list.rejectConfirm')"
                 @confirm="handleReject(record)"
                 v-if="record.accountAuditStatus === 'pending'"
               >
-                <a class="danger">拒绝</a>
+                <a class="danger">{{ $t('account.list.reject') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -179,13 +179,13 @@
     <!-- 拒绝原因弹窗 -->
     <a-modal
       v-model:open="rejectVisible"
-      title="拒绝原因"
+      :title="$t('account.list.rejectReason')"
       @ok="handleRejectConfirm"
       :confirmLoading="rejectLoading"
     >
       <a-textarea
         v-model:value="rejectReason"
-        placeholder="请输入拒绝原因"
+        :placeholder="$t('account.list.rejectReasonPlaceholder')"
         :rows="4"
       />
     </a-modal>
@@ -199,9 +199,11 @@ import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const enumStore = useEnumStore()
+const { t } = useI18n()
 
 // 计算审核状态选项
 const accountAuditStatusOptions = computed(() => {
@@ -237,43 +239,43 @@ const groupOptions = ref([])
 const memberOptions = ref([])
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '账号名称',
+    title: t('account.list.account'),
     key: 'account'
   },
   {
-    title: '账号详情',
+    title: t('account.list.accountInfo'),
     key: 'accountInfo'
   },
   {
-    title: '会员信息',
+    title: t('account.list.member'),
     key: 'member'
   },
   {
-    title: '审核状态',
+    title: t('account.list.auditStatus'),
     dataIndex: 'accountAuditStatus',
     key: 'accountAuditStatus'
   },
   {
-    title: '审核员',
+    title: t('account.list.waiterName'),
     key: 'waiterName'
   }
-]
-const columns1 = [
-  ...columns,
+])
+const columns1 = computed(() => [
+  ...columns.value,
   {
-    title: '操作',
+    title: t('account.list.action'),
     key: 'action',
   }
-]
-const columns2 = [
-  ...columns,
+])
+const columns2 = computed(() => [
+  ...columns.value,
   {
-    title: '拒绝原因',
+    title: t('account.list.rejectReason'),
     key: 'rejectReason',
   }
-]
+])
 
 // 表格选择配置
 const rowSelection = {

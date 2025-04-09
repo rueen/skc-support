@@ -2,14 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 20:54:08
+ * @LastEditTime: 2025-04-09 09:45:10
  * @Description: FB老账号管理
 -->
 
 <template>
   <div class="old-account content-container">
     <page-header
-      title="FB老账号管理"
+      :title="$t('account.list.oldAccount')"
       :back="true"
       style="margin-bottom: 0;"
     />
@@ -17,17 +17,17 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="搜索关键词">
+            <a-form-item :label="$t('account.oldList.keyword')">
               <a-input
                 v-model:value="searchForm.keyword"
-                placeholder="请输入账户/昵称/链接"
+                :placeholder="$t('account.oldList.keywordPlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="关联会员">
+            <a-form-item :label="$t('account.oldList.member')">
               <a-select
                 v-model:value="searchForm.memberId"
-                placeholder="请选择关联会员"
+                :placeholder="$t('account.oldList.memberPlaceholder')"
                 style="width: 120px"
                 allow-clear
                 show-search
@@ -66,12 +66,12 @@
             >
               <a-button>
                 <upload-outlined />
-                导入账号
+                {{ $t('account.oldList.import') }}
               </a-button>
             </a-upload>
             <a-button type="primary" @click="showAddModal">
               <plus-outlined />
-              添加账号
+              {{ $t('account.oldList.add') }}
             </a-button>
           </a-space>
         </div>
@@ -104,12 +104,12 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">编辑</a>
+              <a @click="handleEdit(record)">{{ $t('account.oldList.edit') }}</a>
               <a-popconfirm
-                title="确定要删除该账号吗？"
+                :title="$t('account.oldList.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">删除</a>
+                <a class="danger">{{ $t('account.oldList.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -124,15 +124,21 @@
       @ok="handleModalSubmit"
       :confirmLoading="modalLoading"
     >
-      <a-form :model="formData" :rules="rules" ref="formRef" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
-        <a-form-item label="FB账户" name="uid">
-          <a-input v-model:value="formData.uid" placeholder="请输入FB账户" />
+      <a-form
+        :model="formData"
+        :rules="rules"
+        ref="formRef"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 18 }"
+      >
+        <a-form-item :label="$t('account.oldList.FBAccount')" name="uid">
+          <a-input v-model:value="formData.uid" :placeholder="$t('account.oldList.FBAccountPlaceholder')" />
         </a-form-item>
-        <a-form-item label="FB昵称" name="nickname">
-          <a-input v-model:value="formData.nickname" placeholder="请输入FB昵称" />
+        <a-form-item :label="$t('account.oldList.FBNickname')" name="nickname">
+          <a-input v-model:value="formData.nickname" :placeholder="$t('account.oldList.FBNicknamePlaceholder')" />
         </a-form-item>
-        <a-form-item label="FB链接" name="homeUrl">
-          <a-input v-model:value="formData.homeUrl" placeholder="请输入FB链接" />
+        <a-form-item :label="$t('account.oldList.FBHomepage')" name="homeUrl">
+          <a-input v-model:value="formData.homeUrl" :placeholder="$t('account.oldList.FBHomepagePlaceholder')" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -141,14 +147,16 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { get, post, put, del } from '@/utils/request'
 import CopyContent from '@/components/CopyContent.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import config from '@/config/env'
+import { useI18n } from 'vue-i18n'
 
 const loading = ref(false)
 const formRef = ref(null)
+const { t } = useI18n()
 
 // 上传配置
 const uploadConfig = {
@@ -168,30 +176,30 @@ const searchForm = reactive({
 const memberOptions = ref([])
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: 'FB账户',
+    title: t('account.oldList.FBAccount'),
     key: 'account',
     dataIndex: 'uid'
   },
   {
-    title: 'FB昵称',
+    title: t('account.oldList.FBNickname'),
     key: 'nickname',
     dataIndex: 'nickname'
   },
   {
-    title: 'FB链接',
+    title: t('account.oldList.FBHomepage'),
     key: 'homeUrl'
   },
   {
-    title: '关联会员',
+    title: t('account.oldList.linkedMember'),
     key: 'member'
   },
   {
-    title: '操作',
+    title: t('account.oldList.action'),
     key: 'action'
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -205,7 +213,7 @@ const pagination = reactive({
 // 弹窗相关
 const modalVisible = ref(false)
 const modalLoading = ref(false)
-const modalTitle = computed(() => formData.id ? '编辑账号' : '添加账号')
+const modalTitle = computed(() => formData.id ? t('account.oldList.editTitle') : t('account.oldList.addTitle'))
 
 // 表单数据
 const formData = reactive({
@@ -217,11 +225,11 @@ const formData = reactive({
 
 // 表单校验规则
 const rules = {
-  uid: [{ required: true, message: '请输入FB账户', trigger: 'blur' }],
-  nickname: [{ required: true, message: '请输入FB昵称', trigger: 'blur' }],
+  uid: [{ required: true, message: t('account.oldList.FBAccountPlaceholder'), trigger: 'blur' }],
+  nickname: [{ required: true, message: t('account.oldList.FBNicknamePlaceholder'), trigger: 'blur' }],
   homeUrl: [
-    { required: true, message: '请输入FB链接', trigger: 'blur' },
-    { pattern: /^https?:\/\//, message: '请输入有效的链接，以http://或https://开头', trigger: 'blur' }
+    { required: true, message: t('account.oldList.FBHomepagePlaceholder'), trigger: 'blur' },
+    { pattern: /^https?:\/\//, message: t('account.oldList.FBHomepagePlaceholder2'), trigger: 'blur' }
   ]
 }
 
@@ -281,13 +289,13 @@ const handleDelete = async (record) => {
       urlParams: { id: record.id }
     })
     if (res.code === 0) {
-      message.success('删除成功')
+      message.success('delete success')
       loadData()
     } else {
       message.error(res.message)
     }
   } catch (error) {
-    message.error('删除失败')
+    message.error('delete failed')
   }
 }
 
@@ -308,7 +316,7 @@ const handleModalSubmit = () => {
       }
 
       if (res.code === 0) {
-        message.success(formData.id ? '编辑成功' : '添加成功')
+        message.success(formData.id ? 'edit success' : 'add success')
         modalVisible.value = false
         loadData()
       } else {
@@ -318,7 +326,7 @@ const handleModalSubmit = () => {
       modalLoading.value = false
     }
   }).catch(error => {
-    console.log('验证失败', error)
+    console.log('validate failed', error)
   })
 }
 
@@ -327,13 +335,13 @@ const beforeUpload = (file) => {
   const isExcel = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
                   file.type === 'application/vnd.ms-excel'
   if (!isExcel) {
-    message.error('请上传Excel文件(.xlsx或.xls)')
+    message.error(t('account.oldList.uploadExcelError'))
     return false
   }
   
   // 提示用户Excel文件要求
   const key = 'importTip'
-  message.loading({ content: '正在上传和处理Excel文件...', key })
+  message.loading({ content: t('account.oldList.uploadExcelLoading'), key })
 
   return true
 }
@@ -344,10 +352,12 @@ const handleUploadSuccess = (res) => {
   if (res.code === 0) {
     // 兼容新老接口格式
     const data = res.data || {}
-    message.success(`导入成功：${res.message || `总计${data.total || 0}条数据，成功导入${data.imported || 0}条，跳过${data.skipped || 0}条`}`)
+    Modal.success({
+      content: `import success: ${`total ${data.total || 0} data, imported ${data.imported || 0} data, skipped ${data.skipped || 0} data(Linked Member)`}`
+    })
     loadData()
   } else {
-    message.error(res.message || '导入失败')
+    message.error(res.message || 'import failed')
   }
 }
 
@@ -355,7 +365,7 @@ const handleUploadSuccess = (res) => {
 const handleUploadError = (error) => {
   console.log(error)
   message.destroy('importTip')
-  message.error('上传失败')
+  message.error('upload failed')
 }
 
 // 搜索
@@ -392,7 +402,7 @@ const loadMemberOptions = async (keyword = '') => {
       memberOptions.value = res.data.list || []
     }
   } catch (error) {
-    message.error('获取会员列表失败')
+    message.error('get member list failed')
   }
 }
 
