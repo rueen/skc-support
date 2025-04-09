@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 07:35:25
+ * @LastEditTime: 2025-04-09 15:39:01
  * @Description: 
  */
 export default {
@@ -78,10 +78,6 @@ export default {
     taskInfoPlaceholder: 'Enter task information',
     notice: 'Notice',
     noticePlaceholder: 'Enter notice',
-    defaultNotice: `1. Please complete the publication and submit the link as soon as possible.
-2. After the task ends, it cannot be filled out and cannot be settled.
-3. If the published content does not meet the requirements, it will not pass the audit.
-4. Submitting links that cannot be accessed or other irrelevant links will be considered as giving up settlement.`,
     // Form validation
     validation: {
       taskNameRequired: 'Please enter task name',

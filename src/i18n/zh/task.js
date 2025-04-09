@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 21:12:35
+ * @LastEditTime: 2025-04-09 15:38:53
  * @Description: 
  */
 export default {
@@ -78,10 +78,6 @@ export default {
     taskInfoPlaceholder: '请输入任务信息',
     notice: '温馨提示',
     noticePlaceholder: '请输入温馨提示',
-    defaultNotice: `1.请尽快完成发布，填写发布链接。
-2.任务结束后无法填写，不能结算。
-3.发布内容不符合要求，将无法审核通过。
-4.填写链接无法访问或其他无关链接，视为放弃结算。`,
     // 表单验证
     validation: {
       taskNameRequired: '请输入任务名称',

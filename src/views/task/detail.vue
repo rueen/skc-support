@@ -323,7 +323,10 @@ const formData = reactive({
   fansRequired: undefined,
   contentRequirement: '',
   taskInfo: '',
-  notice: t('task.detail.defaultNotice'),
+  notice: `1.请尽快完成发布，填写发布链接。
+2.任务结束后无法填写，不能结算。
+3.发布内容不符合要求，将无法审核通过。
+4.填写链接无法访问或其他无关链接，视为放弃结算。`,
   userRange: 0,
   taskCount: 0
 })
