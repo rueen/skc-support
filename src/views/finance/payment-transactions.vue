@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-08 15:34:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 16:48:17
+ * @LastEditTime: 2025-04-09 11:06:35
  * @Description: 提现交易记录页面
 -->
 <template>
   <div class="payment-transactions content-container">
     <page-header
-      title="提现交易记录"
+      :title="$t('withdrawal.transactions.pageTitle')"
       :back="true"
       style="margin-bottom: 32px;padding:0;"
     />
@@ -16,33 +16,33 @@
     <div class="table-container">
       <div class="table-header">
         <a-form layout="inline" :model="searchForm">
-          <a-form-item label="交易状态">
+          <a-form-item :label="$t('withdrawal.transactions.transactionStatus')">
             <a-select
               v-model:value="searchForm.transactionStatus"
-              placeholder="请选择交易状态"
+              :placeholder="$t('withdrawal.transactions.transactionStatusPlaceholder')"
               style="width: 120px"
               allow-clear
             >
-              <a-select-option value="pending">处理中</a-select-option>
-              <a-select-option value="success">成功</a-select-option>
-              <a-select-option value="failed">失败</a-select-option>
+              <a-select-option value="pending">{{ $t('withdrawal.transactions.pending') }}</a-select-option>
+              <a-select-option value="success">{{ $t('withdrawal.transactions.success') }}</a-select-option>
+              <a-select-option value="failed">{{ $t('withdrawal.transactions.failed') }}</a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="订单号">
+          <a-form-item :label="$t('withdrawal.transactions.orderId')">
             <a-input
               v-model:value="searchForm.orderId"
-              placeholder="请输入订单号"
+              :placeholder="$t('withdrawal.transactions.orderIdPlaceholder')"
               allow-clear
             />
           </a-form-item>
-          <a-form-item label="提现ID">
+          <a-form-item :label="$t('withdrawal.transactions.withdrawalId')">
             <a-input
               v-model:value="searchForm.withdrawalId"
-              placeholder="请输入提现ID"
+              :placeholder="$t('withdrawal.transactions.withdrawalIdPlaceholder')"
               allow-clear
             />
           </a-form-item>
-          <a-form-item label="交易时间">
+          <a-form-item :label="$t('withdrawal.transactions.transactionTime')">
             <a-range-picker
               v-model:value="searchForm.timeRange"
               :show-time="{ format: 'HH:mm' }"
@@ -76,20 +76,20 @@
             <a-tag :color="getStatusColor(record.transactionStatus)">
               {{ getStatusText(record.transactionStatus) }}
             </a-tag>
-            <a-button type="link" size="small" @click="showErrorInfo(record)">查看</a-button>
+            <a-button type="link" size="small" @click="showErrorInfo(record)">{{ $t('withdrawal.transactions.view') }}</a-button>
           </template>
           <template v-if="column.key === 'amount'">
             {{ formatAmount(record.amount) }}
           </template>
           <template v-if="column.key === 'requestParams'">
-            <a-button type="link" size="small" @click="showJsonData(record.requestParams)">查看</a-button>
+            <a-button type="link" size="small" @click="showJsonData(record.requestParams)">{{ $t('withdrawal.transactions.view') }}</a-button>
           </template>
           <template v-if="column.key === 'responseData'">
-            <a-button type="link" size="small" @click="showJsonData(record.responseData)">查看</a-button>
+            <a-button type="link" size="small" @click="showJsonData(record.responseData)">{{ $t('withdrawal.transactions.view') }}</a-button>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a-button type="link" size="small" @click="handleRetry(record)">重试</a-button>
+              <a-button type="link" size="small" @click="handleRetry(record)">{{ $t('withdrawal.transactions.retry') }}</a-button>
             </a-space>
           </template>
         </template>
@@ -99,7 +99,7 @@
     <!-- JSON数据查看弹窗 -->
     <a-modal
       v-model:open="jsonModalVisible"
-      title="数据详情"
+      :title="$t('withdrawal.transactions.dataDetails')"
       width="800px"
       :footer="null"
     >
@@ -111,12 +111,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { get, post } from '@/utils/request'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const route = useRoute()
 
 // 加载状态
@@ -137,60 +139,60 @@ const jsonData = ref({})
 const prettyJson = ref('')
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '订单号',
+    title: t('withdrawal.transactions.orderId'),
     dataIndex: 'orderId',
     key: 'orderId'
   },
   {
-    title: '提现ID',
+    title: t('withdrawal.transactions.withdrawalId'),
     dataIndex: 'withdrawalId',
     key: 'withdrawalId'
   },
   {
-    title: '金额',
+    title: t('withdrawal.transactions.amount'),
     dataIndex: 'amount',
     key: 'amount',
     align: 'right'
   },
   {
-    title: '账户',
+    title: t('withdrawal.transactions.account'),
     dataIndex: 'account',
     key: 'account'
   },
   {
-    title: '请求参数',
+    title: t('withdrawal.transactions.requestParams'),
     key: 'requestParams',
     align: 'center'
   },
   {
-    title: '响应数据',
+    title: t('withdrawal.transactions.responseData'),
     key: 'responseData',
     align: 'center'
   },
   {
-    title: '状态',
+    title: t('withdrawal.transactions.transactionStatus'),
     key: 'transactionStatus',
     align: 'center'
   },
   {
-    title: '请求时间',
+    title: t('withdrawal.transactions.requestTime'),
     dataIndex: 'requestTime',
     key: 'requestTime',
   },
   {
-    title: '响应时间',
+    title: t('withdrawal.transactions.responseTime'),
     dataIndex: 'responseTime',
     key: 'responseTime',
   },
   {
-    title: '操作',
+    title: t('withdrawal.transactions.action'),
     key: 'action',
     width: 100,
     align: 'center'
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -207,9 +209,9 @@ const pagination = reactive({
 // 获取状态文本
 const getStatusText = (status) => {
   const statusMap = {
-    pending: '处理中',
-    success: '成功',
-    failed: '失败'
+    pending: t('withdrawal.transactions.pending'),
+    success: t('withdrawal.transactions.success'),
+    failed: t('withdrawal.transactions.failed')
   }
   return statusMap[status] || status
 }
@@ -266,7 +268,7 @@ const showJsonData = (data) => {
 // 显示错误信息
 const showErrorInfo = (record) => {
   Modal.info({
-    title: '错误信息',
+    title: t('withdrawal.transactions.errorInfo'),
     content: record.errorMessage
   })
 }
@@ -309,7 +311,7 @@ const loadData = async () => {
     }
   } catch (error) {
     console.error('加载数据失败:', error)
-    message.error('加载数据失败，请稍后重试')
+    message.error(t('withdrawal.transactions.loadDataFailed'))
   } finally {
     loading.value = false
   }

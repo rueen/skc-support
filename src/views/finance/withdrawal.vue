@@ -4,17 +4,17 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="会员昵称">
+            <a-form-item :label="$t('withdrawal.list.memberNickname')">
               <a-input
                 v-model:value="searchForm.memberNickname"
-                placeholder="请输入会员昵称"
+                :placeholder="$t('withdrawal.list.memberNicknamePlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="提现状态">
+            <a-form-item :label="$t('withdrawal.list.withdrawalStatus')">
               <a-select
                 v-model:value="searchForm.withdrawalStatus"
-                placeholder="请选择状态"
+                :placeholder="$t('withdrawal.list.withdrawalStatusPlaceholder')"
                 style="width: 120px"
                 allow-clear
               >
@@ -27,7 +27,7 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="申请时间">
+            <a-form-item :label="$t('withdrawal.list.applyTime')">
               <a-range-picker
                 v-model:value="searchForm.timeRange"
                 :show-time="{ format: 'HH:mm' }"
@@ -50,14 +50,14 @@
         <div class="right">
           <a-space>
             <a-typography-link @click="router.push('/payment-transactions')">
-              查看提现交易记录<RightOutlined />
+              {{ $t('withdrawal.list.viewWithdrawalTransactions') }}<RightOutlined />
             </a-typography-link>
             <a-button @click="handleExport">
               <template #icon><download-outlined /></template>
-              导出
+              {{ $t('withdrawal.list.export') }}
             </a-button>
-            <a-button type="primary" @click="handleBatchResolve">批量打款</a-button>
-            <a-button danger @click="handleBatchReject">批量拒绝</a-button>
+            <a-button type="primary" @click="handleBatchResolve">{{$t('withdrawal.list.batchResolve')}}</a-button>
+            <a-button danger @click="handleBatchReject">{{$t('withdrawal.list.batchReject')}}</a-button>
           </a-space>
         </div>
       </div>
@@ -83,12 +83,12 @@
           <template v-if="column.key === 'action'">
             <a-space v-if="record.withdrawalStatus === 'pending'">
               <a-popconfirm
-                title="确定要标记为已打款吗？"
+                :title="$t('withdrawal.list.resolveConfirm')"
                 @confirm="handleResolve(record)"
               >
-                <a>打款</a>
+                <a>{{ $t('withdrawal.list.resolve') }}</a>
               </a-popconfirm>
-              <a class="danger" @click="handleReject(record)">拒绝</a>
+              <a class="danger" @click="handleReject(record)">{{ $t('withdrawal.list.reject') }}</a>
             </a-space>
             <a @click="router.push(`/payment-transactions?withdrawalId=${record.id}`)" v-if="record.withdrawalStatus === 'failed'">查看交易记录</a>
           </template>
@@ -99,13 +99,13 @@
     <!-- 打款失败原因弹窗 -->
     <a-modal
       v-model:open="failedVisible"
-      title="打款失败原因"
+      :title="$t('withdrawal.list.rejectTitle')"
       @ok="handleRejectConfirm"
       :confirmLoading="failedLoading"
     >
       <a-textarea
         v-model:value="rejectReason"
-        placeholder="请输入打款失败原因"
+        :placeholder="$t('withdrawal.list.rejectPlaceholder')"
         :rows="4"
       />
     </a-modal>
@@ -119,7 +119,9 @@ import { get, post } from '@/utils/request'
 import { downloadByApi } from '@/utils/download'
 import { useEnumStore } from '@/stores'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const enumStore = useEnumStore()
 
@@ -147,48 +149,48 @@ const searchForm = reactive({
 })
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '会员昵称',
+    title: t('withdrawal.list.memberNickname'),
     dataIndex: 'nickname',
     key: 'nickname'
   },
   {
-    title: '提现账户',
+    title: t('withdrawal.list.withdrawalAccount'),
     dataIndex: 'account',
     key: 'account'
   },
   {
-    title: '账户类型',
+    title: t('withdrawal.list.accountType'),
     dataIndex: 'paymentChannelName',
     key: 'paymentChannelName'
   },
   {
-    title: '申请提现金额',
+    title: t('withdrawal.list.applyWithdrawalAmount'),
     dataIndex: 'amount',
     key: 'amount',
     align: 'right'
   },
   {
-    title: '姓名',
+    title: t('withdrawal.list.name'),
     dataIndex: 'name',
     key: 'name'
   },
   {
-    title: '申请时间',
+    title: t('withdrawal.list.applyTime'),
     dataIndex: 'createTime',
     key: 'createTime'
   },
   {
-    title: '提现状态',
+    title: t('withdrawal.list.withdrawalStatus'),
     key: 'withdrawalStatus'
   },
   {
-    title: '操作',
+    title: t('withdrawal.list.action'),
     key: 'action',
     width: 150
   }
-]
+])
 const selectedRowKeys = ref([])
 // 表格选择配置
 const rowSelection = {
