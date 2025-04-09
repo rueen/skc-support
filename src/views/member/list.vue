@@ -4,17 +4,17 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="会员昵称">
+            <a-form-item :label="$t('member.search.memberNickname')">
               <a-input
                 v-model:value="searchForm.memberNickname"
-                placeholder="请输入会员昵称"
+                :placeholder="$t('member.search.memberNicknamePlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="所属群组">
+            <a-form-item :label="$t('member.search.group')">
               <a-select
                 v-model:value="searchForm.groupId"
-                placeholder="请选择群组"
+                :placeholder="$t('member.search.groupPlaceholder')"
                 allow-clear
                 show-search
                 :filter-option="false"
@@ -42,7 +42,7 @@
           <a-space>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
-              新增会员
+              {{ $t('member.list.add') }}
             </a-button>
           </a-space>
         </div>
@@ -61,12 +61,12 @@
               <div v-for="item in record.accountList">
                 <div>
                   <a-space>
-                    账号：{{ item.account }}
+                    {{ $t('member.list.account') }}：{{ item.account }}
                     <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', item.accountAuditStatus) }}</a-tag>
                   </a-space>
                 </div>
                 <div class="link-text-container">
-                  <span class="label">主页：</span>
+                  <span class="label">{{ $t('member.list.homepage') }}：</span>
                   <CopyContent :content="item.homeUrl">
                     <a :href="item.homeUrl" target="_blank" class="link-text">{{ item.homeUrl }}</a>
                   </CopyContent>
@@ -86,13 +86,13 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">编辑</a>
-              <a @click="handleView(record)">查看</a>
+              <a @click="handleEdit(record)">{{ $t('member.list.edit') }}</a>
+              <a @click="handleView(record)">{{ $t('member.list.view') }}</a>
               <a-popconfirm
-                title="确定要删除吗？"
+                :title="$t('member.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">删除</a>
+                <a class="danger">{{ $t('member.list.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -103,14 +103,16 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
+import { useI18n } from 'vue-i18n'
 
 const enumStore = useEnumStore()
+const { t } = useI18n()
 
 const router = useRouter()
 const route = useRoute()
@@ -135,42 +137,42 @@ const pagination = reactive({
 const groupOptions = ref([])
 
 // 表格列定义
-const columns = [
+const columns = computed(() => [
   {
-    title: '会员昵称',
+    title: t('member.list.memberNickname'),
     dataIndex: 'nickname',
     key: 'nickname'
   },
   {
-    title: '账号',
+    title: t('member.list.memberAccount'),
     dataIndex: 'account',
     key: 'account'
   },
   {
-    title: '渠道账号信息',
+    title: t('member.list.accounts'),
     key: 'accountList'
   },
   {
-    title: '邀请人',
+    title: t('member.list.inviter'),
     key: 'inviterNickname'
   },
   {
-    title: '所属群组',
+    title: t('member.list.group'),
     key: 'groups'
   },
   {
-    title: '更新时间',
+    title: t('member.list.updateTime'),
     dataIndex: 'updateTime',
     key: 'updateTime',
     width: 180
   },
   {
-    title: '操作',
+    title: t('member.list.action'),
     key: 'action',
     fixed: 'right',
     width: 150
   }
-]
+])
 
 // 搜索
 const handleSearch = () => {

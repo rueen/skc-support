@@ -1,15 +1,15 @@
 <template>
   <div class="member-view content-container">
     <page-header
-      title="会员详情"
+      :title="$t('member.view.pageTitle')"
       :back="true"
     />
     <div class="detail-container">
       <!-- 会员信息 -->
       <div class="section">
-        <div class="section-title">会员信息</div>
+        <div class="section-title">{{ $t('member.view.memberInfo') }}</div>
         <a-descriptions :column="2">
-          <a-descriptions-item label="会员昵称">
+          <a-descriptions-item :label="$t('member.view.memberNickname')">
             <a-space>
               <a-avatar :src="memberInfo.avatar" size="small">
                 <template #icon><UserOutlined /></template>
@@ -17,52 +17,52 @@
               <span>{{ memberInfo.nickname }}</span>
             </a-space>
           </a-descriptions-item>
-          <a-descriptions-item label="会员账号">
+          <a-descriptions-item :label="$t('member.view.memberAccount')">
             {{ memberInfo.account }}
           </a-descriptions-item>
-          <a-descriptions-item label="性别">
+          <a-descriptions-item :label="$t('member.view.gender')">
             {{ enumStore.getEnumText('GenderType', memberInfo.gender) }}
           </a-descriptions-item>
-          <a-descriptions-item label="职业">
+          <a-descriptions-item :label="$t('member.view.occupation')">
             {{ enumStore.getEnumText('OccupationType', memberInfo.occupation) }}
             <span v-if="memberInfo.occupation === null"> - </span>
           </a-descriptions-item>
-          <a-descriptions-item label="电子邮箱">
+          <a-descriptions-item :label="$t('member.view.email')">
             {{ memberInfo.email || '-' }}
           </a-descriptions-item>
-          <a-descriptions-item label="手机号码">
+          <a-descriptions-item :label="$t('member.view.phone')">
             {{ memberInfo.phone || '-' }}
           </a-descriptions-item>
           <a-descriptions-item label="Telegram">
             {{ memberInfo.telegram || '-' }}
           </a-descriptions-item>
-          <a-descriptions-item label="所属群组">
+          <a-descriptions-item :label="$t('member.view.group')">
             <div v-for="item in memberInfo.groups" :key="item.id">
               {{ item.groupName }}
               <a-tag v-if="item.isOwner" color="blue" style="margin-left: 8px">群主</a-tag>
             </div>
-            <span v-if="!memberInfo.groups || !memberInfo.groups.length">未加入群组</span>
+            <span v-if="!memberInfo.groups || !memberInfo.groups.length"> - </span>
           </a-descriptions-item>
-          <a-descriptions-item label="邀请人">
+          <a-descriptions-item :label="$t('member.view.inviter')">
             {{ memberInfo.inviterNickname || '-' }}
           </a-descriptions-item>
-          <a-descriptions-item label="邀请链接">
+          <a-descriptions-item :label="$t('member.view.inviteUrl')">
             <CopyContent :content="inviteUrl" />
           </a-descriptions-item>
-          <a-descriptions-item label="提现账号">
+          <a-descriptions-item :label="$t('member.view.withdrawalsAccount')">  
             <a-space>
               <span>{{ memberInfo?.withdrawalsAccount?.paymentChannelName || '-' }}</span>
               <span>{{ memberInfo?.withdrawalsAccount?.account || '-' }}</span>
             </a-space>
           </a-descriptions-item>
-          <a-descriptions-item label="账户余额">
+          <a-descriptions-item :label="$t('member.view.balance')">
             <a-space>
               <span>{{ memberInfo.balance }}</span>
               <a-button type="link" size="small" @click="handleReward()">
-                奖励发放
+                {{ $t('member.view.rewardGrant') }}
               </a-button>
               <a-button type="link" size="small" @click="handleDeduct()">
-                奖励扣除
+                {{ $t('member.view.rewardDeduct') }}
               </a-button>
             </a-space>
           </a-descriptions-item>
@@ -71,18 +71,18 @@
 
       <!-- 账号信息 -->
       <div class="section">
-        <div class="section-title">账号信息</div>
+        <div class="section-title">{{ $t('member.view.accountInfo') }}</div>
         <div class="account-list">
           <div v-for="account in accountList" :key="account.channelId">
             <a-descriptions :column="1">
-              <a-descriptions-item label="账号">
+              <a-descriptions-item :label="$t('member.view.account')">
                 <a-space>
                   <a-avatar :src="account.channelIcon" size="small" />
                   <span>{{ account.account }}</span>
                   <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', account.accountAuditStatus) }}</a-tag>
                 </a-space>
               </a-descriptions-item>
-              <a-descriptions-item label="主页">
+              <a-descriptions-item :label="$t('member.view.homepage')">
                 <CopyContent :content="account.homeUrl">
                   <div class="link-text-container" style="max-width: 300px;">
                     <a :href="account.homeUrl" target="_blank" class="link-text">{{ account.homeUrl }}</a>
@@ -92,9 +92,9 @@
               <a-descriptions-item label="uid">
                 <CopyContent :content="account.uid" />
               </a-descriptions-item>
-              <a-descriptions-item label="粉丝数" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
-              <a-descriptions-item label="好友数" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
-              <a-descriptions-item label="发帖数" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
+              <a-descriptions-item :label="$t('member.view.fansCount')" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
+              <a-descriptions-item :label="$t('member.view.friendsCount')" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
+              <a-descriptions-item :label="$t('member.view.postsCount')" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
             </a-descriptions>
           </div>
         </div>
@@ -102,17 +102,16 @@
 
       <!-- 任务信息 -->
       <div class="section" style="padding-bottom: 24px;">
-        <div class="section-title">任务信息</div>
+        <div class="section-title">{{ $t('member.view.taskStats') }}</div>
         <a-row :gutter="16">
           <a-col :span="6">
-            <a-statistic title="完成任务次数" :value="taskStats.completedTaskCount" />
+            <a-statistic :title="$t('member.view.completedTaskCount')" :value="taskStats.completedTaskCount" />
           </a-col>
           <a-col :span="6">
             <a-statistic 
-              title="任务奖励" 
-              :value="taskStats.totalTaskReward" 
+              :title="$t('member.view.taskReward')" 
+              :value="taskStats.taskReward" 
               :precision="2"
-              prefix="¥"
             />
           </a-col>
         </a-row>
@@ -120,19 +119,18 @@
 
       <!-- 邀请信息 -->
       <div class="section" style="padding-bottom: 24px;">
-        <div class="section-title">邀请信息</div>
+        <div class="section-title">{{ $t('member.view.inviteStats') }}</div>
         <a-row>
           <a-col :span="6">
             <a-statistic
-              title="累计邀请"
+              :title="$t('member.view.inviteCount')"
               :value="inviteStats.inviteCount"
             />
           </a-col>
           <a-col :span="6">
             <a-statistic
-              title="邀请奖励"
+              :title="$t('member.view.inviteReward')"
               :value="inviteStats.totalReward"
-              prefix="¥"
             />
           </a-col>
         </a-row>
@@ -140,19 +138,18 @@
 
       <!-- 群组信息 -->
       <div class="section">
-        <div class="section-title">群组信息</div>
+        <div class="section-title">{{ $t('member.view.groupStats') }}</div>
         <a-row>
           <a-col :span="6">
             <a-statistic
-              title="管理群数量"
+              :title="$t('member.view.groupCount')"
               :value="groupsStats.groupCount"
             />
           </a-col>
           <a-col :span="6">
             <a-statistic
-              title="群收益"
+              :title="$t('member.view.groupEarnings')"
               :value="groupsStats.totalEarnings"
-              prefix="¥"
             />
           </a-col>
         </a-row>
@@ -162,7 +159,7 @@
     <!-- 奖励发放弹窗 -->
     <a-modal
       v-model:open="rewardVisible"
-      :title="rewardType === 'grant' ? '奖励发放' : '奖励扣除'"
+      :title="rewardType === 'grant' ? $t('member.view.rewardGrant') : $t('member.view.rewardDeduct')"
       @ok="handleRewardConfirm"
       :confirmLoading="rewardLoading"
     > 
@@ -170,13 +167,13 @@
         ref="rewardFormRef"
         :model="rewardForm"
         :rules="rewardRules"
-        :label-col="{ span: 6 }"
+        :label-col="{ span: 7 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item :label="rewardType === 'grant' ? '奖励金额' : '扣除金额'" name="amount">
+        <a-form-item :label="rewardType === 'grant' ? $t('member.view.rewardAmount') : $t('member.view.deductAmount')" name="amount">
           <a-input v-model:value="rewardForm.amount" />
         </a-form-item>
-        <a-form-item label="备注" name="remark">
+        <a-form-item :label="$t('member.view.remark')" name="remark">
           <a-textarea v-model:value="rewardForm.remark" :rows="4" />
         </a-form-item>
       </a-form>
@@ -193,6 +190,9 @@ import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import config from '@/config/env'
 import CopyContent from '@/components/CopyContent.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 const enumStore = useEnumStore()
 const route = useRoute()
 
@@ -221,8 +221,8 @@ const rewardForm = reactive({
 })
 const rewardLoading = ref(false)
 const rewardRules = ref({
-  amount: [{ required: true, message: '请输入奖励金额' }],
-  remark: [{ required: true, message: '请输入备注' }]
+  amount: [{ required: true, message: t('member.view.amountRequired') }],
+  remark: [{ required: true, message: t('member.view.remarkRequired') }]
 })
 
 // 获取会员详情
@@ -369,14 +369,18 @@ const handleDeductReward = async () => {
 
 // 奖励发放确认
 const handleRewardConfirm = async () => {
-  await rewardFormRef.value.validate()
-  switch(rewardType.value){
-    case 'grant':
+  try {
+    await rewardFormRef.value.validate()
+    switch(rewardType.value){
+      case 'grant':
       handleGrantReward()
       break
     case 'deduct':
       handleDeductReward()
-      break
+        break
+    }
+  } catch (error) {
+    console.log(error)
   }
 }
 onMounted(() => {

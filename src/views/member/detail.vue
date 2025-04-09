@@ -1,7 +1,7 @@
 <template>
   <div class="member-form content-container">
     <page-header
-      :title="isEdit ? '编辑会员' : '新增会员'"
+      :title="isEdit ? $t('member.detail.editTitle') : $t('member.detail.addTitle')"
       :back="true"
     />
     <div class="form-container">
@@ -9,37 +9,40 @@
         ref="formRef"
         :model="formData"
         :rules="rules"
-        :label-col="{ span: 4 }"
+        :label-col="{ span: 6 }"
         :wrapper-col="{ span: 16 }"
       >
         <a-form-item
-          label="账号"
+          :label="$t('member.detail.memberAccount')"
           name="memberAccount"
           :rules="rules.memberAccount"
         >
-          <a-input v-model:value="formData.memberAccount" placeholder="请输入账号（手机号/邮箱）" />
+          <a-input v-model:value="formData.memberAccount" :placeholder="$t('member.detail.memberAccountPlaceholder')" />
         </a-form-item>
 
         <a-form-item
-          label="密码"
+          :label="$t('member.detail.password')"
           name="password"
-          :rules="[{ required: !isEdit, message: '请输入密码' }]"
+          :rules="[{ required: !isEdit, message: $t('member.detail.passwordPlaceholder') }]"
         >
-          <a-input v-model:value="formData.password" placeholder="请输入密码" />
+          <a-input v-model:value="formData.password" :placeholder="$t('member.detail.passwordPlaceholder')" />
         </a-form-item>
         
         <a-form-item
-          label="会员昵称"
+          :label="$t('member.detail.memberNickname')"
           name="memberNickname"
           :rules="rules.memberNickname"
         >
-          <a-input v-model:value="formData.memberNickname" placeholder="请输入会员昵称" />
+          <a-input v-model:value="formData.memberNickname" :placeholder="$t('member.detail.memberNicknamePlaceholder')" />
         </a-form-item>
         
-        <a-form-item label="邀请人" name="inviterId">
+        <a-form-item
+          :label="$t('member.detail.inviter')"
+          name="inviterId"
+        >
           <a-select
             v-model:value="formData.inviterId"
-            placeholder="请选择邀请人"
+            :placeholder="$t('member.detail.inviterPlaceholder')"
             :loading="inviterLoading"
             show-search
             allow-clear
@@ -56,10 +59,13 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item label="所属群" name="groupIds">
+        <a-form-item
+          :label="$t('member.detail.group')"
+          name="groupIds"
+        >
           <a-select
             v-model:value="formData.groupIds"
-            placeholder="请选择所属群"
+            :placeholder="$t('member.detail.groupPlaceholder')"
             :loading="groupLoading"
             mode="multiple"
             allow-clear
@@ -96,10 +102,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { get, post, put } from '@/utils/request'
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
 const router = useRouter()
 const formRef = ref()
+const { t } = useI18n()
 
 const isEdit = computed(() => !!route.params.id)
 
@@ -115,7 +123,7 @@ const formData = reactive({
 // 表单校验规则
 const rules = {
   memberAccount: [
-    { required: true, message: '请输入账号' },
+    { required: true, message: t('member.detail.memberAccountPlaceholder') },
     { 
       validator: (rule, value) => {
         // 手机号格式验证
@@ -131,7 +139,7 @@ const rules = {
           return Promise.resolve();
         }
         
-        return Promise.reject('请输入正确的手机号或邮箱格式');
+        return Promise.reject(t('member.detail.memberAccountRule'));
       }
     }
   ]
@@ -211,7 +219,7 @@ const loadMemberInfo = async () => {
       })
     }
   } catch (error) {
-    message.error('加载会员信息失败')
+    message.error('load member info failed')
     router.back()
   }
 }
@@ -219,7 +227,7 @@ const loadMemberInfo = async () => {
 const addMember = async () => {
   const res = await post('member.add', formData)
   if(res.code === 0){
-    message.success('提交成功')
+    message.success('submit success')
     router.back()
   } else {
     message.error(res.message)
@@ -232,7 +240,7 @@ const editMember = async () => {
     }
   })
   if(res.code === 0){
-    message.success('提交成功')
+    message.success('submit success')
     router.back()
   } else {
     message.error(res.message)
@@ -251,7 +259,7 @@ const handleSubmit = () => {
         addMember()
       }
     } catch (error) {
-      message.error('提交失败')
+      message.error('submit failed')
     } finally {
       submitLoading.value = false
     }
