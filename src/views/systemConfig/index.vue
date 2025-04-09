@@ -1,7 +1,7 @@
 <template>
   <div class="system-config-container">
     <page-header
-      title="系统配置"
+      :title="$t('systemConfig.pageTitle')"
       :back="true"
     />
     <a-spin :spinning="loading">
@@ -13,7 +13,7 @@
         :wrapper-col="{ span: 12 }"
       >
         <!-- 最大群成员数 -->
-        <a-form-item label="最大群成员数" name="maxGroupMembers">
+        <a-form-item :label="$t('systemConfig.maxGroupMembers')" name="maxGroupMembers">
           <a-input-number
             v-model:value="formState.max_group_members"
             :min="1"
@@ -22,13 +22,13 @@
             :disabled="formDisabled"
           />
           <div class="form-item-desc">
-            <div>设置单个群组可容纳的最大成员数量</div>
-            <div>群成员数量限制的配置修改后会立即生效，但不会对已有的超出新限制的群组产生影响</div>
+            <div>{{ $t('systemConfig.maxGroupMembersDesc1') }}</div>
+            <div>{{ $t('systemConfig.maxGroupMembersDesc2') }}</div>
           </div>
         </a-form-item>
         
         <!-- 群主收益率 -->
-        <a-form-item label="群主收益率" name="ownerProfitRate">
+        <a-form-item :label="$t('systemConfig.groupOwnerProfitRate')" name="ownerProfitRate">
           <a-input-number
             v-model:value="formState.group_owner_commission_rate"
             :min="0"
@@ -39,11 +39,11 @@
             placeholder="请输入群主收益率"
             :disabled="formDisabled"
           />
-          <div class="form-item-desc">设置群主可获得的任务收益分成比例</div>
+          <div class="form-item-desc">{{ $t('systemConfig.groupOwnerProfitRateDesc') }}</div>
         </a-form-item>
         
         <!-- 邀请奖励金额 -->
-        <a-form-item label="邀请奖励金额" name="inviteRewardAmount">
+        <a-form-item :label="$t('systemConfig.inviteRewardAmount')" name="inviteRewardAmount">
           <a-input-number
             v-model:value="formState.invite_reward_amount"
             :min="0"
@@ -54,11 +54,11 @@
             placeholder="请输入邀请奖励金额"
             :disabled="formDisabled"
           />
-          <div class="form-item-desc">设置每成功邀请一位新会员的奖励金额</div>
+          <div class="form-item-desc">{{ $t('systemConfig.inviteRewardAmountDesc') }}</div>
         </a-form-item>
 
         <!-- 提现门槛 -->
-        <a-form-item label="提现门槛" name="withdrawalThreshold">
+        <a-form-item :label="$t('systemConfig.withdrawalThreshold')" name="withdrawalThreshold">
           <a-input-number
             v-model:value="formState.withdrawal_threshold"
             :min="0"
@@ -68,7 +68,7 @@
             placeholder="请输入提现门槛"
             :disabled="formDisabled"
           />
-          <div class="form-item-desc">设置用户提现的最低门槛</div>
+          <div class="form-item-desc">{{ $t('systemConfig.withdrawalThresholdDesc') }}</div>
         </a-form-item>
         
         <!-- 按钮区域 -->

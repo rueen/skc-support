@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:22:30
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:36:13
+ * @LastEditTime: 2025-04-09 11:41:52
  * @Description: 
  */
 import common from './common'
@@ -18,6 +18,7 @@ import withdrawal from './withdrawal'
 import financial from './financial'
 import waiter from './waiter'
 import article from './article'
+import systemConfig from './systemConfig'
 
 export default {
   common,
@@ -33,6 +34,7 @@ export default {
   financial,
   waiter,
   article,
+  systemConfig,
   header: {
     logout: 'Logout',
     switchLang: 'Switch Language'
