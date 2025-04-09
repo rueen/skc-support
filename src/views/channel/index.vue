@@ -5,7 +5,7 @@
         <div class="left"></div>
         <div class="right">
           <a-button type="primary" @click="handleAdd">
-            添加渠道
+            {{ $t('channel.add') }}
           </a-button>
         </div>
       </div>
@@ -26,12 +26,12 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">编辑</a>
+              <a @click="handleEdit(record)">{{ $t('channel.edit') }}</a>
               <a-popconfirm
-                title="确定要删除该渠道吗？"
+                :title="$t('channel.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">删除</a>
+                <a class="danger">{{ $t('channel.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -53,7 +53,7 @@
         :label-col="{ span: 6 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="渠道图标" name="icon">
+        <a-form-item :label="$t('channel.channelIcon')" name="icon">
           <a-upload
             v-model:file-list="fileList"
             :action="uploadConfig.action"
@@ -71,13 +71,13 @@
             </div>
           </a-upload>
         </a-form-item>
-        <a-form-item label="渠道名称" name="name">
+        <a-form-item :label="$t('channel.channelName')" name="name">
           <a-input
             v-model:value="formData.name"
-            placeholder="请输入渠道名称"
+            :placeholder="$t('channel.channelNamePlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="自定义字段" name="customFields">
+        <a-form-item :label="$t('channel.customFields')" name="customFields">
           <a-checkbox-group v-model:value="formData.customFields" :options="customFieldsOptions" />
         </a-form-item>
       </a-form>
@@ -90,6 +90,9 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, post, put, del } from '@/utils/request'
 import config from '@/config/env'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const loading = ref(false)
 const modalVisible = ref(false)
@@ -98,9 +101,9 @@ const modalType = ref('add') // add, edit
 const formRef = ref()
 const fileList = ref([])
 const customFieldsOptions = ref([
-  { label: '粉丝数', value: 'fansCount' },
-  { label: '好友数', value: 'friendsCount' },
-  { label: '发帖数', value: 'postsCount' },
+  { label: t('channel.fansCount'), value: 'fansCount' },
+  { label: t('channel.friendsCount'), value: 'friendsCount' },
+  { label: t('channel.postsCount'), value: 'postsCount' },
 ])
 // 上传配置
 const uploadConfig = {
@@ -120,34 +123,34 @@ const currentId = ref()
 
 // 表单校验规则
 const rules = {
-  name: [{ required: true, message: '请输入渠道名称' }],
-  icon: [{ required: true, message: '请上传渠道图标' }]
+  name: [{ required: true, message: t('channel.nameRequired') }],
+  icon: [{ required: true, message: t('channel.iconRequired') }]
 }
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '渠道图标',
+    title: t('channel.channelIcon'),
     dataIndex: 'icon',
     key: 'icon',
-    width: 100
+    width: 120
   },
   {
-    title: '渠道名称',
+    title: t('channel.channelName'),
     dataIndex: 'name',
     key: 'name'
   },
   {
-    title: '更新时间',
+    title: t('channel.updateTime'),
     dataIndex: 'updateTime',
     key: 'updateTime'
   },
   {
-    title: '操作',
+    title: t('channel.action'),
     key: 'action',
     width: 200
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -155,8 +158,8 @@ const tableData = ref([])
 // 计算弹窗标题
 const modalTitle = computed(() => {
   const titles = {
-    add: '添加渠道',
-    edit: '编辑渠道'
+    add: t('channel.addTitle'),
+    edit: t('channel.editTitle')
   }
   return titles[modalType.value]
 })
