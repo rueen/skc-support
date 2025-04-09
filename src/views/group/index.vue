@@ -4,17 +4,17 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item label="群名称">
+            <a-form-item :label="$t('group.groupName')">
               <a-input
                 v-model:value="searchForm.groupName"
-                placeholder="请输入群名称"
+                :placeholder="$t('group.groupNamePlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item label="群主">
+            <a-form-item :label="$t('group.owner')">
               <a-select
                 v-model:value="searchForm.ownerId"
-                placeholder="请选择群主"
+                :placeholder="$t('group.ownerPlaceholder')"
                 allow-clear
                 show-search
                 :filter-option="false"
@@ -42,7 +42,7 @@
           <a-space>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
-              新增群组
+              {{ $t('group.add') }}
             </a-button>
           </a-space>
         </div>
@@ -58,16 +58,16 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'memberCount'">
             {{ record.memberCount }}
-            <a-typography-link @click="handleViewMember(record)">查看</a-typography-link>
+            <a-typography-link @click="handleViewMember(record)">{{ $t('group.view') }}</a-typography-link>
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">编辑</a>
+              <a @click="handleEdit(record)">{{ $t('group.edit') }}</a>
               <a-popconfirm
-                title="确定要删除该群吗？"
+                :title="$t('group.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">删除</a>
+                <a class="danger">{{ $t('group.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -96,22 +96,22 @@
         :label-col="{ span: 6 }"
         :wrapper-col="{ span: 16 }"
       >
-        <a-form-item label="群名称" name="groupName">
+        <a-form-item :label="$t('group.groupName')" name="groupName">
           <a-input
             v-model:value="formData.groupName"
-            placeholder="请输入群名称"
+            :placeholder="$t('group.groupNamePlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="群链接" name="groupLink">
+        <a-form-item :label="$t('group.groupLink')" name="groupLink">
           <a-input
             v-model:value="formData.groupLink"
-            placeholder="请输入群链接"
+            :placeholder="$t('group.groupLinkPlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="群主" name="ownerId">
+        <a-form-item :label="$t('group.owner')" name="ownerId">
           <a-select
             v-model:value="formData.ownerId"
-            placeholder="请选择群主"
+            :placeholder="$t('group.ownerPlaceholder')"
             allow-clear
             show-search
             :filter-option="false"
@@ -133,7 +133,9 @@ import { message } from 'ant-design-vue'
 import { get, post, put, del } from '@/utils/request'
 import { useRouter } from 'vue-router'
 import CopyContent from '@/components/CopyContent.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 
 const loading = ref(false)
@@ -158,47 +160,47 @@ const currentId = ref(undefined)
 
 // 表单校验规则
 const rules = {
-  groupName: [{ required: true, message: '请输入群名称' }],
-  groupLink: [{ required: true, message: '请输入群链接' }]
+  groupName: [{ required: true, message: t('group.groupNameRequired') }],
+  groupLink: [{ required: true, message: t('group.groupLinkRequired') }]
 }
 
 // 会员选项（群主）
 const memberOptions = ref([])
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '群名称',
+    title: t('group.groupName'),
     dataIndex: 'groupName',
     key: 'groupName'
   },
   {
-    title: '群链接',
+    title: t('group.groupLink'),
     dataIndex: 'groupLink',
     key: 'groupLink',
     ellipsis: true
   },
   {
-    title: '群主',
+    title: t('group.owner'),
     dataIndex: 'ownerName',
     key: 'ownerName'
   },
   {
-    title: '成员人数',
+    title: t('group.memberCount'),
     key: 'memberCount',
     align: 'right'
   },
   {
-    title: '更新时间',
+    title: t('group.updateTime'),
     dataIndex: 'updateTime',
     key: 'updateTime'
   },
   {
-    title: '操作',
+    title: t('group.action'),
     key: 'action',
     width: 200
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -212,8 +214,8 @@ const pagination = reactive({
 // 计算弹窗标题
 const modalTitle = computed(() => {
   const titles = {
-    add: '添加群',
-    edit: '编辑群'
+    add: t('group.addTitle'),
+    edit: t('group.editTitle')
   }
   return titles[modalType.value]
 })
