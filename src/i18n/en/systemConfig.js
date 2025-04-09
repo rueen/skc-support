@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:41:26
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:56:41
+ * @LastEditTime: 2025-04-09 15:36:11
  * @Description: 
  */
 export default {
@@ -16,4 +16,7 @@ export default {
   inviteRewardAmountDesc: 'Set the reward amount for each successful invitation',
   withdrawalThreshold: 'Withdrawal Threshold',
   withdrawalThresholdDesc: 'Set the minimum amount for user withdrawals',
+  groupOwnerProfitRatePlaceholder: 'enter the group owner profit rate',
+  inviteRewardAmountPlaceholder: 'enter the invite reward amount',
+  withdrawalThresholdPlaceholder: 'enter the withdrawal threshold'
 }

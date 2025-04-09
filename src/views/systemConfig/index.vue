@@ -36,7 +36,7 @@
             :step="0.1"
             :precision="1"
             addonAfter="%"
-            placeholder="请输入群主收益率"
+            :placeholder="$t('systemConfig.groupOwnerProfitRatePlaceholder')"
             :disabled="formDisabled"
           />
           <div class="form-item-desc">{{ $t('systemConfig.groupOwnerProfitRateDesc') }}</div>
@@ -51,7 +51,7 @@
             :step="0.1"
             :precision="1"
             addonBefore="¥"
-            placeholder="请输入邀请奖励金额"
+            :placeholder="$t('systemConfig.inviteRewardAmountPlaceholder')"
             :disabled="formDisabled"
           />
           <div class="form-item-desc">{{ $t('systemConfig.inviteRewardAmountDesc') }}</div>
@@ -65,7 +65,7 @@
             :max="99999"
             :step="1"
             addonBefore="¥"
-            placeholder="请输入提现门槛"
+            :placeholder="$t('systemConfig.withdrawalThresholdPlaceholder')"
             :disabled="formDisabled"
           />
           <div class="form-item-desc">{{ $t('systemConfig.withdrawalThresholdDesc') }}</div>

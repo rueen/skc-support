@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:41:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:56:59
+ * @LastEditTime: 2025-04-09 15:35:27
  * @Description: 
  */
 export default {
@@ -16,4 +16,7 @@ export default {
   inviteRewardAmountDesc: '设置每成功邀请一位新会员的奖励金额',
   withdrawalThreshold: '提现门槛',
   withdrawalThresholdDesc: '设置用户提现的最低门槛',
+  groupOwnerProfitRatePlaceholder: '请输入群主收益率',
+  inviteRewardAmountPlaceholder: '请输入邀请奖励金额',
+  withdrawalThresholdPlaceholder: '请输入提现门槛'
 }
