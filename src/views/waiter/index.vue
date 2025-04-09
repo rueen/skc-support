@@ -5,7 +5,7 @@
         <div class="left"></div>
         <div class="right">
           <a-button type="primary" @click="handleAdd">
-            添加账号
+            {{ $t('waiter.add') }}
           </a-button>
         </div>
       </div>
@@ -20,13 +20,13 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">编辑</a>
+              <a @click="handleEdit(record)">{{ $t('waiter.edit') }}</a>
               <a-popconfirm
-                title="确定要删除该账号吗？"
+                :title="$t('waiter.deleteConfirm')"
                 @confirm="handleDelete(record)"
                 v-if="!record.isAdmin"
               >
-                <a class="danger">删除</a>
+                <a class="danger">{{ $t('waiter.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -48,33 +48,33 @@
         :wrapper-col="{ span: 16 }"
       >
         <a-form-item
-          label="用户名"
+          :label="$t('waiter.username')"
           name="username"
-          :rules="[{ required: true, message: '请输入用户名' }]"
+          :rules="[{ required: true, message: t('waiter.usernameRequired') }]"
         >
           <a-input
             v-model:value="formData.username"
-            placeholder="请输入用户名"
+            :placeholder="$t('waiter.usernamePlaceholder')"
           />
         </a-form-item>
         <a-form-item
-          label="密码"
+          :label="$t('waiter.password')"
           name="password"
-          :rules="[{ required: formType === 'add', message: '请输入密码' }]"
+          :rules="[{ required: formType === 'add', message: t('waiter.passwordRequired') }]"
         >
           <a-input-password
             v-model:value="formData.password"
-            placeholder="请输入密码"
+            :placeholder="$t('waiter.passwordPlaceholder')"
           />
         </a-form-item>
-        <a-form-item label="备注" name="remarks">
+        <a-form-item :label="$t('waiter.remarks')" name="remarks">
           <a-textarea
             v-model:value="formData.remarks"
-            placeholder="请输入备注"
+            :placeholder="$t('waiter.remarksPlaceholder')"
             :rows="3"
           />
         </a-form-item>
-        <a-form-item label="权限" name="permissions">
+        <a-form-item :label="$t('waiter.permissions')" name="permissions">
           <a-checkbox-group v-model:value="formData.permissions">
             <a-checkbox v-for="option in permissionsOptions" :key="option.title" :value="option.permissions">
               {{ $t('menu.' + option.title) }}
@@ -90,6 +90,9 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, post, del, put } from '@/utils/request'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const loading = ref(false)
 const formVisible = ref(false)
@@ -129,23 +132,23 @@ const permissionsOptions = [
 ]
 
 // 表格列配置
-const columns = [
+const columns = computed(() => [
   {
-    title: '账号名称',
+    title: t('waiter.username'),
     dataIndex: 'username',
     key: 'username'
   },
   {
-    title: '备注',
+    title: t('waiter.remarks'),
     dataIndex: 'remarks',
     key: 'remarks'
   },
   {
-    title: '操作',
+    title: t('waiter.action'),
     key: 'action',
     width: 200
   }
-]
+])
 
 // 表格数据
 const tableData = ref([])
@@ -156,7 +159,7 @@ const pagination = reactive({
 })
 
 // 计算弹窗标题
-const formTitle = computed(() => formType.value === 'add' ? '添加账号' : '编辑账号')
+const formTitle = computed(() => formType.value === 'add' ? t('waiter.addTitle') : t('waiter.editTitle'))
 
 // 表格变化
 const handleTableChange = (pag) => {
