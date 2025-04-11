@@ -61,6 +61,7 @@
       <div class="language-switch">
         <a-radio-group v-model:value="currentLang" button-style="solid" size="small" @change="handleLangChange">
           <a-radio-button value="zh-CN">简体中文</a-radio-button>
+          <a-radio-button value="zh-TW">繁體中文</a-radio-button>
           <a-radio-button value="en-US">English</a-radio-button>
         </a-radio-group>
       </div>
