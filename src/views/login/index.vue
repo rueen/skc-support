@@ -74,9 +74,11 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
+import { useEnumStore } from '@/stores'
 
 const router = useRouter()
 const userStore = useUserStore()
+const enumStore = useEnumStore()
 const { locale } = useI18n()
 const formRef = ref()
 const loading = ref(false)
@@ -118,6 +120,9 @@ const handleLogin = async (values) => {
     };
     
     await userStore.login(loginParams)
+    // 获取枚举数据
+    enumStore.resetEnum()
+    await enumStore.fetchEnum()
     router.push('/')
   } catch (error) {
     console.error(error)

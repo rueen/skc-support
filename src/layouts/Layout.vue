@@ -105,7 +105,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import { useMenuStore } from '@/stores/menu';
+import { useEnumStore } from '@/stores';
 
+const enumStore = useEnumStore();
 const menuStore = useMenuStore();
 menuStore.generateMenu();
 const menuList = computed(() => menuStore.accessedMenu);
@@ -153,6 +155,8 @@ const handleLangChange = (value) => {
   locale.value = value
   currentLang.value = value
   localStorage.setItem('language', value)
+  enumStore.resetEnum()
+  enumStore.fetchEnum(value)
 }
 
 

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-16 21:15:30
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-20 16:21:52
+ * @LastEditTime: 2025-04-11 20:39:36
  * @Description: 枚举数据存储
  */
 
@@ -28,7 +28,8 @@ export const useEnumStore = defineStore('enum', () => {
    * @param {String} lang - 语言代码，默认为 zh-CN
    * @returns {Promise<void>}
    */
-  const fetchEnum = async (lang = 'zh-CN') => {
+  const fetchEnum = async (_lang) => {
+    const lang = _lang || localStorage.getItem('language') || 'zh-CN'; 
     // 如果已经加载过，则不重复加载
     if (loaded.value) return
     

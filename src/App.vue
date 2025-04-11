@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 19:59:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-03-30 09:42:09
+ * @LastEditTime: 2025-04-11 20:38:50
  * @Description: 
 -->
 <template>
@@ -12,7 +12,6 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
-import { message } from 'ant-design-vue'
 import { useEnumStore } from '@/stores'
 
 const userStore = useUserStore()
@@ -23,9 +22,9 @@ onMounted(async () => {
   // 如果有 token，则获取用户信息
   if (userStore.token) {
     await userStore.fetchUserInfo()
+    // 加载枚举数据
+    await enumStore.fetchEnum()
   }
-  // 加载枚举数据
-  await enumStore.fetchEnum()
 })
 </script>
 
