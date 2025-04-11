@@ -1,1 +1,0 @@
-import{_ as e,f as a,p as r,o as n,w as s,h as c,t as p}from"./index-klEdpvtX.js";const _={};function f(o,i,l,m,u,d){const t=a("a-tag");return n(),r(t,{color:"blue"},{default:s(()=>[c(p(o.$t("common.groupOwner")),1)]),_:1})}const g=e(_,[["render",f]]);export{g as G};
