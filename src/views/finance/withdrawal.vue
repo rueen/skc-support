@@ -72,11 +72,14 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'nickname'">
+            <a-typography-link @click="handleMemberDetail(record)">{{ record.nickname }}</a-typography-link>
+          </template>
           <template v-if="column.key === 'withdrawalStatus'">
             {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}
             <info-circle-outlined 
               v-if="record.withdrawalStatus === 'failed'" 
-              class="status-icon" 
+              class="danger" 
               @click="showFailReason(record)"
             />
           </template>
@@ -152,7 +155,6 @@ const searchForm = reactive({
 const columns = computed(() => [
   {
     title: t('withdrawal.list.memberNickname'),
-    dataIndex: 'nickname',
     key: 'nickname'
   },
   {
@@ -264,10 +266,14 @@ const handleExport = () => {
   })
 }
 
+// 会员详情
+const handleMemberDetail = (record) => {
+  router.push(`/member/view/${record.memberId}`)
+}
+
 // 显示失败原因
 const showFailReason = (record) => {
   Modal.error({
-    title: '结算失败原因',
     content: record.rejectReason,
   });
 }
@@ -379,12 +385,6 @@ onMounted(() => {
 
   .danger {
     color: #ff4d4f;
-  }
-
-  .status-icon {
-    margin-left: 8px;
-    color: #ff4d4f;
-    cursor: pointer;
   }
 }
 </style> 

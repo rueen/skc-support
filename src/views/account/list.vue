@@ -100,7 +100,7 @@
         <a-button @click="openOldAccount">{{ $t('account.list.oldAccount') }}</a-button>
       </div>
       <a-table
-        :columns="searchForm.accountAuditStatus === 'rejected' ? columns2 : (searchForm.accountAuditStatus === 'pending' ? columns1 : columns)"
+        :columns="columns"
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
@@ -147,6 +147,11 @@
           </template>
           <template v-if="column.key === 'accountAuditStatus'">
             {{ enumStore.getEnumText('AccountAuditStatus', record.accountAuditStatus) }}
+            <info-circle-outlined 
+              v-if="record.accountAuditStatus === 'rejected'" 
+              class="danger"
+              @click="showRejectReason(record)"
+            />
           </template>
           <template v-if="column.key === 'waiterName'">
             {{ record.waiterName || '--' }}
@@ -261,20 +266,10 @@ const columns = computed(() => [
   {
     title: t('account.list.waiterName'),
     key: 'waiterName'
-  }
-])
-const columns1 = computed(() => [
-  ...columns.value,
+  },
   {
     title: t('account.list.action'),
     key: 'action',
-  }
-])
-const columns2 = computed(() => [
-  ...columns.value,
-  {
-    title: t('account.list.rejectReason'),
-    key: 'rejectReason',
   }
 ])
 
@@ -317,6 +312,13 @@ const handleReset = () => {
 // 会员详情
 const handleMemberDetail = (record) => {
   router.push(`/member/view/${record.memberId}`)
+}
+
+// 显示拒绝原因
+const showRejectReason = (record) => {
+  Modal.error({
+    content: record.rejectReason,
+  });
 }
 
 // 打开老账号管理
