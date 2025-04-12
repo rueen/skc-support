@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:25:10
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-12 11:31:05
+ * @LastEditTime: 2025-04-12 14:03:32
  * @Description: 环境配置文件
  */
 
@@ -65,5 +65,5 @@ export default {
   // 模拟数据配置
   mock: MOCK_CONFIG,
   // H5 路径
-  h5Url: 'http://localhost:5173',
+  h5Url: 'http://m.rueen.cn',
 }; 
