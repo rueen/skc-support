@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 09:45:10
+ * @LastEditTime: 2025-04-12 09:38:58
  * @Description: FB老账号管理
 -->
 
@@ -96,7 +96,7 @@
           </template>
           <template v-if="column.key === 'homeUrl'">
             <CopyContent :content="record.homeUrl">
-              <a :href="record.homeUrl" target="_blank" class="link-text" style="max-width: 200px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ record.homeUrl }}</a>
+              <a :href="record.homeUrl" target="_blank" class="link-text" style="max-width: 320px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ record.homeUrl }}</a>
             </CopyContent>
           </template>
           <template v-if="column.key === 'member'">

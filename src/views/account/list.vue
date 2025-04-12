@@ -138,7 +138,7 @@
           </template>
           <template v-if="column.key === 'member'">
             <div>
-              <div>{{ record.memberNickname }}</div>
+              <a-typography-link @click="handleMemberDetail(record)">{{ record.memberNickname }}</a-typography-link>
               <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
                 <GroupOwner v-if="record.isGroupOwner" />
@@ -312,6 +312,11 @@ const handleReset = () => {
   searchForm.groupId = undefined
   searchForm.memberId = undefined
   handleSearch()
+}
+
+// 会员详情
+const handleMemberDetail = (record) => {
+  router.push(`/member/view/${record.memberId}`)
 }
 
 // 打开老账号管理
