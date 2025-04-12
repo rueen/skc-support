@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 21:01:10
+ * @LastEditTime: 2025-04-12 10:36:23
  * @Description: 
  */
 import { createApp } from 'vue'
@@ -35,7 +35,8 @@ import {
   LinkOutlined,
   SafetyOutlined,
   FileOutlined,
-  SettingOutlined
+  SettingOutlined,
+  EditOutlined
 } from '@ant-design/icons-vue'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.less'
@@ -83,6 +84,7 @@ app.component('LinkOutlined', LinkOutlined)
 app.component('SafetyOutlined', SafetyOutlined)
 app.component('FileOutlined', FileOutlined)
 app.component('SettingOutlined', SettingOutlined)
+app.component('EditOutlined', EditOutlined)
 
 // 挂载应用
 app.mount('#app')

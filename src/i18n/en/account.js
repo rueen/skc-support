@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-12 10:11:20
+ * @LastEditTime: 2025-04-12 11:13:14
  * @Description: 
  */
 export default {
@@ -29,6 +29,7 @@ export default {
     action: 'Action',
     rejectReason: 'Reject Reason',
 
+    account: 'Account',
     homepage: 'Homepage',
     fansCount: 'Fans Count',
     friendsCount: 'Friends Count',
@@ -41,6 +42,16 @@ export default {
 
     rejectReason: 'Reject Reason',
     rejectReasonPlaceholder: 'Please enter the reject reason',
+
+    editAccountTitle: 'Edit Account',
+
+    message: {
+      selectAccount: 'Please select an account',
+      success: 'Operation successful',
+      rejectReason: 'Please enter the reject reason',
+    },
+    
+    batchRejectFailedTitle: 'Operation failed, failed reason',
   },
 
   oldList: {

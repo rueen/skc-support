@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-12 10:11:13
+ * @LastEditTime: 2025-04-12 11:11:44
  * @Description: 
  */
 export default {
@@ -29,6 +29,7 @@ export default {
     action: '操作',
     rejectReason: '拒绝原因',
 
+    account: '账号',
     homepage: '主页',
     fansCount: '粉丝数',
     friendsCount: '好友数',
@@ -41,6 +42,16 @@ export default {
 
     rejectReason: '拒绝原因',
     rejectReasonPlaceholder: '请输入拒绝原因',
+
+    editAccountTitle: '编辑账号',
+
+    message: {
+      selectAccount: '请选择账号',
+      success: '操作成功',
+      rejectReason: '请输入拒绝原因',
+    },
+    
+    batchRejectFailedTitle: '操作失败，失败原因',
   },
 
   oldList: {

@@ -111,6 +111,7 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'accountInfo'">
             <div class="account-info">
+              <EditOutlined class="edit-icon" @click="handleEdit(record)" />
               <a-space>
                 <a-avatar :src="record.channelIcon" size="small" />
                 <span>{{ record.account }}</span>
@@ -192,13 +193,47 @@
         :rows="4"
       />
     </a-modal>
+
+    <!-- 编辑账号弹窗 -->
+    <a-modal
+      v-model:open="editVisible"
+      :title="$t('account.list.editAccountTitle')"
+      @ok="handleEditConfirm"
+      :confirmLoading="editLoading"
+    >
+      <a-form
+        ref="formRef"
+        :model="editForm"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        <a-form-item :label="$t('account.list.account')" name="account">
+          <a-input v-model:value="editForm.account" />
+        </a-form-item>
+        <a-form-item :label="$t('account.list.homepage')" name="homeUrl">
+          <a-input v-model:value="editForm.homeUrl" />
+        </a-form-item>
+        <a-form-item label="UID" name="uid">
+          <a-input v-model:value="editForm.uid" />
+        </a-form-item>
+        <a-form-item :label="$t('account.list.fansCount')" name="fansCount" v-if="currentRecord.channelCustomFields.includes('fansCount')">
+          <a-input v-model:value="editForm.fansCount" />
+        </a-form-item>
+        <a-form-item :label="$t('account.list.friendsCount')" name="friendsCount" v-if="currentRecord.channelCustomFields.includes('friendsCount')">
+          <a-input v-model:value="editForm.friendsCount" />
+        </a-form-item>
+        <a-form-item :label="$t('account.list.postsCount')" name="postsCount" v-if="currentRecord.channelCustomFields.includes('postsCount')">
+          <a-input v-model:value="editForm.postsCount" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { get, post } from '@/utils/request'
+import { get, post, put } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import { useRouter } from 'vue-router'
@@ -241,12 +276,14 @@ const channelOptions = ref([])
 const groupOptions = ref([])
 // 会员选项
 const memberOptions = ref([])
+const currentRecord = ref(null)
 
 // 表格列配置
 const columns = computed(() => [
   {
     title: t('account.list.accountInfo'),
-    key: 'accountInfo'
+    key: 'accountInfo',
+    width: 500
   },
   {
     title: t('account.list.member'),
@@ -308,6 +345,56 @@ const handleMemberDetail = (record) => {
   router.push(`/member/view/${record.memberId}`)
 }
 
+// 编辑账号
+const editVisible = ref(false)
+const editForm = reactive({
+  homeUrl: '',
+  uid: '',
+  account: '',
+  fansCount: '',
+  friendsCount: '',
+  postsCount: ''
+})
+const editLoading = ref(false)
+const handleEdit = (record) => {
+  editVisible.value = true
+  currentRecord.value = record
+  Object.assign(editForm, {
+    homeUrl: record.homeUrl,
+    uid: record.uid,
+    account: record.account,
+    fansCount: record.fansCount,
+    friendsCount: record.friendsCount,
+    postsCount: record.postsCount
+  })
+}
+
+// 确认编辑
+const handleEditConfirm = async () => {
+  const params = {}
+  Object.keys(editForm).forEach(key => {
+    if(editForm[key] != null) {
+      params[key] = editForm[key]
+    }
+  })
+  editLoading.value = true;
+  try {
+    await put('account.edit', params, {
+      urlParams: {
+        id: currentRecord.value.id
+      }
+    })
+    message.success('success')
+    editVisible.value = false
+    loadData()
+  } catch (error) {
+    console.log(error)
+    message.error(error.message)
+  } finally {
+    editLoading.value = false
+  }
+}
+
 // 显示拒绝原因
 const showRejectReason = (record) => {
   Modal.error({
@@ -338,7 +425,7 @@ const handleResolve = async (record) => {
 // 批量审核通过
 const handleBatchResolve = async () => {
   if (!selectedRowKeys.value.length) {
-    message.warning('请选择要通过的账号')
+    message.warning(t('account.list.message.selectAccount'))
     return
   }
   const res = await post('account.batchResolve', {
@@ -348,11 +435,11 @@ const handleBatchResolve = async () => {
     const failed = res.data.failed.map(item => item.reason).join(',')
     if(failed) {
       Modal.error({
-        title: '操作失败，失败原因',
+        title: t('account.list.batchRejectFailedTitle'),
         content: failed,
       });
     } else {
-      message.success('操作成功')
+      message.success(t('account.list.message.success'))
       selectedRowKeys.value = []
       loadData()
     }
@@ -364,7 +451,7 @@ const handleBatchResolve = async () => {
 // 批量拒绝
 const handleBatchReject = async() => {
   if (!selectedRowKeys.value.length) {
-    message.warning('请选择要拒绝的账号')
+    message.warning(t('account.list.message.selectAccount'))
     return
   }
   rejectReason.value = ''
@@ -381,7 +468,7 @@ const handleReject = (record) => {
 // 确认拒绝
 const handleRejectConfirm = async () => {
   if (!rejectReason.value) {
-    message.error('请输入拒绝原因')
+    message.error(t('account.list.message.rejectReason'))
     return
   }
   rejectLoading.value = true
@@ -391,7 +478,7 @@ const handleRejectConfirm = async () => {
       rejectReason: rejectReason.value
     })
     if(res.code === 0) {
-      message.success('操作成功')
+      message.success(t('account.list.message.success'))
       selectedRowKeys.value = []
       rejectVisible.value = false
       loadData()
@@ -491,6 +578,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
 
     .stats {
       display: flex;
@@ -501,6 +589,15 @@ onMounted(() => {
 
       .stat-item {
         white-space: nowrap;
+      }
+    }
+    .edit-icon{
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+      &:hover{
+        color: #1890ff;
       }
     }
   }
