@@ -109,14 +109,12 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'account'">
-            <a-space>
-              <a-avatar :src="record.channelIcon" size="small" />
-              <span>{{ record.account }}</span>
-            </a-space>
-          </template>
           <template v-if="column.key === 'accountInfo'">
             <div class="account-info">
+              <a-space>
+                <a-avatar :src="record.channelIcon" size="small" />
+                <span>{{ record.account }}</span>
+              </a-space>
               <div>
                 <div class="link-text-container">
                   <span class="label">{{ $t('account.list.homepage') }}：</span>
@@ -246,10 +244,6 @@ const memberOptions = ref([])
 
 // 表格列配置
 const columns = computed(() => [
-  {
-    title: t('account.list.account'),
-    key: 'account'
-  },
   {
     title: t('account.list.accountInfo'),
     key: 'accountInfo'

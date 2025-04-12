@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 09:40:16
+ * @LastEditTime: 2025-04-12 10:11:20
  * @Description: 
  */
 export default {
@@ -22,7 +22,6 @@ export default {
   list: {
     oldAccount: 'Facebook Old Account Management',
     
-    account: 'Account',
     accountInfo: 'Account Info',
     member: 'Member',
     auditStatus: 'Audit Status',
