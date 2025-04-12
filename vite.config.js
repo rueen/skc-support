@@ -41,6 +41,13 @@ export default defineConfig(({ command, mode }) => ({
     },
   },
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://sapi.rueen.cn',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 }))
