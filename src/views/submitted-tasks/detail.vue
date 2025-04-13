@@ -169,6 +169,9 @@ import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import GroupOwner from '@/components/GroupOwner.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 const enumStore = useEnumStore()
 
 const route = useRoute()
@@ -202,7 +205,7 @@ const handleResolve = async () => {
     ids: [submittedId.value]
   })
   if(res.code === 0) {
-    message.success($t('submittedTasks.detail.resolveSuccess'))
+    message.success(t('submittedTasks.detail.resolveSuccess'))
     getDetail()
   } else {
     message.error(res.message)

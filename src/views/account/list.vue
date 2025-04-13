@@ -120,7 +120,7 @@
                 <div class="link-text-container">
                   <span class="label">{{ $t('account.list.homepage') }}：</span>
                   <CopyContent :content="record.homeUrl">
-                    <a :href="record.homeUrl" target="_blank" class="link-text">{{ record.homeUrl }}</a>
+                    <a-typography-link>{{ record.homeUrl }}</a-typography-link>
                   </CopyContent>
                 </div>
               </div>
@@ -137,7 +137,9 @@
           </template>
           <template v-if="column.key === 'member'">
             <div>
-              <a-typography-link @click="handleMemberDetail(record)">{{ record.memberNickname }}</a-typography-link>
+              <div>
+                <a-typography-link @click="handleMemberDetail(record)">{{ record.memberNickname }}</a-typography-link>
+              </div>
               <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
                 <GroupOwner v-if="record.isGroupOwner" />
