@@ -120,7 +120,9 @@
                 <div class="link-text-container">
                   <span class="label">{{ $t('account.list.homepage') }}：</span>
                   <CopyContent :content="record.homeUrl">
-                    <a-typography-link>{{ record.homeUrl }}</a-typography-link>
+                    <a-typography-link>
+                      <a :href="record.homeUrl" target="_blank">{{ record.homeUrl }}</a>
+                    </a-typography-link>
                   </CopyContent>
                 </div>
               </div>
@@ -560,6 +562,9 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .account {
+  .label{
+    white-space: nowrap;
+  }
   .table-container {
     background-color: #fff;
     padding: 24px;
