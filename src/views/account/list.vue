@@ -259,6 +259,11 @@ const columns = computed(() => [
     key: 'member'
   },
   {
+    title: t('account.list.submitTime'),
+    dataIndex: 'submitTime',
+    key: 'submitTime'
+  },
+  {
     title: t('account.list.auditStatus'),
     dataIndex: 'accountAuditStatus',
     key: 'accountAuditStatus'

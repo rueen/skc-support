@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-14 21:46:45
+ * @LastEditTime: 2025-04-14 22:21:12
  * @Description: 
  */
 export default {
@@ -24,6 +24,7 @@ export default {
     
     accountInfo: '賬號信息',
     member: '會員',
+    submitTime: '提交時間',
     auditStatus: '審核狀態',
     waiterName: '審核員',
     action: '操作',

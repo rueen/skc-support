@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-14 21:46:35
+ * @LastEditTime: 2025-04-14 22:20:45
  * @Description: 
  */
 export default {
@@ -24,6 +24,7 @@ export default {
     
     accountInfo: 'Account Info',
     member: 'Member',
+    submitTime: 'Submit Time',
     auditStatus: 'Audit Status',
     waiterName: 'Waiter Name',
     action: 'Action',
