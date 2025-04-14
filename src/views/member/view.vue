@@ -80,6 +80,7 @@
                   <a-avatar :src="account.channelIcon" size="small" />
                   <span>{{ account.account }}</span>
                   <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', account.accountAuditStatus) }}</a-tag>
+                  <EditOutlined class="edit-icon" @click="handleEditAccount(account)" />
                 </a-space>
               </a-descriptions-item>
               <a-descriptions-item :label="$t('member.view.homepage')">
@@ -183,7 +184,7 @@
 
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { get, post } from '@/utils/request'
@@ -196,7 +197,7 @@ import GroupOwner from '@/components/GroupOwner.vue'
 const { t } = useI18n()
 const enumStore = useEnumStore()
 const route = useRoute()
-
+const router = useRouter()
 // 会员信息
 const memberId = ref('')
 const memberInfo = reactive({})
@@ -271,6 +272,13 @@ const getAccountList = async () => {
   }
 }
 
+// 编辑账号
+const handleEditAccount = (account) => {
+  router.push({
+    name: 'AccountEdit',
+    params: { id: account.id }
+  })
+}
 // 获取任务信息
 const getTaskStats = async () => {
   const res = await get('member.taskStats', {}, {

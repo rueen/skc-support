@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-12 11:12:56
+ * @LastEditTime: 2025-04-14 21:46:45
  * @Description: 
  */
 export default {
@@ -43,8 +43,6 @@ export default {
     rejectReason: '拒絕原因',
     rejectReasonPlaceholder: '請輸入拒絕原因',
 
-    editAccountTitle: '編輯賬號',
-
     message: {
       selectAccount: '請選擇賬號',
       success: '操作成功',
@@ -84,5 +82,16 @@ export default {
 
     uploadExcelError: '請上傳Excel文件(.xlsx或.xls)',
     uploadExcelLoading: '正在上傳和處理Excel文件...',
+  },
+
+  detail: {
+    platform: '平台',
+    editTitle: '編輯賬號',
+    account: '賬號',
+    homepage: '主頁',
+    uid: 'UID',
+    fansCount: '粉絲數',
+    friendsCount: '好友數',
+    postsCount: '發帖數',
   }
 } 

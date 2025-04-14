@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-12 11:13:14
+ * @LastEditTime: 2025-04-14 21:46:35
  * @Description: 
  */
 export default {
@@ -43,8 +43,6 @@ export default {
     rejectReason: 'Reject Reason',
     rejectReasonPlaceholder: 'Please enter the reject reason',
 
-    editAccountTitle: 'Edit Account',
-
     message: {
       selectAccount: 'Please select an account',
       success: 'Operation successful',
@@ -84,5 +82,16 @@ export default {
 
     uploadExcelError: 'Please upload an Excel file (.xlsx or .xls)',
     uploadExcelLoading: 'Uploading and processing Excel file...',
+  },
+
+  detail: {
+    platform: 'Platform',
+    editTitle: 'Edit Account',
+    account: 'Account',
+    homepage: 'Homepage',
+    uid: 'UID',
+    fansCount: 'Fans Count',
+    friendsCount: 'Friends Count',
+    postsCount: 'Posts Count',
   }
 }

@@ -197,40 +197,6 @@
         :rows="4"
       />
     </a-modal>
-
-    <!-- 编辑账号弹窗 -->
-    <a-modal
-      v-model:open="editVisible"
-      :title="$t('account.list.editAccountTitle')"
-      @ok="handleEditConfirm"
-      :confirmLoading="editLoading"
-    >
-      <a-form
-        ref="formRef"
-        :model="editForm"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 16 }"
-      >
-        <a-form-item :label="$t('account.list.account')" name="account">
-          <a-input v-model:value="editForm.account" />
-        </a-form-item>
-        <a-form-item :label="$t('account.list.homepage')" name="homeUrl">
-          <a-input v-model:value="editForm.homeUrl" />
-        </a-form-item>
-        <a-form-item label="UID" name="uid">
-          <a-input v-model:value="editForm.uid" />
-        </a-form-item>
-        <a-form-item :label="$t('account.list.fansCount')" name="fansCount" v-if="currentRecord.channelCustomFields.includes('fansCount')">
-          <a-input v-model:value="editForm.fansCount" />
-        </a-form-item>
-        <a-form-item :label="$t('account.list.friendsCount')" name="friendsCount" v-if="currentRecord.channelCustomFields.includes('friendsCount')">
-          <a-input v-model:value="editForm.friendsCount" />
-        </a-form-item>
-        <a-form-item :label="$t('account.list.postsCount')" name="postsCount" v-if="currentRecord.channelCustomFields.includes('postsCount')">
-          <a-input v-model:value="editForm.postsCount" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
   </div>
 </template>
 
@@ -280,7 +246,6 @@ const channelOptions = ref([])
 const groupOptions = ref([])
 // 会员选项
 const memberOptions = ref([])
-const currentRecord = ref(null)
 
 // 表格列配置
 const columns = computed(() => [
@@ -349,54 +314,13 @@ const handleMemberDetail = (record) => {
   router.push(`/member/view/${record.memberId}`)
 }
 
-// 编辑账号
-const editVisible = ref(false)
-const editForm = reactive({
-  homeUrl: '',
-  uid: '',
-  account: '',
-  fansCount: '',
-  friendsCount: '',
-  postsCount: ''
-})
-const editLoading = ref(false)
 const handleEdit = (record) => {
-  editVisible.value = true
-  currentRecord.value = record
-  Object.assign(editForm, {
-    homeUrl: record.homeUrl,
-    uid: record.uid,
-    account: record.account,
-    fansCount: record.fansCount,
-    friendsCount: record.friendsCount,
-    postsCount: record.postsCount
-  })
-}
-
-// 确认编辑
-const handleEditConfirm = async () => {
-  const params = {}
-  Object.keys(editForm).forEach(key => {
-    if(editForm[key] != null) {
-      params[key] = editForm[key]
+  router.push({
+    name: 'AccountEdit',
+    params: {
+      id: record.id
     }
   })
-  editLoading.value = true;
-  try {
-    await put('account.edit', params, {
-      urlParams: {
-        id: currentRecord.value.id
-      }
-    })
-    message.success('success')
-    editVisible.value = false
-    loadData()
-  } catch (error) {
-    console.log(error)
-    message.error(error.message)
-  } finally {
-    editLoading.value = false
-  }
 }
 
 // 显示拒绝原因

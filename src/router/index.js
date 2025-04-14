@@ -59,6 +59,12 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['account:list'], title: '账号审核' }
       },
       {
+        path: 'account/edit/:id',
+        component: () => import('@/views/account/detail.vue'),
+        name: 'AccountEdit',
+        meta: { requiresAuth: true, permissions: ['account:list'], title: '编辑账号', hidden: true }
+      },
+      {
         path: 'account/old',
         name: 'AccountOld',
         component: () => import('@/views/account/old-list.vue'),
