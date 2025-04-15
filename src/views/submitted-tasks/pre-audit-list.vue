@@ -157,13 +157,13 @@
     <!-- 拒绝原因弹窗 -->
     <a-modal
       v-model:open="rejectVisible"
-      :title="$t('submittedTasks.list.rejectReason')"
+      :title="$t('submittedTasks.rejectReasonTitle')"
       @ok="handleRejectConfirm"
       :confirmLoading="rejectLoading"
     >
       <a-textarea
         v-model:value="rejectReason"
-        :placeholder="$t('submittedTasks.list.rejectReasonPlaceholder')"
+        :placeholder="$t('submittedTasks.rejectReasonPlaceholder')"
         :rows="4"
       />
     </a-modal>
@@ -331,7 +331,7 @@ const handleReject = (record) => {
 // 确认拒绝
 const handleRejectConfirm = async () => {
   if (!rejectReason.value) {
-    message.error(t('submittedTasks.list.rejectReasonRequired'))
+    message.error(t('submittedTasks.rejectReasonRequired'))
     return
   }
 

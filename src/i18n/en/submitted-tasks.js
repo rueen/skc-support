@@ -2,10 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 09:02:58
+ * @LastEditTime: 2025-04-15 08:20:00
  * @Description: Submitted tasks audit English translations
  */
 export default {
+  rejectReasonRequired: 'Please enter the rejection reason',
+  rejectReasonPlaceholder: 'Enter rejection reason',
+  rejectReasonTitle: 'Rejection Reason',
+  
   // Search form
   search: {
     taskName: 'Task Name',
@@ -36,8 +40,6 @@ export default {
     reject: 'Reject',
     confirmResolve: 'Are you sure you want to resolve this task?',
     confirmReject: 'Are you sure you want to reject this task?',
-    rejectReason: 'Rejection Reason',
-    rejectReasonPlaceholder: 'Enter rejection reason',
     selectTask: 'Please select task',
     batchResolveSuccess: 'Batch resolve success',
     rejectSuccess: 'Reject success',
@@ -89,9 +91,11 @@ export default {
     preAuditor: 'Pre-Auditor',
     confirmAuditStatus: 'Confirm Audit Status',
     confirmAuditor: 'Confirm Auditor',
-    rejectReason: 'Rejection Reason',
     
     approve: 'Approve',
-    reject: 'Reject'
+    reject: 'Reject',
+    prev: 'Prev',
+    next: 'Next',
+    resolveSuccess: 'Resolve success',
   }
 }

@@ -2,10 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 09:03:08
+ * @LastEditTime: 2025-04-15 08:20:25
  * @Description: 提交任务审核中文翻译
  */
 export default {
+  rejectReasonRequired: '請輸入拒絕原因',
+  rejectReasonPlaceholder: '請輸入拒絕原因',
+  rejectReasonTitle: '拒絕原因',
+
   search: {
     taskName: '任務名稱',
     taskNamePlaceholder: '請輸入任務名稱',
@@ -35,8 +39,6 @@ export default {
     reject: '拒絕',
     confirmResolve: '確定要通過該任務嗎？',
     confirmReject: '確定要拒絕該任務嗎？',
-    rejectReason: '拒絕原因',
-    rejectReasonPlaceholder: '請輸入拒絕原因',
     selectTask: '請選擇任務',
     batchResolveSuccess: '批量通過成功',
     rejectSuccess: '拒絕成功',
@@ -86,9 +88,11 @@ export default {
     preAuditor: '初審員',
     confirmAuditStatus: '複審狀態',
     confirmAuditor: '複審員',
-    rejectReason: '拒絕原因',
     
     approve: '通過',
-    reject: '拒絕'
+    reject: '拒絕',
+    prev: '上一個',
+    next: '下一個',
+    resolveSuccess: '操作成功',
   }
 } 
