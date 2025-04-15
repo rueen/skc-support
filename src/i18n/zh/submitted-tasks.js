@@ -2,13 +2,15 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-15 08:20:12
+ * @LastEditTime: 2025-04-15 08:51:58
  * @Description: 提交任务审核中文翻译
  */
 export default {
+  rejectReasonTitle: '拒绝原因',
   rejectReasonRequired: '请输入拒绝原因',
   rejectReasonPlaceholder: '请输入拒绝原因',
-  rejectReasonTitle: '拒绝原因',
+  rejectSuccess: '拒绝成功',
+  resolveSuccess: '通过成功',
 
   search: {
     taskName: '任务名称',
@@ -40,8 +42,6 @@ export default {
     confirmResolve: '确定要通过该任务吗？',
     confirmReject: '确定要拒绝该任务吗？',
     selectTask: '请选择任务',
-    batchResolveSuccess: '批量通过成功',
-    rejectSuccess: '拒绝成功',
     confirmExport: '确定导出',
     confirmExportContent: '确定要导出当前筛选条件下的任务数据吗？',
     rejectReasonRequired: '请输入拒绝原因',
@@ -89,11 +89,11 @@ export default {
     preAuditor: '初审员',
     confirmAuditStatus: '复审状态',
     confirmAuditor: '复审员',
+    rejectReason: '拒绝原因',
     
     approve: '通过',
     reject: '拒绝',
     prev: '上一个',
     next: '下一个',
-    resolveSuccess: '操作成功',
   }
 }

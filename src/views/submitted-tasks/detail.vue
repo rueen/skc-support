@@ -205,7 +205,7 @@ const handleResolve = async () => {
     ids: [submittedId.value]
   })
   if(res.code === 0) {
-    message.success(t('submittedTasks.detail.resolveSuccess'))
+    message.success(t('submittedTasks.resolveSuccess'))
     getDetail()
   } else {
     message.error(res.message)
@@ -232,7 +232,7 @@ const handleRejectConfirm = async () => {
     reason: rejectReason.value
   })
   if(res.code === 0) {
-    message.success($t('submittedTasks.detail.rejectSuccess'))
+    message.success(t('submittedTasks.rejectSuccess'))
     rejectVisible.value = false
     getDetail()
   } else {
@@ -270,7 +270,7 @@ const getTaskDetail = async (taskId) => {
       message.error(res.message)
     }
   } catch (error) {
-    message.error($t('submittedTasks.detail.getTaskDetailFailed'))
+    message.error(t('submittedTasks.detail.getTaskDetailFailed'))
   }
 }
 
@@ -288,7 +288,7 @@ const getMemberDetail = async (memberId) => {
       message.error(res.message)
     }
   } catch (error) {
-    message.error($t('submittedTasks.detail.getMemberDetailFailed'))
+    message.error(t('submittedTasks.detail.getMemberDetailFailed'))
   }
 }
 
@@ -316,7 +316,7 @@ const getDetail = async () => {
       }
     }
   } catch (error) {
-    message.error($t('submittedTasks.detail.getDetailFailed'))
+    message.error(t('submittedTasks.detail.getDetailFailed'))
   }
 }
 

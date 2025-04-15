@@ -313,7 +313,7 @@ const handleBatchResolve = async () => {
     ids: selectedRowKeys.value
   })
   if(res.code === 0) {
-    message.success(t('submittedTasks.list.batchResolveSuccess'))
+    message.success(t('submittedTasks.resolveSuccess'))
     selectedRowKeys.value = []
     loadData()
   } else {
@@ -341,7 +341,7 @@ const handleRejectConfirm = async () => {
     reason: rejectReason.value
   })
   if(res.code === 0) {
-    message.success(t('submittedTasks.list.rejectSuccess'))
+    message.success(t('submittedTasks.rejectSuccess'))
     rejectVisible.value = false
     loadData()
   } else {
