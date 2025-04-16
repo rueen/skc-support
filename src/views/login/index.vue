@@ -123,7 +123,26 @@ const handleLogin = async (values) => {
     // 获取枚举数据
     enumStore.resetEnum()
     await enumStore.fetchEnum()
-    router.push('/')
+    
+    // 根据用户权限找到第一个可访问的路由
+    const routes = router.getRoutes()
+    const mainRoutes = routes.find(route => route.path === '/')
+    if (mainRoutes && mainRoutes.children) {
+      // 筛选有权限访问的路由
+      const accessibleRoutes = mainRoutes.children.filter(route => {
+        const permissions = route.meta?.permissions
+        return !route.meta?.hidden && permissions && userStore.hasPermissions(permissions)
+      })
+      
+      // 如果找到可访问的路由，跳转到第一个
+      if (accessibleRoutes.length > 0) {
+        router.push(accessibleRoutes[0].path)
+      } else {
+        router.push('/')
+      }
+    } else {
+      router.push('/')
+    }
   } catch (error) {
     console.error(error)
   } finally {
