@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:45:57
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:17:19
+ * @LastEditTime: 2025-04-16 19:36:18
  * @Description: 
  */
 export default {
   list: {
     export: 'Export',
-    batchResolve: 'Batch Resolve',
+    batchResolve: 'Batch Transfer',
     batchReject: 'Batch Reject',
     viewWithdrawalTransactions: 'View Transactions',
 
@@ -25,8 +25,8 @@ export default {
     applyTime: 'Apply Time',
     withdrawalStatus: 'Withdrawal Status',
     action: 'Action',
-    resolve: 'Resolve',
-    resolveConfirm: 'Are you sure to mark as resolved?',
+    resolve: 'Transfer',
+    resolveConfirm: 'Are you sure to transfer?',
     reject: 'Reject',
 
     rejectTitle: 'Reject Reason',

@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-11 14:25:38
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:16:17
+ * @LastEditTime: 2025-04-16 19:36:44
  * @Description: 
  */
 export default {
   list: {
     export: '導出',
-    batchResolve: '批量處理',
+    batchResolve: '批量打款',
     batchReject: '批量拒絕',
     viewWithdrawalTransactions: '查看交易記錄',
 
@@ -25,8 +25,8 @@ export default {
     applyTime: '申請時間',
     withdrawalStatus: '提現狀態',
     action: '操作',
-    resolve: '處理',
-    resolveConfirm: '確定要標記為已處理嗎？',
+    resolve: '打款',
+    resolveConfirm: '確定打款嗎？',
     reject: '拒絕',
 
     rejectTitle: '拒絕原因',
