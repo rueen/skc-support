@@ -46,7 +46,8 @@
             :loading="inviterLoading"
             show-search
             allow-clear
-            :filter-option="filterInviter"
+            :filter-option="false"
+            @search="loadInviterOptions"
             @select="handleInviterSelect"
           >
             <a-select-option
@@ -73,7 +74,7 @@
             :filter-option="false"
             @search="loadGroupOptions"
           >
-          <a-select-option
+            <a-select-option
               v-for="item in groupOptions"
               :key="item.id"
               :value="item.id"
@@ -156,11 +157,6 @@ const groupOptions = ref([])
 const inviterLoading = ref(false)
 const inviterOptions = ref([])
 
-// 邀请人搜索过滤
-const filterInviter = (input, option) => {
-  return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-}
-
 // 加载群组选项
 const loadGroupOptions = async (keyword = '') => {
   groupLoading.value = true
@@ -173,7 +169,12 @@ const loadGroupOptions = async (keyword = '') => {
       memberId: formData.inviterId
     })
     if(res.code === 0){
-      groupOptions.value = res.data.list || []
+      groupOptions.value = res.data.list || [];
+      const isExist = formData.groupIds.some(item => groupOptions.value.some(option => option.id === item))
+      
+      if(!isExist){
+        formData.groupIds = []
+      }
     }
   } finally {
     groupLoading.value = false
@@ -182,16 +183,18 @@ const loadGroupOptions = async (keyword = '') => {
 
 // 邀请人选择
 const handleInviterSelect = (value) => {
+  groupOptions.value = []
   loadGroupOptions()
 }
 
 // 加载邀请人选项
-const loadInviterOptions = async () => {
+const loadInviterOptions = async (keyword = '') => {
   inviterLoading.value = true
   try {
     const res = await get('member.list', {
       page: 1,
-      pageSize: 50
+      pageSize: 50,
+      memberNickname: keyword
     })
     if(res.code === 0){
       inviterOptions.value = res.data.list || []
