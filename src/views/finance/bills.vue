@@ -4,10 +4,10 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item :label="$t('financial.bills.memberNickname')">
+            <a-form-item :label="$t('financial.bills.billNo')">
               <a-input
-                v-model:value="searchForm.memberNickname"
-                :placeholder="$t('financial.bills.memberNicknamePlaceholder')"
+                v-model:value="searchForm.billNo"
+                :placeholder="$t('financial.bills.billNoPlaceholder')"
                 allow-clear
               />
             </a-form-item>
@@ -135,6 +135,7 @@ const loading = ref(false)
 
 // 搜索表单
 const searchForm = reactive({
+  billNo: '',
   memberNickname: '',
   billType: undefined,
   settlementStatus: undefined
@@ -150,6 +151,11 @@ const showFailReason = (record) => {
 
 // 表格列配置
 const columns = computed(() => [
+  {
+    title: t('financial.bills.billNo'),
+    dataIndex: 'billNo',
+    key: 'billNo'
+  },
   {
     title: t('financial.bills.memberNickname'),
     key: 'memberNickname'

@@ -2,11 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:35
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:16:47
+ * @LastEditTime: 2025-04-16 19:58:44
  * @Description: 
  */
 export default {
   bills: {
+    billNo: 'Bill No',
+    billNoPlaceholder: 'Enter bill no',
     memberNickname: 'User ID',
     memberNicknamePlaceholder: 'Enter User ID',
     billType: 'Bill Type',
