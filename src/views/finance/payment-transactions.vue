@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-08 15:34:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:06:35
+ * @LastEditTime: 2025-04-16 09:29:58
  * @Description: 提现交易记录页面
 -->
 <template>
@@ -76,7 +76,7 @@
             <a-tag :color="getStatusColor(record.transactionStatus)">
               {{ getStatusText(record.transactionStatus) }}
             </a-tag>
-            <a-button type="link" size="small" @click="showErrorInfo(record)">{{ $t('withdrawal.transactions.view') }}</a-button>
+            <a-button type="link" size="small" @click="showErrorInfo(record)" v-if="record.errorMessage">{{ $t('withdrawal.transactions.view') }}</a-button>
           </template>
           <template v-if="column.key === 'amount'">
             {{ formatAmount(record.amount) }}
@@ -86,11 +86,6 @@
           </template>
           <template v-if="column.key === 'responseData'">
             <a-button type="link" size="small" @click="showJsonData(record.responseData)">{{ $t('withdrawal.transactions.view') }}</a-button>
-          </template>
-          <template v-if="column.key === 'action'">
-            <a-space>
-              <a-button type="link" size="small" @click="handleRetry(record)">{{ $t('withdrawal.transactions.retry') }}</a-button>
-            </a-space>
           </template>
         </template>
       </a-table>
@@ -185,12 +180,6 @@ const columns = computed(() => [
     title: t('withdrawal.transactions.responseTime'),
     dataIndex: 'responseTime',
     key: 'responseTime',
-  },
-  {
-    title: t('withdrawal.transactions.action'),
-    key: 'action',
-    width: 100,
-    align: 'center'
   }
 ])
 
@@ -271,20 +260,6 @@ const showErrorInfo = (record) => {
     title: t('withdrawal.transactions.errorInfo'),
     content: record.errorMessage
   })
-}
-
-// 重试
-const handleRetry = async (record) => {
-  try {
-    const res = await post('withdrawals.retry', {}, {
-      urlParams: {
-        orderId: record.orderId
-      }
-    })
-    loadData()
-  } catch (error) {
-    console.error('重试失败:', error)
-  }
 }
 
 // 加载数据

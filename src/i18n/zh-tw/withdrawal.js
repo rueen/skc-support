@@ -1,3 +1,10 @@
+/*
+ * @Author: diaochan
+ * @Date: 2025-04-11 14:25:38
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-04-16 09:11:17
+ * @Description: 
+ */
 export default {
   list: {
     export: '導出',
@@ -47,7 +54,6 @@ export default {
     responseTime: '響應時間',
     action: '操作',
     view: '查看',
-    retry: '重試',
     dataDetails: '數據詳情',
     errorInfo: '錯誤信息',
     

@@ -1,3 +1,10 @@
+/*
+ * @Author: diaochan
+ * @Date: 2025-04-09 10:45:57
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-04-16 09:11:08
+ * @Description: 
+ */
 export default {
   list: {
     export: 'Export',
@@ -47,7 +54,6 @@ export default {
     responseTime: 'Response Time',
     action: 'Action',
     view: 'View',
-    retry: 'Retry',
     dataDetails: 'Data Details',
     errorInfo: 'Error Info',
     
