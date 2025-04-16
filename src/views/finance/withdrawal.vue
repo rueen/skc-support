@@ -4,6 +4,13 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
+            <a-form-item :label="$t('withdrawal.list.billNo')">
+              <a-input
+                v-model:value="searchForm.billNo"
+                :placeholder="$t('withdrawal.list.billNoPlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
             <a-form-item :label="$t('withdrawal.list.memberNickname')">
               <a-input
                 v-model:value="searchForm.memberNickname"
@@ -146,6 +153,7 @@ const rejectReason = ref('')
 
 // 搜索表单
 const searchForm = reactive({
+  billNo: '',
   memberNickname: '',
   withdrawalStatus: 'pending',
   timeRange: []
@@ -153,6 +161,11 @@ const searchForm = reactive({
 
 // 表格列配置
 const columns = computed(() => [
+  {
+    title: t('withdrawal.list.billNo'),
+    dataIndex: 'billNo',
+    key: 'billNo'
+  },
   {
     title: t('withdrawal.list.memberNickname'),
     key: 'nickname'
@@ -223,6 +236,7 @@ const handleSearch = () => {
 // 重置
 const handleReset = () => {
   Object.assign(searchForm, {
+    billNo: '',
     memberNickname: '',
     withdrawalStatus: undefined,
     timeRange: []
@@ -349,6 +363,7 @@ const loadData = async () => {
     const params = {
       page: pagination.current,
       pageSize: pagination.pageSize,
+      billNo: searchForm.billNo,
       memberNickname: searchForm.memberNickname,
       withdrawalStatus: searchForm.withdrawalStatus,
       startTime: searchForm.timeRange?.[0],

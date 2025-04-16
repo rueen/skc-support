@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:45:57
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:36:18
+ * @LastEditTime: 2025-04-16 20:17:39
  * @Description: 
  */
 export default {
@@ -12,6 +12,8 @@ export default {
     batchReject: 'Batch Reject',
     viewWithdrawalTransactions: 'View Transactions',
 
+    billNo: 'Bill No',
+    billNoPlaceholder: 'Enter bill no',
     memberNickname: 'User ID',
     memberNicknamePlaceholder: 'Enter User ID',
     withdrawalStatus: 'Status',

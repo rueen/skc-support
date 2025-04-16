@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:46:03
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:36:37
+ * @LastEditTime: 2025-04-16 20:17:49
  * @Description: 
  */
 export default {
@@ -12,6 +12,8 @@ export default {
     batchReject: '批量拒绝',
     viewWithdrawalTransactions: '查看交易记录',
 
+    billNo: '账单编号',
+    billNoPlaceholder: '请输入账单编号',
     memberNickname: '会员ID',
     memberNicknamePlaceholder: '请输入会员ID',
     withdrawalStatus: '提现状态',

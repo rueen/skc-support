@@ -208,6 +208,7 @@ const handleSearch = () => {
 // 重置
 const handleReset = () => {
   Object.assign(searchForm, {
+    billNo: '',
     memberNickname: '',
     billType: undefined,
     settlementStatus: undefined
