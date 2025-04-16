@@ -111,7 +111,6 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'accountInfo'">
             <div class="account-info">
-              <EditOutlined class="edit-icon" @click="handleEdit(record)" />
               <a-space>
                 <a-avatar :src="record.channelIcon" size="small" />
                 <span>{{ record.account }}</span>
@@ -175,10 +174,14 @@
               >
                 <a class="danger">{{ $t('account.list.reject') }}</a>
               </a-popconfirm>
+              <a @click="handleEdit(record)">{{ $t('common.edit') }}</a>
+              <a-popconfirm
+                :title="$t('common.deleteConfirm')"
+                @confirm="handleDelete(record)"
+              >
+                <a class="danger">{{ $t('common.delete') }}</a>
+              </a-popconfirm>
             </a-space>
-          </template>
-          <template v-if="column.key === 'rejectReason'">
-            {{ record.rejectReason }}
           </template>
         </template>
       </a-table>
@@ -203,7 +206,7 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { get, post, put } from '@/utils/request'
+import { get, post, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import { useRouter } from 'vue-router'
@@ -477,6 +480,21 @@ const loadMemberOptions = async (keyword = '') => {
   })
   if(res.code === 0){
     memberOptions.value = res.data.list || []
+  }
+}
+
+// 删除账号
+const handleDelete = async (record) => {
+  const res = await del('account.delete', {}, {
+    urlParams: {
+      id: record.id
+    }
+  })
+  if(res.code === 0) {
+    message.success(res.message)
+    loadData()
+  } else {
+    message.error(res.message)
   }
 }
 

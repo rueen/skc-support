@@ -94,8 +94,8 @@ const handleLangChange = (e) => {
 }
 
 const formData = reactive({
-  username: '', // 默认填入用户名
-  password: '', // 默认填入密码
+  username: '',
+  password: '',
   remember: true
 })
 

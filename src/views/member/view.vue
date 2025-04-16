@@ -76,11 +76,14 @@
           <div v-for="account in accountList" :key="account.channelId">
             <a-descriptions :column="1">
               <a-descriptions-item :label="$t('member.view.account')">
-                <a-space>
-                  <a-avatar :src="account.channelIcon" size="small" />
-                  <span>{{ account.account }}</span>
-                  <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', account.accountAuditStatus) }}</a-tag>
-                  <EditOutlined class="edit-icon" @click="handleEditAccount(account)" />
+                <a-space :size="24">
+                  <a-space>
+                    <a-avatar :src="account.channelIcon" size="small" />
+                    <span>{{ account.account }}</span>
+                    <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', account.accountAuditStatus) }}</a-tag>
+                  </a-space>
+                  <EditOutlined @click="handleEditAccount(account)" />
+                  <DeleteOutlined @click="handleDeleteAccount(account)" />
                 </a-space>
               </a-descriptions-item>
               <a-descriptions-item :label="$t('member.view.homepage')">
@@ -185,9 +188,9 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
-import { get, post } from '@/utils/request'
+import { get, post, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import config from '@/config/env'
 import CopyContent from '@/components/CopyContent.vue'
@@ -277,6 +280,25 @@ const handleEditAccount = (account) => {
   router.push({
     name: 'AccountEdit',
     params: { id: account.id }
+  })
+}
+// 删除账号
+const handleDeleteAccount = (account) => {
+  Modal.confirm({
+    content: t('common.deleteConfirm'),
+    onOk: async () => {
+      const res = await del('account.delete', {}, {
+        urlParams: {
+          id: account.id
+        }
+      })
+      if(res.code === 0) {
+        message.success(res.message)
+        getAccountList()
+      } else {
+        message.error(res.message)
+      }
+    }
   })
 }
 // 获取任务信息

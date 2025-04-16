@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 09:29:51
+ * @LastEditTime: 2025-04-16 18:54:38
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -34,6 +34,7 @@ const API_PATH = {
     batchReject: '/accounts/batch-reject',
     edit: '/accounts/:id', // PUT 编辑账号
     detail: '/accounts/:id', // GET 账号详情
+    delete: '/accounts/:id', // DELETE 删除账号
   },
   // 老账号相关接口
   oldAccount: {
