@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:35
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:19:51
+ * @LastEditTime: 2025-04-16 19:16:47
  * @Description: 
  */
 export default {
   bills: {
-    memberNickname: 'Member Nickname',
-    memberNicknamePlaceholder: 'Enter member nickname',
+    memberNickname: 'User ID',
+    memberNicknamePlaceholder: 'Enter User ID',
     billType: 'Bill Type',
     billTypePlaceholder: 'Select bill type',
     settlementStatus: 'Settlement Status',

@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 10:22:41
+ * @LastEditTime: 2025-04-16 19:15:56
  * @Description: 
  */
 export default {
   search: {
-    memberNickname: '會員暱稱',
-    memberNicknamePlaceholder: '輸入會員暱稱',
+    memberNickname: '會員ID',
+    memberNicknamePlaceholder: '輸入會員ID',
     group: '所屬群',
     groupPlaceholder: '選擇所屬群',
   },
@@ -16,7 +16,7 @@ export default {
   list: {
     add: '添加會員',
 
-    memberNickname: '會員暱稱',
+    memberNickname: '會員ID',
     memberAccount: '會員賬號',
     accounts: '賬號列表',
     inviter: '邀請人',
@@ -39,8 +39,8 @@ export default {
     memberAccountRule: '請輸入正確的手機號或郵箱格式',
     password: '密碼',
     passwordPlaceholder: '輸入密碼',
-    memberNickname: '會員暱稱',
-    memberNicknamePlaceholder: '輸入會員暱稱',
+    memberNickname: '會員ID',
+    memberNicknamePlaceholder: '輸入會員ID',
     inviter: '邀請人',
     inviterPlaceholder: '選擇邀請人',
     group: '所屬群',
@@ -51,7 +51,7 @@ export default {
     pageTitle: '會員詳情',
 
     memberInfo: '會員信息',
-    memberNickname: '會員暱稱',
+    memberNickname: '會員ID',
     memberAccount: '會員賬號',
     gender: '性別',
     occupation: '職業',

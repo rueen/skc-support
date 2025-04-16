@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:41
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:22:15
+ * @LastEditTime: 2025-04-16 19:14:20
  * @Description: 
  */
 export default {
   bills: {
-    memberNickname: '会员昵称',
-    memberNicknamePlaceholder: '请输入会员昵称',
+    memberNickname: '会员ID',
+    memberNicknamePlaceholder: '请输入会员ID',
     billType: '账单类型',
     billTypePlaceholder: '请选择账单类型',
     settlementStatus: '结算状态',

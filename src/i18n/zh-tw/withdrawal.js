@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-11 14:25:38
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 09:11:17
+ * @LastEditTime: 2025-04-16 19:16:17
  * @Description: 
  */
 export default {
@@ -12,8 +12,8 @@ export default {
     batchReject: '批量拒絕',
     viewWithdrawalTransactions: '查看交易記錄',
 
-    memberNickname: '會員暱稱',
-    memberNicknamePlaceholder: '請輸入會員暱稱',
+    memberNickname: '會員ID',
+    memberNicknamePlaceholder: '請輸入會員ID',
     withdrawalStatus: '提現狀態',
     withdrawalStatusPlaceholder: '請選擇提現狀態',
     applyTime: '申請時間',

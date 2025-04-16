@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-15 08:51:10
+ * @LastEditTime: 2025-04-16 19:17:12
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -75,7 +75,7 @@ export default {
     taskDescription: 'Task Description',
     
     memberInfo: 'Member Information',
-    memberNickname: 'Member Nickname',
+    memberNickname: 'User ID',
     account: 'Account',
     group: 'Group',
     homepage: 'Homepage',

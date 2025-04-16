@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 10:22:45
+ * @LastEditTime: 2025-04-16 19:16:57
  * @Description: 
  */
 export default {
   search: {
-    memberNickname: 'Member Nickname',
-    memberNicknamePlaceholder: 'Enter member nickname',
+    memberNickname: 'User ID',
+    memberNicknamePlaceholder: 'Enter User ID',
     group: 'Group',
     groupPlaceholder: 'Select group',
   },
@@ -16,7 +16,7 @@ export default {
   list: {
     add: 'Add',
 
-    memberNickname: 'Member Nickname',
+    memberNickname: 'User ID',
     memberAccount: 'Member Account',
     accounts: 'Accounts',
     inviter: 'Inviter',
@@ -39,8 +39,8 @@ export default {
     memberAccountRule: 'Please enter a valid phone number or email address',
     password: 'Password',
     passwordPlaceholder: 'Enter password',
-    memberNickname: 'Member Nickname',
-    memberNicknamePlaceholder: 'Enter member nickname',
+    memberNickname: 'User ID',
+    memberNicknamePlaceholder: 'Enter User ID',
     inviter: 'Inviter',
     inviterPlaceholder: 'Select inviter',
     group: 'Group',
@@ -51,7 +51,7 @@ export default {
     pageTitle: 'Member Details',
 
     memberInfo: 'Member Info',
-    memberNickname: 'Member Nickname',
+    memberNickname: 'User ID',
     memberAccount: 'Member Account',
     gender: 'Gender',
     occupation: 'Occupation',

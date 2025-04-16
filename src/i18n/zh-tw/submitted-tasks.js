@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-15 08:52:07
+ * @LastEditTime: 2025-04-16 19:16:12
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -72,7 +72,7 @@ export default {
     taskDescription: '任務描述',
     
     memberInfo: '會員信息',
-    memberNickname: '會員暱稱',
+    memberNickname: '會員ID',
     account: '賬號',
     group: '所屬群組',
     homepage: '首頁',

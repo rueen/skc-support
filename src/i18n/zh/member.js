@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 10:22:41
+ * @LastEditTime: 2025-04-16 19:14:35
  * @Description: 
  */
 export default {
   search: {
-    memberNickname: '会员昵称',
-    memberNicknamePlaceholder: '输入会员昵称',
+    memberNickname: '会员ID',
+    memberNicknamePlaceholder: '输入会员ID',
     group: '所属群',
     groupPlaceholder: '选择所属群',
   },
@@ -16,7 +16,7 @@ export default {
   list: {
     add: '添加会员',
 
-    memberNickname: '会员昵称',
+    memberNickname: '会员ID',
     memberAccount: '会员账号',
     accounts: '账号列表',
     inviter: '邀请人',
@@ -39,8 +39,8 @@ export default {
     memberAccountRule: '请输入正确的手机号或邮箱格式',
     password: '密码',
     passwordPlaceholder: '输入密码',
-    memberNickname: '会员昵称',
-    memberNicknamePlaceholder: '输入会员昵称',
+    memberNickname: '会员ID',
+    memberNicknamePlaceholder: '输入会员ID',
     inviter: '邀请人',
     inviterPlaceholder: '选择邀请人',
     group: '所属群',
@@ -51,7 +51,7 @@ export default {
     pageTitle: '会员详情',
 
     memberInfo: '会员信息',
-    memberNickname: '会员昵称',
+    memberNickname: '会员ID',
     memberAccount: '会员账号',
     gender: '性别',
     occupation: '职业',
