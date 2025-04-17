@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:22
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 11:40:49
+ * @LastEditTime: 2025-04-17 19:29:28
  * @Description: 
  */
 export default {
@@ -22,4 +22,6 @@ export default {
   locationPlaceholder: '请输入位置',
   content: '内容',
   contentPlaceholder: '请输入内容',
+  titleRequired: '请输入文章标题',
+  contentRequired: '请输入文章内容'
 }

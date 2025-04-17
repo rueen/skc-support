@@ -152,8 +152,8 @@ const formData = reactive({
 
 // 表单校验规则
 const rules = {
-  title: [{ required: true, message: '请输入文章标题' }],
-  content: [{ required: true, message: '请输入文章内容' }]
+  title: [{ required: true, message: t('article.titleRequired') }],
+  content: [{ required: true, message: t('article.contentRequired') }]
 }
 
 // 表格列配置
@@ -203,7 +203,7 @@ const handleDelete = async (record) => {
       }
     })
     if (res.code === 0) {
-      message.success('删除成功')
+      message.success(res.message)
       loadData()
     } else {
       message.error(res.message)
@@ -250,7 +250,7 @@ const addArticle = async () => {
       ...formData
     })
     if (res.code === 0) {
-      message.success('添加成功')
+      message.success(res.message)
       modalVisible.value = false
       loadData()
     } else {
@@ -275,7 +275,7 @@ const editArticle = async () => {
       }
     })
     if (res.code === 0) {
-      message.success('保存成功')
+      message.success(res.message)
       modalVisible.value = false
       loadData()
     } else {
