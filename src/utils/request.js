@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-17 09:39:53
+ * @LastEditTime: 2025-04-17 16:06:43
  * @Description: API 请求工具
  */
 
@@ -44,16 +44,11 @@ const setupInterceptors = (service) => {
       // 添加语言参数
       const lang = localStorage.getItem('language') || 'zh-CN'
       
-      // 根据请求方法添加语言参数
-      if (config.method.toLowerCase() === 'get') {
-        config.params = { ...config.params, lang }
+      // 如果是 FormData，需要特殊处理
+      if (config.data instanceof FormData) {
+        config.data.append('lang', lang)
       } else {
-        // 如果是 FormData，需要特殊处理
-        if (config.data instanceof FormData) {
-          config.data.append('lang', lang)
-        } else {
-          config.data = { ...config.data, lang }
-        }
+        config.params = { ...config.params, lang }
       }
       
       return config
