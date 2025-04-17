@@ -79,7 +79,7 @@ import { useEnumStore } from '@/stores'
 const router = useRouter()
 const userStore = useUserStore()
 const enumStore = useEnumStore()
-const { locale } = useI18n()
+const { t } = useI18n()
 const formRef = ref()
 const loading = ref(false)
 
@@ -89,7 +89,8 @@ const currentLang = ref(localStorage.getItem('language') || 'zh-CN')
 // 切换语言
 const handleLangChange = (e) => {
   const lang = e.target.value
-  locale.value = lang
+  t.value = lang
+  console.log(lang)
   localStorage.setItem('language', lang)
 }
 
@@ -101,10 +102,10 @@ const formData = reactive({
 
 const rules = {
   username: [
-    { required: true, message: '请输入用户名' }
+    { required: true, message: t('login.usernameRequired') }
   ],
   password: [
-    { required: true, message: '请输入密码' }
+    { required: true, message: t('login.passwordRequired') }
   ]
 }
 

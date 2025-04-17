@@ -192,21 +192,17 @@ const handleEdit = (record) => {
 
 // 删除渠道
 const handleDelete = async (record) => {
-  try {
-    const res = await del('channel.delete', {}, {
+  const res = await del('channel.delete', {}, {
     // 替换 URL 中的 :id 参数
     urlParams: {
       id: record.id
     }
   })
-    if(res.code === 0){
-      message.success('删除成功')
-      loadData()
-    }else{
-      message.error(res.message)
-    }
-  } catch (error) {
-    message.error('删除失败')
+  if(res.code === 0){
+    message.success(res.message)
+    loadData()
+  }else{
+    message.error(res.message)
   }
 }
 
