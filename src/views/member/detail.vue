@@ -233,7 +233,7 @@ const loadMemberInfo = async () => {
 const addMember = async () => {
   const res = await post('member.add', formData)
   if(res.code === 0){
-    message.success('submit success')
+    message.success(res.message)
     router.back()
   } else {
     message.error(res.message)
@@ -246,7 +246,7 @@ const editMember = async () => {
     }
   })
   if(res.code === 0){
-    message.success('submit success')
+    message.success(res.message)
     router.back()
   } else {
     message.error(res.message)
