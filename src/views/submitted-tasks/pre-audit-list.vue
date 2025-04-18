@@ -378,9 +378,14 @@ const handleExport = () => {
         
         // 构建导出参数，使用当前的筛选条件
         const params = {
-          ...searchForm
+          taskName: searchForm.taskName,
+          channelId: searchForm.channelId,
+          taskPreAuditStatus: searchForm.taskPreAuditStatus,
+          groupId: searchForm.groupId,
+          submitStartTime: searchForm.submitTimeRange?.[0],
+          submitEndTime: searchForm.submitTimeRange?.[1],
+          completedTaskCount: searchForm.completedTaskCount
         }
-        
         // 调用下载API
         await downloadByApi('taskSubmitted.preAuditExport', params, `pre_audit_tasks_${new Date().toLocaleDateString()}.xlsx`)
         
