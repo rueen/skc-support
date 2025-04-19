@@ -127,11 +127,8 @@ const rules = {
     { required: true, message: t('member.detail.memberAccountPlaceholder') },
     { 
       validator: (rule, value) => {
-        // 手机号格式验证
-        // 中国手机号格式：1开头的11位数字
-        const cnPhoneRegex = /^1[3-9]\d{9}$/;
-        // 菲律宾手机号格式：+63开头的12位数字或9开头的10位数字
-        const phPhoneRegex = /^(\+?63[0-9]{10}|9[0-9]{9})$/;
+        // 菲律宾手机号格式：9开头的10位数字
+        const phPhoneRegex = /^9[0-9]{9}$/;
         // 邮箱格式验证
         const emailRegex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
         
@@ -139,7 +136,7 @@ const rules = {
           return Promise.resolve();
         }
         
-        if (cnPhoneRegex.test(value) || phPhoneRegex.test(value) || emailRegex.test(value)) {
+        if (phPhoneRegex.test(value) || emailRegex.test(value)) {
           return Promise.resolve();
         }
         
