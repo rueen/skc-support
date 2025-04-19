@@ -155,7 +155,7 @@ const inviterLoading = ref(false)
 const inviterOptions = ref([])
 
 // 加载群组选项
-const loadGroupOptions = async (keyword = '') => {
+const loadGroupOptions = async (keyword = '', inviterId = null) => {
   groupLoading.value = true
   try {
     // TODO: 实现加载群组选项的逻辑
@@ -163,7 +163,7 @@ const loadGroupOptions = async (keyword = '') => {
       page: 1,
       pageSize: 50,
       groupName: keyword,
-      memberId: formData.inviterId
+      memberId: inviterId
     })
     if(res.code === 0){
       groupOptions.value = res.data.list || [];
