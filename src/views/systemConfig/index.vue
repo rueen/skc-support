@@ -140,7 +140,7 @@ const fetchSystemConfig = async () => {
       })
       Object.assign(formState, {
         max_group_members: json.max_group_members.config_value, // 最大群成员数
-        group_owner_commission_rate: json.group_owner_commission_rate.config_value, // 群主收益率
+        group_owner_commission_rate: (json.group_owner_commission_rate.config_value - 0) * 100, // 群主收益率
         invite_reward_amount: json.invite_reward_amount.config_value, // 邀请奖励金额
         withdrawal_threshold: json.withdrawal_threshold.config_value // 提现门槛
       })
@@ -155,8 +155,14 @@ const fetchSystemConfig = async () => {
 // 保存系统配置
 const saveSystemConfig = async () => {
   submitting.value = true
+  const configs = {
+    max_group_members: formState.max_group_members, // 最大群成员数
+    group_owner_commission_rate: formState.group_owner_commission_rate / 100, // 群主收益率
+    invite_reward_amount: formState.invite_reward_amount, // 邀请奖励金额
+    withdrawal_threshold: formState.withdrawal_threshold // 提现门槛
+  }
   const res = await post('system.saveAllConfig', {
-    configs: formState
+    configs
   })
   
   submitting.value = false
