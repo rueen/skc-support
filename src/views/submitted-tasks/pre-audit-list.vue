@@ -124,7 +124,9 @@
           </template>
           <template v-if="column.key === 'member'">
             <div>
-              <div>{{ record.nickname }}</div>
+              <div>
+                <a-typography-link @click="handleMemberDetail(record)">{{ record.nickname }}</a-typography-link>
+              </div>
               <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
                 <GroupOwner v-if="record.isOwner" />
@@ -290,6 +292,11 @@ const handleReset = () => {
 const handleTableChange = (pag) => {
   Object.assign(pagination, pag)
   loadData()
+}
+
+// 会员详情
+const handleMemberDetail = (record) => {
+  router.push(`/member/view/${record.memberId}`)
 }
 
 // 查看详情

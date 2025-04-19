@@ -127,7 +127,9 @@
           </template>
           <template v-if="column.key === 'member'">
             <div>
-              <div>{{ record.nickname }}</div>
+              <div>
+                <a-typography-link @click="handleMemberDetail(record)">{{ record.nickname }}</a-typography-link>
+              </div>
               <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
                 <GroupOwner v-if="record.isOwner" />
@@ -315,6 +317,11 @@ const handleTableChange = (pag) => {
   loadData()
 }
 
+// 会员详情
+const handleMemberDetail = (record) => {
+  router.push(`/member/view/${record.memberId}`)
+}
+
 // 查看详情
 const handleView = (record) => {
   router.push(`/submitted-tasks/detail/${record.id}?type=confirm`)
@@ -329,14 +336,14 @@ const handleResolve = async (record) => {
 // 批量审核通过
 const handleBatchResolve = async () => {
   if (!selectedRowKeys.value.length) {
-    message.warning('请选择要通过的任务')
+    message.warning(t('submittedTasks.list.selectTask'))
     return
   }
   const res = await post('taskSubmitted.batchConfirmAuditApprove', {
     ids: selectedRowKeys.value
   })
   if(res.code === 0) {
-    message.success('批量审核通过成功')
+    message.success(t('submittedTasks.resolveSuccess'))
     selectedRowKeys.value = []
     loadData()
   } else {

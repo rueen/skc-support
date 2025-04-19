@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-14 22:21:12
+ * @LastEditTime: 2025-04-19 20:53:35
  * @Description: 
  */
 export default {
@@ -23,7 +23,7 @@ export default {
     oldAccount: 'FB老賬號管理',
     
     accountInfo: '賬號信息',
-    member: '會員',
+    memberInfo: '會員信息',
     submitTime: '提交時間',
     auditStatus: '審核狀態',
     waiterName: '審核員',

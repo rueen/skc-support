@@ -66,10 +66,10 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'memberNickname'">
-            <a @click="handleMemberDetail(record)">{{ record.memberNickname }}</a>
+            <a-typography-link @click="handleMemberDetail(record)">{{ record.memberNickname }}</a-typography-link>
           </template>
           <template v-if="column.key === 'taskName'">
-            <a @click="handleTaskDetail(record)" v-if="record.taskName">{{ record.taskName }}</a>
+            <a-typography-link @click="handleTaskDetail(record)" v-if="record.taskName">{{ record.taskName }}</a-typography-link>
             <span v-else>--</span>
           </template>
           <template v-if="column.key === 'billType'">
@@ -229,7 +229,8 @@ const handleMemberDetail = (record) => {
 
 // 任务详情
 const handleTaskDetail = (record) => {
-  router.push(`/submitted-tasks/detail/${record.submittedId}`)
+  console.log(record)
+  router.push(`/submitted-tasks/detail/${record.submittedId}?type=confirm`)
 }
 
 // 加载数据

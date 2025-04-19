@@ -258,7 +258,7 @@ const columns = computed(() => [
     width: 500
   },
   {
-    title: t('account.list.member'),
+    title: t('account.list.memberInfo'),
     key: 'member'
   },
   {
