@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:25:10
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-17 09:10:33
+ * @LastEditTime: 2025-04-19 20:07:02
  * @Description: 环境配置文件
  */
 
@@ -67,4 +67,5 @@ export default {
   mock: MOCK_CONFIG,
   // H5 路径
   h5Url: 'http://m.rueen.cn',
+  apiSignSecret: '81fe9c1f0a2d564bf827eb5ca3f3ed7b46592b7dc40b9a47fd3cb8fbf5308e9a',
 }; 

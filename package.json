@@ -13,6 +13,7 @@
     "ant-design-vue": "^4.x.x",
     "argon2": "^0.41.1",
     "axios": "^1.8.1",
+    "crypto-js": "^4.2.0",
     "froala-editor": "^4.5.0",
     "less": "^4.x.x",
     "nprogress": "^0.2.0",
