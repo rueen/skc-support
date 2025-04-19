@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:46:03
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 20:17:49
+ * @LastEditTime: 2025-04-19 14:58:57
  * @Description: 
  */
 export default {
@@ -42,7 +42,7 @@ export default {
     pending: '处理中',
     success: '成功',
     failed: '失败',
-    orderId: '订单号',
+    orderId: '订单号(账单编号)',
     orderIdPlaceholder: '请输入订单号',
     withdrawalId: '提现ID',
     withdrawalIdPlaceholder: '请输入提现ID',

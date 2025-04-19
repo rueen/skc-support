@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:45:57
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 20:17:39
+ * @LastEditTime: 2025-04-19 14:59:28
  * @Description: 
  */
 export default {
@@ -42,7 +42,7 @@ export default {
     pending: 'Pending',
     success: 'Success',
     failed: 'Failed',
-    orderId: 'Order ID',
+    orderId: 'Order ID(Bill No)',
     orderIdPlaceholder: 'Enter order ID',
     withdrawalId: 'Withdrawal ID',
     withdrawalIdPlaceholder: 'Enter withdrawal ID',

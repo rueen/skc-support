@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-11 14:25:38
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 20:17:57
+ * @LastEditTime: 2025-04-19 14:59:39
  * @Description: 
  */
 export default {
@@ -42,7 +42,7 @@ export default {
     pending: '處理中',
     success: '成功',
     failed: '失敗',
-    orderId: '訂單號',
+    orderId: '訂單號(賬單編號)',
     orderIdPlaceholder: '請輸入訂單號',
     withdrawalId: '提現ID',
     withdrawalIdPlaceholder: '請輸入提現ID',
