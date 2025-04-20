@@ -2,13 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-03-13 12:30:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-01 20:10:48
+ * @LastEditTime: 2025-04-20 10:18:25
  * @Description: 文件下载工具函数
  */
 
 import axios from 'axios'
 import { message } from 'ant-design-vue'
 import config from '@/config/env'
+import generateSign from './generateSign'
 
 /**
  * 下载文件
@@ -42,6 +43,11 @@ export const downloadFile = (url, params = {}, filename = '', options = {}) => {
       return Promise.reject(error)
     }
   )
+
+  // 生成签名 (密钥需要从后端开发人员处获取)
+  const sign = generateSign(params);
+  // 添加签名到请求参数
+  params.sign = sign;
 
   // 发送请求
   return downloadService({
