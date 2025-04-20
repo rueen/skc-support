@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:25:10
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-19 20:07:02
+ * @LastEditTime: 2025-04-20 18:45:06
  * @Description: 环境配置文件
  */
 
@@ -14,10 +14,10 @@ const isDev = process.env.NODE_ENV === 'development';
 // API 基础路径配置
 const API_BASE = {
   // 开发环境 API 基础路径
-  // development: '',
-  development: 'http://localhost:3002',
+  development: '',
+  // development: 'http://localhost:3002',
   // 生产环境 API 基础路径
-  production: 'http://sapi.rueen.cn',
+  production: 'http://sapi.skcpop.com',
 };
 
 // 公共 API 路径配置（用于图片上传、获取枚举常量等）
