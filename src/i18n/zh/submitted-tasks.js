@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:14:52
+ * @LastEditTime: 2025-04-20 11:46:38
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -45,11 +45,6 @@ export default {
     confirmExport: '确定导出',
     confirmExportContent: '确定要导出当前筛选条件下的任务数据吗？',
     rejectReasonRequired: '请输入拒绝原因',
-    export: '导出',
-    confirmExportContent: '确定要导出当前筛选条件下的任务数据吗？',
-    exporting: '导出中，请稍后...',
-    exportSuccess: '导出成功',
-    exportFailed: '导出失败，请稍后再试'
   },
   
   detail: {

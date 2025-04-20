@@ -376,12 +376,12 @@ const loadChannelOptions = async () => {
 
 const handleExport = () => {
   Modal.confirm({
-    title: t('submittedTasks.list.export'),
-    content: t('submittedTasks.list.confirmExportContent'),
+    title: t('common.export'),
+    content: t('common.confirmExportContent'),
     onOk: async () => {
       try {
         // 显示加载中提示
-        const loadingMessage = message.loading(t('submittedTasks.list.exporting'), 0)
+        const loadingMessage = message.loading(t('common.exporting'), 0)
         
         // 构建导出参数，使用当前的筛选条件
         const params = {
@@ -400,10 +400,10 @@ const handleExport = () => {
         loadingMessage()
         
         // 显示成功提示
-        message.success(t('submittedTasks.list.exportSuccess'))
+        message.success(t('common.exportSuccess'))
       } catch (error) {
         console.error('导出失败:', error)
-        message.error(t('submittedTasks.list.exportFailed'))
+        message.error(t('common.exportFailed'))
       }
     }
   })

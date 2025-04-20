@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:16:12
+ * @LastEditTime: 2025-04-20 11:47:08
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -45,10 +45,6 @@ export default {
     confirmExport: '確定導出',
     confirmExportContent: '確定要導出當前篩選條件下的任務數據嗎？',
     rejectReasonRequired: '請輸入拒絕原因',
-    export: '導出',
-    exporting: '導出中，請稍後...',
-    exportSuccess: '導出成功',
-    exportFailed: '導出失敗，請稍後再試'
   },
   
   detail: {

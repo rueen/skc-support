@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:17:12
+ * @LastEditTime: 2025-04-20 11:50:02
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -12,7 +12,6 @@ export default {
   rejectSuccess: 'Reject success',
   resolveSuccess: 'Resolve success',
   
-  // Search form
   search: {
     taskName: 'Task Name',
     taskNamePlaceholder: 'Enter task name',
@@ -46,14 +45,8 @@ export default {
     confirmExport: 'Confirm Export',
     confirmExportContent: 'Are you sure you want to export the task data under the current filter conditions?',
     rejectReasonRequired: 'Please enter the rejection reason',
-    export: 'Export',
-    confirmExportContent: 'Are you sure you want to export the task data under the current filter conditions?',
-    exporting: 'Exporting data, please wait...',
-    exportSuccess: 'Export success',
-    exportFailed: 'Export failed, please try again later'
   },
   
-  // Detail page
   detail: {
     title: 'Task Audit Detail',
     taskName: 'Task Name',

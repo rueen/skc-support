@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-11 14:22:22
+ * @LastEditTime: 2025-04-20 11:47:52
  * @Description: 
  */
 export default {
@@ -29,5 +29,11 @@ export default {
   saveSuccess: '保存成功',
   saveFailed: '保存失敗',
 
-  groupOwner: '群主'
+  groupOwner: '群主',
+
+  export: '導出',
+  confirmExportContent: '確定要導出當前篩選條件下的任務數據嗎？',
+  exporting: '導出中，請稍後...',
+  exportSuccess: '導出成功',
+  exportFailed: '導出失敗，請稍後再試'
 } 

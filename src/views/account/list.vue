@@ -2,102 +2,107 @@
   <div class="account content-container">
     <div class="table-container">
       <div class="table-header">
-        <div class="left">
-          <a-form layout="inline" :model="searchForm">
-            <a-form-item :label="$t('account.search.account')">
-              <a-input
-                v-model:value="searchForm.keyword"
-                :placeholder="$t('account.search.accountPlaceholder')"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item :label="$t('account.search.channel')">
-              <a-select
-                v-model:value="searchForm.channelId"
-                :placeholder="$t('account.search.channelPlaceholder')"
-                style="width: 120px"
-                allow-clear
+        <a-form layout="inline" :model="searchForm">
+          <a-form-item :label="$t('account.search.account')">
+            <a-input
+              v-model:value="searchForm.keyword"
+              :placeholder="$t('account.search.accountPlaceholder')"
+              allow-clear
+            />
+          </a-form-item>
+          <a-form-item :label="$t('account.search.channel')">
+            <a-select
+              v-model:value="searchForm.channelId"
+              :placeholder="$t('account.search.channelPlaceholder')"
+              style="width: 120px"
+              allow-clear
+            >
+              <a-select-option
+                v-for="item in channelOptions"
+                :key="item.id"
+                :value="item.id"
               >
-                <a-select-option
-                  v-for="item in channelOptions"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.name }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item :label="$t('account.search.auditStatus')">
-              <a-select
-                v-model:value="searchForm.accountAuditStatus"
-                :placeholder="$t('account.search.auditStatusPlaceholder')"
-                style="width: 120px"
-                allow-clear
+                {{ item.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item :label="$t('account.search.auditStatus')">
+            <a-select
+              v-model:value="searchForm.accountAuditStatus"
+              :placeholder="$t('account.search.auditStatusPlaceholder')"
+              style="width: 120px"
+              allow-clear
+            >
+              <a-select-option
+                v-for="option in accountAuditStatusOptions"
+                :key="option.value"
+                :value="option.value"
               >
-                <a-select-option
-                  v-for="option in accountAuditStatusOptions"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.text }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item :label="$t('account.search.group')">
-              <a-select
-                v-model:value="searchForm.groupId"
-                :placeholder="$t('account.search.groupPlaceholder')"
-                style="width: 120px"
-                allow-clear
-                show-search
-                :filter-option="false"
-                @search="loadGroupOptions"
+                {{ option.text }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item :label="$t('account.search.group')">
+            <a-select
+              v-model:value="searchForm.groupId"
+              :placeholder="$t('account.search.groupPlaceholder')"
+              style="width: 120px"
+              allow-clear
+              show-search
+              :filter-option="false"
+              @search="loadGroupOptions"
+            >
+              <a-select-option
+                v-for="item in groupOptions"
+                :key="item.id"
+                :value="item.id"
               >
-                <a-select-option
-                  v-for="item in groupOptions"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.groupName }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item :label="$t('account.search.member')">
-              <a-select
-                v-model:value="searchForm.memberId"
-                :placeholder="$t('account.search.memberPlaceholder')"
-                style="width: 120px"
-                allow-clear
-                show-search
-                :filter-option="false"
-                @search="loadMemberOptions"
+                {{ item.groupName }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item :label="$t('account.search.member')">
+            <a-select
+              v-model:value="searchForm.memberId"
+              :placeholder="$t('account.search.memberPlaceholder')"
+              style="width: 120px"
+              allow-clear
+              show-search
+              :filter-option="false"
+              @search="loadMemberOptions"
+            >
+              <a-select-option
+                v-for="item in memberOptions"
+                :key="item.id"
+                :value="item.id"
               >
-                <a-select-option
-                  v-for="item in memberOptions"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.nickname }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item>
-              <a-space>
-                <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
-                <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
-              </a-space>
-            </a-form-item>
-          </a-form>
+                {{ item.nickname }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item>
+            <a-space>
+              <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
+              <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
+            </a-space>
+          </a-form-item>
+        </a-form>
+        <div style="width: 100%;display: flex;justify-content: space-between;">
+          <a-button @click="openOldAccount">{{ $t('account.list.oldAccount') }}</a-button>
+          <div class="right">
+            <a-space>
+              <a-button
+                @click="handleExport"
+                v-if="tableData.length"
+              >
+                <template #icon><DownloadOutlined /></template>
+                {{ $t('common.export') }}
+              </a-button>
+              <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
+              <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
+            </a-space>
+          </div>
         </div>
-        <div class="right">
-          <a-space>
-            <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
-            <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
-          </a-space>
-        </div>
-      </div>
-      <div style="text-align: left;margin-bottom: 16px;">
-        <a-button @click="openOldAccount">{{ $t('account.list.oldAccount') }}</a-button>
       </div>
       <a-table
         :columns="columns"
@@ -212,6 +217,7 @@ import CopyContent from '@/components/CopyContent.vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
+import { downloadByApi } from '@/utils/download'
 
 const router = useRouter()
 const enumStore = useEnumStore()
@@ -496,6 +502,41 @@ const handleDelete = async (record) => {
   } else {
     message.error(res.message)
   }
+}
+
+const handleExport = () => {
+  Modal.confirm({
+    title: t('common.export'),
+    content: t('common.confirmExportContent'),
+    onOk: async () => {
+      try {
+        // 显示加载中提示
+        const loadingMessage = message.loading(t('common.exporting'), 0)
+        
+        // 构建导出参数，使用当前的筛选条件
+        const params = {
+          taskName: searchForm.taskName,
+          channelId: searchForm.channelId,
+          taskPreAuditStatus: searchForm.taskPreAuditStatus,
+          groupId: searchForm.groupId,
+          submitStartTime: searchForm.submitTimeRange?.[0],
+          submitEndTime: searchForm.submitTimeRange?.[1],
+          completedTaskCount: searchForm.completedTaskCount
+        }
+        // 调用下载API
+        await downloadByApi('account.export', params, `账号列表_${new Date().toLocaleDateString()}.xlsx`)
+        
+        // 关闭加载提示
+        loadingMessage()
+        
+        // 显示成功提示
+        message.success(t('common.exportSuccess'))
+      } catch (error) {
+        console.error('导出失败:', error)
+        message.error(t('common.exportFailed'))
+      }
+    }
+  })
 }
 
 // 初始化

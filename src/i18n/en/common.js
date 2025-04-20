@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 15:31:15
+ * @LastEditTime: 2025-04-20 11:48:49
  * @Description: 
  */
 export default {
@@ -29,5 +29,11 @@ export default {
   saveSuccess: 'Save success',
   saveFailed: 'Save failed',
 
-  groupOwner: 'Owner'
+  groupOwner: 'Owner',
+
+  export: 'Export',
+  confirmExportContent: 'Are you sure you want to export the task data under the current filter conditions?',
+  exporting: 'Exporting data, please wait...',
+  exportSuccess: 'Export success',
+  exportFailed: 'Export failed, please try again later'
 } 
