@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:25:10
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-20 18:45:06
+ * @LastEditTime: 2025-04-22 16:02:59
  * @Description: 环境配置文件
  */
 
@@ -14,8 +14,8 @@ const isDev = process.env.NODE_ENV === 'development';
 // API 基础路径配置
 const API_BASE = {
   // 开发环境 API 基础路径
-  development: '',
-  // development: 'http://localhost:3002',
+  // development: '',
+  development: 'http://localhost:3002',
   // 生产环境 API 基础路径
   production: 'http://sapi.skcpop.com',
 };
@@ -66,6 +66,6 @@ export default {
   // 模拟数据配置
   mock: MOCK_CONFIG,
   // H5 路径
-  h5Url: 'http://m.rueen.cn',
+  h5Url: 'http://m.skcpop.com',
   apiSignSecret: '81fe9c1f0a2d564bf827eb5ca3f3ed7b46592b7dc40b9a47fd3cb8fbf5308e9a',
 }; 
