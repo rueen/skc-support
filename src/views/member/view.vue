@@ -15,6 +15,7 @@
                 <template #icon><UserOutlined /></template>
               </a-avatar>
               <span>{{ memberInfo.nickname }}</span>
+              <a-tag color="green" v-if="memberInfo.isNew">new</a-tag>
             </a-space>
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.view.memberAccount')">

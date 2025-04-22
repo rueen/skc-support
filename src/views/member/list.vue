@@ -56,6 +56,12 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'nickname'">
+            <a-space>
+              <span>{{ record.nickname }}</span>
+              <a-tag color="green" v-if="record.isNew">new</a-tag>
+            </a-space>
+          </template>
           <template v-if="column.key === 'accountList'">
             <div style="display: inline-block;">
               <div v-for="item in record.accountList">
@@ -141,7 +147,6 @@ const groupOptions = ref([])
 const columns = computed(() => [
   {
     title: t('member.list.memberNickname'),
-    dataIndex: 'nickname',
     key: 'nickname'
   },
   {
