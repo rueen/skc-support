@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:14:35
+ * @LastEditTime: 2025-04-23 14:51:01
  * @Description: 
  */
 export default {
@@ -45,6 +45,7 @@ export default {
     inviterPlaceholder: '选择邀请人',
     group: '所属群',
     groupPlaceholder: '选择所属群',
+    isNew: '是否是新会员',
   },
 
   view: {

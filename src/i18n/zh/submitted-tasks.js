@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-20 11:46:38
+ * @LastEditTime: 2025-04-23 14:33:14
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -43,7 +43,6 @@ export default {
     confirmReject: '确定要拒绝该任务吗？',
     selectTask: '请选择任务',
     confirmExport: '确定导出',
-    confirmExportContent: '确定要导出当前筛选条件下的任务数据吗？',
     rejectReasonRequired: '请输入拒绝原因',
   },
   

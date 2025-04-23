@@ -40,6 +40,13 @@
         </div>
         <div class="right">
           <a-space>
+            <a-button
+              @click="handleExport"
+              v-if="tableData.length"
+            >
+              <template #icon><DownloadOutlined /></template>
+              {{ $t('common.export') }}
+            </a-button>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
               {{ $t('member.list.add') }}
@@ -110,13 +117,14 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
+import { downloadByApi } from '@/utils/download'
 
 const enumStore = useEnumStore()
 const { t } = useI18n()
@@ -260,6 +268,35 @@ const loadGroupOptions = async (keyword = '') => {
   } catch (error) {
     message.error('获取群组列表失败')
   }
+}
+
+const handleExport = () => {
+  Modal.confirm({
+    title: t('common.export'),
+    content: t('common.confirmExportContent'),
+    onOk: async () => {
+      try {
+        // 显示加载中提示
+        const loadingMessage = message.loading(t('common.exporting'), 0)
+        
+        // 构建导出参数，使用当前的筛选条件
+        const params = {
+          ...searchForm
+        }
+        // 调用下载API
+        await downloadByApi('member.export', params, `会员列表_${new Date().toLocaleDateString()}.xlsx`)
+        
+        // 关闭加载提示
+        loadingMessage()
+        
+        // 显示成功提示
+        message.success(t('common.exportSuccess'))
+      } catch (error) {
+        console.error('导出失败:', error)
+        message.error(t('common.exportFailed'))
+      }
+    }
+  })
 }
 
 // 初始化

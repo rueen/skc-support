@@ -91,13 +91,6 @@
           <a-button @click="openOldAccount">{{ $t('account.list.oldAccount') }}</a-button>
           <div class="right">
             <a-space>
-              <a-button
-                @click="handleExport"
-                v-if="tableData.length"
-              >
-                <template #icon><DownloadOutlined /></template>
-                {{ $t('common.export') }}
-              </a-button>
               <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
               <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
             </a-space>
@@ -217,7 +210,6 @@ import CopyContent from '@/components/CopyContent.vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
-import { downloadByApi } from '@/utils/download'
 
 const router = useRouter()
 const enumStore = useEnumStore()
@@ -502,41 +494,6 @@ const handleDelete = async (record) => {
   } else {
     message.error(res.message)
   }
-}
-
-const handleExport = () => {
-  Modal.confirm({
-    title: t('common.export'),
-    content: t('common.confirmExportContent'),
-    onOk: async () => {
-      try {
-        // 显示加载中提示
-        const loadingMessage = message.loading(t('common.exporting'), 0)
-        
-        // 构建导出参数，使用当前的筛选条件
-        const params = {
-          taskName: searchForm.taskName,
-          channelId: searchForm.channelId,
-          taskPreAuditStatus: searchForm.taskPreAuditStatus,
-          groupId: searchForm.groupId,
-          submitStartTime: searchForm.submitTimeRange?.[0],
-          submitEndTime: searchForm.submitTimeRange?.[1],
-          completedTaskCount: searchForm.completedTaskCount
-        }
-        // 调用下载API
-        await downloadByApi('account.export', params, `账号列表_${new Date().toLocaleDateString()}.xlsx`)
-        
-        // 关闭加载提示
-        loadingMessage()
-        
-        // 显示成功提示
-        message.success(t('common.exportSuccess'))
-      } catch (error) {
-        console.error('导出失败:', error)
-        message.error(t('common.exportFailed'))
-      }
-    }
-  })
 }
 
 // 初始化

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-20 11:48:49
+ * @LastEditTime: 2025-04-23 14:32:32
  * @Description: 
  */
 export default {
@@ -32,7 +32,7 @@ export default {
   groupOwner: 'Owner',
 
   export: 'Export',
-  confirmExportContent: 'Are you sure you want to export the task data under the current filter conditions?',
+  confirmExportContent: 'Are you sure to export the data under the current filter conditions?',
   exporting: 'Exporting data, please wait...',
   exportSuccess: 'Export success',
   exportFailed: 'Export failed, please try again later'

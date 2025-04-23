@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-20 11:47:54
+ * @LastEditTime: 2025-04-23 14:32:08
  * @Description: 
  */
 export default {
@@ -32,7 +32,7 @@ export default {
   groupOwner: '群主',
 
   export: '导出',
-  confirmExportContent: '确定要导出当前筛选条件下的任务数据吗？',
+  confirmExportContent: '确定要导出当前筛选条件下的数据吗？',
   exporting: '导出中，请稍后...',
   exportSuccess: '导出成功',
   exportFailed: '导出失败，请稍后再试'

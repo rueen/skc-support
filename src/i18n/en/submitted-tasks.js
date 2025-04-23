@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-20 11:50:02
+ * @LastEditTime: 2025-04-23 14:33:08
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -43,7 +43,6 @@ export default {
     confirmReject: 'Are you sure you want to reject this task?',
     selectTask: 'Please select task',
     confirmExport: 'Confirm Export',
-    confirmExportContent: 'Are you sure you want to export the task data under the current filter conditions?',
     rejectReasonRequired: 'Please enter the rejection reason',
   },
   

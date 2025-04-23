@@ -83,6 +83,9 @@
             </a-select-option>
           </a-select>
         </a-form-item>
+        <a-form-item :label="$t('member.detail.isNew')">
+          <a-switch v-model:checked="formData.isNew" />
+        </a-form-item>
         
         <a-form-item :wrapper-col="{ offset: 4 }">
           <a-space>
@@ -119,6 +122,7 @@ const formData = reactive({
   password: '',
   groupIds: [],
   inviterId: undefined,
+  isNew: true,
 })
 
 // 表单校验规则
@@ -219,6 +223,7 @@ const loadMemberInfo = async () => {
         memberAccount: data.account,
         groupIds: data.groups.map(item => item.groupId),
         inviterId: data.inviterId,
+        isNew: !!data.isNew,
       })
     }
   } catch (error) {
@@ -228,6 +233,7 @@ const loadMemberInfo = async () => {
 }
 
 const addMember = async () => {
+  formData.isNew = formData.isNew ? 1 : 0
   const res = await post('member.add', formData)
   if(res.code === 0){
     message.success(res.message)
@@ -237,6 +243,7 @@ const addMember = async () => {
   }
 }
 const editMember = async () => {
+  formData.isNew = formData.isNew ? 1 : 0
   const res = await put('member.edit', formData, {
     urlParams: {
       id: route.params.id

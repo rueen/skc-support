@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:16:57
+ * @LastEditTime: 2025-04-23 14:52:07
  * @Description: 
  */
 export default {
@@ -45,6 +45,7 @@ export default {
     inviterPlaceholder: 'Select inviter',
     group: 'Group',
     groupPlaceholder: 'Select group',
+    isNew: 'Is New',
   },
 
   view: {
