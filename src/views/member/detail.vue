@@ -165,7 +165,7 @@ const loadGroupOptions = async (keyword = '', inviterId = null) => {
     // TODO: 实现加载群组选项的逻辑
     const res = await get('group.list', {
       page: 1,
-      pageSize: 50,
+      pageSize: 200,
       groupName: keyword,
       memberId: inviterId
     })
@@ -194,11 +194,19 @@ const loadInviterOptions = async (keyword = '') => {
   try {
     const res = await get('member.list', {
       page: 1,
-      pageSize: 50,
+      pageSize: 20,
       memberNickname: keyword
     })
     if(res.code === 0){
-      inviterOptions.value = res.data.list || []
+      let list = res.data.list || [];
+      const isExist = list.find(item => item.id === memberInfo.value.inviterId)
+      if(!isExist){
+        list.push({
+          id: memberInfo.value.inviterId,
+          nickname: memberInfo.value.inviterNickname
+        })
+      }
+      inviterOptions.value = list;
     }
   } finally {
     inviterLoading.value = false
@@ -206,6 +214,7 @@ const loadInviterOptions = async (keyword = '') => {
 }
 
 // 加载会员信息
+const memberInfo = ref({})
 const loadMemberInfo = async () => {
   if (!isEdit.value) return
   
@@ -218,6 +227,7 @@ const loadMemberInfo = async () => {
     })
     if(res.code === 0){
       const data = res.data;
+      memberInfo.value = data;
       Object.assign(formData, {
         memberNickname: data.nickname,
         memberAccount: data.account,
