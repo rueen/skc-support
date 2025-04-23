@@ -84,7 +84,18 @@
               <template v-if="field.type === 'image'">
                 <a-image :src="item.url" :width="60" v-for="(item, _index) in field.value" :key="_index" />
               </template>
-              <template v-else>{{ field.value }}</template>
+              <template v-else>
+                <template v-if="isValidUrl(field.value)">
+                  <CopyContent :content="field.value">
+                    <div class="link-text-container">
+                      <a :href="field.value" target="_blank" class="link-text">{{ field.value }}</a>
+                    </div>
+                  </CopyContent>
+                </template>
+                <template v-else>
+                  <span>{{ field.value }}</span>
+                </template>
+              </template>
             </a-descriptions-item>
           </template>
         </a-descriptions>
@@ -185,6 +196,17 @@ const auditType = computed(() => {
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
+
+// 判断是否为有效URL
+const isValidUrl = (string) => {
+  try {
+    // 检查是否以http://或https://开头
+    if (!string) return false
+    return string.startsWith('http://') || string.startsWith('https://')
+  } catch (err) {
+    return false
+  }
+}
 
 // 已提交任务id
 const submittedId = ref(null)
