@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 14:52:07
+ * @LastEditTime: 2025-04-23 21:56:29
  * @Description: 
  */
 export default {
@@ -19,6 +19,7 @@ export default {
     memberNickname: 'User ID',
     memberAccount: 'Member Account',
     accounts: 'Accounts',
+    completedTaskCount: 'Completed Task Count',
     inviter: 'Inviter',
     group: 'Group',
     updateTime: 'Update Time',

@@ -91,10 +91,12 @@
             {{ record.inviterNickname || '--' }}
           </template>
           <template v-if="column.key === 'groups'">
-            <a-space v-for="item in record.groups">
-              <span>{{ item.groupName }}</span>
-              <GroupOwner v-if="item.isOwner" />
-            </a-space>
+            <div v-for="item in record.groups">
+              <a-space>
+                <span>{{ item.groupName }}</span>
+                <GroupOwner v-if="item.isOwner" />
+              </a-space>
+            </div>
             <span v-if="!record.groups || record.groups.length === 0">--</span>
           </template>
           <template v-if="column.key === 'action'">
@@ -165,6 +167,11 @@ const columns = computed(() => [
   {
     title: t('member.list.accounts'),
     key: 'accountList'
+  },
+  {
+    title: t('member.list.completedTaskCount'),
+    dataIndex: 'completedTaskCount',
+    key: 'completedTaskCount'
   },
   {
     title: t('member.list.inviter'),

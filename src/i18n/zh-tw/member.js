@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 14:51:53
+ * @LastEditTime: 2025-04-23 21:56:07
  * @Description: 
  */
 export default {
@@ -19,6 +19,7 @@ export default {
     memberNickname: '會員ID',
     memberAccount: '會員賬號',
     accounts: '賬號列表',
+    completedTaskCount: '完成任務次數',
     inviter: '邀請人',
     group: '所屬群',
     updateTime: '更新時間',
