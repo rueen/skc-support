@@ -43,6 +43,22 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item :label="$t('submittedTasks.search.preAuditor')">
+            <a-select
+              v-model:value="searchForm.preWaiterId"
+              :placeholder="$t('submittedTasks.search.preAuditorPlaceholder')"
+              allow-clear
+              style="width: 120px;"
+            >
+              <a-select-option
+                v-for="item in waiterOptions"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.username }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
           <a-form-item :label="$t('submittedTasks.search.groupId')">
             <a-select
               v-model:value="searchForm.groupId"
@@ -208,6 +224,7 @@ const searchForm = reactive({
   taskName: '',
   channelId: undefined,
   taskPreAuditStatus: 'pending',
+  preWaiterId: undefined,
   groupId: undefined,
   submitTimeRange: [],
   completedTaskCount: undefined
@@ -216,6 +233,7 @@ const searchForm = reactive({
 // 选项数据
 const channelOptions = ref([])
 const groupOptions = ref([])
+const waiterOptions = ref([])
 
 // 表格列配置
 const columns = computed(() => [
@@ -281,6 +299,7 @@ const handleReset = () => {
     taskName: '',
     channelId: undefined,
     taskPreAuditStatus: 'pending',
+    preWaiterId: undefined,
     groupId: undefined,
     submitTimeRange: [],
     completedTaskCount: undefined
@@ -388,6 +407,7 @@ const handleExport = () => {
           taskName: searchForm.taskName,
           channelId: searchForm.channelId,
           taskPreAuditStatus: searchForm.taskPreAuditStatus,
+          preWaiterId: searchForm.preWaiterId,
           groupId: searchForm.groupId,
           submitStartTime: searchForm.submitTimeRange?.[0],
           submitEndTime: searchForm.submitTimeRange?.[1],
@@ -437,6 +457,7 @@ const loadData = async () => {
       taskName: searchForm.taskName,
       channelId: searchForm.channelId,
       taskPreAuditStatus: searchForm.taskPreAuditStatus,
+      preWaiterId: searchForm.preWaiterId,
       groupId: searchForm.groupId,
       submitStartTime: searchForm.submitTimeRange?.[0],
       submitEndTime: searchForm.submitTimeRange?.[1],
@@ -456,11 +477,22 @@ const loadData = async () => {
   }
 }
 
+const loadWaiterOptions = async () => {
+  if(waiterOptions.value.length) return
+  const res = await get('waiter.list', {
+    page: 1,
+    pageSize: 100
+  })
+  if(res.code === 0){
+    waiterOptions.value = res.data.list || []
+  }
+}
 // 初始化
 onMounted(() => {
   loadData()
   loadGroupOptions()
   loadChannelOptions()
+  loadWaiterOptions()
 })
 </script>
 

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 14:33:08
+ * @LastEditTime: 2025-04-24 16:38:28
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -18,9 +18,13 @@ export default {
     channel: 'Channel',
     channelPlaceholder: 'Select platform channel',
     taskPreAuditStatus: 'Pre-Audit Status',
-    taskPreAuditStatusPlaceholder: 'Select pre-audit status',
-    taskAuditStatus: 'Audit Status',
-    taskAuditStatusPlaceholder: 'Select audit status',
+    taskPreAuditStatusPlaceholder: 'Select',
+    preAuditor: 'Pre-Auditor',
+    preAuditorPlaceholder: 'Select',
+    taskAuditStatus: 'Confirm Audit Status',
+    taskAuditStatusPlaceholder: 'Select',
+    confirmAuditor: 'Confirm Auditor',
+    confirmAuditorPlaceholder: 'Select',
     groupId: 'Group',
     groupIdPlaceholder: 'Select group',
     submitTime: 'Submit Time',

@@ -43,6 +43,22 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item :label="$t('submittedTasks.search.confirmAuditor')">
+            <a-select
+              v-model:value="searchForm.waiterId"
+              :placeholder="$t('submittedTasks.search.confirmAuditorPlaceholder')"
+              allow-clear
+              style="width: 120px;"
+            >
+              <a-select-option
+                v-for="item in waiterOptions"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.username }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
           <a-form-item :label="$t('submittedTasks.search.groupId')">
             <a-select
               v-model:value="searchForm.groupId"
@@ -221,12 +237,14 @@ const rejectLoading = ref(false)
 const rejectReason = ref('')
 const currentRecord = ref(null)
 const selectedRowKeys = ref([])
+const waiterOptions = ref([])
 
 // 搜索表单
 const searchForm = reactive({
   taskName: '',
   channelId: undefined,
   taskAuditStatus: 'pending',
+  waiterId: undefined,
   groupId: undefined,
   submitTimeRange: [],
   completedTaskCount: undefined
@@ -304,6 +322,7 @@ const handleReset = () => {
     taskName: '',
     channelId: undefined,
     taskAuditStatus: 'pending',
+    waiterId: undefined,
     groupId: undefined,
     submitTimeRange: [],
     completedTaskCount: undefined
@@ -411,6 +430,7 @@ const handleExport = () => {
           taskName: searchForm.taskName,
           channelId: searchForm.channelId,
           taskAuditStatus: searchForm.taskAuditStatus,
+          waiterId: searchForm.waiterId,
           groupId: searchForm.groupId,
           submitStartTime: searchForm.submitTimeRange?.[0],
           submitEndTime: searchForm.submitTimeRange?.[1],
@@ -461,6 +481,7 @@ const loadData = async () => {
       taskName: searchForm.taskName,
       channelId: searchForm.channelId,
       taskAuditStatus: searchForm.taskAuditStatus,
+      waiterId: searchForm.waiterId,
       groupId: searchForm.groupId,
       submitStartTime: searchForm.submitTimeRange?.[0],
       submitEndTime: searchForm.submitTimeRange?.[1],
@@ -480,11 +501,23 @@ const loadData = async () => {
   }
 }
 
+const loadWaiterOptions = async () => {
+  if(waiterOptions.value.length) return
+  const res = await get('waiter.list', {
+    page: 1,
+    pageSize: 100
+  })
+  if(res.code === 0){
+    waiterOptions.value = res.data.list || []
+  }
+}
+
 // 初始化
 onMounted(() => {
   loadData()
   loadGroupOptions()
   loadChannelOptions()
+  loadWaiterOptions()
 })
 </script>
 

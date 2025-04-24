@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 14:33:14
+ * @LastEditTime: 2025-04-24 16:37:22
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -18,9 +18,13 @@ export default {
     channel: '平台渠道',
     channelPlaceholder: '请选择平台渠道',
     taskPreAuditStatus: '初审状态',
-    taskPreAuditStatusPlaceholder: '请选择初审状态',
+    taskPreAuditStatusPlaceholder: '请选择',
+    preAuditor: '初审员',
+    preAuditorPlaceholder: '请选择',
     taskAuditStatus: '复审状态',
-    taskAuditStatusPlaceholder: 'Select audit status',
+    taskAuditStatusPlaceholder: '请选择',
+    confirmAuditor: '复审员',
+    confirmAuditorPlaceholder: '请选择',
     groupId: '所属群组',
     groupIdPlaceholder: '请选择群组',
     submitTime: '提交时间',
