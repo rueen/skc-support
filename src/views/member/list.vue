@@ -70,7 +70,7 @@
             </a-space>
           </template>
           <template v-if="column.key === 'accountList'">
-            <div style="display: inline-block;">
+            <a-space direction="vertical">
               <div v-for="item in record.accountList">
                 <div>
                   <a-space>
@@ -84,8 +84,12 @@
                     <a :href="item.homeUrl" target="_blank" class="link-text">{{ item.homeUrl }}</a>
                   </CopyContent>
                 </div>
+                <div>
+                  <span class="label">uid：</span>
+                  <CopyContent :content="item.uid" />
+                </div>
               </div>
-            </div>
+            </a-space>
           </template>
           <template v-if="column.key === 'inviterNickname'">
             {{ record.inviterNickname || '--' }}
