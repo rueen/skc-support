@@ -27,6 +27,15 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item :label="$t('submittedTasks.search.submitTime')">
+            <a-range-picker
+              v-model:value="searchForm.submitTimeRange"
+              :show-time="{ format: 'HH:mm' }"
+              format="YYYY-MM-DD HH:mm"
+              value-format="YYYY-MM-DD HH:mm:ss"
+              style="width: 280px;"
+            />
+          </a-form-item>
           <a-form-item :label="$t('submittedTasks.search.taskAuditStatus')">
             <a-select
               v-model:value="searchForm.taskAuditStatus"
@@ -73,15 +82,6 @@
                 {{ item.groupName }}
               </a-select-option>
             </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.submitTime')">
-            <a-range-picker
-              v-model:value="searchForm.submitTimeRange"
-              :show-time="{ format: 'HH:mm' }"
-              format="YYYY-MM-DD HH:mm"
-              value-format="YYYY-MM-DD HH:mm:ss"
-              style="width: 280px;"
-            />
           </a-form-item>
           <a-form-item :label="$t('submittedTasks.search.completedTaskCount')">
             <a-input-number
