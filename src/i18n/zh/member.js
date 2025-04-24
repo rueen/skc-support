@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 21:55:35
+ * @LastEditTime: 2025-04-24 09:08:41
  * @Description: 
  */
 export default {
   search: {
-    memberNickname: '会员ID',
-    memberNicknamePlaceholder: '输入会员ID',
+    keyword: '会员ID/账号',
+    keywordPlaceholder: '输入会员ID/账号',
     group: '所属群',
     groupPlaceholder: '选择所属群',
   },

@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 21:56:07
+ * @LastEditTime: 2025-04-24 09:07:56
  * @Description: 
  */
 export default {
   search: {
-    memberNickname: '會員ID',
-    memberNicknamePlaceholder: '輸入會員ID',
+    keyword: '會員ID/帳號',
+    keywordPlaceholder: '輸入會員ID/帳號',
     group: '所屬群',
     groupPlaceholder: '選擇所屬群',
   },

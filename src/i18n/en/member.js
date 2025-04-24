@@ -2,13 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 21:56:29
+ * @LastEditTime: 2025-04-24 09:07:48
  * @Description: 
  */
 export default {
   search: {
-    memberNickname: 'User ID',
-    memberNicknamePlaceholder: 'Enter User ID',
+    keyword: 'User ID/Account',
+    keywordPlaceholder: 'Enter User ID/Account',
     group: 'Group',
     groupPlaceholder: 'Select group',
   },

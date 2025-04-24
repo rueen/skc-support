@@ -4,10 +4,10 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item :label="$t('member.search.memberNickname')">
+            <a-form-item :label="$t('member.search.keyword')">
               <a-input
-                v-model:value="searchForm.memberNickname"
-                :placeholder="$t('member.search.memberNicknamePlaceholder')"
+                v-model:value="searchForm.keyword"
+                :placeholder="$t('member.search.keywordPlaceholder')"
                 allow-clear
               />
             </a-form-item>
@@ -137,7 +137,7 @@ const loading = ref(false)
 
 // 查询参数
 const searchForm = reactive({
-  memberNickname: '',
+  keyword: '',
   groupId: route.query.groupId
 })
 
@@ -203,7 +203,7 @@ const handleSearch = () => {
 
 const handleReset = () => {
   Object.assign(searchForm, {
-    memberNickname: '',
+    keyword: '',
     groupId: undefined
   })
   handleSearch()
