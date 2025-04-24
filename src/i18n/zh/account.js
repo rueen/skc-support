@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-19 20:53:06
+ * @LastEditTime: 2025-04-24 17:10:50
  * @Description: 
  */
 export default {
@@ -13,10 +13,13 @@ export default {
     channelPlaceholder: '选择平台渠道',
     auditStatus: '审核状态',
     auditStatusPlaceholder: '选择审核状态',
+    auditor: '审核员',
+    auditorPlaceholder: '请选择',
     group: '群组',
     groupPlaceholder: '选择群组',
     member: '会员',
     memberPlaceholder: '选择会员',
+    submitTime: '提交时间',
   },
 
   list: {

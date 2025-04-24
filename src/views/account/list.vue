@@ -26,6 +26,15 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item :label="$t('account.search.submitTime')">
+            <a-range-picker
+              v-model:value="searchForm.submitTimeRange"
+              :show-time="{ format: 'HH:mm' }"
+              format="YYYY-MM-DD HH:mm"
+              value-format="YYYY-MM-DD HH:mm:ss"
+              style="width: 280px;"
+            />
+          </a-form-item>
           <a-form-item :label="$t('account.search.auditStatus')">
             <a-select
               v-model:value="searchForm.accountAuditStatus"
@@ -39,6 +48,22 @@
                 :value="option.value"
               >
                 {{ option.text }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item :label="$t('account.search.auditor')">
+            <a-select
+              v-model:value="searchForm.waiterId"
+              :placeholder="$t('account.search.auditorPlaceholder')"
+              allow-clear
+              style="width: 120px;"
+            >
+              <a-select-option
+                v-for="item in waiterOptions"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.username }}
               </a-select-option>
             </a-select>
           </a-form-item>
@@ -237,8 +262,10 @@ const searchForm = reactive({
   keyword: '',
   channelId: undefined,
   accountAuditStatus: 'pending',
+  waiterId: undefined,
   groupId: undefined,
-  memberId: undefined
+  memberId: undefined,
+  submitTimeRange: []
 })
 
 // 渠道选项
@@ -247,6 +274,7 @@ const channelOptions = ref([])
 const groupOptions = ref([])
 // 会员选项
 const memberOptions = ref([])
+const waiterOptions = ref([])
 
 // 表格列配置
 const columns = computed(() => [
@@ -307,11 +335,15 @@ const handleSearch = () => {
 
 // 重置
 const handleReset = () => {
-  searchForm.keyword = ''
-  searchForm.channelId = undefined
-  searchForm.accountAuditStatus = undefined
-  searchForm.groupId = undefined
-  searchForm.memberId = undefined
+  Object.assign(searchForm, {
+    keyword: '',
+    channelId: undefined,
+    accountAuditStatus: 'pending',
+    waiterId: undefined,
+    groupId: undefined,
+    memberId: undefined,
+    submitTimeRange: []
+  })
   handleSearch()
 }
 
@@ -430,11 +462,20 @@ const handleRejectConfirm = async () => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    const res = await get('account.list', {
+    const params = {
       page: pagination.current,
       pageSize: pagination.pageSize,
-      ...searchForm
+      keyword: searchForm.keyword,
+      channelId: searchForm.channelId,
+      accountAuditStatus: searchForm.accountAuditStatus,
+      waiterId: searchForm.waiterId,
+      groupId: searchForm.groupId,
+      memberId: searchForm.memberId,
+      submitStartTime: searchForm.submitTimeRange?.[0],
+      submitEndTime: searchForm.submitTimeRange?.[1],
+    }
+    const res = await get('account.list', {
+      ...params
     })
     if(res.code === 0) {
       tableData.value = res.data.list
@@ -496,12 +537,24 @@ const handleDelete = async (record) => {
   }
 }
 
+const loadWaiterOptions = async () => {
+  if(waiterOptions.value.length) return
+  const res = await get('waiter.list', {
+    page: 1,
+    pageSize: 100
+  })
+  if(res.code === 0){
+    waiterOptions.value = res.data.list || []
+  }
+}
+
 // 初始化
 onMounted(() => {
   loadData()
   loadGroupOptions()
   loadChannelOptions()
   loadMemberOptions()
+  loadWaiterOptions()
 })
 </script>
 

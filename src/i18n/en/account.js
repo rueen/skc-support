@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-19 20:53:27
+ * @LastEditTime: 2025-04-24 17:10:46
  * @Description: 
  */
 export default {
@@ -13,10 +13,13 @@ export default {
     channelPlaceholder: 'Select platform channel',
     auditStatus: 'Audit Status',
     auditStatusPlaceholder: 'Select audit status',
+    auditor: 'Auditor',
+    auditorPlaceholder: 'Select',
     group: 'Group',
     groupPlaceholder: 'Select group',
     member: 'Member',
     memberPlaceholder: 'Select member',
+    submitTime: 'Submit Time',
   },
 
   list: {
