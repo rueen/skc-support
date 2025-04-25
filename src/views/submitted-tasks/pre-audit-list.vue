@@ -342,9 +342,14 @@ const handleBatchResolve = async () => {
     ids: selectedRowKeys.value
   })
   if(res.code === 0) {
-    message.success(t('submittedTasks.resolveSuccess'))
+    message.success(t('submittedTasks.resolveSuccess'));
+    tableData.value.forEach(item => {
+      if(selectedRowKeys.value.includes(item.id)) {
+        item.taskPreAuditStatus = 'approved'
+      }
+    })
     selectedRowKeys.value = []
-    loadData()
+    // loadData()
   } else {
     message.error(res.message)
   }
@@ -371,8 +376,14 @@ const handleRejectConfirm = async () => {
   })
   if(res.code === 0) {
     message.success(t('submittedTasks.rejectSuccess'))
-    rejectVisible.value = false
-    loadData()
+    rejectVisible.value = false;
+    tableData.value.forEach(item => {
+      if(selectedRowKeys.value.includes(item.id)) {
+        item.taskPreAuditStatus = 'rejected'
+      }
+    })
+    selectedRowKeys.value = []
+    // loadData()
   } else {
     message.error(res.message)
   }

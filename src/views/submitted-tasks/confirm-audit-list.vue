@@ -366,8 +366,13 @@ const handleBatchResolve = async () => {
   })
   if(res.code === 0) {
     message.success(t('submittedTasks.resolveSuccess'))
+    tableData.value.forEach(item => {
+      if(selectedRowKeys.value.includes(item.id)) {
+        item.taskAuditStatus = 'approved'
+      }
+    })
     selectedRowKeys.value = []
-    loadData()
+    // loadData()
   } else {
     message.error(res.message)
   }
@@ -394,8 +399,14 @@ const handleRejectConfirm = async () => {
   })
   if(res.code === 0) {
     message.success('审核拒绝成功')
-    rejectVisible.value = false
-    loadData()
+    rejectVisible.value = false;
+    tableData.value.forEach(item => {
+      if(selectedRowKeys.value.includes(item.id)) {
+        item.taskAuditStatus = 'rejected'
+      }
+    })
+    selectedRowKeys.value = []
+    // loadData()
   } else {
     message.error(res.message)
   }
