@@ -140,9 +140,12 @@
           </template>
           <template v-if="column.key === 'member'">
             <div>
-              <div>
+              <a-space>
                 <a-typography-link @click="handleMemberDetail(record)">{{ record.nickname }}</a-typography-link>
-              </div>
+                <a-tag color="green" v-if="record.isNew">new</a-tag>
+              </a-space>
+            </div>
+            <div>
               <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
                 <GroupOwner v-if="record.isOwner" />

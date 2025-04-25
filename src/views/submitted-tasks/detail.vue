@@ -41,7 +41,10 @@
         <div class="section-title">{{ $t('submittedTasks.detail.memberInfo') }}</div>
         <a-descriptions :column="2">
           <a-descriptions-item :label="$t('submittedTasks.detail.memberNickname')">
-            {{ memberInfo.nickname }}
+            <a-space>
+              <span>{{ memberInfo.nickname }}</span>
+              <a-tag color="green" v-if="memberInfo.isNew">new</a-tag>
+            </a-space>
           </a-descriptions-item>
           <a-descriptions-item :label="$t('submittedTasks.detail.account')">{{ memberInfo.account }}</a-descriptions-item>
           <a-descriptions-item :label="$t('submittedTasks.detail.group')">
