@@ -90,6 +90,9 @@
               @click="showFailReason(record)"
             />
           </template>
+          <template v-if="column.key === 'waiterName'">
+            {{ record.waiterName || '--' }}
+          </template>
           <template v-if="column.key === 'action'">
             <a-space v-if="record.withdrawalStatus === 'pending'">
               <a-popconfirm
@@ -188,8 +191,8 @@ const columns = computed(() => [
   },
   {
     title: t('withdrawal.list.name'),
-    dataIndex: 'name',
-    key: 'name'
+    dataIndex: 'withdrawalName',
+    key: 'withdrawalName'
   },
   {
     title: t('withdrawal.list.applyTime'),
@@ -199,6 +202,10 @@ const columns = computed(() => [
   {
     title: t('withdrawal.list.withdrawalStatus'),
     key: 'withdrawalStatus'
+  },
+  {
+    title: t('withdrawal.list.operator'),
+    key: 'waiterName'
   },
   {
     title: t('withdrawal.list.action'),

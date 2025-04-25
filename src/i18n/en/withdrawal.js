@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:45:57
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-19 14:59:28
+ * @LastEditTime: 2025-04-25 15:55:40
  * @Description: 
  */
 export default {
@@ -26,6 +26,7 @@ export default {
     name: 'Name',
     applyTime: 'Apply Time',
     withdrawalStatus: 'Withdrawal Status',
+    operator: 'Operator',
     action: 'Action',
     resolve: 'Transfer',
     resolveConfirm: 'Are you sure to transfer?',

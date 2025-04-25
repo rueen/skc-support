@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:46:03
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-19 14:58:57
+ * @LastEditTime: 2025-04-25 15:55:15
  * @Description: 
  */
 export default {
@@ -26,6 +26,7 @@ export default {
     name: '姓名',
     applyTime: '申请时间',
     withdrawalStatus: '提现状态',
+    operator: '操作员',
     action: '操作',
     resolve: '打款',
     resolveConfirm: '确定打款吗？',
