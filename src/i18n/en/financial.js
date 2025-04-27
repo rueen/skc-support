@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:35
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-27 10:20:04
+ * @LastEditTime: 2025-04-27 13:42:40
  * @Description: 
  */
 export default {
@@ -15,9 +15,10 @@ export default {
     billTypePlaceholder: 'Select bill type',
     settlementStatus: 'Settlement Status',
     settlementStatusPlaceholder: 'Select settlement status',
-    taskName: 'Task Name',
     taskNamePlaceholder: 'Enter',
     relatedTaskName: 'Related Task',
+    relatedGroupName: 'Group',
+    relatedGroupNamePlaceholder: 'Select group',
     amount: 'Amount',
     remark: 'Remark',
     createTime: 'Create Time',

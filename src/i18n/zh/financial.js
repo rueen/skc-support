@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:41
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-27 10:19:32
+ * @LastEditTime: 2025-04-27 13:42:32
  * @Description: 
  */
 export default {
@@ -15,9 +15,10 @@ export default {
     billTypePlaceholder: '请选择账单类型',
     settlementStatus: '结算状态',
     settlementStatusPlaceholder: '请选择结算状态',
-    taskName: '任务名称',
     taskNamePlaceholder: '请输入',
     relatedTaskName: '关联任务',
+    relatedGroupName: '群组',
+    relatedGroupNamePlaceholder: '请选择群组',
     amount: '金额',
     remark: '备注',
     createTime: '创建时间',

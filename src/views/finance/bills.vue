@@ -51,12 +51,31 @@
                 value-format="YYYY-MM-DD HH:mm:ss"
               />
             </a-form-item>
-            <a-form-item :label="$t('financial.bills.taskName')">
+            <a-form-item :label="$t('financial.bills.relatedTaskName')">
               <a-input
                 v-model:value="searchForm.taskName"
                 :placeholder="$t('financial.bills.taskNamePlaceholder')"
                 allow-clear
               />
+            </a-form-item>
+            <a-form-item :label="$t('financial.bills.relatedGroupName')">
+              <a-select
+                v-model:value="searchForm.relatedGroupId"
+                :placeholder="$t('financial.bills.relatedGroupNamePlaceholder')"
+                style="width: 120px"
+                allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadGroupOptions"
+              >
+                <a-select-option
+                  v-for="item in groupOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.groupName }}
+                </a-select-option>
+              </a-select>
             </a-form-item>
             <a-form-item>
               <a-space>
@@ -86,6 +105,9 @@
           <template v-if="column.key === 'taskName'">
             <a-typography-link @click="handleTaskDetail(record)" v-if="record.taskName">{{ record.taskName }}</a-typography-link>
             <span v-else>--</span>
+          </template>
+          <template v-if="column.key === 'relatedGroupName'">
+            {{ record.relatedGroupName || '--' }}
           </template>
           <template v-if="column.key === 'billType'">
             {{ enumStore.getEnumText('BillType', record.billType) }}
@@ -154,7 +176,8 @@ const searchForm = reactive({
   billType: undefined,
   settlementStatus: undefined,
   timeRange: [],
-  taskName: ''
+  taskName: '',
+  relatedGroupId: undefined
 })
 
 // 显示失败原因
@@ -184,6 +207,10 @@ const columns = computed(() => [
   {
     title: t('financial.bills.relatedTaskName'),
     key: 'taskName'
+  },
+  {
+    title: t('financial.bills.relatedGroupName'),
+    key: 'relatedGroupName'
   },
   {
     title: t('financial.bills.amount'),
@@ -228,7 +255,8 @@ const handleReset = () => {
     billType: undefined,
     settlementStatus: undefined,
     timeRange: [],
-    taskName: ''
+    taskName: '',
+    relatedGroupId: undefined
   })
   handleSearch()
 }
@@ -261,7 +289,8 @@ const loadData = async () => {
       settlementStatus: searchForm.settlementStatus,
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1],
-      taskName: searchForm.taskName
+      taskName: searchForm.taskName,
+      relatedGroupId: searchForm.relatedGroupId
     }
     const res = await get('finance.bills', {
       ...params
@@ -277,9 +306,27 @@ const loadData = async () => {
   }
 }
 
+// 获取群组列表
+const groupOptions = ref([])
+const loadGroupOptions = async (keyword = '') => {
+  try {
+    const res = await get('group.list', {
+      page: 1,
+      pageSize: 50,
+      groupName: keyword
+    })  
+    if(res.code === 0){
+      groupOptions.value = res.data.list || []
+    }
+  } catch (error) {
+    message.error('获取群组列表失败')
+  }
+}
+
 // 初始化
 onMounted(() => {
   loadData()
+  loadGroupOptions()
 })
 </script>
 
