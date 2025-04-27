@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-24 17:10:46
+ * @LastEditTime: 2025-04-27 10:11:01
  * @Description: 
  */
 export default {
@@ -29,6 +29,7 @@ export default {
     memberInfo: 'Member Info',
     submitTime: 'Submit Time',
     auditStatus: 'Audit Status',
+    rejectReason: 'Reject Reason',
     waiterName: 'Waiter Name',
     action: 'Action',
     rejectReason: 'Reject Reason',

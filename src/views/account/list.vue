@@ -172,11 +172,10 @@
           </template>
           <template v-if="column.key === 'accountAuditStatus'">
             {{ enumStore.getEnumText('AccountAuditStatus', record.accountAuditStatus) }}
-            <info-circle-outlined 
-              v-if="record.accountAuditStatus === 'rejected'" 
-              class="danger"
-              @click="showRejectReason(record)"
-            />
+          </template>
+          <template v-if="column.key === 'rejectReason'">
+            <a-typography-text type="danger" v-if="record.rejectReason">{{ record.rejectReason }}</a-typography-text>
+            <span v-else>--</span>
           </template>
           <template v-if="column.key === 'waiterName'">
             {{ record.waiterName || '--' }}
@@ -298,6 +297,10 @@ const columns = computed(() => [
     key: 'accountAuditStatus'
   },
   {
+    title: t('account.list.rejectReason'),
+    key: 'rejectReason'
+  },
+  {
     title: t('account.list.waiterName'),
     key: 'waiterName'
   },
@@ -359,13 +362,6 @@ const handleEdit = (record) => {
       id: record.id
     }
   })
-}
-
-// 显示拒绝原因
-const showRejectReason = (record) => {
-  Modal.error({
-    content: record.rejectReason,
-  });
 }
 
 // 打开老账号管理

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-24 17:10:50
+ * @LastEditTime: 2025-04-27 10:10:15
  * @Description: 
  */
 export default {
@@ -29,6 +29,7 @@ export default {
     memberInfo: '会员信息',
     submitTime: '提交时间',
     auditStatus: '审核状态',
+    rejectReason: '拒绝原因',
     waiterName: '审核员',
     action: '操作',
     rejectReason: '拒绝原因',
