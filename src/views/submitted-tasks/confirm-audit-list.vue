@@ -392,12 +392,12 @@ const handleRejectConfirm = async () => {
     return
   }
 
-  rejectLoading.value = true
-  const res = await post('taskSubmitted.batchConfirmAuditReject', {
-    ids: selectedRowKeys.value,
-    reason: rejectReason.value
-  })
-  if(res.code === 0) {
+  rejectLoading.value = true;
+  try {
+    await post('taskSubmitted.batchConfirmAuditReject', {
+      ids: selectedRowKeys.value,
+      reason: rejectReason.value
+    })
     message.success('审核拒绝成功')
     rejectVisible.value = false;
     tableData.value.forEach(item => {
@@ -406,9 +406,10 @@ const handleRejectConfirm = async () => {
       }
     })
     selectedRowKeys.value = []
-    // loadData()
-  } else {
-    message.error(res.message)
+  } catch (error) {
+    message.error(error.message)
+  } finally {
+    rejectLoading.value = false
   }
 }
 
