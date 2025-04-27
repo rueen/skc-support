@@ -43,6 +43,14 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item :label="$t('financial.bills.createTime')">
+              <a-range-picker
+                v-model:value="searchForm.timeRange"
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                value-format="YYYY-MM-DD HH:mm:ss"
+              />
+            </a-form-item>
             <a-form-item :label="$t('financial.bills.taskName')">
               <a-input
                 v-model:value="searchForm.taskName"
@@ -143,9 +151,9 @@ const loading = ref(false)
 // 搜索表单
 const searchForm = reactive({
   billNo: '',
-  memberNickname: '',
   billType: undefined,
   settlementStatus: undefined,
+  timeRange: [],
   taskName: ''
 })
 
@@ -217,9 +225,9 @@ const handleSearch = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     billNo: '',
-    memberNickname: '',
     billType: undefined,
     settlementStatus: undefined,
+    timeRange: [],
     taskName: ''
   })
   handleSearch()
@@ -238,7 +246,6 @@ const handleMemberDetail = (record) => {
 
 // 任务详情
 const handleTaskDetail = (record) => {
-  console.log(record)
   router.push(`/submitted-tasks/detail/${record.submittedId}?type=confirm`)
 }
 
@@ -246,11 +253,18 @@ const handleTaskDetail = (record) => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    const res = await get('finance.bills', {
+    const params = {
       page: pagination.current,
       pageSize: pagination.pageSize,
-      ...searchForm
+      billNo: searchForm.billNo,
+      billType: searchForm.billType,
+      settlementStatus: searchForm.settlementStatus,
+      startTime: searchForm.timeRange?.[0],
+      endTime: searchForm.timeRange?.[1],
+      taskName: searchForm.taskName
+    }
+    const res = await get('finance.bills', {
+      ...params
     })
     if(res.code === 0){
       tableData.value = res.data.list
