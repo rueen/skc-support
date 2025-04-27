@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:07
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 20:55:21
+ * @LastEditTime: 2025-04-27 13:58:59
  * @Description: 
 -->
 <template>
@@ -24,8 +24,9 @@
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const emit = defineEmits(['back'])
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true
@@ -33,11 +34,21 @@ defineProps({
   back: {
     type: Boolean,
     default: false
+  },
+  useDefaultBack: {
+    type: Boolean,
+    default: true
   }
 })
 
 const handleBack = () => {
-  router.back()
+  // 发射自定义返回事件
+  emit('back')
+  
+  // 如果设置了使用默认返回行为，则执行router.back()
+  if (props.useDefaultBack) {
+    router.back()
+  }
 }
 </script>
 

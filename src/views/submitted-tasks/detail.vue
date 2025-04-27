@@ -3,6 +3,8 @@
     <page-header
       :title="$t('submittedTasks.detail.title')"
       :back="true"
+      :useDefaultBack="false"
+      @back="handleCustomBack"
     />
     <div class="detail-container">
       <!-- 任务信息 -->
@@ -262,6 +264,17 @@ const handleRejectConfirm = async () => {
     getDetail()
   } else {
     message.error(res.message)
+  }
+}
+
+const handleCustomBack = () => {
+  switch(pageType) {
+    case 'confirm':
+      router.push(`/confirm-audit-tasks`)
+      break
+    case 'pre':
+      router.push(`/pre-audit-tasks`)
+      break
   }
 }
 
