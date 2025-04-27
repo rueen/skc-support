@@ -4,7 +4,7 @@
       :title="$t('submittedTasks.detail.title')"
       :back="true"
       :useDefaultBack="false"
-      @back="handleCustomBack"
+      @back="handleGoBack"
     />
     <div class="detail-container">
       <!-- 任务信息 -->
@@ -186,6 +186,7 @@ import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
 import GroupOwner from '@/components/GroupOwner.vue'
 import { useI18n } from 'vue-i18n'
+import { decryptFilters } from '@/utils/routeParamsEncryption'
 
 const { t } = useI18n()
 const enumStore = useEnumStore()
@@ -225,6 +226,16 @@ const taskInfo = reactive({})
 // 会员信息
 const memberInfo = reactive({})
 
+// 获取并解密路由中的filters参数
+const filtersParam = ref(null)
+const getRouteFilters = () => {
+  const encryptedFilters = route.query.filters
+  if (encryptedFilters) {
+    filtersParam.value = decryptFilters(encryptedFilters)
+    // console.log('解密后的filters参数:', filtersParam.value)
+  }
+}
+
 // 审核通过
 const handleResolve = async () => {
   const url = auditType.value === 'confirm' ? 'taskSubmitted.batchConfirmAuditApprove' : 'taskSubmitted.batchPreAuditApprove'
@@ -253,43 +264,62 @@ const handleRejectConfirm = async () => {
   }
 
   rejectLoading.value = true
-  const url = auditType.value === 'confirm' ? 'taskSubmitted.batchConfirmAuditReject' : 'taskSubmitted.batchPreAuditReject'
-  const res = await post(url, {
-    ids: [submittedId.value],
-    reason: rejectReason.value
-  })
-  if(res.code === 0) {
+  try {
+    const url = auditType.value === 'confirm' ? 'taskSubmitted.batchConfirmAuditReject' : 'taskSubmitted.batchPreAuditReject'
+    await post(url, {
+      ids: [submittedId.value],
+      reason: rejectReason.value
+    })
     message.success(t('submittedTasks.rejectSuccess'))
     rejectVisible.value = false
     getDetail()
-  } else {
-    message.error(res.message)
+  } catch (error) {
+    message.error(error.message)
+  } finally {
+    rejectLoading.value = false
   }
 }
 
-const handleCustomBack = () => {
-  switch(pageType) {
-    case 'confirm':
-      router.push(`/confirm-audit-tasks`)
-      break
-    case 'pre':
-      router.push(`/pre-audit-tasks`)
-      break
+// 自定义返回按钮事件
+const handleGoBack = () => {
+  // 根据页面类型返回对应的列表页
+  const listPath = pageType === 'confirm' ? '/confirm-audit-tasks' : '/pre-audit-tasks';
+  const queryParams = {};
+  if(route.query.filters){
+    queryParams.filters = route.query.filters;
   }
+  router.push({
+    path: listPath,
+    query: queryParams
+  })
 }
 
 // 上一个
 const handlePrev = () => {
-  // TODO: 实现上一个逻辑
-  router.push(`/submitted-tasks/detail/${submittedInfo.prevTaskId}?type=${pageType}`)
+  const queryParams = { type: pageType }
+  // 如果存在filters参数，则保留并传递
+  if (route.query.filters) {
+    queryParams.filters = route.query.filters
+  }
+  router.push({
+    path: `/submitted-tasks/detail/${submittedInfo.prevTaskId}`,
+    query: queryParams
+  })
   submittedId.value = submittedInfo.prevTaskId
   getDetail()
 }
 
 // 下一个
 const handleNext = () => {
-  // TODO: 实现下一个逻辑
-  router.push(`/submitted-tasks/detail/${submittedInfo.nextTaskId}?type=${pageType}`)
+  const queryParams = { type: pageType }
+  // 如果存在filters参数，则保留并传递
+  if (route.query.filters) {
+    queryParams.filters = route.query.filters
+  }
+  router.push({
+    path: `/submitted-tasks/detail/${submittedInfo.nextTaskId}`,
+    query: queryParams
+  })
   submittedId.value = submittedInfo.nextTaskId
   getDetail()
 }
@@ -333,12 +363,10 @@ const getMemberDetail = async (memberId) => {
 // 获取详情
 const getDetail = async () => {
   try {
-    const res = await get('taskSubmitted.detail', {
-      auditType: pageType
-    }, {
-      urlParams: {
-        id: submittedId.value
-      }
+    const res = await post('taskSubmitted.detail', {
+      auditType: pageType,
+      id: submittedId.value,
+      filtersParam: filtersParam.value
     })
     if(res.code === 0) {
       Object.assign(submittedInfo, res.data)
@@ -373,6 +401,8 @@ const getAccountList = async () => {
 
 onMounted(async () => {
   submittedId.value = route.params.id
+  // 获取并解密filters参数
+  getRouteFilters()
   await getDetail()
 })
 </script>

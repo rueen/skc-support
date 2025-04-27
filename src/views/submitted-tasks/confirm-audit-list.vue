@@ -211,11 +211,12 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import { get, post } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { downloadByApi } from '@/utils/download'
+import { encryptFilters, decryptFilters } from '@/utils/routeParamsEncryption'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
 const enumStore = useEnumStore()
@@ -233,6 +234,7 @@ const taskAuditStatusOptions = computed(() => {
 })
 
 const router = useRouter()
+const route = useRoute()
 const loading = ref(false)
 const detailVisible = ref(false)
 const rejectVisible = ref(false)
@@ -313,6 +315,23 @@ const rowSelection = {
   })
 }
 
+// 获取并解密路由中的filters参数
+const filtersParam = ref(null)
+const getRouteFilters = () => {
+  const encryptedFilters = route.query.filters
+  if (encryptedFilters) {
+    filtersParam.value = decryptFilters(encryptedFilters)
+    Object.assign(searchForm, filtersParam.value)
+    // 清除路由中的filters参数
+    const query = { ...route.query }
+    delete query.filters
+    router.replace({ 
+      path: route.path,
+      query 
+    })
+  }
+}
+
 // 搜索
 const handleSearch = () => {
   pagination.current = 1
@@ -346,7 +365,23 @@ const handleMemberDetail = (record) => {
 
 // 查看详情
 const handleView = (record) => {
-  router.push(`/submitted-tasks/detail/${record.id}?type=confirm`)
+  // 将当前搜索条件加密
+  const encryptedFilters = encryptFilters({
+    ...searchForm,
+    // 去掉日期范围对象，改用开始和结束时间字符串
+    submitStartTime: searchForm.submitTimeRange?.[0],
+    submitEndTime: searchForm.submitTimeRange?.[1],
+    submitTimeRange: undefined,
+  })
+  
+  // 跳转到详情页并传递加密后的filters参数
+  router.push({
+    path: `/submitted-tasks/detail/${record.id}`,
+    query: { 
+      type: 'confirm',
+      filters: encryptedFilters
+    }
+  })
 }
 
 // 审核通过
@@ -529,6 +564,8 @@ const loadWaiterOptions = async () => {
 
 // 初始化
 onMounted(() => {
+  // 获取并解密filters参数
+  getRouteFilters()
   loadData()
   loadGroupOptions()
   loadChannelOptions()

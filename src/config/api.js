@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 14:29:38
+ * @LastEditTime: 2025-04-27 15:28:25
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -25,7 +25,7 @@ const API_PATH = {
     confirmAuditExport: '/submitted-tasks/confirm-audit/export', // 复审导出
     batchConfirmAuditApprove: '/submitted-tasks/confirm-audit/batch-approve', // 批量复审通过
     batchConfirmAuditReject: '/submitted-tasks/confirm-audit/batch-reject', // 批量复审拒绝
-    detail: '/submitted-tasks/:id', // 任务详情
+    detail: '/submitted-tasks/detail', // 任务详情
   },
   // 账号相关接口
   account: {
