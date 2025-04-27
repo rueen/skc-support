@@ -377,15 +377,15 @@ const handleDeduct = () => {
 const balanceLogsVisible = ref(false)
 const balanceLogsColumns = ref([
   {
-    title: t('member.view.balanceLogs.amount'),
-    dataIndex: 'amount',
-    key: 'amount',
-    width: 120
-  },
-  {
     title: t('member.view.balanceLogs.beforeBalance'),
     dataIndex: 'beforeBalance',
     key: 'beforeBalance',
+    width: 120
+  },
+  {
+    title: t('member.view.balanceLogs.amount'),
+    dataIndex: 'amount',
+    key: 'amount',
     width: 120
   },
   {
