@@ -1,0 +1,1 @@
+function n(r){if(!r)return"";try{const t=JSON.stringify(r);return btoa(encodeURIComponent(t))}catch(t){return console.error("路由参数加密失败:",t),""}}function e(r){if(!r)return null;try{const t=decodeURIComponent(atob(r));return JSON.parse(t)}catch(t){return console.error("路由参数解密失败:",t),null}}function o(r){return n(r)}function c(r){return e(r)}export{c as d,o as e};
