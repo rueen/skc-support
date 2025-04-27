@@ -58,6 +58,13 @@
                 allow-clear
               />
             </a-form-item>
+            <a-form-item :label="$t('financial.bills.memberNickname')">
+              <a-input
+                v-model:value="searchForm.memberNickname"
+                :placeholder="$t('financial.bills.taskNamePlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
             <a-form-item :label="$t('financial.bills.relatedGroupName')">
               <a-select
                 v-model:value="searchForm.relatedGroupId"
@@ -177,6 +184,7 @@ const searchForm = reactive({
   settlementStatus: undefined,
   timeRange: [],
   taskName: '',
+  memberNickname: '',
   relatedGroupId: undefined
 })
 
@@ -256,6 +264,7 @@ const handleReset = () => {
     settlementStatus: undefined,
     timeRange: [],
     taskName: '',
+    memberNickname: '',
     relatedGroupId: undefined
   })
   handleSearch()
@@ -290,6 +299,7 @@ const loadData = async () => {
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1],
       taskName: searchForm.taskName,
+      memberNickname: searchForm.memberNickname,
       relatedGroupId: searchForm.relatedGroupId
     }
     const res = await get('finance.bills', {
