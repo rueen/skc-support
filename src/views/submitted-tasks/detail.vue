@@ -338,7 +338,7 @@ const getTaskDetail = async (taskId) => {
       message.error(res.message)
     }
   } catch (error) {
-    message.error(t('submittedTasks.detail.getTaskDetailFailed'))
+    message.error(error.message)
   }
 }
 
@@ -382,7 +382,7 @@ const getDetail = async () => {
       }
     }
   } catch (error) {
-    message.error(t('submittedTasks.detail.getDetailFailed'))
+    message.error(error.message)
   }
 }
 
