@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-24 09:07:48
+ * @LastEditTime: 2025-04-28 02:05:22
  * @Description: 
  */
 export default {
@@ -90,5 +90,15 @@ export default {
     groupStats: 'Group Stats',
     groupCount: 'Group Count',
     groupEarnings: 'Group Earnings',
+
+    balanceLogs: {
+      view: 'View Balance Logs',
+      title: 'Balance Logs',
+      amount: 'Amount',
+      beforeBalance: 'Before Balance',
+      afterBalance: 'After Balance',
+      transactionType: 'Transaction Type',
+      createTime: 'Create Time',
+    }
   }
 }

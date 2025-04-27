@@ -65,6 +65,9 @@
               <a-button type="link" size="small" @click="handleDeduct()">
                 {{ $t('member.view.rewardDeduct') }}
               </a-button>
+              <a-button type="link" size="small" @click="viewBalanceLogs()">
+                {{ $t('member.view.balanceLogs.view') }}
+              </a-button>
             </a-space>
           </a-descriptions-item>
         </a-descriptions>
@@ -182,6 +185,27 @@
           <a-textarea v-model:value="rewardForm.remark" :rows="4" />
         </a-form-item>
       </a-form>
+    </a-modal>
+    <!-- 余额变动记录弹窗 -->
+    <a-modal
+      v-model:open="balanceLogsVisible"
+      :title="$t('member.view.balanceLogs.title')"
+      :width="800"
+    >
+      <a-table
+        size="small"
+        :columns="balanceLogsColumns"
+        :data-source="balanceLogsData"
+        :pagination="false"
+        :scroll="{ y: 400 }"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'transactionType'">
+            <a-typography-text type="danger" v-if="record.transactionType === 'withdrawal_refund'">余额退还</a-typography-text>
+            <span v-else>{{ record.transactionType }}</span>
+          </template>
+        </template>
+      </a-table>
     </a-modal>
   </div>
 </template>
@@ -347,6 +371,53 @@ const handleReward = () => {
 const handleDeduct = () => {
   rewardVisible.value = true
   rewardType.value = 'deduct'
+}
+
+// 查看余额变动记录
+const balanceLogsVisible = ref(false)
+const balanceLogsColumns = ref([
+  {
+    title: t('member.view.balanceLogs.amount'),
+    dataIndex: 'amount',
+    key: 'amount',
+    width: 120
+  },
+  {
+    title: t('member.view.balanceLogs.beforeBalance'),
+    dataIndex: 'beforeBalance',
+    key: 'beforeBalance',
+    width: 120
+  },
+  {
+    title: t('member.view.balanceLogs.afterBalance'),
+    dataIndex: 'afterBalance',
+    key: 'afterBalance',
+    width: 120
+  },
+  {
+    title: t('member.view.balanceLogs.transactionType'),
+    key: 'transactionType'
+  },
+  {
+    title: t('member.view.balanceLogs.createTime'),
+    dataIndex: 'createTime',
+    key: 'createTime'
+  }
+])
+const balanceLogsData = ref([])
+const viewBalanceLogs = async () => {
+  balanceLogsVisible.value = true
+  const res = await get('member.balanceLogs', {
+    pageSize: 3000,
+    pageNum: 1
+  }, {
+    urlParams: {
+      memberId: memberId.value
+    }
+  })
+  if(res.code === 0){
+    balanceLogsData.value = res.data.list || [];
+  }
 }
 
 // 奖励发放

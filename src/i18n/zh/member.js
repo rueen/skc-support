@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-24 09:08:41
+ * @LastEditTime: 2025-04-28 01:52:59
  * @Description: 
  */
 export default {
@@ -90,5 +90,15 @@ export default {
     groupStats: '群组统计',
     groupCount: '群组数',
     groupEarnings: '群组收益',
+
+    balanceLogs: {
+      view: '查看余额变动记录',
+      title: '余额变动记录',
+      amount: '变动金额',
+      beforeBalance: '变动前余额',
+      afterBalance: '变动后余额',
+      transactionType: '变动类型',
+      createTime: '变动时间',
+    }
   }
 }

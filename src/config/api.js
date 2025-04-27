@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-27 15:28:25
+ * @LastEditTime: 2025-04-28 01:32:29
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -59,6 +59,7 @@ const API_PATH = {
     deductReward: '/members/deduct-reward', // POST 奖励扣除
     withdrawalsAccount: '/members/:memberId/withdrawal-accounts', // GET 获取会员提现账号
     export: '/members/export', // 导出会员
+    balanceLogs: '/members/:memberId/balance-logs', // GET 获取会员余额变动记录
   },
   // 渠道管理相关接口
   channel: {
