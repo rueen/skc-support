@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:41
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:58:55
+ * @LastEditTime: 2025-04-27 10:19:51
  * @Description: 
  */
 export default {
@@ -15,12 +15,12 @@ export default {
     billTypePlaceholder: '請選擇賬單類型',
     settlementStatus: '結算狀態',
     settlementStatusPlaceholder: '請選擇結算狀態',
-    
+    taskName: '任務名稱',
+    taskNamePlaceholder: '請輸入',
     relatedTaskName: '關聯任務',
     amount: '金額',
     remark: '備註',
     createTime: '創建時間',
-    settlementStatus: '結算狀態',
     operator: '操作人',
   },
 

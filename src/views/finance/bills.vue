@@ -43,6 +43,13 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item :label="$t('financial.bills.taskName')">
+              <a-input
+                v-model:value="searchForm.taskName"
+                :placeholder="$t('financial.bills.taskNamePlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">
@@ -138,7 +145,8 @@ const searchForm = reactive({
   billNo: '',
   memberNickname: '',
   billType: undefined,
-  settlementStatus: undefined
+  settlementStatus: undefined,
+  taskName: ''
 })
 
 // 显示失败原因
@@ -211,7 +219,8 @@ const handleReset = () => {
     billNo: '',
     memberNickname: '',
     billType: undefined,
-    settlementStatus: undefined
+    settlementStatus: undefined,
+    taskName: ''
   })
   handleSearch()
 }
