@@ -200,7 +200,7 @@ const loadInviterOptions = async (keyword = '') => {
     if(res.code === 0){
       let list = res.data.list || [];
       const isExist = list.find(item => item.id === memberInfo.value.inviterId)
-      if(!isExist){
+      if(!isExist && memberInfo.value.inviterId){
         list.push({
           id: memberInfo.value.inviterId,
           nickname: memberInfo.value.inviterNickname
