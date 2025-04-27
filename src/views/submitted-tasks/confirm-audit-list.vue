@@ -52,10 +52,10 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.confirmAuditor')">
+          <a-form-item :label="$t('submittedTasks.search.preAuditor')">
             <a-select
-              v-model:value="searchForm.waiterId"
-              :placeholder="$t('submittedTasks.search.confirmAuditorPlaceholder')"
+              v-model:value="searchForm.preWaiterId"
+              :placeholder="$t('submittedTasks.search.preAuditorPlaceholder')"
               allow-clear
               style="width: 120px;"
             >
@@ -247,7 +247,7 @@ const searchForm = reactive({
   taskName: '',
   channelId: undefined,
   taskAuditStatus: 'pending',
-  waiterId: undefined,
+  preWaiterId: undefined,
   groupId: undefined,
   submitTimeRange: [],
   completedTaskCount: undefined
@@ -325,7 +325,7 @@ const handleReset = () => {
     taskName: '',
     channelId: undefined,
     taskAuditStatus: 'pending',
-    waiterId: undefined,
+    preWaiterId: undefined,
     groupId: undefined,
     submitTimeRange: [],
     completedTaskCount: undefined
@@ -445,7 +445,7 @@ const handleExport = () => {
           taskName: searchForm.taskName,
           channelId: searchForm.channelId,
           taskAuditStatus: searchForm.taskAuditStatus,
-          waiterId: searchForm.waiterId,
+          preWaiterId: searchForm.preWaiterId,
           groupId: searchForm.groupId,
           submitStartTime: searchForm.submitTimeRange?.[0],
           submitEndTime: searchForm.submitTimeRange?.[1],
@@ -496,7 +496,7 @@ const loadData = async () => {
       taskName: searchForm.taskName,
       channelId: searchForm.channelId,
       taskAuditStatus: searchForm.taskAuditStatus,
-      waiterId: searchForm.waiterId,
+      preWaiterId: searchForm.preWaiterId,
       groupId: searchForm.groupId,
       submitStartTime: searchForm.submitTimeRange?.[0],
       submitEndTime: searchForm.submitTimeRange?.[1],

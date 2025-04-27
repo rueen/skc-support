@@ -498,7 +498,11 @@ const loadWaiterOptions = async () => {
     pageSize: 100
   })
   if(res.code === 0){
-    waiterOptions.value = res.data.list || []
+    const defaultWaiter = {
+      id: 0,
+      username: '无'
+    }
+    waiterOptions.value = [defaultWaiter, ...res.data.list] || [defaultWaiter]
   }
 }
 // 初始化
