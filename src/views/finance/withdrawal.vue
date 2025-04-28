@@ -352,18 +352,20 @@ const handleRejectConfirm = async () => {
   }
 
   failedLoading.value = true
-  const res = await post('withdrawals.batchReject', {
-    rejectReason: rejectReason.value,
-    ids: selectedRowKeys.value
-  })
-  failedLoading.value = false
-  if(res.code === 0) {
+  try {
+    await post('withdrawals.batchReject', {
+      rejectReason: rejectReason.value,
+      ids: selectedRowKeys.value
+    })
+    
     message.success('操作成功')
     failedVisible.value = false
     selectedRowKeys.value = []
     loadData()
-  } else {
-    message.error(res.message)
+  } catch (error) {
+    message.error(error.message)
+  } finally {
+    failedLoading.value = false
   }
 }
 
