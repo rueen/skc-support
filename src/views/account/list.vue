@@ -398,7 +398,7 @@ const handleBatchResolve = async () => {
     if(failed) {
       Modal.error({
         title: t('account.list.batchRejectFailedTitle'),
-        content: failed,
+        content: `成功 ${res.data.successCount} 条，失败 ${res.data.failedCount} 条，失败原因：${failed}`,
       });
     } else {
       message.success(t('account.list.message.success'))

@@ -405,11 +405,11 @@ const handleRejectConfirm = async () => {
   }
 
   rejectLoading.value = true
-  const res = await post('taskSubmitted.batchPreAuditReject', {
-    ids: selectedRowKeys.value,
-    reason: rejectReason.value
-  })
-  if(res.code === 0) {
+  try {
+    await post('taskSubmitted.batchPreAuditReject', {
+      ids: selectedRowKeys.value,
+      reason: rejectReason.value
+    })
     message.success(t('submittedTasks.rejectSuccess'))
     rejectVisible.value = false;
     tableData.value.forEach(item => {
@@ -418,9 +418,10 @@ const handleRejectConfirm = async () => {
       }
     })
     selectedRowKeys.value = []
-    // loadData()
-  } else {
-    message.error(res.message)
+  } catch (error) {
+    message.error(error.message)
+  } finally {
+    rejectLoading.value = false
   }
 }
 
