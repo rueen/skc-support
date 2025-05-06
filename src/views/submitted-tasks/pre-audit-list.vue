@@ -92,6 +92,13 @@
               style="width: 100px!important"
             />
           </a-form-item>
+          <a-form-item :label="$t('member.search.keyword')">
+            <a-input
+              v-model:value="searchForm.keyword"
+              :placeholder="$t('member.search.keywordPlaceholder')"
+              allow-clear
+            />
+          </a-form-item>
         </a-form>
         <div style="width: 100%;display: flex;justify-content: space-between;">
           <div>
@@ -145,6 +152,7 @@
                 <a-tag color="green" v-if="record.isNew">new</a-tag>
               </a-space>
             </div>
+            <div>{{ record.account }}</div>
             <div>
               <a-space class="group-name">
                 <span>{{ record.groupName }}</span>
@@ -249,7 +257,8 @@ const searchForm = reactive({
   preWaiterId: undefined,
   groupId: undefined,
   submitTimeRange: [],
-  completedTaskCount: undefined
+  completedTaskCount: undefined,
+  keyword: ''
 })
 
 // 选项数据
@@ -324,7 +333,8 @@ const handleReset = () => {
     preWaiterId: undefined,
     groupId: undefined,
     submitTimeRange: [],
-    completedTaskCount: undefined
+    completedTaskCount: undefined,
+    keyword: ''
   })
   handleSearch()
 }
@@ -461,7 +471,8 @@ const handleExport = () => {
           groupId: searchForm.groupId,
           submitStartTime: searchForm.submitTimeRange?.[0],
           submitEndTime: searchForm.submitTimeRange?.[1],
-          completedTaskCount: searchForm.completedTaskCount
+          completedTaskCount: searchForm.completedTaskCount,
+          keyword: searchForm.keyword
         }
         // 调用下载API
         await downloadByApi('taskSubmitted.preAuditExport', params, `初审列表_${new Date().toLocaleDateString()}.xlsx`)
@@ -511,7 +522,8 @@ const loadData = async () => {
       groupId: searchForm.groupId,
       submitStartTime: searchForm.submitTimeRange?.[0],
       submitEndTime: searchForm.submitTimeRange?.[1],
-      completedTaskCount: searchForm.completedTaskCount
+      completedTaskCount: searchForm.completedTaskCount,
+      keyword: searchForm.keyword
     }
     const res = await get('taskSubmitted.preAuditList', {
       ...params
