@@ -118,7 +118,7 @@
           <a-col :span="6">
             <a-statistic 
               :title="$t('member.view.taskReward')" 
-              :value="taskStats.taskReward" 
+              :value="taskStats.totalTaskReward" 
               :precision="2"
             />
           </a-col>
@@ -157,7 +157,7 @@
           <a-col :span="6">
             <a-statistic
               :title="$t('member.view.groupEarnings')"
-              :value="groupsStats.totalEarnings"
+              :value="groupsStats.totalCommission"
             />
           </a-col>
         </a-row>
