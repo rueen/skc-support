@@ -231,11 +231,13 @@ import { message, Modal } from 'ant-design-vue'
 import { get, post, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import CopyContent from '@/components/CopyContent.vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
+import { encryptFilters, decryptFilters } from '@/utils/routeParamsEncryption'
 
 const router = useRouter()
+const route = useRoute()
 const enumStore = useEnumStore()
 const { t } = useI18n()
 
@@ -255,6 +257,25 @@ const selectedRowKeys = ref([])
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
+
+// 获取并解密路由中的filters参数
+const filtersParam = ref(null)
+const getRouteFilters = () => {
+  const encryptedFilters = route.query.filters
+  if (encryptedFilters) {
+    filtersParam.value = decryptFilters(encryptedFilters)
+    Object.assign(searchForm,{
+      accountAuditStatus: null
+    }, filtersParam.value)
+    // 清除路由中的filters参数
+    const query = { ...route.query }
+    delete query.filters
+    router.replace({ 
+      path: route.path,
+      query 
+    })
+  }
+}
 
 // 搜索表单
 const searchForm = reactive({
@@ -356,10 +377,21 @@ const handleMemberDetail = (record) => {
 }
 
 const handleEdit = (record) => {
+  // 将当前搜索条件加密
+  const encryptedFilters = encryptFilters({
+    ...searchForm,
+    // 去掉日期范围对象，改用开始和结束时间字符串
+    submitStartTime: searchForm.submitTimeRange?.[0],
+    submitEndTime: searchForm.submitTimeRange?.[1],
+    submitTimeRange: undefined,
+  })
   router.push({
     name: 'AccountEdit',
     params: {
       id: record.id
+    },
+    query: {
+      filters: encryptedFilters
     }
   })
 }
@@ -550,6 +582,8 @@ const loadWaiterOptions = async () => {
 
 // 初始化
 onMounted(() => {
+  // 获取并解密filters参数
+  getRouteFilters()
   loadData()
   loadGroupOptions()
   loadChannelOptions()

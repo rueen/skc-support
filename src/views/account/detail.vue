@@ -3,6 +3,8 @@
     <page-header
       :title="$t('account.detail.editTitle')"
       :back="true"
+      :useDefaultBack="false"
+      @back="handleGoBack"
     />
     <div class="form-container">
       <a-form
@@ -55,6 +57,7 @@ import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { useI18n } from 'vue-i18n'
 import { get, put } from '@/utils/request'
+import { decryptFilters } from '@/utils/routeParamsEncryption'
 
 const route = useRoute()
 const router = useRouter()
@@ -63,6 +66,16 @@ const { t } = useI18n()
 
 const accountDetail = ref({})
 const channelCustomFields = ref([])
+
+// 获取并解密路由中的filters参数
+const filtersParam = ref(null)
+const getRouteFilters = () => {
+  const encryptedFilters = route.query.filters
+  if (encryptedFilters) {
+    filtersParam.value = decryptFilters(encryptedFilters)
+    // console.log('解密后的filters参数:', filtersParam.value)
+  }
+}
 
 // 表单数据
 const formData = reactive({
@@ -125,7 +138,21 @@ const handleSubmit = () => {
   })
 }
 
+// 自定义返回按钮事件
+const handleGoBack = () => {
+  const queryParams = {};
+  if(route.query.filters){
+    queryParams.filters = route.query.filters;
+  }
+  router.push({
+    path: '/account',
+    query: queryParams
+  })
+}
+
 onMounted(async () => {
+  // 获取并解密filters参数
+  getRouteFilters()
   loadAccountDetail()
 })
 </script>
