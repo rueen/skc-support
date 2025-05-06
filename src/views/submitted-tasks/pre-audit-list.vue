@@ -238,7 +238,9 @@ const getRouteFilters = () => {
   const encryptedFilters = route.query.filters
   if (encryptedFilters) {
     filtersParam.value = decryptFilters(encryptedFilters)
-    Object.assign(searchForm, filtersParam.value)
+    Object.assign(searchForm,{
+      taskPreAuditStatus: null
+    }, filtersParam.value)
     // 清除路由中的filters参数
     const query = { ...route.query }
     delete query.filters
