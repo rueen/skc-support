@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-05-06 20:53:02
+ * @LastEditTime: 2025-05-06 20:58:35
  * @Description: 
  */
 export default {
@@ -11,6 +11,7 @@ export default {
     keywordPlaceholder: '輸入會員ID/帳號',
     group: '所屬群',
     groupPlaceholder: '選擇所屬群',
+    createTime: '註冊時間',
   },
 
   list: {

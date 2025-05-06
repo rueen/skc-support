@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-05-06 20:52:27
+ * @LastEditTime: 2025-05-06 20:58:18
  * @Description: 
  */
 export default {
@@ -11,6 +11,7 @@ export default {
     keywordPlaceholder: '输入会员ID/账号',
     group: '所属群',
     groupPlaceholder: '选择所属群',
+    createTime: '注册时间',
   },
 
   list: {

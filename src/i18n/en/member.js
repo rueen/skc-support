@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-05-06 20:52:48
+ * @LastEditTime: 2025-05-06 20:58:26
  * @Description: 
  */
 export default {
@@ -11,6 +11,7 @@ export default {
     keywordPlaceholder: 'Enter User ID/Account',
     group: 'Group',
     groupPlaceholder: 'Select group',
+    createTime: 'Create Time',
   },
 
   list: {

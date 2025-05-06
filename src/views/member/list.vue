@@ -30,6 +30,15 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item :label="$t('member.search.createTime')">
+              <a-range-picker
+                v-model:value="searchForm.createTimeRange"
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                value-format="YYYY-MM-DD HH:mm:ss"
+                style="width: 280px;"
+              />
+            </a-form-item>
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
@@ -142,7 +151,8 @@ const loading = ref(false)
 // 查询参数
 const searchForm = reactive({
   keyword: '',
-  groupId: route.query.groupId
+  groupId: route.query.groupId,
+  createTimeRange: []
 })
 
 // 表格数据
@@ -208,7 +218,8 @@ const handleSearch = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     keyword: '',
-    groupId: undefined
+    groupId: undefined,
+    createTimeRange: []
   })
   handleSearch()
 }
@@ -248,12 +259,15 @@ const handleDelete = async (record) => {
 const loadData = async () => {
   loading.value = true
   try {
-    // TODO: 实现数据加载逻辑
-    const res = await get('member.list', {
+    const params = {
       page: pagination.current,
       pageSize: pagination.pageSize,
-      ...searchForm
-    })
+      keyword: searchForm.keyword,
+      groupId: searchForm.groupId,
+      createStartTime: searchForm.createTimeRange?.[0],
+      createEndTime: searchForm.createTimeRange?.[1]
+    }
+    const res = await get('member.list', params)
     if(res.code === 0) {
       tableData.value = res.data.list
       pagination.total = res.data.total
@@ -292,7 +306,10 @@ const handleExport = () => {
         
         // 构建导出参数，使用当前的筛选条件
         const params = {
-          ...searchForm
+          keyword: searchForm.keyword,
+          groupId: searchForm.groupId,
+          createStartTime: searchForm.createTimeRange?.[0],
+          createEndTime: searchForm.createTimeRange?.[1]
         }
         // 调用下载API
         await downloadByApi('member.export', params, `会员列表_${new Date().toLocaleDateString()}.xlsx`)
