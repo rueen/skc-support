@@ -124,8 +124,10 @@
             <span v-else>{{ record.amount }}</span>
           </template>
           <template v-if="column.key === 'remark'">
-            <span v-if="record.remark">{{ record.remark }}({{ $t('financial.bills.operator') }}: {{ record.waiterName }})</span>
-            <span v-else>--</span>
+            <div style="max-width: 250px;">
+              <span v-if="record.remark">{{ record.remark }}({{ $t('financial.bills.operator') }}: {{ record.waiterName }})</span>
+              <span v-else>--</span>
+            </div>
           </template>
           <template v-if="column.key === 'settlementStatus'">
             <span v-if="record.billType === 'withdrawal'">{{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}</span>
