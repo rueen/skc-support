@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-28 02:05:22
+ * @LastEditTime: 2025-05-06 20:52:48
  * @Description: 
  */
 export default {
@@ -22,6 +22,7 @@ export default {
     completedTaskCount: 'Completed Task Count',
     inviter: 'Inviter',
     group: 'Group',
+    createTime: 'Create Time',
     updateTime: 'Update Time',
     action: 'Action',
     view: 'View',

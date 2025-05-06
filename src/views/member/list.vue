@@ -186,9 +186,9 @@ const columns = computed(() => [
     key: 'groups'
   },
   {
-    title: t('member.list.updateTime'),
-    dataIndex: 'updateTime',
-    key: 'updateTime',
+    title: t('member.list.createTime'),
+    dataIndex: 'createTime',
+    key: 'createTime',
     width: 180
   },
   {
