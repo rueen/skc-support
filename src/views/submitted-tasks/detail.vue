@@ -363,11 +363,14 @@ const getMemberDetail = async (memberId) => {
 // 获取详情
 const getDetail = async () => {
   try {
-    const res = await post('taskSubmitted.detail', {
+    const params = {
       auditType: pageType,
-      id: submittedId.value,
-      filtersParam: filtersParam.value
-    })
+      id: submittedId.value
+    }
+    if(filtersParam.value){
+      params.filtersParam = filtersParam.value
+    }
+    const res = await post('taskSubmitted.detail', params)
     if(res.code === 0) {
       Object.assign(submittedInfo, res.data)
       // 获取关联的任务和会员信息
