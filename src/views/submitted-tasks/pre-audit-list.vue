@@ -153,10 +153,10 @@
               </a-space>
             </div>
             <div>{{ record.account }}</div>
-            <div>
-              <a-space class="group-name">
-                <span>{{ record.groupName }}</span>
-                <GroupOwner v-if="record.isOwner" />
+            <div v-for="item in record.groups">
+              <a-space>
+                <span>{{ item.groupName }}</span>
+                <GroupOwner v-if="item.isOwner" />
               </a-space>
             </div>
           </template>

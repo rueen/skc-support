@@ -164,10 +164,12 @@
               <div>
                 <a-typography-link @click="handleMemberDetail(record)">{{ record.memberNickname }}</a-typography-link>
               </div>
-              <a-space class="group-name">
-                <span>{{ record.groupName }}</span>
-                <GroupOwner v-if="record.isGroupOwner" />
-              </a-space>
+              <div v-for="item in record.groups">
+                <a-space>
+                  <span>{{ item.groupName }}</span>
+                  <GroupOwner v-if="item.isOwner" />
+                </a-space>
+              </div>
             </div>
           </template>
           <template v-if="column.key === 'accountAuditStatus'">
@@ -601,12 +603,6 @@ onMounted(() => {
     background-color: #fff;
     padding: 24px;
     border-radius: 2px;
-  }
-
-  .group-name {
-    color: rgba(0, 0, 0, 0.45);
-    font-size: 12px;
-    margin-top: 4px;
   }
 
   .danger {

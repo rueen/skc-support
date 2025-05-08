@@ -170,6 +170,12 @@ const memberOptions = ref([])
 // 表格列配置
 const columns = computed(() => [
   {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+    width: 100
+  },
+  {
     title: t('group.groupName'),
     dataIndex: 'groupName',
     key: 'groupName'

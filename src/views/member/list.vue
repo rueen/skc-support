@@ -109,6 +109,7 @@
                 <span>{{ item.groupName }}</span>
                 <GroupOwner v-if="item.isOwner" />
               </a-space>
+              <div style="color: #999; font-size: 12px;">{{ item.joinTime }}</div>
             </div>
             <span v-if="!record.groups || record.groups.length === 0">--</span>
           </template>
