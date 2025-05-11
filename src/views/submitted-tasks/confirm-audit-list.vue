@@ -165,20 +165,20 @@
           </template>
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleView(record)">查看</a>
+              <a @click="handleView(record)">{{ $t('submittedTasks.list.view') }}</a>
               <a-popconfirm
-                title="确定要通过该任务吗？"
+                :title="$t('submittedTasks.list.confirmResolve')"
                 @confirm="handleResolve(record)"
                 v-if="record.taskAuditStatus === 'pending'"
               >
-                <a>通过</a>
+                <a>{{ $t('submittedTasks.list.resolve') }}</a>
               </a-popconfirm>
               <a-popconfirm
-                title="确定要拒绝该任务吗？"
+                :title="$t('submittedTasks.list.confirmReject')"
                 @confirm="handleReject(record)"
                 v-if="record.taskAuditStatus === 'pending'"
               >
-                <a class="danger">拒绝</a>
+                <a class="danger">{{ $t('submittedTasks.list.reject') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
