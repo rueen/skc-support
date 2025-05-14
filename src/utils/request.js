@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-20 10:16:20
+ * @LastEditTime: 2025-05-14 22:40:57
  * @Description: API 请求工具
  */
 
@@ -79,7 +79,7 @@ const setupInterceptors = (service) => {
         const currentPath = window.location.pathname
         // 如果不是登录页，则跳转到登录页
         if (currentPath !== '/login') {
-          window.location.href = '/login'
+          window.location.href = '/#/login'
         }
       }
       message.error(error.response?.data?.message || '请求失败')

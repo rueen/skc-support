@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-13 12:30:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-20 10:18:25
+ * @LastEditTime: 2025-05-14 22:43:34
  * @Description: 文件下载工具函数
  */
 
@@ -124,7 +124,7 @@ export const downloadFile = (url, params = {}, filename = '', options = {}) => {
       if (error.response.status === 401) {
         errorMessage = '登录已过期，请重新登录'
         localStorage.removeItem('token')
-        window.location.href = '/login'
+        window.location.href = '/#/login'
       } else {
         // 尝试解析错误信息
         try {
