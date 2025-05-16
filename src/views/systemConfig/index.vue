@@ -17,7 +17,7 @@
           <a-input-number
             v-model:value="formState.max_group_members"
             :min="1"
-            :max="1000"
+            :max="3000"
             placeholder="请输入最大群成员数"
             :disabled="formDisabled"
           />
