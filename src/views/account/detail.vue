@@ -118,7 +118,11 @@ const handleSubmit = () => {
       const params = {}
       Object.keys(formData).forEach(key => {
         if(formData[key] != null) {
-          params[key] = formData[key]
+          if(['account', 'homeUrl', 'uid'].includes(key)){
+            params[key] = formData[key].trim()
+          } else {
+            params[key] = formData[key]
+          }
         }
       })
       submitLoading.value = true
