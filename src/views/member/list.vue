@@ -101,7 +101,8 @@
             </a-space>
           </template>
           <template v-if="column.key === 'inviterNickname'">
-            {{ record.inviterNickname || '--' }}
+            <a-typography-link @click="handleMemberDetail(record.inviterId)" v-if="record.inviterId">{{ record.inviterNickname }}</a-typography-link>
+            <span v-else>--</span>
           </template>
           <template v-if="column.key === 'groups'">
             <div v-for="item in record.groups">
@@ -116,7 +117,7 @@
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleEdit(record)">{{ $t('member.list.edit') }}</a>
-              <a @click="handleView(record)">{{ $t('member.list.view') }}</a>
+              <a @click="handleMemberDetail(record.id)">{{ $t('member.list.view') }}</a>
               <a-popconfirm
                 :title="$t('member.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
@@ -239,8 +240,8 @@ const handleEdit = (record) => {
   router.push(`/member/edit/${record.id}`)
 }
 
-const handleView = (record) => {
-  router.push(`/member/view/${record.id}`)
+const handleMemberDetail = (id) => {
+  router.push(`/member/view/${id}`)
 }
 
 const handleDelete = async (record) => {
