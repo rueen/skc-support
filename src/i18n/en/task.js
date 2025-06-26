@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 15:39:01
+ * @LastEditTime: 2025-06-24 18:04:16
  * @Description: 
  */
 export default {
@@ -68,6 +68,8 @@ export default {
     fieldTitlePlaceholder: 'Enter field title',
     fieldType: {
       input: 'Input',
+      post: 'Post Link',
+      group: 'Group Share Link',
       image: 'Upload Image'
     },
     deleteField: 'Delete',

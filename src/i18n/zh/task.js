@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 15:38:53
+ * @LastEditTime: 2025-06-24 18:04:03
  * @Description: 
  */
 export default {
@@ -68,6 +68,8 @@ export default {
     fieldTitlePlaceholder: '请输入字段标题',
     fieldType: {
       input: '输入框',
+      post: '帖子链接',
+      group: '群分享链接',
       image: '上传图片'
     },
     deleteField: '删除',

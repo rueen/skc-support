@@ -215,6 +215,8 @@
                   v-model:value="field.type"
                   style="width: 120px"
                 >
+                  <!-- <a-select-option value="post">{{ $t('task.detail.fieldType.post') }}</a-select-option>
+                  <a-select-option value="group">{{ $t('task.detail.fieldType.group') }}</a-select-option> -->
                   <a-select-option value="input">{{ $t('task.detail.fieldType.input') }}</a-select-option>
                   <a-select-option value="image">{{ $t('task.detail.fieldType.image') }}</a-select-option>
                 </a-select>
