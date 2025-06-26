@@ -72,7 +72,11 @@
             <a-select
               v-model:value="searchForm.groupId"
               :placeholder="$t('submittedTasks.search.groupIdPlaceholder')"
+              style="width: 120px"
               allow-clear
+              show-search
+              :filter-option="false"
+              @search="loadGroupOptions"
             >
               <a-select-option
                 v-for="item in groupOptions"
@@ -520,11 +524,9 @@ const handleExport = () => {
 const loadGroupOptions = async (keyword = '') => {
   try {
     const res = await get('group.list', {
-      params: {
-        page: 1,
-        pageSize: 50,
-        keyword
-      }
+      page: 1,
+      pageSize: 50,
+      keyword
     })  
     if(res.code === 0){
       groupOptions.value = res.data.list || []
