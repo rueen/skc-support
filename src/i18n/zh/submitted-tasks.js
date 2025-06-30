@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-24 16:37:22
+ * @LastEditTime: 2025-06-30 18:53:45
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -88,6 +88,7 @@ export default {
     confirmAuditStatus: '复审状态',
     confirmAuditor: '复审员',
     rejectReason: '拒绝原因',
+    updateTime: '更新时间',
     
     approve: '通过',
     reject: '拒绝',

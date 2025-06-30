@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-24 16:38:28
+ * @LastEditTime: 2025-06-30 18:54:05
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -88,6 +88,7 @@ export default {
     confirmAuditStatus: 'Confirm Audit Status',
     confirmAuditor: 'Confirm Auditor',
     rejectReason: 'Rejection Reason',
+    updateTime: 'Update Time',
     
     approve: 'Approve',
     reject: 'Reject',

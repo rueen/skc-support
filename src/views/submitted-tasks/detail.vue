@@ -126,6 +126,9 @@
           <template v-if="submittedInfo.auditStatus === 'rejected'">
             <a-descriptions-item :label="$t('submittedTasks.detail.rejectReason')">{{ submittedInfo.rejectReason }}</a-descriptions-item>
           </template>
+          <a-descriptions-item :label="$t('submittedTasks.detail.updateTime')">
+            {{ submittedInfo.updateTime }}
+          </a-descriptions-item>
         </a-descriptions>
       </div>
 
