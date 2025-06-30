@@ -2,14 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:41
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-27 13:42:36
+ * @LastEditTime: 2025-06-30 18:41:56
  * @Description: 
  */
 export default {
   bills: {
     billNo: '賬單編號',
     billNoPlaceholder: '請輸入賬單編號',
-    memberNickname: '會員ID',
+    memberNickname: '會員ID/賬號',
     memberNicknamePlaceholder: '請輸入會員ID',
     billType: '賬單類型',
     billTypePlaceholder: '請選擇賬單類型',

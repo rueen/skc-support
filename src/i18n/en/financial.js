@@ -2,14 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:35
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-27 13:42:40
+ * @LastEditTime: 2025-06-30 18:41:42
  * @Description: 
  */
 export default {
   bills: {
     billNo: 'Bill No',
     billNoPlaceholder: 'Enter bill no',
-    memberNickname: 'User ID',
+    memberNickname: 'User ID/Account',
     memberNicknamePlaceholder: 'Enter User ID',
     billType: 'Bill Type',
     billTypePlaceholder: 'Select bill type',

@@ -60,7 +60,7 @@
             </a-form-item>
             <a-form-item :label="$t('financial.bills.memberNickname')">
               <a-input
-                v-model:value="searchForm.memberNickname"
+                v-model:value="searchForm.keyword"
                 :placeholder="$t('financial.bills.taskNamePlaceholder')"
                 allow-clear
               />
@@ -186,7 +186,7 @@ const searchForm = reactive({
   settlementStatus: undefined,
   timeRange: [],
   taskName: '',
-  memberNickname: '',
+  keyword: '',
   relatedGroupId: undefined
 })
 
@@ -266,7 +266,7 @@ const handleReset = () => {
     settlementStatus: undefined,
     timeRange: [],
     taskName: '',
-    memberNickname: '',
+    keyword: '',
     relatedGroupId: undefined
   })
   handleSearch()
@@ -301,7 +301,7 @@ const loadData = async () => {
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1],
       taskName: searchForm.taskName,
-      memberNickname: searchForm.memberNickname,
+      keyword: searchForm.keyword,
       relatedGroupId: searchForm.relatedGroupId
     }
     const res = await get('finance.bills', {

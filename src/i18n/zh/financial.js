@@ -2,14 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:09:41
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-27 13:42:32
+ * @LastEditTime: 2025-06-30 18:41:31
  * @Description: 
  */
 export default {
   bills: {
     billNo: '账单编号',
     billNoPlaceholder: '请输入账单编号',
-    memberNickname: '会员ID',
+    memberNickname: '会员ID/账号',
     memberNicknamePlaceholder: '请输入会员ID',
     billType: '账单类型',
     billTypePlaceholder: '请选择账单类型',
