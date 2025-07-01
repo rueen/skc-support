@@ -215,8 +215,8 @@
                   v-model:value="field.type"
                   style="width: 120px"
                 >
-                  <!-- <a-select-option value="post">{{ $t('task.detail.fieldType.post') }}</a-select-option>
-                  <a-select-option value="group">{{ $t('task.detail.fieldType.group') }}</a-select-option> -->
+                  <a-select-option value="post">{{ $t('task.detail.fieldType.post') }}</a-select-option>
+                  <a-select-option value="group">{{ $t('task.detail.fieldType.group') }}</a-select-option>
                   <a-select-option value="input">{{ $t('task.detail.fieldType.input') }}</a-select-option>
                   <a-select-option value="image">{{ $t('task.detail.fieldType.image') }}</a-select-option>
                 </a-select>
@@ -317,7 +317,7 @@ const formData = reactive({
   brand: '',
   groupIds: [],
   groupMode: 0,
-  customFields: [{ title: '', type: 'input' }],
+  customFields: [{ title: '', type: 'post' }],
   startTime: null,
   endTime: null,
   quota: undefined,
@@ -371,7 +371,7 @@ const groupOptions = ref([])
 // 自定义字段方法
 const addField = () => {
   if (formData.customFields.length < 10) {
-    formData.customFields.push({ title: '', type: 'input' })
+    formData.customFields.push({ title: '', type: 'group' })
   }
 }
 
