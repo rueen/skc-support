@@ -92,6 +92,10 @@
                 <a-button @click="handleReset">
                   {{ $t('common.reset') }}
                 </a-button>
+                <a-button @click="handleExport">
+                  <template #icon><download-outlined /></template>
+                  {{ $t('common.export') }}
+                </a-button>
               </a-space>
             </a-form-item>
           </a-form>
@@ -151,6 +155,7 @@ import { get } from '@/utils/request'
 import { useEnumStore } from '@/stores'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { downloadByApi } from '@/utils/download'
 
 const { t } = useI18n()
 const enumStore = useEnumStore()
@@ -333,6 +338,43 @@ const loadGroupOptions = async (keyword = '') => {
   } catch (error) {
     message.error('获取群组列表失败')
   }
+}
+
+// 导出
+const handleExport = () => {
+  Modal.confirm({
+    title: t('common.export'),
+    content: t('common.confirmExportContent'),
+    onOk: async () => {
+      // 显示加载中提示
+      const loadingMessage = message.loading('正在导出数据，请稍候...', 0)
+        
+      // 构建导出参数，使用当前的筛选条件
+      const params = {
+        billNo: searchForm.billNo,
+        billType: searchForm.billType,
+        settlementStatus: searchForm.settlementStatus,
+        startTime: searchForm.timeRange?.[0],
+        endTime: searchForm.timeRange?.[1],
+        taskName: searchForm.taskName,
+        keyword: searchForm.keyword,
+        relatedGroupId: searchForm.relatedGroupId
+      }
+      
+      try {
+        // 调用下载API
+        await downloadByApi('finance.billsExport', params, `结算账单_${new Date().toLocaleDateString()}.xlsx`)
+        // 显示成功提示
+        message.success(t('common.exportSuccess'))
+      } catch (error) {
+        console.error('导出失败:', error)
+        message.error(t('common.exportFailed'))
+      } finally {
+        // 关闭加载提示
+        loadingMessage()
+      }
+    }
+  })
 }
 
 // 初始化

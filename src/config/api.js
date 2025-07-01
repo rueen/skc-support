@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-28 01:32:29
+ * @LastEditTime: 2025-07-01 16:22:37
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -77,6 +77,7 @@ const API_PATH = {
   // 金融相关接口
   finance: {
     bills: '/bills',
+    billsExport: '/bills/export',
   },
   // 提现相关接口
   withdrawals: {
