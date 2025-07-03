@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-03 16:33:27
+ * @LastEditTime: 2025-07-03 16:35:47
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -82,7 +82,6 @@ export default {
     submitInfo: '提交信息',
     postUidCheckSuccess: 'uid 一致',
     postUidCheckError: 'uid 不一致',
-    postUidCheckNeedCheck: '需人工检查',
     
     auditInfo: '审核信息',
     submitTime: '提交时间',

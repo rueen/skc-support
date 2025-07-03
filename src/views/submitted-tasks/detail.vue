@@ -98,9 +98,8 @@
                     </div>
                   </CopyContent>
                   <div style="margin-left: 10px;" v-if="field.type === 'post'">
-                    <a-tag color="orange" v-if="field.uid == null">{{ $t('submittedTasks.detail.postUidCheckNeedCheck') }}</a-tag>
-                    <a-tag color="green" v-else-if="accountList.find(item => item.uid === field.uid)">{{ $t('submittedTasks.detail.postUidCheckSuccess') }}</a-tag>
-                    <a-tag color="red" v-else>{{ $t('submittedTasks.detail.postUidCheckError') }}</a-tag>
+                    <a-tag color="green" v-if="accountList.find(item => item.uid === field.uid)">{{ $t('submittedTasks.detail.postUidCheckSuccess') }}</a-tag>
+                    <a-tag color="red" v-if="field.uid != null && !accountList.find(item => item.uid === field.uid)">{{ $t('submittedTasks.detail.postUidCheckError') }}</a-tag>
                   </div>
                 </template>
                 <template v-else>
