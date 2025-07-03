@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-06-30 18:54:05
+ * @LastEditTime: 2025-07-03 16:34:17
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -80,6 +80,9 @@ export default {
     postsCount: 'Posts Count',
     
     submitInfo: 'Submission Information',
+    postUidCheckSuccess: 'uid match',
+    postUidCheckError: 'uid not match',
+    postUidCheckNeedCheck: 'need manual check',
     
     auditInfo: 'Audit Information',
     submitTime: 'Submit Time',

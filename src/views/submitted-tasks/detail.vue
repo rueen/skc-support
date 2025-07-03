@@ -76,6 +76,7 @@
             <a-descriptions-item :label="$t('submittedTasks.detail.fansCount')" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
             <a-descriptions-item :label="$t('submittedTasks.detail.friendsCount')" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
             <a-descriptions-item :label="$t('submittedTasks.detail.postsCount')" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
+            <a-descriptions-item label="uid">{{ account.uid }}</a-descriptions-item>
           </a-descriptions>
         </div>
       </div>
@@ -96,6 +97,11 @@
                       <a :href="field.value" target="_blank" class="link-text">{{ field.value }}</a>
                     </div>
                   </CopyContent>
+                  <div style="margin-left: 10px;" v-if="field.type === 'post'">
+                    <a-tag color="orange" v-if="field.uid == null">{{ $t('submittedTasks.detail.postUidCheckNeedCheck') }}</a-tag>
+                    <a-tag color="green" v-else-if="accountList.find(item => item.uid === field.uid)">{{ $t('submittedTasks.detail.postUidCheckSuccess') }}</a-tag>
+                    <a-tag color="red" v-else>{{ $t('submittedTasks.detail.postUidCheckError') }}</a-tag>
+                  </div>
                 </template>
                 <template v-else>
                   <span>{{ field.value }}</span>
