@@ -34,6 +34,23 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item :label="$t('withdrawal.list.accountType')">
+              <a-select
+                v-model:value="searchForm.paymentChannelId"
+                :placeholder="$t('common.selectPlaceholder')"
+                style="width: 120px"
+                allow-clear
+                @focus="loadPaymentChannel"
+              >
+                <a-select-option
+                  v-for="option in paymentChannelOptions"
+                  :key="option.id"
+                  :value="option.id"
+                >
+                  {{ option.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item :label="$t('withdrawal.list.applyTime')">
               <a-range-picker
                 v-model:value="searchForm.timeRange"
@@ -160,6 +177,8 @@ const withdrawalStatusOptions = computed(() => {
   return enumStore.getEnumOptions('WithdrawalStatus')
 })
 
+const paymentChannelOptions = ref([]);
+
 const loading = ref(false)
 const failedVisible = ref(false)
 const failedLoading = ref(false)
@@ -170,6 +189,7 @@ const searchForm = reactive({
   billNo: '',
   memberNickname: '',
   withdrawalStatus: 'pending',
+  paymentChannelId: null,
   timeRange: []
 })
 
@@ -258,6 +278,7 @@ const handleReset = () => {
     billNo: '',
     memberNickname: '',
     withdrawalStatus: undefined,
+    paymentChannelId: null,
     timeRange: []
   })
   handleSearch()
@@ -283,6 +304,7 @@ const handleExport = () => {
         billNo: searchForm.billNo,
         memberNickname: searchForm.memberNickname,
         withdrawalStatus: searchForm.withdrawalStatus,
+        paymentChannelId: searchForm.paymentChannelId,
         startTime: searchForm.timeRange?.[0],
         endTime: searchForm.timeRange?.[1]
       }
@@ -391,6 +413,7 @@ const loadData = async () => {
       billNo: searchForm.billNo,
       memberNickname: searchForm.memberNickname,
       withdrawalStatus: searchForm.withdrawalStatus,
+      paymentChannelId: searchForm.paymentChannelId,
       startTime: searchForm.timeRange?.[0],
       endTime: searchForm.timeRange?.[1]
     }
@@ -406,6 +429,19 @@ const loadData = async () => {
     }
   } finally {
     loading.value = false
+  }
+}
+
+// 加载支付渠道
+const loadPaymentChannel = async () => {
+  if(paymentChannelOptions.value.length) return
+  try {
+    const res = await get('paymentChannels.list')
+    if(res.code === 0){
+      paymentChannelOptions.value = res.data;
+    }
+  } catch (error) {
+    console.error(error)
   }
 }
 

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 14:19:52
+ * @LastEditTime: 2025-07-07 14:55:30
  * @Description: 
  */
 export default {
@@ -39,4 +39,6 @@ export default {
 
   totalCount: '數量',
   totalAmount: '金額',
+
+  selectPlaceholder: '請選擇',
 } 

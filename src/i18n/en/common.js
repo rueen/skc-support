@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 14:19:21
+ * @LastEditTime: 2025-07-07 14:55:36
  * @Description: 
  */
 export default {
@@ -39,4 +39,6 @@ export default {
 
   totalCount: 'Number',
   totalAmount: 'Amount',
+
+  selectPlaceholder: 'Please select',
 } 
