@@ -40,7 +40,6 @@
                 :placeholder="$t('common.selectPlaceholder')"
                 style="width: 120px"
                 allow-clear
-                @focus="loadPaymentChannel"
               >
                 <a-select-option
                   v-for="option in paymentChannelOptions"
@@ -448,6 +447,7 @@ const loadPaymentChannel = async () => {
 // 初始化
 onMounted(() => {
   loadData()
+  loadPaymentChannel()
 })
 </script>
 
