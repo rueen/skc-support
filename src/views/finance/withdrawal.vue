@@ -107,6 +107,17 @@
           </template>
         </template>
       </a-table>
+
+      <div class="count-container" v-if="pagination.total">
+        <a-descriptions :column="2">
+          <a-descriptions-item :label="$t('common.totalCount')">
+            {{ pagination.total }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('common.totalAmount')">
+            {{ totalAmount }}
+          </a-descriptions-item>
+        </a-descriptions>
+      </div>
     </div>
 
     <!-- 打款失败原因弹窗 -->
@@ -227,6 +238,7 @@ const rowSelection = {
 
 // 表格数据
 const tableData = ref([])
+const totalAmount = ref(0)
 
 const pagination = reactive({
   current: 1,
@@ -388,6 +400,7 @@ const loadData = async () => {
     if(res.code === 0){
       tableData.value = res.data.list || []
       pagination.total = res.data.total || 0
+      totalAmount.value = res.data.totalAmount
     } else {
       message.error(res.message)
     }
@@ -414,5 +427,9 @@ onMounted(() => {
   .danger {
     color: #ff4d4f;
   }
+}
+.count-container{
+  margin-top: -48px;
+  width: 250px;
 }
 </style> 
