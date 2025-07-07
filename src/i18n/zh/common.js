@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 14:32:08
+ * @LastEditTime: 2025-07-07 14:19:38
  * @Description: 
  */
 export default {
@@ -35,5 +35,8 @@ export default {
   confirmExportContent: '确定要导出当前筛选条件下的数据吗？',
   exporting: '导出中，请稍后...',
   exportSuccess: '导出成功',
-  exportFailed: '导出失败，请稍后再试'
+  exportFailed: '导出失败，请稍后再试',
+
+  totalCount: '数量',
+  totalAmount: '金额',
 } 

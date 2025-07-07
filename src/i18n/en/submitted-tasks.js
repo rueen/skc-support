@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 11:18:29
+ * @LastEditTime: 2025-07-07 14:19:11
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -48,8 +48,6 @@ export default {
     selectTask: 'Please select task',
     confirmExport: 'Confirm Export',
     rejectReasonRequired: 'Please enter the rejection reason',
-    totalCount: 'Number',
-    totalAmount: 'Amount',
   },
   
   detail: {

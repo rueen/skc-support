@@ -186,12 +186,12 @@
         </template>
       </a-table>
 
-      <div class="count-container">
+      <div class="count-container" v-if="pagination.total">
         <a-descriptions :column="2">
-          <a-descriptions-item :label="$t('submittedTasks.list.totalCount')">
+          <a-descriptions-item :label="$t('common.totalCount')">
             {{ pagination.total }}
           </a-descriptions-item>
-          <a-descriptions-item :label="$t('submittedTasks.list.totalAmount')">
+          <a-descriptions-item :label="$t('common.totalAmount')">
             {{ totalAmount }}
           </a-descriptions-item>
         </a-descriptions>

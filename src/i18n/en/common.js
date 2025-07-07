@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-23 14:32:32
+ * @LastEditTime: 2025-07-07 14:19:21
  * @Description: 
  */
 export default {
@@ -35,5 +35,8 @@ export default {
   confirmExportContent: 'Are you sure to export the data under the current filter conditions?',
   exporting: 'Exporting data, please wait...',
   exportSuccess: 'Export success',
-  exportFailed: 'Export failed, please try again later'
+  exportFailed: 'Export failed, please try again later',
+
+  totalCount: 'Number',
+  totalAmount: 'Amount',
 } 

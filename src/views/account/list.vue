@@ -209,6 +209,14 @@
           </template>
         </template>
       </a-table>
+
+      <div class="count-container" v-if="pagination.total">
+        <a-descriptions :column="2">
+          <a-descriptions-item :label="$t('common.totalCount')">
+            {{ pagination.total }}
+          </a-descriptions-item>
+        </a-descriptions>
+      </div>
     </div>
 
     <!-- 拒绝原因弹窗 -->
@@ -636,5 +644,9 @@ onMounted(() => {
       }
     }
   }
+}
+.count-container{
+  margin-top: -48px;
+  width: 250px;
 }
 </style> 
