@@ -30,6 +30,26 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item :label="$t('member.list.inviter')">
+              <a-select
+                v-model:value="searchForm.inviterId"
+                :placeholder="$t('common.selectPlaceholder')"
+                style="width: 120px"
+                allow-clear
+                show-search
+                :filter-option="false"
+                @focus="firstLoadMemberOptions"
+                @search="loadMemberOptions"
+              >
+                <a-select-option
+                  v-for="item in memberOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.nickname }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item :label="$t('member.search.createTime')">
               <a-range-picker
                 v-model:value="searchForm.createTimeRange"
@@ -154,6 +174,7 @@ const loading = ref(false)
 const searchForm = reactive({
   keyword: '',
   groupId: route.query.groupId,
+  inviterId: null,
   createTimeRange: []
 })
 
@@ -221,6 +242,7 @@ const handleReset = () => {
   Object.assign(searchForm, {
     keyword: '',
     groupId: undefined,
+    inviterId: null,
     createTimeRange: []
   })
   handleSearch()
@@ -266,6 +288,7 @@ const loadData = async () => {
       pageSize: pagination.pageSize,
       keyword: searchForm.keyword,
       groupId: searchForm.groupId,
+      inviterId: searchForm.inviterId,
       createStartTime: searchForm.createTimeRange?.[0],
       createEndTime: searchForm.createTimeRange?.[1]
     }
@@ -310,6 +333,7 @@ const handleExport = () => {
         const params = {
           keyword: searchForm.keyword,
           groupId: searchForm.groupId,
+          inviterId: searchForm.inviterId,
           createStartTime: searchForm.createTimeRange?.[0],
           createEndTime: searchForm.createTimeRange?.[1]
         }
@@ -327,6 +351,22 @@ const handleExport = () => {
       }
     }
   })
+}
+
+const memberOptions = ref([])
+const firstLoadMemberOptions = async () => {
+  if(memberOptions.value.length) return
+  await loadMemberOptions()
+}
+const loadMemberOptions = async (keyword = '') => {
+  const res = await get('member.list', {
+    page: 1,
+    pageSize: 50,
+    memberNickname: keyword
+  })
+  if(res.code === 0){
+    memberOptions.value = res.data.list || []
+  }
 }
 
 // 初始化
