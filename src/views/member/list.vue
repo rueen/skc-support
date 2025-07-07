@@ -17,7 +17,6 @@
                 :placeholder="$t('common.selectPlaceholder')"
                 style="width: 120px"
                 allow-clear
-                @focus="loadChannelOptions"
               >
                 <a-select-option
                   v-for="item in channelOptions"
@@ -55,7 +54,6 @@
                 allow-clear
                 show-search
                 :filter-option="false"
-                @focus="firstLoadMemberOptions"
                 @search="loadMemberOptions"
               >
                 <a-select-option
@@ -128,7 +126,7 @@
               <div v-for="item in record.accountList">
                 <div>
                   <a-space>
-                    {{ $t('member.list.account') }}：{{ item.account }}
+                    {{ $t('member.list.account') }}：<a-avatar :src="item.channelIcon" size="small" /> {{ item.account }}
                     <a-tag color="warning">{{ enumStore.getEnumText('AccountAuditStatus', item.accountAuditStatus) }}</a-tag>
                   </a-space>
                 </div>
@@ -400,10 +398,6 @@ const handleExport = () => {
 }
 
 const memberOptions = ref([])
-const firstLoadMemberOptions = async () => {
-  if(memberOptions.value.length) return
-  await loadMemberOptions()
-}
 const loadMemberOptions = async (keyword = '') => {
   const res = await get('member.list', {
     page: 1,
@@ -432,6 +426,8 @@ const loadChannelOptions = async () => {
 onMounted(() => {
   loadData()
   loadGroupOptions()
+  loadChannelOptions()
+  loadMemberOptions()
 })
 </script>
 
