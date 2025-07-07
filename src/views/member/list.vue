@@ -50,6 +50,14 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <a-form-item :label="$t('member.list.completedTaskCount')">
+              <a-input-number
+                v-model:value="searchForm.completedTaskCount"
+                :min="0"
+                :max="9999"
+                style="width: 100px!important"
+              />
+            </a-form-item>
             <a-form-item :label="$t('member.search.createTime')">
               <a-range-picker
                 v-model:value="searchForm.createTimeRange"
@@ -174,7 +182,8 @@ const loading = ref(false)
 const searchForm = reactive({
   keyword: '',
   groupId: route.query.groupId,
-  inviterId: null,
+  inviterId: undefined,
+  completedTaskCount: undefined,
   createTimeRange: []
 })
 
@@ -242,7 +251,8 @@ const handleReset = () => {
   Object.assign(searchForm, {
     keyword: '',
     groupId: undefined,
-    inviterId: null,
+    inviterId: undefined,
+    completedTaskCount: undefined,
     createTimeRange: []
   })
   handleSearch()
@@ -289,6 +299,7 @@ const loadData = async () => {
       keyword: searchForm.keyword,
       groupId: searchForm.groupId,
       inviterId: searchForm.inviterId,
+      completedTaskCount: searchForm.completedTaskCount,
       createStartTime: searchForm.createTimeRange?.[0],
       createEndTime: searchForm.createTimeRange?.[1]
     }
@@ -334,6 +345,7 @@ const handleExport = () => {
           keyword: searchForm.keyword,
           groupId: searchForm.groupId,
           inviterId: searchForm.inviterId,
+          completedTaskCount: searchForm.completedTaskCount,
           createStartTime: searchForm.createTimeRange?.[0],
           createEndTime: searchForm.createTimeRange?.[1]
         }
