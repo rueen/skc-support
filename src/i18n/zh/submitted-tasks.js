@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-03 16:35:47
+ * @LastEditTime: 2025-07-07 11:18:35
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -48,6 +48,8 @@ export default {
     selectTask: '请选择任务',
     confirmExport: '确定导出',
     rejectReasonRequired: '请输入拒绝原因',
+    totalCount: '数量',
+    totalAmount: '金额',
   },
   
   detail: {

@@ -185,6 +185,17 @@
           </template>
         </template>
       </a-table>
+
+      <div class="count-container">
+        <a-descriptions :column="2">
+          <a-descriptions-item :label="$t('submittedTasks.list.totalCount')">
+            {{ pagination.total }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('submittedTasks.list.totalAmount')">
+            {{ totalAmount }}
+          </a-descriptions-item>
+        </a-descriptions>
+      </div>
     </div>
 
     <!-- 拒绝原因弹窗 -->
@@ -306,6 +317,7 @@ const columns = computed(() => [
 
 // 表格数据
 const tableData = ref([])
+const totalAmount = ref(0)
 
 const pagination = reactive({
   current: 1,
@@ -535,6 +547,7 @@ const loadData = async () => {
     if(res.code === 0) {
       tableData.value = res.data.list
       pagination.total = res.data.total
+      totalAmount.value = res.data.totalAmount
     } else {
       message.error(res.message)
     }
@@ -585,5 +598,9 @@ onMounted(() => {
   .danger {
     color: #ff4d4f;
   }
+}
+.count-container{
+  margin-top: -48px;
+  width: 250px;
 }
 </style> 
