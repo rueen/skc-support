@@ -173,6 +173,17 @@
           </template>
         </template>
       </a-table>
+
+      <div class="count-container" v-if="pagination.total">
+        <a-descriptions :column="2">
+          <a-descriptions-item :label="$t('common.totalCount')" style="width: 125px;">
+            {{ pagination.total }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('member.list.totalApproved')">
+            {{ totalApproved }}
+          </a-descriptions-item>
+        </a-descriptions>
+      </div>
     </div>
   </div>
 </template>
@@ -207,6 +218,7 @@ const searchForm = reactive({
 
 // 表格数据
 const tableData = ref([])
+const totalApproved = ref(0)
 
 const pagination = reactive({
   current: 1,
@@ -327,6 +339,7 @@ const loadData = async () => {
     if(res.code === 0) {
       tableData.value = res.data.list
       pagination.total = res.data.total
+      totalApproved.value = res.data.totalApproved
     } else {
       message.error(res.message)
     }
@@ -444,5 +457,9 @@ onMounted(() => {
   .danger {
     color: #ff4d4f;
   }
+}
+.count-container{
+  margin-top: -48px;
+  width: 300px;
 }
 </style> 
