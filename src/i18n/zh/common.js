@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 14:55:23
+ * @LastEditTime: 2025-07-07 16:28:47
  * @Description: 
  */
 export default {
@@ -41,4 +41,6 @@ export default {
   totalAmount: '金额',
 
   selectPlaceholder: '请选择',
+
+  channel: '渠道',
 } 

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 14:55:36
+ * @LastEditTime: 2025-07-07 16:29:00
  * @Description: 
  */
 export default {
@@ -41,4 +41,6 @@ export default {
   totalAmount: 'Amount',
 
   selectPlaceholder: 'Please select',
+
+  channel: 'Channel',
 } 

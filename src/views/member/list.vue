@@ -11,6 +11,23 @@
                 allow-clear
               />
             </a-form-item>
+            <a-form-item :label="$t('common.channel')">
+              <a-select
+                v-model:value="searchForm.channelId"
+                :placeholder="$t('common.selectPlaceholder')"
+                style="width: 120px"
+                allow-clear
+                @focus="loadChannelOptions"
+              >
+                <a-select-option
+                  v-for="item in channelOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <a-form-item :label="$t('member.search.group')">
               <a-select
                 v-model:value="searchForm.groupId"
@@ -181,6 +198,7 @@ const loading = ref(false)
 // 查询参数
 const searchForm = reactive({
   keyword: '',
+  channelId: undefined,
   groupId: route.query.groupId,
   inviterId: undefined,
   completedTaskCount: undefined,
@@ -250,6 +268,7 @@ const handleSearch = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     keyword: '',
+    channelId: undefined,
     groupId: undefined,
     inviterId: undefined,
     completedTaskCount: undefined,
@@ -297,6 +316,7 @@ const loadData = async () => {
       page: pagination.current,
       pageSize: pagination.pageSize,
       keyword: searchForm.keyword,
+      channelId: searchForm.channelId,
       groupId: searchForm.groupId,
       inviterId: searchForm.inviterId,
       completedTaskCount: searchForm.completedTaskCount,
@@ -343,6 +363,7 @@ const handleExport = () => {
         // 构建导出参数，使用当前的筛选条件
         const params = {
           keyword: searchForm.keyword,
+          channelId: searchForm.channelId,
           groupId: searchForm.groupId,
           inviterId: searchForm.inviterId,
           completedTaskCount: searchForm.completedTaskCount,
@@ -378,6 +399,19 @@ const loadMemberOptions = async (keyword = '') => {
   })
   if(res.code === 0){
     memberOptions.value = res.data.list || []
+  }
+}
+
+const channelOptions = ref([])
+const loadChannelOptions = async () => {
+  if(channelOptions.value.length) return
+  try { 
+    const res = await get('channel.list')
+    if(res.code === 0){
+      channelOptions.value = res.data.list
+    } 
+  } catch (error) {
+    console.error(error)
   }
 }
 
