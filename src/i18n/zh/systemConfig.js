@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:41:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 15:35:27
+ * @LastEditTime: 2025-07-08 15:17:20
  * @Description: 
  */
 export default {
@@ -18,5 +18,7 @@ export default {
   withdrawalThresholdDesc: '设置用户提现的最低门槛',
   groupOwnerProfitRatePlaceholder: '请输入群主收益率',
   inviteRewardAmountPlaceholder: '请输入邀请奖励金额',
-  withdrawalThresholdPlaceholder: '请输入提现门槛'
+  withdrawalThresholdPlaceholder: '请输入提现门槛',
+  accountSubmitTimes: '账号可驳回次数',
+  accountSubmitTimesDesc: '-1:不限制；0:驳回后不可提交；1:驳回后可提交1次，再次驳回不可提交；'
 }

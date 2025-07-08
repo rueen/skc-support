@@ -335,6 +335,11 @@ const columns = computed(() => [
     key: 'rejectReason'
   },
   {
+    title: t('account.list.rejectTimes'),
+    dataIndex: 'rejectTimes',
+    key: 'rejectTimes'
+  },
+  {
     title: t('account.list.waiterName'),
     key: 'waiterName'
   },

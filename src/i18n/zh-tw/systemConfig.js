@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:41:37
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-09 15:35:27
+ * @LastEditTime: 2025-07-08 15:19:40
  * @Description: 
  */
 export default {
@@ -18,5 +18,7 @@ export default {
   withdrawalThresholdDesc: '設置用戶提現的最低門檻',
   groupOwnerProfitRatePlaceholder: '請輸入群主收益率',
   inviteRewardAmountPlaceholder: '請輸入邀請獎勵金額',
-  withdrawalThresholdPlaceholder: '請輸入提現門檻'
+  withdrawalThresholdPlaceholder: '請輸入提現門檻',
+  accountSubmitTimes: '賬號可駁回次數',
+  accountSubmitTimesDesc: '-1:不限制；0:駁回後不可提交；1:駁回後可提交1次，再次駁回不可提交；'
 } 

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-08 09:45:17
+ * @LastEditTime: 2025-07-08 15:31:57
  * @Description: 
  */
 export default {
@@ -30,10 +30,10 @@ export default {
     submitTime: 'Submit Time',
     auditStatus: 'Audit Status',
     rejectReason: 'Reject Reason',
+    rejectTimes: 'Reject Times',
     waiterName: 'Waiter Name',
     auditTime: 'Audit Time',
     action: 'Action',
-    rejectReason: 'Reject Reason',
 
     account: 'Account',
     homepage: 'Homepage',

@@ -70,7 +70,18 @@
           />
           <div class="form-item-desc">{{ $t('systemConfig.withdrawalThresholdDesc') }}</div>
         </a-form-item>
-        
+
+        <!-- 账号可提交次数 -->
+        <a-form-item :label="$t('systemConfig.accountSubmitTimes')" name="accountSubmitTimes">
+          <a-input-number
+            v-model:value="formState.account_reject_times"
+            :min="-1"
+            :max="99999"
+            :step="1"
+            :disabled="formDisabled"
+          />
+          <div class="form-item-desc">{{ $t('systemConfig.accountSubmitTimesDesc') }}</div>
+        </a-form-item>
         <!-- 按钮区域 -->
         <a-form-item :wrapper-col="{ span: 12, offset: 6 }">
           <a-space>
@@ -124,6 +135,10 @@ const rules = {
   withdrawal_threshold: [
     { required: true, message: '请输入提现门槛', trigger: 'blur' },
     { type: 'number', min: 0, max: 99999, message: '提现门槛必须在 0-99999 之间', trigger: 'blur' }
+  ],
+  account_reject_times: [
+    { required: true, message: '请输入账号可提交次数', trigger: 'blur' },
+    { type: 'number', min: 0, max: 99999, message: '账号可提交次数必须在 0-99999 之间', trigger: 'blur' }
   ]
 }
 
@@ -142,7 +157,8 @@ const fetchSystemConfig = async () => {
         max_group_members: json.max_group_members.config_value, // 最大群成员数
         group_owner_commission_rate: (json.group_owner_commission_rate.config_value - 0) * 100, // 群主收益率
         invite_reward_amount: json.invite_reward_amount.config_value, // 邀请奖励金额
-        withdrawal_threshold: json.withdrawal_threshold.config_value // 提现门槛
+        withdrawal_threshold: json.withdrawal_threshold.config_value, // 提现门槛
+        account_reject_times: json.account_reject_times.config_value // 账号可提交次数
       })
     }
   } catch (error) {
@@ -159,7 +175,8 @@ const saveSystemConfig = async () => {
     max_group_members: formState.max_group_members, // 最大群成员数
     group_owner_commission_rate: formState.group_owner_commission_rate / 100, // 群主收益率
     invite_reward_amount: formState.invite_reward_amount, // 邀请奖励金额
-    withdrawal_threshold: formState.withdrawal_threshold // 提现门槛
+    withdrawal_threshold: formState.withdrawal_threshold, // 提现门槛
+    account_reject_times: formState.account_reject_times // 账号可提交次数
   }
   const res = await post('system.saveAllConfig', {
     configs
