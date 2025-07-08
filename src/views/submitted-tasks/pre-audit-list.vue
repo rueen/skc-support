@@ -227,6 +227,7 @@ import { downloadByApi } from '@/utils/download'
 import { encryptFilters, decryptFilters } from '@/utils/routeParamsEncryption'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
+import dayjs from 'dayjs'
 
 const enumStore = useEnumStore()
 const { t } = useI18n()
@@ -249,6 +250,16 @@ const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
 const selectedRowKeys = ref([])
+
+/**
+ * 获取当月时间范围
+ * @returns {Array} 返回当月开始和结束时间的数组
+ */
+const getCurrentMonthRange = () => {
+  const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
+  const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
+  return [startOfMonth, endOfMonth]
+}
 
 // 获取并解密路由中的filters参数
 const filtersParam = ref(null)
@@ -276,7 +287,7 @@ const searchForm = reactive({
   taskPreAuditStatus: 'pending',
   preWaiterId: undefined,
   groupId: undefined,
-  submitTimeRange: [],
+  submitTimeRange: getCurrentMonthRange(),
   completedTaskCount: undefined,
   keyword: ''
 })
@@ -357,7 +368,7 @@ const handleReset = () => {
     taskPreAuditStatus: 'pending',
     preWaiterId: undefined,
     groupId: undefined,
-    submitTimeRange: [],
+    submitTimeRange: getCurrentMonthRange(),
     completedTaskCount: undefined,
     keyword: ''
   })

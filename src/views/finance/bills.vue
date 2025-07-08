@@ -167,6 +167,7 @@ import { useEnumStore } from '@/stores'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { downloadByApi } from '@/utils/download'
+import dayjs from 'dayjs'
 
 const { t } = useI18n()
 const enumStore = useEnumStore()
@@ -195,12 +196,22 @@ const settlementStatusOptions = computed(() => {
 
 const loading = ref(false)
 
+/**
+ * 获取当月时间范围
+ * @returns {Array} 返回当月开始和结束时间的数组
+ */
+const getCurrentMonthRange = () => {
+  const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
+  const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
+  return [startOfMonth, endOfMonth]
+}
+
 // 搜索表单
 const searchForm = reactive({
   billNo: '',
   billType: undefined,
   settlementStatus: undefined,
-  timeRange: [],
+  timeRange: getCurrentMonthRange(),
   taskName: '',
   keyword: '',
   relatedGroupId: undefined
@@ -281,7 +292,7 @@ const handleReset = () => {
     billNo: '',
     billType: undefined,
     settlementStatus: undefined,
-    timeRange: [],
+    timeRange: getCurrentMonthRange(),
     taskName: '',
     keyword: '',
     relatedGroupId: undefined

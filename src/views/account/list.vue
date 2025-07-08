@@ -248,6 +248,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
 import { encryptFilters, decryptFilters } from '@/utils/routeParamsEncryption'
+import dayjs from 'dayjs'
 
 const router = useRouter()
 const route = useRoute()
@@ -270,6 +271,16 @@ const selectedRowKeys = ref([])
 const rejectVisible = ref(false)
 const rejectLoading = ref(false)
 const rejectReason = ref('')
+
+/**
+ * 获取当月时间范围
+ * @returns {Array} 返回当月开始和结束时间的数组
+ */
+const getCurrentMonthRange = () => {
+  const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
+  const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
+  return [startOfMonth, endOfMonth]
+}
 
 // 获取并解密路由中的filters参数
 const filtersParam = ref(null)
@@ -298,7 +309,7 @@ const searchForm = reactive({
   waiterId: undefined,
   groupId: undefined,
   memberId: undefined,
-  submitTimeRange: []
+  submitTimeRange: getCurrentMonthRange()
 })
 
 // 渠道选项
@@ -388,7 +399,7 @@ const handleReset = () => {
     waiterId: undefined,
     groupId: undefined,
     memberId: undefined,
-    submitTimeRange: []
+    submitTimeRange: getCurrentMonthRange()
   })
   handleSearch()
 }

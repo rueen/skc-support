@@ -248,6 +248,8 @@ import { downloadByApi } from '@/utils/download'
 import { encryptFilters, decryptFilters } from '@/utils/routeParamsEncryption'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
+import dayjs from 'dayjs'
+
 const enumStore = useEnumStore()
 const { t } = useI18n()
 
@@ -273,6 +275,16 @@ const currentRecord = ref(null)
 const selectedRowKeys = ref([])
 const waiterOptions = ref([])
 
+/**
+ * 获取当月时间范围
+ * @returns {Array} 返回当月开始和结束时间的数组
+ */
+const getCurrentMonthRange = () => {
+  const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
+  const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
+  return [startOfMonth, endOfMonth]
+}
+
 // 搜索表单
 const searchForm = reactive({
   taskName: '',
@@ -280,7 +292,7 @@ const searchForm = reactive({
   taskAuditStatus: 'pending',
   preWaiterId: undefined,
   groupId: undefined,
-  submitTimeRange: [],
+  submitTimeRange: getCurrentMonthRange(),
   completedTaskCount: undefined,
   keyword: ''
 })
@@ -387,7 +399,7 @@ const handleReset = () => {
     taskAuditStatus: 'pending',
     preWaiterId: undefined,
     groupId: undefined,
-    submitTimeRange: [],
+    submitTimeRange: getCurrentMonthRange(),
     completedTaskCount: undefined,
     keyword: ''
   })
