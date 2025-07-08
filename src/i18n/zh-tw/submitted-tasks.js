@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 14:19:47
+ * @LastEditTime: 2025-07-08 10:32:42
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -11,6 +11,10 @@ export default {
   rejectReasonPlaceholder: '請輸入拒絕原因',
   rejectSuccess: '拒絕成功',
   resolveSuccess: '通過成功',
+  preAuditor: '初審員',
+  preAuditTime: '初審時間',
+  confirmAuditor: '複審員',
+  confirmAuditTime: '複審時間',
 
   search: {
     taskName: '任務名稱',
@@ -37,8 +41,6 @@ export default {
     reward: '任務獎勵',
     memberInfo: '會員信息',
     status: '狀態',
-    preAuditor: '初審員',
-    confirmAuditor: '複審員',
     action: '操作',
     view: '查看',
     resolve: '通過',
@@ -86,7 +88,6 @@ export default {
     auditInfo: '審核信息',
     submitTime: '提交時間',
     preAuditStatus: '初審狀態',
-    preAuditor: '初審員',
     confirmAuditStatus: '複審狀態',
     confirmAuditor: '複審員',
     rejectReason: '拒絕原因',

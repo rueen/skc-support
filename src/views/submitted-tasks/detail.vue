@@ -119,21 +119,24 @@
           <a-descriptions-item :label="$t('submittedTasks.detail.preAuditStatus')">
             {{ enumStore.getEnumText('TaskPreAuditStatus', submittedInfo.taskPreAuditStatus) }}
           </a-descriptions-item>
-          <a-descriptions-item :label="$t('submittedTasks.detail.preAuditor')">
+          <a-descriptions-item :label="$t('submittedTasks.preAuditor')">
             {{ submittedInfo.preWaiterName }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('submittedTasks.preAuditTime')">
+            {{ submittedInfo.preAuditTime }}
           </a-descriptions-item>
           <a-descriptions-item :label="$t('submittedTasks.detail.confirmAuditStatus')" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
             {{ enumStore.getEnumText('TaskAuditStatus', submittedInfo.taskAuditStatus) }}
           </a-descriptions-item>
-          <a-descriptions-item :label="$t('submittedTasks.detail.confirmAuditor')" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
+          <a-descriptions-item :label="$t('submittedTasks.confirmAuditor')" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
             {{ submittedInfo.waiterName }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('submittedTasks.confirmAuditTime')" v-if="submittedInfo.taskPreAuditStatus === 'approved'">
+            {{ submittedInfo.auditTime }}
           </a-descriptions-item>
           <template v-if="submittedInfo.auditStatus === 'rejected'">
             <a-descriptions-item :label="$t('submittedTasks.detail.rejectReason')">{{ submittedInfo.rejectReason }}</a-descriptions-item>
           </template>
-          <a-descriptions-item :label="$t('submittedTasks.detail.updateTime')">
-            {{ submittedInfo.updateTime }}
-          </a-descriptions-item>
         </a-descriptions>
       </div>
 

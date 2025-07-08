@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 14:19:11
+ * @LastEditTime: 2025-07-08 10:31:46
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -11,6 +11,10 @@ export default {
   rejectReasonPlaceholder: 'Enter rejection reason',
   rejectSuccess: 'Reject success',
   resolveSuccess: 'Resolve success',
+  preAuditor: 'Pre-Auditor',
+  preAuditTime: 'Pre-Audit Time',
+  confirmAuditor: 'Auditor',
+  confirmAuditTime: 'Confirm Audit Time',
   
   search: {
     taskName: 'Task Name',
@@ -37,8 +41,6 @@ export default {
     reward: 'Task Reward',
     memberInfo: 'Member Info',
     status: 'Status',
-    preAuditor: 'Pre-Auditor',
-    confirmAuditor: 'Auditor',
     action: 'Action',
     view: 'View',
     resolve: 'Resolve',
@@ -86,7 +88,6 @@ export default {
     auditInfo: 'Audit Information',
     submitTime: 'Submit Time',
     preAuditStatus: 'Pre-Audit Status',
-    preAuditor: 'Pre-Auditor',
     confirmAuditStatus: 'Confirm Audit Status',
     confirmAuditor: 'Confirm Auditor',
     rejectReason: 'Rejection Reason',

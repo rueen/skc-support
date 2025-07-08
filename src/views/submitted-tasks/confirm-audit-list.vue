@@ -149,8 +149,14 @@
           <template v-if="column.key === 'preWaiterName'">
             {{ record.preWaiterName || '--' }}
           </template>
+          <template v-if="column.key === 'preAuditTime'">
+            {{ record.preAuditTime || '--' }}
+          </template>
           <template v-if="column.key === 'waiterName'">
             {{ record.waiterName || '--' }}
+          </template>
+          <template v-if="column.key === 'confirmAuditTime'">
+            {{ record.auditTime || '--' }}
           </template>
           <template v-if="column.key === 'member'">
             <div>
@@ -304,12 +310,20 @@ const columns = computed(() => [
     key: 'taskAuditStatus'
   },
   {
-    title: t('submittedTasks.list.preAuditor'),
+    title: t('submittedTasks.preAuditor'),
     key: 'preWaiterName'
   },
   {
-    title: t('submittedTasks.list.confirmAuditor'),
+    title: t('submittedTasks.preAuditTime'),
+    key: 'preAuditTime'
+  },
+  {
+    title: t('submittedTasks.confirmAuditor'),
     key: 'waiterName'
+  },
+  {
+    title: t('submittedTasks.confirmAuditTime'),
+    key: 'confirmAuditTime'
   },
   {
     title: t('submittedTasks.list.action'),
