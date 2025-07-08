@@ -182,6 +182,9 @@
           <template v-if="column.key === 'waiterName'">
             {{ record.waiterName || '--' }}
           </template>
+          <template v-if="column.key === 'auditTime'">
+            {{ record.auditTime || '--' }}
+          </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a-popconfirm
@@ -334,6 +337,10 @@ const columns = computed(() => [
   {
     title: t('account.list.waiterName'),
     key: 'waiterName'
+  },
+  {
+    title: t('account.list.auditTime'),
+    key: 'auditTime'
   },
   {
     title: t('account.list.action'),

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-27 10:10:47
+ * @LastEditTime: 2025-07-08 09:45:36
  * @Description: 
  */
 export default {
@@ -31,6 +31,7 @@ export default {
     auditStatus: '審核狀態',
     rejectReason: '拒絕原因',
     waiterName: '審核員',
+    auditTime: '審核時間',
     action: '操作',
     rejectReason: '拒絕原因',
 
