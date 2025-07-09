@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-08 10:31:57
+ * @LastEditTime: 2025-07-09 14:54:23
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -15,6 +15,7 @@ export default {
   preAuditTime: '初审时间',
   confirmAuditor: '复审员',
   confirmAuditTime: '复审时间',
+  rejectTimes: '驳回次数',
 
   search: {
     taskName: '任务名称',

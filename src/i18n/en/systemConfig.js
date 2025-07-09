@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:41:26
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-08 15:19:52
+ * @LastEditTime: 2025-07-09 14:57:43
  * @Description: 
  */
 export default {
@@ -20,5 +20,7 @@ export default {
   inviteRewardAmountPlaceholder: 'enter the invite reward amount',
   withdrawalThresholdPlaceholder: 'enter the withdrawal threshold',
   accountSubmitTimes: 'Account Reject Times',
-  accountSubmitTimesDesc: '-1: No limit; 0: After rejection, cannot submit; 1: After rejection, can submit 1 time, and cannot submit again after rejection;'
+  accountSubmitTimesDesc: '-1: No limit; 0: After rejection, cannot submit; 1: After rejection, can submit 1 time, and cannot submit again after rejection;',
+  taskRejectTimes: 'Task Reject Times',
+  taskRejectTimesDesc: '-1: No limit; 0: After rejection, cannot submit; 1: After rejection, can submit 1 time, and cannot submit again after rejection;'
 }

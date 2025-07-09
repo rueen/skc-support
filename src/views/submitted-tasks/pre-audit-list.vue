@@ -318,6 +318,11 @@ const columns = computed(() => [
     key: 'taskPreAuditStatus'
   },
   {
+    title: t('submittedTasks.rejectTimes'),
+    dataIndex: 'rejectTimes',
+    key: 'rejectTimes'
+  },
+  {
     title: t('submittedTasks.preAuditor'),
     key: 'preWaiterName'
   },
