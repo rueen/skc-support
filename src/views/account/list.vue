@@ -143,7 +143,7 @@
                   <span class="label">{{ $t('account.list.homepage') }}：</span>
                   <CopyContent :content="record.homeUrl">
                     <a-typography-link>
-                      <a :href="record.homeUrl" target="_blank">{{ record.homeUrl }}</a>
+                      <a :href="formatUrl(record.homeUrl)" target="_blank">{{ record.homeUrl }}</a>
                     </a-typography-link>
                   </CopyContent>
                 </div>
@@ -280,6 +280,33 @@ const getCurrentMonthRange = () => {
   const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
   const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
   return [startOfMonth, endOfMonth]
+}
+
+/**
+ * 格式化URL为标准链接格式
+ * @param {string} url - 原始URL
+ * @returns {string} 格式化后的标准URL
+ */
+const formatUrl = (url) => {
+  if (!url) return url
+  
+  // 如果已经是完整的URL，直接返回
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url
+  }
+  
+  // 转换为小写进行匹配，但保持原始大小写用于替换
+  const lowerUrl = url.toLowerCase()
+  
+  // 处理TikTok链接
+  if (lowerUrl.includes('tiktok.com')) {
+    // 确保是www.tiktok.com格式
+    let formattedUrl = url.replace(/^(.*?)tiktok\.com/i, 'www.tiktok.com')
+    return `https://${formattedUrl}`
+  }
+  
+  // 其他情况直接添加https://
+  return `https://${url}`
 }
 
 // 获取并解密路由中的filters参数
