@@ -57,16 +57,18 @@
             </a-space>
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.view.balance')">
-            <a-space>
+            <a-space :size="16">
               <span>{{ memberInfo.balance }}</span>
-              <a-button type="link" size="small" @click="handleReward()">
-                {{ $t('member.view.rewardGrant') }}
-              </a-button>
-              <a-button type="link" size="small" @click="handleDeduct()">
-                {{ $t('member.view.rewardDeduct') }}
-              </a-button>
               <a-button type="link" size="small" @click="viewBalanceLogs()">
                 {{ $t('member.view.balanceLogs.view') }}
+              </a-button>
+              <a-button type="primary" size="small" @click="handleReward()">
+                <PlusOutlined />
+                {{ $t('member.view.rewardGrant') }}
+              </a-button>
+              <a-button size="small" danger @click="handleDeduct()">
+                <MinusOutlined />
+                {{ $t('member.view.rewardDeduct') }}
               </a-button>
             </a-space>
           </a-descriptions-item>

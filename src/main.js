@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 19:04:22
+ * @LastEditTime: 2025-07-10 18:04:24
  * @Description: 
  */
 import { createApp } from 'vue'
@@ -17,6 +17,7 @@ import {
   RightOutlined,
   InfoCircleOutlined,
   PlusOutlined,
+  MinusOutlined,
   QuestionCircleOutlined,
   DownloadOutlined,
   UploadOutlined,
@@ -66,6 +67,7 @@ app.component('CopyOutlined', CopyOutlined)
 app.component('RightOutlined', RightOutlined)
 app.component('InfoCircleOutlined', InfoCircleOutlined)
 app.component('PlusOutlined', PlusOutlined)
+app.component('MinusOutlined', MinusOutlined)
 app.component('QuestionCircleOutlined', QuestionCircleOutlined)
 app.component('DownloadOutlined', DownloadOutlined)
 app.component('UploadOutlined', UploadOutlined)
