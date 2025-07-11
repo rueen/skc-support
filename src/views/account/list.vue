@@ -310,14 +310,22 @@ const formatUrl = (url) => {
 }
 
 // 获取并解密路由中的filters参数
-const filtersParam = ref(null)
 const getRouteFilters = () => {
   const encryptedFilters = route.query.filters
   if (encryptedFilters) {
-    filtersParam.value = decryptFilters(encryptedFilters)
+    const filtersParam = {};
+    const filters = decryptFilters(encryptedFilters)
+    console.log(filters)
+    Object.keys(filters).forEach(key => {
+      if(key === 'current') {
+        pagination.current = filters[key]
+      } else {
+        filtersParam[key] = filters[key]
+      }
+    })
     Object.assign(searchForm,{
       accountAuditStatus: null
-    }, filtersParam.value)
+    }, filtersParam)
     // 清除路由中的filters参数
     const query = { ...route.query }
     delete query.filters
@@ -440,10 +448,7 @@ const handleEdit = (record) => {
   // 将当前搜索条件加密
   const encryptedFilters = encryptFilters({
     ...searchForm,
-    // 去掉日期范围对象，改用开始和结束时间字符串
-    submitStartTime: searchForm.submitTimeRange?.[0],
-    submitEndTime: searchForm.submitTimeRange?.[1],
-    submitTimeRange: undefined,
+    current: pagination.current
   })
   router.push({
     name: 'AccountEdit',
