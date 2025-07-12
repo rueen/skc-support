@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:08:33
+ * @LastEditTime: 2025-07-12 15:11:48
  * @Description: 
 -->
 <template>
@@ -80,9 +80,6 @@
               <a-avatar :src="record.channelIcon" />
               {{ record.taskName }}
             </a-space>
-          </template>
-          <template v-if="column.key === 'taskTime'">
-            {{ record.startTime }} - {{ record.endTime }}
           </template>
           <template v-if="column.key === 'taskQuota'">
             <span v-if="record.unlimitedQuota">{{ $t('task.list.unlimited') }}</span>
@@ -164,8 +161,16 @@ const columns = computed(() => [
     key: 'taskQuota'
   },
   {
-    title: t('task.list.time'),
-    key: 'taskTime'
+    title: t('task.list.startTime'),
+    dataIndex: 'startTime',
+    key: 'startTime',
+    sorter: true,
+  },
+  {
+    title: t('task.list.endTime'),
+    dataIndex: 'endTime',
+    key: 'endTime',
+    sorter: true,
   },
   {
     title: t('task.list.action'),
@@ -183,6 +188,10 @@ const pagination = reactive({
   pageSize: 10,
   total: 0
 })
+const sorter = reactive({
+  sorterField: 'startTime',
+  sorterOrder: 'ascend'
+})
 
 // 方法定义
 const handleSearch = () => {
@@ -197,8 +206,12 @@ const handleReset = () => {
   handleSearch()
 }
 
-const handleTableChange = (pag) => {
+const handleTableChange = (pag, filters, _sorter) => {
   Object.assign(pagination, pag)
+  Object.assign(sorter, {
+    sorterField: _sorter.field,
+    sorterOrder: _sorter.order
+  })
   loadData()
 }
 
@@ -234,6 +247,7 @@ const loadData = async () => {
     const res = await get('task.list', {
       page: pagination.current,
       pageSize: pagination.pageSize,
+      ...sorter,
       ...searchForm
     })
     if(res.code === 0){
