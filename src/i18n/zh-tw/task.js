@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 15:02:09
+ * @LastEditTime: 2025-07-12 17:22:03
  * @Description: 
  */
 export default {
@@ -103,6 +103,8 @@ export default {
   },
   group: {
     name: '任務組名稱',
+    createTime: '創建時間',
+    updateTime: '更新時間',
     create: '新建任務組',
     editTitle: '編輯任務組',
     createTitle: '新建任務組',

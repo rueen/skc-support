@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:16:28
+ * @LastEditTime: 2025-07-12 17:22:43
  * @Description: 
 -->
 <template>
@@ -53,12 +53,12 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-space>
-              <a @click="handleEdit(record)">{{ $t('task.list.edit') }}</a>
+              <a @click="handleEdit(record)">{{ $t('common.edit') }}</a>
               <a-popconfirm
-                :title="$t('task.list.deleteConfirm')"
+                :title="$t('common.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">{{ $t('task.list.delete') }}</a>
+                <a class="danger">{{ $t('common.delete') }}</a>
               </a-popconfirm>
             </a-space>
           </template>
@@ -93,9 +93,20 @@ const columns = computed(() => [
     dataIndex: 'taskGroupName',
     key: 'taskGroupName'
   },
-  
   {
-    title: t('task.list.action'),
+    title: t('task.group.createTime'),
+    dataIndex: 'createTime',
+    key: 'createTime',
+    sorter: true,
+  },
+  {
+    title: t('task.group.updateTime'),
+    dataIndex: 'updateTime',
+    key: 'updateTime',
+    sorter: true,
+  },
+  {
+    title: t('common.operation'),
     key: 'action',
     fixed: 'right',
     width: 180
@@ -118,9 +129,8 @@ const handleSearch = () => {
 }
 
 const handleReset = () => {
+  searchForm.taskGroupName = ''
   searchForm.taskName = ''
-  searchForm.channelId = undefined
-  searchForm.taskStatus = undefined
   handleSearch()
 }
 
@@ -139,7 +149,7 @@ const handleEdit = (record) => {
 
 const handleDelete = async (record) => {
   try {
-    const res = await del('task.delete', {}, {
+    const res = await del('taskGroup.delete', {}, {
       urlParams: {
         id: record.id
       }
@@ -158,7 +168,7 @@ const handleDelete = async (record) => {
 const loadData = async () => {
   loading.value = true
   try {
-    const res = await get('task.list', {
+    const res = await get('taskGroup.list', {
       page: pagination.current,
       pageSize: pagination.pageSize,
       ...searchForm
@@ -176,7 +186,7 @@ const loadData = async () => {
 
 // 初始化
 onMounted(async () => {
-  // loadData()
+  loadData()
 })
 </script>
 

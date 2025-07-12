@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 15:02:18
+ * @LastEditTime: 2025-07-12 17:22:17
  * @Description: 
  */
 export default {
@@ -103,6 +103,8 @@ export default {
   },
   group: {
     name: 'Task Group Name',
+    createTime: 'Create Time',
+    updateTime: 'Update Time',
     create: 'Create Task Group',
     editTitle: 'Edit Task Group',
     createTitle: 'Create Task Group',

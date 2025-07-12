@@ -27,7 +27,7 @@
             v-model:value="formData.taskGroupReward"
             :min="0"
             :precision="2"
-            :step="0.1"
+            :step="1"
             :placeholder="$t('common.inputPlaceholder')"
           />
         </a-form-item>
@@ -90,7 +90,6 @@ import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import SelectTask from '@/components/SelectTask.vue'
 import { get, post, put } from '@/utils/request'
-import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
 import { useEnumStore } from '@/stores'
 
@@ -101,7 +100,7 @@ const router = useRouter()
 const formRef = ref()
 
 // 页面状态
-const isEdit = computed(() => route.name === 'TaskEdit')
+const isEdit = computed(() => route.name === 'TaskGroupEdit')
 
 // 任务选择相关状态
 const selectTaskVisible = ref(false)
@@ -202,11 +201,55 @@ const handleDeleteTask = (record) => {
 }
 
 const handleAdd = async () => {
-  
+  try {
+    submitLoading.value = true
+    // 构建提交数据
+    const submitData = {
+      ...formData,
+      relatedTasks: selectedTaskIds.value,
+    }
+    // TODO: 实现提交逻辑
+    const res = await post('taskGroup.add', submitData)
+    if(res.code === 0) {
+      message.success(t('common.submitSuccess'))
+      router.back()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error(t('common.submitFailed'))
+  } finally {
+    submitLoading.value = false
+  }
 }
 
 const handleEdit = async () => {
-  
+  try {
+    submitLoading.value = true
+    // 构建提交数据
+    const submitData = {
+      ...formData,
+    }
+    // TODO: 实现提交逻辑
+    const res = await put('taskGroup.edit', {
+      ...submitData,
+      relatedTasks: selectedTaskIds.value,
+    }, {
+      urlParams: {
+        id: route.params.id
+      }
+    })
+    if(res.code === 0) {
+      message.success(t('common.submitSuccess'))
+      router.back()
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error(t('common.submitFailed'))
+  } finally {
+    submitLoading.value = false
+  }
 }
 // 提交表单
 const submitLoading = ref(false)
@@ -229,29 +272,21 @@ const handleCancel = () => {
 const getTaskDetail = async (id) => {
   try {
     // TODO: 实现获取任务详情逻辑
-    const res = await get('task.detail', {}, {
+    const res = await get('taskGroup.detail', {}, {
       urlParams: {
         id
       }
     })
     if(res.code === 0){
-      let data = {};
-      for(let key in res.data) {
-        if(key !== 'groups') {
-          data[key] = res.data[key]
-        }
-      }
-      // 转换日期字符串为日期对象
-      if (data.startTime) {
-        data.startTime = dayjs(data.startTime)
-      }
-      if (data.endTime) {
-        data.endTime = dayjs(data.endTime)
-      }
-      Object.assign(formData, data)
+      const data = res.data;
+      Object.assign(formData, {
+        taskGroupName: data.taskGroupName,
+        taskGroupReward: data.taskGroupReward,
+      })
+      selectedTaskIds.value = data.relatedTasks;
+      loadSelectedTasksInfo();
     }
   } catch (error) {
-    console.log(error)
     message.error(error)
   }
 }

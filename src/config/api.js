@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-01 16:22:37
+ * @LastEditTime: 2025-07-12 17:01:19
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -14,6 +14,14 @@ const API_PATH = {
     delete: '/tasks/:id',
     detail: '/tasks/:id',
     export: '/tasks/export',
+  },
+  // 任务组
+  taskGroup: {
+    list: '/task-groups',
+    add: '/task-groups',
+    edit: '/task-groups/:id',
+    delete: '/task-groups/:id',
+    detail: '/task-groups/:id',
   },
   // 已提交任务相关接口
   taskSubmitted: {
