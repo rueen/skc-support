@@ -2,10 +2,14 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 11:08:48
+ * @LastEditTime: 2025-07-12 11:50:54
  * @Description: 
  */
 export default {
+  selectTask: {
+    title: '选择任务',
+    selectedCount: '已选择 {count} 个任务'
+  },
   // 任务列表页面
   list: {
     name: '任务名称',
@@ -103,7 +107,7 @@ export default {
     createTitle: '新建任务组',
     reward: '奖励金额',
     relatedTask: '关联任务',
-    selectTaskBtnText: '选择任务',
+    selectTaskBtnText: '选择任务(已选 {count})',
     validation: {
       taskGroupNameRequired: '请输入任务组名称',
       taskGroupRewardRequired: '请输入任务组奖励'
