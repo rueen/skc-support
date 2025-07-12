@@ -183,8 +183,8 @@ const pagination = reactive({
   total: 0
 })
 const sorter = reactive({
-  sorterField: 'startTime',
-  sorterOrder: 'ascend'
+  sorterField: undefined,
+  sorterOrder: undefined
 })
 
 // 表格选择配置

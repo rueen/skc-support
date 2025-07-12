@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 20:35:06
+ * @LastEditTime: 2025-07-12 20:43:30
  * @Description: 
 -->
 <template>
@@ -217,8 +217,8 @@ const pagination = reactive({
   total: 0
 })
 const sorter = reactive({
-  sorterField: 'startTime',
-  sorterOrder: 'ascend'
+  sorterField: undefined,
+  sorterOrder: undefined
 })
 
 // 方法定义
