@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 21:09:40
+ * @LastEditTime: 2025-07-12 10:16:28
  * @Description: 
 -->
 <template>
@@ -11,43 +11,19 @@
       <div class="table-header">
         <div class="left">
           <a-form layout="inline" :model="searchForm">
-            <a-form-item :label="$t('task.search.taskName')">
+            <a-form-item :label="$t('task.search.taskGroupName')">
               <a-input
-                v-model:value="searchForm.taskName"
-                :placeholder="$t('task.search.taskNamePlaceholder')"
+                v-model:value="searchForm.taskGroupName"
+                :placeholder="$t('common.inputPlaceholder')"
                 allow-clear
               />
             </a-form-item>
-            <a-form-item :label="$t('task.search.channelId')">
-              <a-select
-                v-model:value="searchForm.channelId"
-                :placeholder="$t('task.search.channelPlaceholder')"
-                style="width: 120px"
+            <a-form-item :label="$t('task.search.taskName')">
+              <a-input
+                v-model:value="searchForm.taskName"
+                :placeholder="$t('common.inputPlaceholder')"
                 allow-clear
-              >
-                <a-select-option
-                  v-for="item in channelOptions"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.name }}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item :label="$t('task.search.taskStatus')">
-              <a-select
-                v-model:value="searchForm.taskStatus"
-                :placeholder="$t('task.search.statusPlaceholder')"
-                allowClear
-              >
-                <a-select-option 
-                  v-for="option in taskStatusOptions" 
-                  :key="option.value" 
-                  :value="option.value"
-                >
-                  {{ option.text }}
-                </a-select-option>
-              </a-select>
+              />
             </a-form-item>
             <a-form-item>
               <a-space>
@@ -61,7 +37,7 @@
           <a-space>
             <a-button type="primary" @click="handleAdd">
               <template #icon><plus-outlined /></template>
-              {{ $t('task.list.create') }}
+              {{ $t('task.group.create') }}
             </a-button>
           </a-space>
         </div>
@@ -75,23 +51,6 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'taskName'">
-            <a-space>
-              <a-avatar :src="record.channelIcon" />
-              {{ record.taskName }}
-            </a-space>
-          </template>
-          <template v-if="column.key === 'taskTime'">
-            {{ record.startTime }} - {{ record.endTime }}
-          </template>
-          <template v-if="column.key === 'taskQuota'">
-            <span v-if="record.unlimitedQuota">{{ $t('task.list.unlimited') }}</span>
-            <span v-else>{{ record.quota }}</span>
-            <span> / {{ record.submittedCount }}</span>
-          </template>
-          <template v-if="column.key === 'taskStatus'">
-              {{ enumStore.getEnumText('TaskStatus', record.taskStatus) }}
-          </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleEdit(record)">{{ $t('task.list.edit') }}</a>
@@ -114,59 +73,27 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { get, del } from '@/utils/request'
-import { useEnumStore } from '@/stores'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const loading = ref(false)
-const enumStore = useEnumStore()
 const { t } = useI18n()
 
 // 搜索表单
 const searchForm = reactive({
+  taskGroupName: '',
   taskName: '',
-  channelId: undefined,
-  taskStatus: undefined,
-})
-
-// 渠道选项
-const channelOptions = ref([])
-
-// 计算任务状态选项
-const taskStatusOptions = computed(() => {
-  // 如果枚举数据还未加载完成，则返回空数组
-  if (!enumStore.loaded) {
-    return []
-  }
-  
-  // 使用store提供的方法获取选项列表
-  return enumStore.getEnumOptions('TaskStatus')
 })
 
 // 表格列配置
 const columns = computed(() => [
   {
-    title: t('task.list.name'),
-    key: 'taskName'
+    title: t('task.group.name'),
+    dataIndex: 'taskGroupName',
+    key: 'taskGroupName'
   },
-  {
-    title: t('task.list.status'),
-    dataIndex: 'taskStatus',
-    key: 'taskStatus',
-    customRender: ({ text }) => {
-      // 使用store提供的方法获取枚举文本
-      return enumStore.getEnumText('TaskStatus', text)
-    }
-  },
-  {
-    title: t('task.list.quota'),
-    key: 'taskQuota'
-  },
-  {
-    title: t('task.list.time'),
-    key: 'taskTime'
-  },
+  
   {
     title: t('task.list.action'),
     key: 'action',
@@ -203,11 +130,11 @@ const handleTableChange = (pag) => {
 }
 
 const handleAdd = () => {
-  router.push('/task/create')
+  router.push('/taskGroup/create')
 }
 
 const handleEdit = (record) => {
-  router.push(`/task/edit/${record.id}`)
+  router.push(`/taskGroup/edit/${record.id}`)
 }
 
 const handleDelete = async (record) => {
@@ -247,17 +174,9 @@ const loadData = async () => {
   }
 }
 
-const loadChannelOptions = async () => {
-  const res = await get('channel.list')
-  if(res.code === 0){
-    channelOptions.value = res.data.list
-  } 
-}
-
 // 初始化
 onMounted(async () => {
-  loadData()
-  loadChannelOptions()
+  // loadData()
 })
 </script>
 

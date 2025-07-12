@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-06-24 18:04:27
+ * @LastEditTime: 2025-07-12 10:35:58
  * @Description: 
  */
 export default {
@@ -22,9 +22,9 @@ export default {
   // 搜索表单
   search: {
     taskName: '任務名稱',
+    taskGroupName: '任務組名稱',
     channelId: '平台渠道',
     taskStatus: '任務狀態',
-    taskNamePlaceholder: '請輸入任務名稱',
     channelPlaceholder: '請選擇平台渠道',
     statusPlaceholder: '請選擇任務狀態'
   },
@@ -94,9 +94,15 @@ export default {
       taskCountRequired: '請輸入完成任務次數',
       fieldTitleRequired: '請輸入字段標題'
     },
-    // 操作提示
-    submitSuccess: '提交成功',
-    submitFailed: '提交失敗',
     loadGroupFailed: '獲取群組列表失敗'
+  },
+  group: {
+    name: '任務組名稱',
+    create: '新建任務組',
+    editTitle: '編輯任務組',
+    createTitle: '新建任務組',
+    validation: {
+      taskGroupNameRequired: '請輸入任務組名稱'
+    }
   }
 } 

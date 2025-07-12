@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 21:00:52
+ * @LastEditTime: 2025-07-12 10:02:58
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -10,11 +10,24 @@ import { useUserStore } from './user';
 
 const allMenu = [
   {
-    path: '/task',
-    key: 'task',
+    key: 'taskManagement',
     icon: 'ProfileOutlined',
-    title: 'task',
-    permissions: 'task:list',
+    title: 'taskManagement',
+    permissions: 'task:list,task:group',
+    children: [
+      {
+        path: '/task',
+        key: 'task',
+        title: 'task',
+        permissions: 'task:list',
+      },
+      {
+        path: '/taskGroup',
+        key: 'taskGroup',
+        title: 'taskGroup',
+        permissions: 'task:group',
+      }
+    ]
   },
   {
     path: '/pre-audit-tasks',
@@ -59,7 +72,6 @@ const allMenu = [
     permissions: 'group:list',
   },
   {
-    path: '/finance',
     key: 'finance',
     icon: 'PayCircleOutlined',
     title: 'finance',

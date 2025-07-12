@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 16:28:54
+ * @LastEditTime: 2025-07-12 10:35:25
  * @Description: 
  */
 export default {
@@ -28,6 +28,10 @@ export default {
   deleteFailed: '刪除失敗',
   saveSuccess: '保存成功',
   saveFailed: '保存失敗',
+  inputPlaceholder: '請輸入',
+  // 操作提示
+  submitSuccess: '提交成功',
+  submitFailed: '提交失敗',
 
   groupOwner: '群主',
 

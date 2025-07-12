@@ -2,11 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:02
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 09:09:18
+ * @LastEditTime: 2025-07-12 10:02:18
  * @Description: 
  */
 export default {
-  task: 'Task Management',
+  taskManagement: 'Task Management',
+  task: 'Task',
+  taskGroup: 'Task Group',
   taskCreate: 'Create Task',
   taskEdit: 'Edit Task',
   taskView: 'View Task',

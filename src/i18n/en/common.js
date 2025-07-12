@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 16:29:00
+ * @LastEditTime: 2025-07-12 10:35:18
  * @Description: 
  */
 export default {
@@ -28,6 +28,10 @@ export default {
   deleteFailed: 'Delete failed',
   saveSuccess: 'Save success',
   saveFailed: 'Save failed',
+  inputPlaceholder: 'Please fill up',
+  // 操作提示
+  submitSuccess: 'Submit successful',
+  submitFailed: 'Submit failed',
 
   groupOwner: 'Owner',
 

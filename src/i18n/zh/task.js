@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-06-24 18:04:03
+ * @LastEditTime: 2025-07-12 10:32:18
  * @Description: 
  */
 export default {
@@ -22,9 +22,9 @@ export default {
   // 搜索表单
   search: {
     taskName: '任务名称',
+    taskGroupName: '任务组名称',
     channelId: '平台渠道',
     taskStatus: '任务状态',
-    taskNamePlaceholder: '请输入任务名称',
     channelPlaceholder: '请选择平台渠道',
     statusPlaceholder: '请选择任务状态'
   },
@@ -94,9 +94,15 @@ export default {
       taskCountRequired: '请输入完成任务次数',
       fieldTitleRequired: '请输入字段标题'
     },
-    // 操作提示
-    submitSuccess: '提交成功',
-    submitFailed: '提交失败',
     loadGroupFailed: '获取群组列表失败'
+  },
+  group: {
+    name: '任务组名称',
+    create: '新建任务组',
+    editTitle: '编辑任务组',
+    createTitle: '新建任务组',
+    validation: {
+      taskGroupNameRequired: '请输入任务组名称'
+    }
   }
 } 

@@ -16,23 +16,43 @@ const routes = [
     component: Layout,
     redirect: '/task',
     children: [
+      // 任务
       {
         path: 'task',
-        component: () => import('@/views/task/list.vue'),
+        component: () => import('@/views/taskManagement/task/list.vue'),
         name: 'TaskList',
-        meta: { requiresAuth: true, permissions: ['task:list'], title: '任务管理' }
+        meta: { requiresAuth: true, permissions: ['task:list'], title: '任务' }
       },
       {
         path: 'task/create',
-        component: () => import('@/views/task/detail.vue'),
+        component: () => import('@/views/taskManagement/task/detail.vue'),
         name: 'TaskCreate',
         meta: { requiresAuth: true, permissions: ['task:create'], title: '新增任务', hidden: true }
       },
       {
         path: 'task/edit/:id',
-        component: () => import('@/views/task/detail.vue'),
+        component: () => import('@/views/taskManagement/task/detail.vue'),
         name: 'TaskEdit',
         meta: { requiresAuth: true, permissions: ['task:edit'], title: '编辑任务', hidden: true }
+      },
+      // 任务组
+      {
+        path: 'taskGroup',
+        component: () => import('@/views/taskManagement/group/list.vue'),
+        name: 'TaskGroup',
+        meta: { requiresAuth: true, permissions: ['task:group'], title: '任务组' }
+      },
+      {
+        path: 'taskGroup/create',
+        component: () => import('@/views/taskManagement/group/detail.vue'),
+        name: 'TaskGroupCreate',
+        meta: { requiresAuth: true, permissions: ['task:group'], title: '新增任务组', hidden: true }
+      },
+      {
+        path: 'taskGroup/edit/:id',
+        component: () => import('@/views/taskManagement/group/detail.vue'),
+        name: 'TaskGroupEdit',
+        meta: { requiresAuth: true, permissions: ['task:group'], title: '编辑任务组', hidden: true }
       },
       {
         path: 'pre-audit-tasks',

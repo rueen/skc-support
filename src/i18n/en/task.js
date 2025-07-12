@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-06-24 18:04:16
+ * @LastEditTime: 2025-07-12 10:35:48
  * @Description: 
  */
 export default {
@@ -22,9 +22,9 @@ export default {
   // Search form
   search: {
     taskName: 'Task Name',
+    taskGroupName: 'Task Group Name',
     channelId: 'Channel',
     taskStatus: 'Task Status',
-    taskNamePlaceholder: 'Enter task name',
     channelPlaceholder: 'Select channel',
     statusPlaceholder: 'Select task status'
   },
@@ -94,9 +94,15 @@ export default {
       taskCountRequired: 'Please enter task completion count',
       fieldTitleRequired: 'Please enter field title'
     },
-    // Operation tips
-    submitSuccess: 'Submit successful',
-    submitFailed: 'Submit failed',
     loadGroupFailed: 'Failed to load group list'
+  },
+  group: {
+    name: 'Task Group Name',
+    create: 'Create Task Group',
+    editTitle: 'Edit Task Group',
+    createTitle: 'Create Task Group',
+    validation: {
+      taskGroupNameRequired: 'Please enter task group name'
+    }
   }
 } 

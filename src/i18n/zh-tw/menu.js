@@ -2,11 +2,13 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-08 09:09:28
+ * @LastEditTime: 2025-07-12 10:02:30
  * @Description: 
  */
 export default {
-  task: '任務管理',
+  taskManagement: '任務管理',
+  task: '任務',
+  taskGroup: '任務組',
   taskCreate: '創建任務',
   taskEdit: '編輯任務',
   taskView: '查看任務',

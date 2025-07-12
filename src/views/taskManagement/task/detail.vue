@@ -399,14 +399,14 @@ const addTask = async () => {
     // TODO: 实现提交逻辑
     const res = await post('task.add', submitData)
     if(res.code === 0) {
-      message.success(t('task.detail.submitSuccess'))
+      message.success(t('common.submitSuccess'))
       router.back()
     } else {
       message.error(res.message)
     }
   } catch (error) {
     console.log(error)
-    message.error(t('task.detail.submitFailed'))
+    message.error(t('common.submitFailed'))
   } finally {
     submitLoading.value = false
   }
@@ -431,14 +431,14 @@ const editTask = async () => {
       }
     })
     if(res.code === 0) {
-      message.success(t('task.detail.submitSuccess'))
+      message.success(t('common.submitSuccess'))
       router.back()
     } else {
       message.error(res.message)
     }
   } catch (error) {
     console.log(error)
-    message.error(t('task.detail.submitFailed'))
+    message.error(t('common.submitFailed'))
   } finally {
     submitLoading.value = false
   }
