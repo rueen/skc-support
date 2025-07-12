@@ -52,12 +52,20 @@
                 <template v-if="column.key === 'taskStatus'">
                     {{ enumStore.getEnumText('TaskStatus', record.taskStatus) }}
                 </template>
+                <template v-if="column.key === 'action'">
+                  <a-popconfirm
+                    :title="$t('common.deleteConfirm')"
+                    @confirm="handleDeleteTask(record)"
+                  >
+                    <a class="danger">{{ $t('common.delete') }}</a>
+                  </a-popconfirm>
+                </template>
               </template>
             </a-table>
           </div>
         </a-form-item>
 
-        <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
+        <a-form-item :wrapper-col="{ span: 16, offset: 3 }">
           <a-space>
             <a-button type="primary" @click="handleSubmit">{{ $t('common.submit') }}</a-button>
             <a-button @click="handleCancel">{{ $t('common.cancel') }}</a-button>
@@ -102,6 +110,14 @@ const selectedTasks = ref([]) // 选中的任务完整信息（用于显示）
 const selectedTasksLoading = ref(false)
 const selectedTasksColumns = computed(() => [
   {
+    title: 'index',
+    key: 'index',
+    width: 60,
+    customRender: ({ index }) => {
+      return index + 1
+    }
+  },
+  {
     title: t('task.list.name'),
     key: 'taskName'
   },
@@ -123,6 +139,12 @@ const selectedTasksColumns = computed(() => [
     title: t('task.list.endTime'),
     dataIndex: 'endTime',
     key: 'endTime',
+  },
+  {
+    title: t('task.list.action'),
+    key: 'action',
+    fixed: 'right',
+    width: 180
   }
 ])
 
@@ -171,6 +193,12 @@ const loadSelectedTasksInfo = async () => {
   } finally {
     selectedTasksLoading.value = false
   }
+}
+
+// 移除已选任务
+const handleDeleteTask = (record) => {
+  selectedTasks.value = selectedTasks.value.filter(task => task.id !== record.id)
+  selectedTaskIds.value = selectedTaskIds.value.filter(id => id !== record.id)
 }
 
 const handleAdd = async () => {
