@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:35:58
+ * @LastEditTime: 2025-07-12 11:11:42
  * @Description: 
  */
 export default {
@@ -101,6 +101,9 @@ export default {
     create: '新建任務組',
     editTitle: '編輯任務組',
     createTitle: '新建任務組',
+    reward: '獎勵金額',
+    relatedTask: '關聯任務',
+    selectTaskBtnText: '選擇任務',
     validation: {
       taskGroupNameRequired: '請輸入任務組名稱'
     }

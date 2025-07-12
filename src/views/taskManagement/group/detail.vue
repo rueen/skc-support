@@ -15,11 +15,23 @@
         :wrapper-col="{ span: 18 }"
         layout="horizontal"
       >
-        <a-form-item :label="$t('task.group.name')" name="taskGroupName">
+        <a-form-item :label="$t('task.group.name')">
           <a-input
             v-model:value="formData.taskGroupName"
             :placeholder="$t('common.inputPlaceholder')"
           />
+        </a-form-item>
+        <a-form-item :label="$t('task.group.reward')">
+          <a-input-number
+            v-model:value="formData.taskGroupReward"
+            :min="0"
+            :precision="2"
+            :step="0.1"
+            :placeholder="$t('common.inputPlaceholder')"
+          />
+        </a-form-item>
+        <a-form-item :label="$t('task.group.relatedTask')">
+          <a-button type="primary">{{ $t('task.group.selectTaskBtnText') }}</a-button>
         </a-form-item>
 
         <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
@@ -54,11 +66,13 @@ const isEdit = computed(() => route.name === 'TaskEdit')
 // 表单数据
 const formData = reactive({
   taskGroupName: '',
+  taskGroupReward: 0,
 })
 
 // 表单校验规则
 const rules = {
   taskGroupName: [{ required: true, message: t('task.group.validation.taskGroupNameRequired') }],
+  taskGroupReward: [{ required: true, message: t('task.group.validation.taskGroupRewardRequired') }],
 }
 
 const addTask = async () => {
@@ -174,58 +188,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.task-form {
-  .page-header {
-    :deep(.ant-page-header-heading-left) {
-      flex: 1;
-    }
-  }
 
-  .form-container {
-    background-color: #fff;
-    padding: 24px;
-    border-radius: 2px;
-  }
-
-  .group-select {
-    .group-tip {
-      margin-top: 8px;
-      color: rgba(0, 0, 0, 0.45);
-      font-size: 12px;
-    }
-  }
-
-  .text-center {
-    text-align: center;
-    line-height: 32px;
-  }
-
-  .quota-container {
-    .ant-space-horizontal {
-      display: flex;
-      align-items: center;
-    }
-    .ant-form-item{
-      margin-bottom: 0;
-    }
-  }
-
-  .user-range {
-    .task-count {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      
-      .ant-form-item {
-        margin-bottom: 0;
-        margin-right: 8px;
-      }
-      
-      .anticon {
-        color: rgba(0, 0, 0, 0.45);
-        cursor: pointer;
-      }
-    }
-  }
-}
 </style> 

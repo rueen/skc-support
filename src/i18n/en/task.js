@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:35:48
+ * @LastEditTime: 2025-07-12 11:11:33
  * @Description: 
  */
 export default {
@@ -101,6 +101,9 @@ export default {
     create: 'Create Task Group',
     editTitle: 'Edit Task Group',
     createTitle: 'Create Task Group',
+    reward: 'Reward Amount',
+    relatedTask: 'Related Task',
+    selectTaskBtnText: 'Select Task',
     validation: {
       taskGroupNameRequired: 'Please enter task group name'
     }

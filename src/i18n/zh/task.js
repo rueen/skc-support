@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:32:18
+ * @LastEditTime: 2025-07-12 11:08:48
  * @Description: 
  */
 export default {
@@ -101,8 +101,12 @@ export default {
     create: '新建任务组',
     editTitle: '编辑任务组',
     createTitle: '新建任务组',
+    reward: '奖励金额',
+    relatedTask: '关联任务',
+    selectTaskBtnText: '选择任务',
     validation: {
-      taskGroupNameRequired: '请输入任务组名称'
+      taskGroupNameRequired: '请输入任务组名称',
+      taskGroupRewardRequired: '请输入任务组奖励'
     }
   }
 } 
