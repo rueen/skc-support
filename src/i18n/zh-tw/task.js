@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 11:57:18
+ * @LastEditTime: 2025-07-12 15:02:09
  * @Description: 
  */
 export default {
@@ -15,7 +15,8 @@ export default {
     name: '任務名稱',
     status: '任務狀態',
     quota: '任務名額 / 已提交',
-    time: '任務時間',
+    startTime: '開始時間',
+    endTime: '結束時間',
     action: '操作',
     create: '新建任務',
     edit: '編輯',

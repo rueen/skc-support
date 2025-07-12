@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 11:50:54
+ * @LastEditTime: 2025-07-12 15:02:00
  * @Description: 
  */
 export default {
@@ -15,7 +15,8 @@ export default {
     name: '任务名称',
     status: '任务状态',
     quota: '任务名额 / 已提交',
-    time: '任务时间',
+    startTime: '开始时间',
+    endTime: '结束时间',
     action: '操作',
     create: '新建任务',
     edit: '编辑',

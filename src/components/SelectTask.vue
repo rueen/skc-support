@@ -160,10 +160,17 @@ const columns = computed(() => [
     width: 100
   },
   {
-    title: t('task.list.time'),
-    key: 'taskTime',
-    width: 200
-  }
+    title: t('task.list.startTime'),
+    dataIndex: 'startTime',
+    key: 'startTime',
+    sorter: true,
+  },
+  {
+    title: t('task.list.endTime'),
+    dataIndex: 'endTime',
+    key: 'endTime',
+    sorter: true,
+  },
 ])
 
 // 表格数据
@@ -174,6 +181,10 @@ const pagination = reactive({
   current: 1,
   pageSize: 10,
   total: 0
+})
+const sorter = reactive({
+  sorterField: 'startTime',
+  sorterOrder: 'ascend'
 })
 
 // 表格选择配置
@@ -214,8 +225,12 @@ const handleReset = () => {
 }
 
 // 表格变化
-const handleTableChange = (pag) => {
+const handleTableChange = (pag, filters, _sorter) => {
   Object.assign(pagination, pag)
+  Object.assign(sorter, {
+    sorterField: _sorter.field,
+    sorterOrder: _sorter.order
+  })
   loadData()
 }
 
@@ -240,6 +255,7 @@ const loadData = async () => {
     const res = await get('task.list', {
       page: pagination.current,
       pageSize: pagination.pageSize,
+      ...sorter,
       ...searchForm
     })
     if (res.code === 0) {

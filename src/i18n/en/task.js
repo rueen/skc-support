@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 11:58:17
+ * @LastEditTime: 2025-07-12 15:02:18
  * @Description: 
  */
 export default {
@@ -15,7 +15,8 @@ export default {
     name: 'Task Name',
     status: 'Task Status',
     quota: 'Quota / Submitted',
-    time: 'Task Time',
+    startTime: 'Start Time',
+    endTime: 'End Time',
     action: 'Actions',
     create: 'Create Task',
     edit: 'Edit',

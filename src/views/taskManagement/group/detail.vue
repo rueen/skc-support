@@ -6,19 +6,20 @@
       class="page-header"
     >
     </page-header>
-    <div class="form-container">
+    <div>
       <a-form
         ref="formRef"
         :model="formData"
         :rules="rules"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 18 }"
+        :label-col="{ span: 3 }"
+        :wrapper-col="{ span: 19 }"
         layout="horizontal"
       >
         <a-form-item :label="$t('task.group.name')">
           <a-input
             v-model:value="formData.taskGroupName"
             :placeholder="$t('common.inputPlaceholder')"
+            style="width: 300px;"
           />
         </a-form-item>
         <a-form-item :label="$t('task.group.reward')">
@@ -33,7 +34,26 @@
         <a-form-item :label="$t('task.group.relatedTask')">
           <div>
             <a-button type="primary" @click="handleSelectTask">{{ $t('task.group.selectTaskBtnText', { count: selectedTaskIds.length }) }}</a-button>
-            
+            <!-- 预览已选任务列表 -->
+            <a-table
+              :columns="selectedTasksColumns"
+              :data-source="selectedTasks"
+              :loading="selectedTasksLoading"
+              :pagination="false"
+              style="margin-top: 10px;"
+            >
+              <template #bodyCell="{ column, record }">
+                <template v-if="column.key === 'taskName'">
+                  <a-space>
+                    <a-avatar :src="record.channelIcon" />
+                    {{ record.taskName }}
+                  </a-space>
+                </template>
+                <template v-if="column.key === 'taskStatus'">
+                    {{ enumStore.getEnumText('TaskStatus', record.taskStatus) }}
+                </template>
+              </template>
+            </a-table>
           </div>
         </a-form-item>
 
@@ -64,9 +84,10 @@ import SelectTask from '@/components/SelectTask.vue'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
+import { useEnumStore } from '@/stores'
 
 const { t } = useI18n()
-
+const enumStore = useEnumStore()
 const route = useRoute()
 const router = useRouter()
 const formRef = ref()
@@ -78,6 +99,32 @@ const isEdit = computed(() => route.name === 'TaskEdit')
 const selectTaskVisible = ref(false)
 const selectedTaskIds = ref([]) // 选中的任务ID列表
 const selectedTasks = ref([]) // 选中的任务完整信息（用于显示）
+const selectedTasksLoading = ref(false)
+const selectedTasksColumns = computed(() => [
+  {
+    title: t('task.list.name'),
+    key: 'taskName'
+  },
+  {
+    title: t('task.list.status'),
+    dataIndex: 'taskStatus',
+    key: 'taskStatus',
+    customRender: ({ text }) => {
+      // 使用store提供的方法获取枚举文本
+      return enumStore.getEnumText('TaskStatus', text)
+    }
+  },
+  {
+    title: t('task.list.startTime'),
+    dataIndex: 'startTime',
+    key: 'startTime',
+  },
+  {
+    title: t('task.list.endTime'),
+    dataIndex: 'endTime',
+    key: 'endTime',
+  }
+])
 
 // 表单数据
 const formData = reactive({
@@ -105,7 +152,25 @@ const handleTaskSelectConfirm = ({ taskIds }) => {
 
 // 加载已选任务的显示信息
 const loadSelectedTasksInfo = async () => {
-  
+  try {
+    selectedTasksLoading.value = true
+    const res = await get('task.list', {
+      page: 1,
+      pageSize: 100,
+      sorterField: 'startTime',
+      sorterOrder: 'ascend',
+      taskIds: selectedTaskIds.value
+    })
+    if(res.code === 0){
+      selectedTasks.value = res.data.list;
+    } else {
+      message.error(res.message)
+    }
+  } catch (error) {
+    message.error(error)
+  } finally {
+    selectedTasksLoading.value = false
+  }
 }
 
 const handleAdd = async () => {
