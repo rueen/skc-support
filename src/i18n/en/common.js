@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:35:18
+ * @LastEditTime: 2025-07-12 19:44:46
  * @Description: 
  */
 export default {
@@ -29,6 +29,7 @@ export default {
   saveSuccess: 'Save success',
   saveFailed: 'Save failed',
   inputPlaceholder: 'Please fill up',
+  selectPlaceholder: 'Please select',
   // 操作提示
   submitSuccess: 'Submit successful',
   submitFailed: 'Submit failed',
@@ -43,8 +44,6 @@ export default {
 
   totalCount: 'Number',
   totalAmount: 'Amount',
-
-  selectPlaceholder: 'Please select',
 
   channel: 'Channel',
 } 

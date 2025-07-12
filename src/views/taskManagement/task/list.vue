@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 15:11:48
+ * @LastEditTime: 2025-07-12 20:35:06
  * @Description: 
 -->
 <template>
@@ -21,7 +21,7 @@
             <a-form-item :label="$t('task.search.channelId')">
               <a-select
                 v-model:value="searchForm.channelId"
-                :placeholder="$t('task.search.channelPlaceholder')"
+                :placeholder="$t('common.selectPlaceholder')"
                 style="width: 120px"
                 allow-clear
               >
@@ -37,8 +37,9 @@
             <a-form-item :label="$t('task.search.taskStatus')">
               <a-select
                 v-model:value="searchForm.taskStatus"
-                :placeholder="$t('task.search.statusPlaceholder')"
+                :placeholder="$t('common.selectPlaceholder')"
                 allowClear
+                style="width: 120px"
               >
                 <a-select-option 
                   v-for="option in taskStatusOptions" 
@@ -49,6 +50,27 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <!-- 任务组筛选 -->
+            <a-form-item :label="$t('task.search.taskGroup')">
+              <a-select
+                v-model:value="searchForm.taskGroupId"
+                :placeholder="$t('common.selectPlaceholder')"
+                allowClear
+                style="width: 120px"
+                show-search
+                :filter-option="false"
+                @search="loadTaskGroupOptions"
+              >
+                <a-select-option 
+                  v-for="option in taskGroupOptions" 
+                  :key="option.id" 
+                  :value="option.id"
+                >
+                  {{ option.taskGroupName }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <!--  -->
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
@@ -72,6 +94,7 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        :showSorterTooltip="false"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
@@ -79,6 +102,7 @@
             <a-space>
               <a-avatar :src="record.channelIcon" />
               {{ record.taskName }}
+              <a-tag color="orange" v-if="record.taskGroup">{{ record.taskGroup.taskGroupName }}</a-tag>
             </a-space>
           </template>
           <template v-if="column.key === 'taskQuota'">
@@ -108,7 +132,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
@@ -116,6 +140,8 @@ import { PlusOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const route = useRoute()
+
 const loading = ref(false)
 const enumStore = useEnumStore()
 const { t } = useI18n()
@@ -125,10 +151,12 @@ const searchForm = reactive({
   taskName: '',
   channelId: undefined,
   taskStatus: undefined,
+  taskGroupId: undefined,
 })
 
 // 渠道选项
 const channelOptions = ref([])
+const taskGroupOptions = ref([])
 
 // 计算任务状态选项
 const taskStatusOptions = computed(() => {
@@ -200,9 +228,12 @@ const handleSearch = () => {
 }
 
 const handleReset = () => {
-  searchForm.taskName = ''
-  searchForm.channelId = undefined
-  searchForm.taskStatus = undefined
+  Object.assign(searchForm, {
+    taskName: '',
+    channelId: undefined,
+    taskStatus: undefined,
+    taskGroupId: undefined,
+  })
   handleSearch()
 }
 
@@ -268,10 +299,22 @@ const loadChannelOptions = async () => {
   } 
 }
 
+const loadTaskGroupOptions = async (keyword = '') => {
+  const res = await get('taskGroup.list', {
+    page: 1,
+    pageSize: 50,
+    taskGroupName: keyword
+  })
+  if(res.code === 0){
+    taskGroupOptions.value = res.data.list || []
+  }
+}
+
 // 初始化
 onMounted(async () => {
   loadData()
   loadChannelOptions()
+  loadTaskGroupOptions()
 })
 </script>
 

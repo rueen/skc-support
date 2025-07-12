@@ -22,7 +22,7 @@
           <a-form-item :label="$t('task.search.channelId')">
             <a-select
               v-model:value="searchForm.channelId"
-              :placeholder="$t('task.search.channelPlaceholder')"
+              :placeholder="$t('common.selectPlaceholder')"
               style="width: 120px"
               allow-clear
             >
@@ -38,7 +38,7 @@
           <a-form-item :label="$t('task.search.taskStatus')">
             <a-select
               v-model:value="searchForm.taskStatus"
-              :placeholder="$t('task.search.statusPlaceholder')"
+              :placeholder="$t('common.selectPlaceholder')"
               allow-clear
               style="width: 120px"
             >

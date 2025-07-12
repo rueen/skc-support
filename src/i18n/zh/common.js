@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:33:13
+ * @LastEditTime: 2025-07-12 19:44:31
  * @Description: 
  */
 export default {
@@ -29,6 +29,7 @@ export default {
   saveSuccess: '保存成功',
   saveFailed: '保存失败',
   inputPlaceholder: '请输入',
+  selectPlaceholder: '请选择',
   // 操作提示
   submitSuccess: '提交成功',
   submitFailed: '提交失败',
@@ -43,8 +44,6 @@ export default {
 
   totalCount: '数量',
   totalAmount: '金额',
-
-  selectPlaceholder: '请选择',
 
   channel: '渠道',
 } 

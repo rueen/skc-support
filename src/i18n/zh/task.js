@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 17:21:10
+ * @LastEditTime: 2025-07-12 19:48:15
  * @Description: 
  */
 export default {
@@ -30,8 +30,7 @@ export default {
     taskGroupName: '任务组名称',
     channelId: '平台渠道',
     taskStatus: '任务状态',
-    channelPlaceholder: '请选择平台渠道',
-    statusPlaceholder: '请选择任务状态'
+    taskGroup: '任务组',
   },
   // 详情/编辑页面
   detail: {
@@ -103,6 +102,7 @@ export default {
   },
   group: {
     name: '任务组名称',
+    relatedTasks: '关联任务',
     createTime: '创建时间',
     updateTime: '更新时间',
     create: '新建任务组',

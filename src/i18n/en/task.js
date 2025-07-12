@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 17:22:17
+ * @LastEditTime: 2025-07-12 19:48:28
  * @Description: 
  */
 export default {
@@ -30,8 +30,7 @@ export default {
     taskGroupName: 'Task Group Name',
     channelId: 'Channel',
     taskStatus: 'Task Status',
-    channelPlaceholder: 'Select channel',
-    statusPlaceholder: 'Select task status'
+    taskGroup: 'Task Group',
   },
   // Detail/Edit page
   detail: {
@@ -103,6 +102,7 @@ export default {
   },
   group: {
     name: 'Task Group Name',
+    relatedTasks: 'Related Tasks',
     createTime: 'Create Time',
     updateTime: 'Update Time',
     create: 'Create Task Group',

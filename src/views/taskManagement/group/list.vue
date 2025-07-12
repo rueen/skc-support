@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 17:22:43
+ * @LastEditTime: 2025-07-12 20:36:55
  * @Description: 
 -->
 <template>
@@ -48,9 +48,13 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        :showSorterTooltip="false"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
+          <!-- <template v-if="column.key === 'relatedTasks'">
+            <a-typography-link @click="handleViewRelatedTasks(record)">{{ record.relatedTasks.length }}</a-typography-link>
+          </template> -->
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleEdit(record)">{{ $t('common.edit') }}</a>
@@ -93,6 +97,10 @@ const columns = computed(() => [
     dataIndex: 'taskGroupName',
     key: 'taskGroupName'
   },
+  // {
+  //   title: t('task.group.relatedTasks'),
+  //   key: 'relatedTasks'
+  // },
   {
     title: t('task.group.createTime'),
     dataIndex: 'createTime',
@@ -121,6 +129,10 @@ const pagination = reactive({
   pageSize: 10,
   total: 0
 })
+const sorter = reactive({
+  sorterField: 'createTime',
+  sorterOrder: 'ascend'
+})
 
 // 方法定义
 const handleSearch = () => {
@@ -134,8 +146,12 @@ const handleReset = () => {
   handleSearch()
 }
 
-const handleTableChange = (pag) => {
+const handleTableChange = (pag, filters, _sorter) => {
   Object.assign(pagination, pag)
+  Object.assign(sorter, {
+    sorterField: _sorter.field,
+    sorterOrder: _sorter.order
+  })
   loadData()
 }
 
@@ -171,7 +187,8 @@ const loadData = async () => {
     const res = await get('taskGroup.list', {
       page: pagination.current,
       pageSize: pagination.pageSize,
-      ...searchForm
+      ...searchForm,
+      ...sorter
     })
     if(res.code === 0){
       tableData.value = res.data.list
@@ -183,6 +200,10 @@ const loadData = async () => {
     loading.value = false
   }
 }
+
+// const handleViewRelatedTasks = (record) => {
+//   router.push(`/task?taskGroupId=${record.id}`)
+// }
 
 // 初始化
 onMounted(async () => {
