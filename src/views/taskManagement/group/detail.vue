@@ -32,20 +32,8 @@
         </a-form-item>
         <a-form-item :label="$t('task.group.relatedTask')">
           <div>
-            <a-button type="primary" @click="handleSelectTask">{{ $t('task.group.selectTaskBtnText', { count: selectedTasks.length }) }}</a-button>
-            <div v-if="selectedTasks.length > 0" class="selected-tasks-info">
-              <div class="selected-tasks-list">
-                <a-tag
-                  v-for="task in selectedTasks"
-                  :key="task.id"
-                  closable
-                  @close="handleRemoveTask(task.id)"
-                  style="margin-top: 8px;"
-                >
-                  {{ task.taskName }}
-                </a-tag>
-              </div>
-            </div>
+            <a-button type="primary" @click="handleSelectTask">{{ $t('task.group.selectTaskBtnText', { count: selectedTaskIds.length }) }}</a-button>
+            
           </div>
         </a-form-item>
 
@@ -63,7 +51,6 @@
       v-model:visible="selectTaskVisible"
       :selectedId="selectedTaskIds"
       @confirm="handleTaskSelectConfirm"
-      @cancel="handleTaskSelectCancel"
     />
   </div>
 </template>
@@ -89,8 +76,8 @@ const isEdit = computed(() => route.name === 'TaskEdit')
 
 // 任务选择相关状态
 const selectTaskVisible = ref(false)
-const selectedTasks = ref([]) // 选中的任务完整信息
-const selectedTaskIds = computed(() => selectedTasks.value.map(task => task.id))
+const selectedTaskIds = ref([]) // 选中的任务ID列表
+const selectedTasks = ref([]) // 选中的任务完整信息（用于显示）
 
 // 表单数据
 const formData = reactive({
@@ -110,86 +97,32 @@ const handleSelectTask = () => {
 }
 
 // 处理任务选择确认
-const handleTaskSelectConfirm = ({ taskIds, taskItems }) => {
-  selectedTasks.value = taskItems;
+const handleTaskSelectConfirm = ({ taskIds }) => {
+  selectedTaskIds.value = taskIds
+  // 根据选中的ID从当前数据中获取任务信息用于显示
+  loadSelectedTasksInfo()
 }
 
-// 处理任务选择取消
-const handleTaskSelectCancel = () => {
-  // 取消时不做任何处理
+// 加载已选任务的显示信息
+const loadSelectedTasksInfo = async () => {
+  
 }
 
-// 移除已选任务
-const handleRemoveTask = (taskId) => {
-  selectedTasks.value = selectedTasks.value.filter(task => task.id !== taskId)
-  message.success(t('task.group.taskRemovedSuccess'))
+const handleAdd = async () => {
+  
 }
 
-const addTask = async () => {
-  try {
-    submitLoading.value = true
-    // 构建提交数据
-    const submitData = {
-      ...formData,
-      groupIds: formData.groupMode === 0 ? [] : formData.groupIds,
-      startTime: formData.startTime ? dayjs(formData.startTime).format('YYYY-MM-DD HH:mm:ss') : null,
-      endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null
-    }
-    // TODO: 实现提交逻辑
-    const res = await post('task.add', submitData)
-    if(res.code === 0) {
-      message.success(t('common.submitSuccess'))
-      router.back()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    console.log(error)
-    message.error(t('common.submitFailed'))
-  } finally {
-    submitLoading.value = false
-  }
-}
-
-const editTask = async () => {
-  try {
-    submitLoading.value = true
-    // 构建提交数据
-    const submitData = {
-      ...formData,
-      groupIds: formData.groupMode === 0 ? [] : formData.groupIds,
-      startTime: formData.startTime ? dayjs(formData.startTime).format('YYYY-MM-DD HH:mm:ss') : null,
-      endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null
-    }
-    // TODO: 实现提交逻辑
-    const res = await put('task.edit', {
-      ...submitData,
-    }, {
-      urlParams: {
-        id: route.params.id
-      }
-    })
-    if(res.code === 0) {
-      message.success(t('common.submitSuccess'))
-      router.back()
-    } else {
-      message.error(res.message)
-    }
-  } catch (error) {
-    console.log(error)
-    message.error(t('common.submitFailed'))
-  } finally {
-    submitLoading.value = false
-  }
+const handleEdit = async () => {
+  
 }
 // 提交表单
 const submitLoading = ref(false)
 const handleSubmit = () => {
   formRef.value.validate().then(async () => {
     if(isEdit.value) {
-      await editTask()
+      await handleEdit()
     } else {
-      await addTask()
+      await handleAdd()
     }
   })
 }

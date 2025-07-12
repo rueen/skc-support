@@ -63,7 +63,7 @@
       <!-- 已选择任务数量提示 -->
       <div class="selected-info">
         <a-alert
-          :message="$t('task.selectTask.selectedCount', { count: selectedTasks.length })"
+          :message="$t('task.selectTask.selectedCount', { count: selectedTaskIds.length })"
           type="info"
           show-icon
         />
@@ -127,7 +127,6 @@ const emit = defineEmits(['update:visible', 'confirm', 'cancel'])
 // 状态
 const loading = ref(false)
 const confirmLoading = ref(false)
-const selectedTasks = ref([]) // 所有选中的任务完整信息
 const selectedTaskIds = ref([]) // 选中的任务ID
 
 // 搜索表单
@@ -190,17 +189,14 @@ const rowSelection = computed(() => ({
 
 // 处理选择变化
 const handleSelectionChange = (selectedKeys, selectedRows) => {
-  // 更新选中的任务ID
-  selectedTaskIds.value = selectedKeys
-  
-  // 更新选中的任务信息 - 需要合并当前页和之前页的选择
+  // 获取当前页面的任务ID
   const currentPageIds = tableData.value.map(item => item.id)
   
-  // 移除当前页面的旧选择
-  selectedTasks.value = selectedTasks.value.filter(task => !currentPageIds.includes(task.id))
+  // 移除当前页面的旧选择，保留其他页面的选择
+  const otherPageSelectedIds = selectedTaskIds.value.filter(id => !currentPageIds.includes(id))
   
-  // 添加当前页面的新选择
-  selectedTasks.value = [...selectedTasks.value, ...selectedRows]
+  // 合并其他页面的选择和当前页面的新选择
+  selectedTaskIds.value = [...otherPageSelectedIds, ...selectedKeys]
 }
 
 // 搜索
@@ -225,10 +221,8 @@ const handleTableChange = (pag) => {
 
 // 确认选择
 const handleConfirm = () => {
-  const taskIds = selectedTasks.value.map(task => task.id)
   emit('confirm', {
-    taskIds,
-    taskItems: selectedTasks.value
+    taskIds: selectedTaskIds.value
   })
   handleCancel()
 }
@@ -252,12 +246,7 @@ const loadData = async () => {
       tableData.value = res.data.list
       pagination.total = res.data.total
       
-      // 更新选中状态 - 基于全局选中的任务ID
-      const currentPageSelectedIds = tableData.value
-        .filter(item => selectedTasks.value.some(task => task.id === item.id))
-        .map(item => item.id)
-      
-      selectedTaskIds.value = [...new Set([...selectedTaskIds.value, ...currentPageSelectedIds])]
+      // 选中状态基于selectedTaskIds进行判断，不需要额外处理
     } else {
       message.error(res.message)
     }
@@ -278,21 +267,6 @@ const loadChannelOptions = async () => {
 const initializeSelection = () => {
   if (props.selectedId && props.selectedId.length > 0) {
     selectedTaskIds.value = [...props.selectedId]
-    // 需要获取这些任务的完整信息
-    loadSelectedTasksInfo()
-  }
-}
-
-// 加载已选任务的完整信息
-const loadSelectedTasksInfo = async () => {
-  if (props.selectedId && props.selectedId.length > 0) {
-    try {
-      // 这里可以调用批量获取任务信息的接口，如果没有则需要逐个获取
-      // 暂时先清空，在用户操作时会重新填充
-      selectedTasks.value = []
-    } catch (error) {
-      console.error('Failed to load selected tasks info:', error)
-    }
   }
 }
 
@@ -306,7 +280,6 @@ watch(() => props.visible, (newVal) => {
     initializeSelection()
   } else {
     // 重置状态
-    selectedTasks.value = []
     selectedTaskIds.value = []
     pagination.current = 1
   }
