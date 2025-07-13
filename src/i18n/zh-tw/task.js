@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 19:48:38
+ * @LastEditTime: 2025-07-13 20:16:14
  * @Description: 
  */
 export default {
@@ -102,6 +102,7 @@ export default {
   },
   group: {
     name: '任務組名稱',
+    statistics: '已報名/已完成',
     relatedTasks: '關聯任務',
     createTime: '創建時間',
     updateTime: '更新時間',

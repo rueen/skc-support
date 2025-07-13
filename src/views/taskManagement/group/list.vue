@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 20:43:59
+ * @LastEditTime: 2025-07-13 20:27:27
  * @Description: 
 -->
 <template>
@@ -52,9 +52,9 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <!-- <template v-if="column.key === 'relatedTasks'">
-            <a-typography-link @click="handleViewRelatedTasks(record)">{{ record.relatedTasks.length }}</a-typography-link>
-          </template> -->
+          <template v-if="column.key === 'statistics'">
+            {{ record.enrolledCount }}/{{ record.completedCount }}
+          </template>
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleEdit(record)">{{ $t('common.edit') }}</a>
@@ -97,10 +97,10 @@ const columns = computed(() => [
     dataIndex: 'taskGroupName',
     key: 'taskGroupName'
   },
-  // {
-  //   title: t('task.group.relatedTasks'),
-  //   key: 'relatedTasks'
-  // },
+  {
+    title: t('task.group.statistics'),
+    key: 'statistics'
+  },
   {
     title: t('task.group.createTime'),
     dataIndex: 'createTime',

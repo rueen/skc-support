@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 19:48:28
+ * @LastEditTime: 2025-07-13 20:16:17
  * @Description: 
  */
 export default {
@@ -102,6 +102,7 @@ export default {
   },
   group: {
     name: 'Task Group Name',
+    statistics: 'Registered / Completed',
     relatedTasks: 'Related Tasks',
     createTime: 'Create Time',
     updateTime: 'Update Time',
