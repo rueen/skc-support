@@ -173,6 +173,9 @@ const handleTaskSelectConfirm = ({ taskIds }) => {
 
 // 加载已选任务的显示信息
 const loadSelectedTasksInfo = async () => {
+  if(!selectedTaskIds.value || !selectedTaskIds.value.length) {
+    return;
+  }
   try {
     selectedTasksLoading.value = true
     const res = await get('task.list', {
