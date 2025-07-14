@@ -103,6 +103,26 @@
               allow-clear
             />
           </a-form-item>
+          <!-- 任务组筛选 -->
+          <a-form-item :label="$t('task.search.taskGroup')">
+            <a-select
+              v-model:value="searchForm.taskGroupId"
+              :placeholder="$t('common.selectPlaceholder')"
+              allowClear
+              style="width: 120px"
+              show-search
+              :filter-option="false"
+              @search="loadTaskGroupOptions"
+            >
+              <a-select-option 
+                v-for="option in taskGroupOptions" 
+                :key="option.id" 
+                :value="option.id"
+              >
+                {{ option.taskGroupName }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
         </a-form>
         <div style="width: 100%;display: flex;justify-content: space-between;">
           <div>
@@ -141,6 +161,7 @@
             <a-space>
               <a-avatar :src="record.channelIcon" size="small" />
               <span>{{ record.taskName }}</span>
+              <a-tag color="orange" v-if="record.taskGroup">{{ record.taskGroup.taskGroupName }}</a-tag>
             </a-space>
           </template>
           <template v-if="column.key === 'taskAuditStatus'">
@@ -294,7 +315,8 @@ const searchForm = reactive({
   groupId: undefined,
   submitTimeRange: getCurrentMonthRange(),
   completedTaskCount: undefined,
-  keyword: ''
+  keyword: '',
+  taskGroupId: undefined
 })
 
 // 选项数据
@@ -377,7 +399,6 @@ const getRouteFilters = () => {
   if (encryptedFilters) {
     const filtersParam = {};
     const filters = decryptFilters(encryptedFilters)
-    console.log(filters)
     Object.keys(filters).forEach(key => {
       if(key === 'current') {
         pagination.current = filters[key]
@@ -414,7 +435,8 @@ const handleReset = () => {
     groupId: undefined,
     submitTimeRange: getCurrentMonthRange(),
     completedTaskCount: undefined,
-    keyword: ''
+    keyword: '',
+    taskGroupId: undefined
   })
   handleSearch()
 }
@@ -549,7 +571,8 @@ const handleExport = () => {
           submitStartTime: searchForm.submitTimeRange?.[0],
           submitEndTime: searchForm.submitTimeRange?.[1],
           completedTaskCount: searchForm.completedTaskCount,
-          keyword: searchForm.keyword
+          keyword: searchForm.keyword,
+          taskGroupId: searchForm.taskGroupId
         }
         
         // 调用下载API
@@ -599,7 +622,8 @@ const loadData = async () => {
       submitStartTime: searchForm.submitTimeRange?.[0],
       submitEndTime: searchForm.submitTimeRange?.[1],
       completedTaskCount: searchForm.completedTaskCount,
-      keyword: searchForm.keyword
+      keyword: searchForm.keyword,
+      taskGroupId: searchForm.taskGroupId
     }
     const res = await get('taskSubmitted.confirmAuditList', {
       ...params
@@ -627,6 +651,18 @@ const loadWaiterOptions = async () => {
   }
 }
 
+const taskGroupOptions = ref([])
+const loadTaskGroupOptions = async (keyword = '') => {
+  const res = await get('taskGroup.list', {
+    page: 1,
+    pageSize: 50,
+    taskGroupName: keyword
+  })
+  if(res.code === 0){
+    taskGroupOptions.value = res.data.list || []
+  }
+}
+
 // 初始化
 onMounted(() => {
   // 获取并解密filters参数
@@ -635,6 +671,7 @@ onMounted(() => {
   loadGroupOptions()
   loadChannelOptions()
   loadWaiterOptions()
+  loadTaskGroupOptions()
 })
 </script>
 

@@ -315,7 +315,6 @@ const getRouteFilters = () => {
   if (encryptedFilters) {
     const filtersParam = {};
     const filters = decryptFilters(encryptedFilters)
-    console.log(filters)
     Object.keys(filters).forEach(key => {
       if(key === 'current') {
         pagination.current = filters[key]

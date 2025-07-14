@@ -33,7 +33,7 @@
         </a-form-item>
         <a-form-item :label="$t('task.group.relatedTask')">
           <div>
-            <a-button type="primary" @click="handleSelectTask">{{ $t('task.group.selectTaskBtnText', { count: selectedTaskIds.length }) }}</a-button>
+            <a-button type="primary" @click="handleSelectTask">{{ $t('task.group.selectTaskBtnText', { count: selectedTasks.length }) }}</a-button>
             <!-- 预览已选任务列表 -->
             <a-table
               :columns="selectedTasksColumns"
@@ -104,8 +104,8 @@ const isEdit = computed(() => route.name === 'TaskGroupEdit')
 
 // 任务选择相关状态
 const selectTaskVisible = ref(false)
-const selectedTaskIds = ref([]) // 选中的任务ID列表
 const selectedTasks = ref([]) // 选中的任务完整信息（用于显示）
+const selectedTaskIds = computed(() => selectedTasks.value.map(task => task.id)) // 选中的任务ID列表
 const selectedTasksLoading = ref(false)
 const selectedTasksColumns = computed(() => [
   {
@@ -166,14 +166,13 @@ const handleSelectTask = () => {
 
 // 处理任务选择确认
 const handleTaskSelectConfirm = ({ taskIds }) => {
-  selectedTaskIds.value = taskIds
   // 根据选中的ID从当前数据中获取任务信息用于显示
-  loadSelectedTasksInfo()
+  loadSelectedTasksInfo(taskIds)
 }
 
 // 加载已选任务的显示信息
-const loadSelectedTasksInfo = async () => {
-  if(!selectedTaskIds.value || !selectedTaskIds.value.length) {
+const loadSelectedTasksInfo = async (taskIds, isOrder = false) => {
+  if(!taskIds || !taskIds.length) {
     return;
   }
   try {
@@ -183,10 +182,15 @@ const loadSelectedTasksInfo = async () => {
       pageSize: 100,
       sorterField: 'startTime',
       sorterOrder: 'ascend',
-      taskIds: selectedTaskIds.value
+      taskIds: taskIds
     })
     if(res.code === 0){
-      selectedTasks.value = res.data.list;
+      if(isOrder) {
+        // 是否按照 taskIds 的ID顺序排序
+        selectedTasks.value = taskIds.map(id => res.data.list.find(task => task.id === id))
+      } else {
+        selectedTasks.value = res.data.list;
+      }
     } else {
       message.error(res.message)
     }
@@ -200,7 +204,6 @@ const loadSelectedTasksInfo = async () => {
 // 移除已选任务
 const handleDeleteTask = (record) => {
   selectedTasks.value = selectedTasks.value.filter(task => task.id !== record.id)
-  selectedTaskIds.value = selectedTaskIds.value.filter(id => id !== record.id)
 }
 
 const handleAdd = async () => {
@@ -286,8 +289,7 @@ const getTaskDetail = async (id) => {
         taskGroupName: data.taskGroupName,
         taskGroupReward: data.taskGroupReward,
       })
-      selectedTaskIds.value = data.relatedTasks;
-      loadSelectedTasksInfo();
+      loadSelectedTasksInfo(data.relatedTasks, true);
     }
   } catch (error) {
     message.error(error)

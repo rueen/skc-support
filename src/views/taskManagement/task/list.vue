@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 20:43:30
+ * @LastEditTime: 2025-07-14 11:31:58
  * @Description: 
 -->
 <template>
@@ -132,7 +132,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { get, del } from '@/utils/request'
 import { useEnumStore } from '@/stores'
@@ -140,7 +140,6 @@ import { PlusOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
-const route = useRoute()
 
 const loading = ref(false)
 const enumStore = useEnumStore()
