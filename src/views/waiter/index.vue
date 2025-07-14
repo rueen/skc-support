@@ -112,6 +112,7 @@ const formData = reactive({
 // 权限选项
 const permissionsOptions = [
   { title: 'task', permissions: 'task:list' },
+  { title: 'taskGroup', permissions: 'task:group' },
   { title: 'taskCreate', permissions: 'task:create' },
   { title: 'taskEdit', permissions: 'task:edit' },
   { title: 'account', permissions: 'account:list' },
