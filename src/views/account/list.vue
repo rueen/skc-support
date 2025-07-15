@@ -127,6 +127,7 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        :showSorterTooltip="false"
         :row-selection="rowSelection"
         rowKey="id"
         @change="handleTableChange"
@@ -368,7 +369,8 @@ const columns = computed(() => [
   {
     title: t('account.list.submitTime'),
     dataIndex: 'submitTime',
-    key: 'submitTime'
+    key: 'submitTime',
+    sorter: true,
   },
   {
     title: t('account.list.auditStatus'),
@@ -390,7 +392,9 @@ const columns = computed(() => [
   },
   {
     title: t('account.list.auditTime'),
-    key: 'auditTime'
+    dataIndex: 'auditTime',
+    key: 'auditTime',
+    sorter: true,
   },
   {
     title: t('account.list.action'),
@@ -416,6 +420,10 @@ const pagination = reactive({
   current: 1,
   pageSize: 10,
   total: 0
+})
+const sorter = reactive({
+  sorterField: undefined,
+  sorterOrder: undefined
 })
 
 // 搜索
@@ -466,10 +474,11 @@ const openOldAccount = () => {
 }
 
 // 表格变化
-const handleTableChange = (pag) => {
-  Object.assign(pagination, {
-    current: pag.current,
-    pageSize: pag.pageSize
+const handleTableChange = (pag, filters, _sorter) => {
+  Object.assign(pagination, pag)
+  Object.assign(sorter, {
+    sorterField: _sorter.field,
+    sorterOrder: _sorter.order
   })
   loadData()
 }
@@ -567,7 +576,8 @@ const loadData = async () => {
       submitEndTime: searchForm.submitTimeRange?.[1],
     }
     const res = await get('account.list', {
-      ...params
+      ...params,
+      ...sorter
     })
     if(res.code === 0) {
       tableData.value = res.data.list

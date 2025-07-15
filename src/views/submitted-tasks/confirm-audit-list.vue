@@ -152,6 +152,7 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        :showSorterTooltip="false"
         :row-selection="rowSelection"
         rowKey="id"
         @change="handleTableChange"
