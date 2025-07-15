@@ -357,7 +357,9 @@ const columns = computed(() => [
   },
   {
     title: t('submittedTasks.preAuditTime'),
-    key: 'preAuditTime'
+    dataIndex: 'preAuditTime',
+    key: 'preAuditTime',
+    sorter: true,
   },
   {
     title: t('submittedTasks.list.action'),
@@ -375,6 +377,10 @@ const pagination = reactive({
   current: 1,
   pageSize: 10,
   total: 0
+})
+const sorter = reactive({
+  sorterField: undefined,
+  sorterOrder: undefined
 })
 
 // 表格选择配置
@@ -411,8 +417,12 @@ const handleReset = () => {
 }
 
 // 表格变化
-const handleTableChange = (pag) => {
+const handleTableChange = (pag, filters, _sorter) => {
   Object.assign(pagination, pag)
+  Object.assign(sorter, {
+    sorterField: _sorter.field,
+    sorterOrder: _sorter.order
+  })
   loadData()
 }
 
@@ -594,7 +604,8 @@ const loadData = async () => {
       taskGroupId: searchForm.taskGroupId
     }
     const res = await get('taskSubmitted.preAuditList', {
-      ...params
+      ...params,
+      ...sorter
     })
     if(res.code === 0) {
       tableData.value = res.data.list
