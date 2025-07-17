@@ -3,6 +3,8 @@
     <page-header
       :title="isEdit ? $t('member.detail.editTitle') : $t('member.detail.addTitle')"
       :back="true"
+      :useDefaultBack="false"
+      @back="handleGoBack"
     />
     <div class="form-container">
       <a-form
@@ -92,7 +94,7 @@
             <a-button type="primary" :loading="submitLoading" @click="handleSubmit">
               {{ $t('common.submit') }}
             </a-button>
-            <a-button @click="$router.back()">{{ $t('common.cancel') }}</a-button>
+            <a-button @click="handleGoBack">{{ $t('common.cancel') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -157,6 +159,18 @@ const groupOptions = ref([])
 // 邀请人选择器
 const inviterLoading = ref(false)
 const inviterOptions = ref([])
+
+// 自定义返回按钮事件
+const handleGoBack = () => {
+  const queryParams = {};
+  if(route.query.filters){
+    queryParams.filters = route.query.filters;
+  }
+  router.push({
+    name: 'MemberList',
+    query: queryParams
+  })
+}
 
 // 加载群组选项
 const loadGroupOptions = async (keyword = '', inviterId = null) => {
@@ -238,7 +252,7 @@ const loadMemberInfo = async () => {
     }
   } catch (error) {
     message.error('load member info failed')
-    router.back()
+    handleGoBack()
   }
 }
 
@@ -247,7 +261,7 @@ const addMember = async () => {
   const res = await post('member.add', formData)
   if(res.code === 0){
     message.success(res.message)
-    router.back()
+    handleGoBack()
   } else {
     message.error(res.message)
   }
@@ -261,7 +275,7 @@ const editMember = async () => {
   })
   if(res.code === 0){
     message.success(res.message)
-    router.back()
+    handleGoBack()
   } else {
     message.error(res.message)
   }

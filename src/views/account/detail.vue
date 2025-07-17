@@ -42,7 +42,7 @@
             <a-button type="primary" :loading="submitLoading" @click="handleSubmit">
               {{ $t('common.submit') }}
             </a-button>
-            <a-button @click="$router.back()">{{ $t('common.cancel') }}</a-button>
+            <a-button @click="handleGoBack()">{{ $t('common.cancel') }}</a-button>
           </a-space>
         </a-form-item>
       </a-form>
@@ -132,7 +132,7 @@ const handleSubmit = () => {
         }
       })
       message.success('success')
-      router.back()
+      handleGoBack()
     } catch (error) {
       console.log(error)
       message.error('submit failed')

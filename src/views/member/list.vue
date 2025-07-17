@@ -184,6 +184,7 @@ import CopyContent from '@/components/CopyContent.vue'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
 import { downloadByApi } from '@/utils/download'
+import { encryptFilters, decryptFilters } from '@/utils/routeParamsEncryption'
 
 const enumStore = useEnumStore()
 const { t } = useI18n()
@@ -257,6 +258,30 @@ const columns = computed(() => [
   }
 ])
 
+// 获取并解密路由中的filters参数
+const getRouteFilters = () => {
+  const encryptedFilters = route.query.filters
+  if (encryptedFilters) {
+    const filtersParam = {};
+    const filters = decryptFilters(encryptedFilters)
+    Object.keys(filters).forEach(key => {
+      if(key === 'current') {
+        pagination.current = filters[key]
+      } else {
+        filtersParam[key] = filters[key]
+      }
+    })
+    Object.assign(searchForm, {}, filtersParam)
+    // 清除路由中的filters参数
+    const query = { ...route.query }
+    delete query.filters
+    router.replace({ 
+      path: route.path,
+      query 
+    })
+  }
+}
+
 // 搜索
 const handleSearch = () => {
   pagination.current = 1
@@ -286,11 +311,37 @@ const handleAdd = () => {
 }
 
 const handleEdit = (record) => {
-  router.push(`/member/edit/${record.id}`)
+  // 将当前搜索条件加密
+  const encryptedFilters = encryptFilters({
+    ...searchForm,
+    current: pagination.current
+  })
+  router.push({
+    name: 'MemberEdit',
+    params: {
+      id: record.id
+    },
+    query: {
+      filters: encryptedFilters
+    }
+  })
 }
 
 const handleMemberDetail = (id) => {
-  router.push(`/member/view/${id}`)
+  // 将当前搜索条件加密
+  const encryptedFilters = encryptFilters({
+    ...searchForm,
+    current: pagination.current
+  })
+  router.push({
+    name: 'MemberView',
+    params: {
+      id: id
+    },
+    query: {
+      filters: encryptedFilters
+    }
+  })
 }
 
 const handleDelete = async (record) => {
@@ -412,6 +463,8 @@ const loadChannelOptions = async () => {
 
 // 初始化
 onMounted(() => {
+  // 获取并解密filters参数
+  getRouteFilters()
   loadData()
   loadGroupOptions()
   loadChannelOptions()

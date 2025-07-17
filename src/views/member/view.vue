@@ -3,6 +3,8 @@
     <page-header
       :title="$t('member.view.pageTitle')"
       :back="true"
+      :useDefaultBack="false"
+      @back="handleGoBack"
     />
     <div class="detail-container">
       <!-- 会员信息 -->
@@ -256,6 +258,18 @@ const rewardRules = ref({
   amount: [{ required: true, message: t('member.view.amountRequired') }],
   remark: [{ required: true, message: t('member.view.remarkRequired') }]
 })
+
+// 自定义返回按钮事件
+const handleGoBack = () => {
+  const queryParams = {};
+  if(route.query.filters){
+    queryParams.filters = route.query.filters;
+  }
+  router.push({
+    name: 'MemberList',
+    query: queryParams
+  })
+}
 
 // 获取会员详情
 const getMemberDetail = async () => {
