@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-13 20:16:17
+ * @LastEditTime: 2025-07-17 16:25:11
  * @Description: 
  */
 export default {
@@ -17,6 +17,7 @@ export default {
     quota: 'Quota / Submitted',
     startTime: 'Start Time',
     endTime: 'End Time',
+    createTime: 'Create Time',
     action: 'Actions',
     create: 'Create Task',
     edit: 'Edit',
@@ -114,7 +115,8 @@ export default {
     selectTaskBtnText: '选择任务(已选 {count})',
     validation: {
       taskGroupNameRequired: 'Please fill up task group name',
-      taskGroupRewardRequired: 'Please fill up task group reward'
+      taskGroupRewardRequired: 'Please fill up task group reward',
+      relatedTaskRequired: 'Please select related task'
     }
   }
 } 

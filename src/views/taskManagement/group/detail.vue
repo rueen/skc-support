@@ -10,7 +10,6 @@
       <a-form
         ref="formRef"
         :model="formData"
-        :rules="rules"
         :label-col="{ span: 3 }"
         :wrapper-col="{ span: 19 }"
         layout="horizontal"
@@ -108,13 +107,10 @@ const selectedTasks = ref([]) // 选中的任务完整信息（用于显示）
 const selectedTaskIds = computed(() => selectedTasks.value.map(task => task.id)) // 选中的任务ID列表
 const selectedTasksLoading = ref(false)
 const selectedTasksColumns = computed(() => [
-  {
-    title: 'index',
-    key: 'index',
-    width: 60,
-    customRender: ({ index }) => {
-      return index + 1
-    }
+{
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id'
   },
   {
     title: t('task.list.name'),
@@ -140,6 +136,11 @@ const selectedTasksColumns = computed(() => [
     key: 'endTime',
   },
   {
+    title: t('task.list.createTime'),
+    dataIndex: 'createTime',
+    key: 'createTime',
+  },
+  {
     title: t('task.list.action'),
     key: 'action',
     fixed: 'right',
@@ -152,12 +153,6 @@ const formData = reactive({
   taskGroupName: '',
   taskGroupReward: 0,
 })
-
-// 表单校验规则
-const rules = {
-  taskGroupName: [{ required: true, message: t('task.group.validation.taskGroupNameRequired') }],
-  taskGroupReward: [{ required: true, message: t('task.group.validation.taskGroupRewardRequired') }],
-}
 
 // 选择任务
 const handleSelectTask = () => {
@@ -180,7 +175,7 @@ const loadSelectedTasksInfo = async (taskIds, isOrder = false) => {
     const res = await get('task.list', {
       page: 1,
       pageSize: 100,
-      sorterField: 'startTime',
+      sorterField: 'createTime',
       sorterOrder: 'ascend',
       taskIds: taskIds
     })
@@ -259,14 +254,24 @@ const handleEdit = async () => {
 }
 // 提交表单
 const submitLoading = ref(false)
-const handleSubmit = () => {
-  formRef.value.validate().then(async () => {
-    if(isEdit.value) {
-      await handleEdit()
-    } else {
-      await handleAdd()
-    }
-  })
+const handleSubmit = async() => {
+  if(!formData.taskGroupName) {
+    message.error(t('task.group.validation.taskGroupNameRequired'))
+    return
+  }
+  if(!formData.taskGroupReward) {
+    message.error(t('task.group.validation.taskGroupRewardRequired'))
+    return
+  }
+  if(!selectedTaskIds.value.length) {
+    message.error(t('task.group.validation.relatedTaskRequired'))
+    return
+  }
+  if(isEdit.value) {
+    await handleEdit()
+  } else {
+    await handleAdd()
+  }
 }
 
 // 取消

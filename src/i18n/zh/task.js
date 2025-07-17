@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-13 20:16:01
+ * @LastEditTime: 2025-07-17 16:24:49
  * @Description: 
  */
 export default {
@@ -17,6 +17,7 @@ export default {
     quota: '任务名额 / 已提交',
     startTime: '开始时间',
     endTime: '结束时间',
+    createTime: '创建时间',
     action: '操作',
     create: '新建任务',
     edit: '编辑',
@@ -114,7 +115,8 @@ export default {
     selectTaskBtnText: '选择任务(已选 {count})',
     validation: {
       taskGroupNameRequired: '请输入任务组名称',
-      taskGroupRewardRequired: '请输入任务组奖励'
+      taskGroupRewardRequired: '请输入任务组奖励',
+      relatedTaskRequired: '请选择关联任务'
     }
   }
 } 
