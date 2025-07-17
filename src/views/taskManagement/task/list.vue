@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-17 15:49:22
+ * @LastEditTime: 2025-07-17 16:42:02
  * @Description: 
 -->
 <template>
@@ -102,12 +102,8 @@
             <a-space>
               <a-avatar :src="record.channelIcon" />
               {{ record.taskName }}
+              <a-tag color="orange" v-if="record.taskGroup">{{ record.taskGroup.taskGroupName }}</a-tag>
             </a-space>
-            <div>
-              <a-tag color="orange" v-if="record.taskGroup">
-                <span>{{ record.taskGroup.taskGroupName }}</span>
-              </a-tag>
-            </div>
           </template>
           <template v-if="column.key === 'taskQuota'">
             <span v-if="record.unlimitedQuota">{{ $t('task.list.unlimited') }}</span>
