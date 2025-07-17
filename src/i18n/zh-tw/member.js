@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 16:51:57
+ * @LastEditTime: 2025-07-17 10:08:19
  * @Description: 
  */
 export default {
@@ -12,6 +12,7 @@ export default {
     group: '所屬群',
     groupPlaceholder: '選擇所屬群',
     createTime: '註冊時間',
+    inviter: '邀請人ID/帳號',
   },
 
   list: {

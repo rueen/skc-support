@@ -46,24 +46,12 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item :label="$t('member.list.inviter')">
-              <a-select
-                v-model:value="searchForm.inviterId"
-                :placeholder="$t('common.selectPlaceholder')"
-                style="width: 120px"
+            <a-form-item :label="$t('member.search.inviter')">
+              <a-input
+                v-model:value="searchForm.inviter"
+                :placeholder="$t('common.inputPlaceholder')"
                 allow-clear
-                show-search
-                :filter-option="false"
-                @search="loadMemberOptions"
-              >
-                <a-select-option
-                  v-for="item in memberOptions"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.nickname }}
-                </a-select-option>
-              </a-select>
+              />
             </a-form-item>
             <a-form-item :label="$t('member.list.completedTaskCount')">
               <a-input-number
@@ -209,7 +197,7 @@ const searchForm = reactive({
   keyword: '',
   channelId: undefined,
   groupId: route.query.groupId,
-  inviterId: undefined,
+  inviter: '',
   completedTaskCount: undefined,
   createTimeRange: []
 })
@@ -280,7 +268,7 @@ const handleReset = () => {
     keyword: '',
     channelId: undefined,
     groupId: undefined,
-    inviterId: undefined,
+    inviter: '',
     completedTaskCount: undefined,
     createTimeRange: []
   })
@@ -328,7 +316,7 @@ const loadData = async () => {
       keyword: searchForm.keyword,
       channelId: searchForm.channelId,
       groupId: searchForm.groupId,
-      inviterId: searchForm.inviterId,
+      inviter: searchForm.inviter,
       completedTaskCount: searchForm.completedTaskCount,
       createStartTime: searchForm.createTimeRange?.[0],
       createEndTime: searchForm.createTimeRange?.[1]
@@ -376,7 +364,7 @@ const handleExport = () => {
           keyword: searchForm.keyword,
           channelId: searchForm.channelId,
           groupId: searchForm.groupId,
-          inviterId: searchForm.inviterId,
+          inviter: searchForm.inviter,
           completedTaskCount: searchForm.completedTaskCount,
           createStartTime: searchForm.createTimeRange?.[0],
           createEndTime: searchForm.createTimeRange?.[1]

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-07 16:52:11
+ * @LastEditTime: 2025-07-17 10:08:35
  * @Description: 
  */
 export default {
@@ -12,6 +12,7 @@ export default {
     group: 'Group',
     groupPlaceholder: 'Select group',
     createTime: 'Create Time',
+    inviter: 'Inviter ID/Account',
   },
 
   list: {
