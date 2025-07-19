@@ -62,9 +62,11 @@
           />
         </a-form-item>
         <a-form-item :label="$t('article.content')" name="content">
-          <div class="editor-wrapper">
-            <textarea ref="editorEl"></textarea>
-          </div>
+          <a-textarea
+            v-model:value="formData.content"
+            :rows="10"
+            :placeholder="$t('article.contentPlaceholder')"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -72,13 +74,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed, onBeforeUnmount, watch, nextTick } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, post, put, del } from '@/utils/request'
 import config from '@/config/env'
-// 直接导入Froala Editor
-import 'froala-editor/js/froala_editor.pkgd.min.js'
-import FroalaEditor from 'froala-editor'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -89,59 +88,6 @@ const modalLoading = ref(false)
 const modalType = ref('add') // add, edit
 const formRef = ref()
 const currentId = ref(null)
-const editorEl = ref(null)
-let editor = null
-
-// Froala 编辑器配置
-const froalaConfig = {
-  placeholderText: '请输入文章内容',
-  height: 300,
-  toolbarButtons: ['fontSize', 'textColor', 'backgroundColor', 'formatOL', 'html'],
-  // toolbarButtons: {
-  //   moreText: {
-  //     buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontSize', 'textColor', 'backgroundColor', 'clearFormatting'],
-  //     buttonsVisible: 5
-  //   },
-  //   moreParagraph: {
-  //     buttons: ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify', 'formatOL', 'formatUL', 'lineHeight', 'outdent', 'indent'],
-  //     buttonsVisible: 5
-  //   },
-  //   moreRich: {
-  //     buttons: ['insertLink', 'insertImage', 'insertTable', 'emoticons', 'specialCharacters', 'insertHR'],
-  //     buttonsVisible: 5
-  //   },
-  //   moreMisc: {
-  //     buttons: ['undo', 'redo', 'fullscreen', 'html'],
-  //     align: 'right',
-  //     buttonsVisible: 4
-  //   }
-  // },
-  language: 'zh_cn',
-  imageUploadURL: config.imageUploadUrl,
-  imageUploadParams: {
-    type: 'article'
-  },
-  imageUploadMethod: 'POST',
-  imageUploadHeaders: {
-    'Authorization': 'Bearer ' + localStorage.getItem('token')
-  },
-  imageMaxSize: 5 * 1024 * 1024, // 5MB
-  imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif'],
-  events: {
-    'image.uploaded': function(response) {
-      // 图片上传成功回调
-      const responseObj = JSON.parse(response);
-      if (responseObj.code === 0 && responseObj.data && responseObj.data.url) {
-        return responseObj.data.url;
-      }
-      return false;
-    },
-    'image.error': function(error, response) {
-      // 图片上传失败回调
-      message.error('图片上传失败: ' + (error.message || '未知错误'));
-    }
-  }
-}
 
 // 表单数据
 const formData = reactive({
@@ -234,13 +180,6 @@ const handleEdit = (record) => {
   formData.content = record.content
   modalVisible.value = true
   currentId.value = record.id
-  
-  // 编辑时确保内容更新到编辑器
-  nextTick(() => {
-    if (editor) {
-      editor.html.set(formData.content || '')
-    }
-  })
 }
 
 const addArticle = async () => {
@@ -321,69 +260,9 @@ const loadData = async () => {
 // 初始化
 onMounted(() => {
   loadData()
-  
-  // 监听模态框可见性变化
-  watch(modalVisible, (newVal) => {
-    if (newVal) {
-      // 模态框显示后初始化编辑器
-      nextTick(() => {
-        if (editorEl.value && !editor) {
-          initEditor()
-        }
-      })
-    }
-  })
-})
-
-// 初始化编辑器
-const initEditor = () => {
-  if (editor) {
-    editor.destroy()
-  }
-  
-  editor = new FroalaEditor(editorEl.value, {
-    ...froalaConfig,
-    events: {
-      ...froalaConfig.events,
-      'contentChanged': function() {
-        formData.content = this.html.get()
-      },
-      'initialized': function() {
-        this.html.set(formData.content || '')
-      }
-    }
-  })
-}
-
-// 销毁编辑器
-onBeforeUnmount(() => {
-  if (editor) {
-    editor.destroy()
-    editor = null
-  }
 })
 </script>
 
 <style lang="less" scoped>
-.article {
-  .editor-wrapper {
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-    background: #fff;
-    
-    :deep(.fr-wrapper) {
-      min-height: 300px;
-    }
-    
-    :deep(.fr-box) {
-      border: none;
-    }
-    
-    :deep(.fr-toolbar) {
-      border-top: none;
-      border-left: none;
-      border-right: none;
-    }
-  }
-}
+
 </style> 
