@@ -11,6 +11,11 @@ export default {
     selectedCount: 'Selected {count} tasks',
     selectedTask: 'Selected task: {name}'
   },
+  selectTaskGroup: {
+    title: 'Select Task Group',
+    selectedCount: 'Selected {count} task groups',
+    selectedTaskGroup: 'Selected task group: {name}'
+  },
   // Task list page
   list: {
     name: 'Task Name',

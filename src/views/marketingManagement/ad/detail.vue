@@ -141,6 +141,18 @@
       mode="single"
       @confirm="handleTaskSelectConfirm"
     />
+    
+    <!-- 选择任务组组件 -->
+    <SelectTaskGroup
+      v-model:visible="selectTaskGroupVisible"
+      :selectedId="formData.content.taskGroupId"
+      :selectedTaskGroupInfo="{
+        taskGroupName: formData.content.taskGroupName,
+        taskGroupId: formData.content.taskGroupId
+      }"
+      mode="single"
+      @confirm="handleTaskGroupSelectConfirm"
+    />
   </div>
 </template>
 
@@ -150,6 +162,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import SelectTask from '@/components/SelectTask.vue'
+import SelectTaskGroup from '@/components/SelectTaskGroup.vue'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
@@ -273,6 +286,20 @@ const handleSelectArticle = () => {
 const selectTaskGroupVisible = ref(false)
 const handleSelectTaskGroup = () => {
   selectTaskGroupVisible.value = true
+}
+
+/**
+ * 处理任务组选择确认
+ * @param {Object} data - 选择结果
+ * @param {number} data.taskGroupId - 选中的任务组ID
+ * @param {Object} data.taskGroup - 选中的任务组对象
+ */
+const handleTaskGroupSelectConfirm = ({ taskGroupId, taskGroup }) => {
+  if (taskGroupId && taskGroup) {
+    formData.content.taskGroupId = taskGroupId
+    formData.content.taskGroupName = taskGroup.taskGroupName
+    selectTaskGroupVisible.value = false
+  }
 }
 
 const handleAdd = async (submitData) => {

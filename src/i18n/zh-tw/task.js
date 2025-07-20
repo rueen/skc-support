@@ -11,6 +11,11 @@ export default {
     selectedCount: '已選擇 {count} 個任務',
     selectedTask: '已選擇任務：{name}'
   },
+  selectTaskGroup: {
+    title: '選擇任務組',
+    selectedCount: '已選擇 {count} 個任務組',
+    selectedTaskGroup: '已選擇任務組：{name}'
+  },
   // 任务列表页面
   list: {
     name: '任務名稱',
