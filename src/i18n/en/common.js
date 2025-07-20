@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 19:44:46
+ * @LastEditTime: 2025-07-20 11:21:13
  * @Description: 
  */
 export default {
@@ -30,20 +30,19 @@ export default {
   saveFailed: 'Save failed',
   inputPlaceholder: 'Please fill up',
   selectPlaceholder: 'Please select',
-  // 操作提示
   submitSuccess: 'Submit successful',
   submitFailed: 'Submit failed',
-
   groupOwner: 'Owner',
-
   export: 'Export',
   confirmExportContent: 'Are you sure to export the data under the current filter conditions?',
   exporting: 'Exporting data, please wait...',
   exportSuccess: 'Export success',
   exportFailed: 'Export failed, please try again later',
-
   totalCount: 'Number',
   totalAmount: 'Amount',
-
   channel: 'Channel',
+  startTime: 'Start Time',
+  endTime: 'End Time',
+  createTime: 'Create Time',
+  updateTime: 'Update Time',
 } 

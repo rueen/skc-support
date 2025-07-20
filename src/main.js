@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-10 18:04:24
+ * @LastEditTime: 2025-07-20 10:51:50
  * @Description: 
  */
 import { createApp } from 'vue'
@@ -38,7 +38,8 @@ import {
   FileOutlined,
   SettingOutlined,
   EditOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  BarChartOutlined
 } from '@ant-design/icons-vue'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.less'
@@ -89,6 +90,7 @@ app.component('FileOutlined', FileOutlined)
 app.component('SettingOutlined', SettingOutlined)
 app.component('EditOutlined', EditOutlined)
 app.component('DeleteOutlined', DeleteOutlined)
+app.component('BarChartOutlined', BarChartOutlined)
 
 // 挂载应用
 app.mount('#app')

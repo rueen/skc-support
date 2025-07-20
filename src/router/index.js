@@ -127,10 +127,16 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['waiter:list'], title: '小二管理' }
       },
       {
+        path: 'ad',
+        component: () => import('@/views/marketingManagement/ad/index.vue'),
+        name: 'Ad',
+        meta: { requiresAuth: true, permissions: ['ad:list'], title: '广告' }
+      },
+      {
         path: 'article',
-        component: () => import('@/views/article/index.vue'),
+        component: () => import('@/views/marketingManagement/article/index.vue'),
         name: 'Article',
-        meta: { requiresAuth: true, permissions: ['article:list'], title: '文章管理' }
+        meta: { requiresAuth: true, permissions: ['article:list'], title: '文章' }
       },
       {
         path: 'withdrawal',

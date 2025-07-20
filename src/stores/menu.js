@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:02:58
+ * @LastEditTime: 2025-07-20 10:53:28
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -98,18 +98,32 @@ const allMenu = [
     ]
   },
   {
+    key: 'marketingManagement',
+    icon: 'BarChartOutlined',
+    title: 'marketingManagement',
+    permissions: 'ad:list, article:list',
+    children: [
+      {
+        path: '/ad',
+        key: 'ad',
+        title: 'ad',
+        permissions: 'ad:list',
+      },
+      {
+        path: '/article',
+        key: 'article',
+        icon: 'FileOutlined',
+        title: 'article',
+        permissions: 'article:list',
+      },
+    ]
+  },
+  {
     path: '/waiter',
     key: 'waiter',
     icon: 'UserOutlined',
     title: 'waiter',
     permissions: 'waiter:list',
-  },
-  {
-    path: '/article',
-    key: 'article',
-    icon: 'FileOutlined',
-    title: 'article',
-    permissions: 'article:list',
   },
   {
     path: '/systemConfig',

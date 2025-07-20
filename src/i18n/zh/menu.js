@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:02:24
+ * @LastEditTime: 2025-07-20 10:53:58
  * @Description: 
  */
 export default {
@@ -21,7 +21,6 @@ export default {
   memberView: '查看会员',
   group: '群组管理',
   waiter: '小二管理',
-  article: '文章管理',
   finance: '资金管理',
   withdrawal: '提现管理',
   bills: '结算账单',
@@ -29,4 +28,7 @@ export default {
   channel: '渠道管理',
   account: '账号审核',
   systemConfig: '系统配置',
+  marketingManagement: '营销管理',
+  ad: '广告',
+  article: '文章',
 } 

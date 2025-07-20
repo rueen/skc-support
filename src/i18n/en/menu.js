@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:02
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 10:02:18
+ * @LastEditTime: 2025-07-20 10:55:18
  * @Description: 
  */
 export default {
@@ -21,7 +21,6 @@ export default {
   memberView: 'View Member',
   group: 'Group Management',
   waiter: 'Waiter Management',
-  article: 'Article Management',
   finance: 'Financial Management',
   withdrawal: 'Withdrawal',
   bills: 'Bills',
@@ -29,4 +28,7 @@ export default {
   channel: 'Channel Management',
   account: 'Account Audit',
   systemConfig: 'System Config',
+  marketingManagement: 'Marketing Management',
+  ad: 'Ad',
+  article: 'Article',
 } 

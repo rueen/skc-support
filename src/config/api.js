@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-12 17:01:19
+ * @LastEditTime: 2025-07-20 12:25:41
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -113,6 +113,12 @@ const API_PATH = {
     login: '/auth/login',
     logout: '/auth/logout',
     userInfo: '/auth/userInfo',
+  },
+  ad: {
+    list: '/ads',
+    add: '/ads',
+    edit: '/ads/:id',
+    delete: '/ads/:id',
   },
   // 文章相关接口
   article: {

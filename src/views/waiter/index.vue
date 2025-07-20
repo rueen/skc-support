@@ -128,6 +128,7 @@ const permissionsOptions = [
   { title: 'withdrawal', permissions: 'finance:withdrawal' },
   { title: 'bills', permissions: 'finance:bills' },
   { title: 'waiter', permissions: 'waiter:list' },
+  { title: 'ad', permissions: 'ad:list' },
   { title: 'article', permissions: 'article:list' },
   { title: 'systemConfig', permissions: 'system:config' }
 ]
