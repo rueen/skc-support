@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:22
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 16:14:47
+ * @LastEditTime: 2025-07-20 16:36:25
  * @Description: 
  */
 export default {
@@ -15,7 +15,7 @@ export default {
     editTitle: '編輯廣告',
     title: '廣告標題',
     location: '廣告位置',
-    adTime: '廣告時間',
+    adTime: '生效時間',
     startTime: '開始時間',
     endTime: '結束時間',
     adImage: '廣告圖片',

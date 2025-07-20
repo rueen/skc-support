@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:16
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 16:14:37
+ * @LastEditTime: 2025-07-20 16:35:57
  * @Description: 
  */
 export default {
@@ -15,7 +15,7 @@ export default {
     editTitle: 'Edit Ad',
     title: 'Ad Title',
     location: 'Ad Location',
-    adTime: 'Ad Time',
+    adTime: 'Effective Time',
     startTime: 'Start Time',
     endTime: 'End Time',
     adImage: 'Ad Image',
