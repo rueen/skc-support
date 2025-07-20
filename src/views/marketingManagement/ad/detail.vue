@@ -86,6 +86,42 @@
           </a-upload>
         </a-form-item>
 
+        <a-form-item :label="$t('ad.detail.link')" required>
+          <a-radio-group v-model:value="formData.content.linkType" name="linkType">
+            <a-radio value="none">{{ $t('ad.detail.linkType.none') }}</a-radio>
+            <a-radio value="article">{{ $t('ad.detail.linkType.article') }}</a-radio>
+            <a-radio value="task">{{ $t('ad.detail.linkType.task') }}</a-radio>
+            <a-radio value="taskGroup">{{ $t('ad.detail.linkType.taskGroup') }}</a-radio>
+          </a-radio-group>
+          <!-- 选择文章 -->
+          <a-button
+            type="primary"
+            @click="handleSelectArticle"
+            v-if="formData.content.linkType === 'article'"
+          >
+            <span v-if="formData.content.articleId != null">{{ $t('ad.detail.selectArticleBtnText', {name: formData.content.articleName}) }}</span>
+            <span v-else>{{ $t('ad.detail.selectArticleBtnText1') }}</span>
+          </a-button>
+          <!-- 选择任务 -->
+          <a-button
+            type="primary"
+            @click="handleSelectTask"
+            v-if="formData.content.linkType === 'task'"
+          >
+            <span v-if="formData.content.taskId != null">{{ $t('ad.detail.selectTaskBtnText', {name: formData.content.taskName}) }}</span>
+            <span v-else>{{ $t('ad.detail.selectTaskBtnText1') }}</span>
+          </a-button>
+          <!-- 选择任务组 -->
+          <a-button
+            type="primary"
+            @click="handleSelectTaskGroup"
+            v-if="formData.content.linkType === 'taskGroup'"
+          >
+            <span v-if="formData.content.taskGroupId != null">{{ $t('ad.detail.selectTaskGroupBtnText', {name: formData.content.taskGroupName}) }}</span>
+            <span v-else>{{ $t('ad.detail.selectTaskGroupBtnText1') }}</span>
+          </a-button>
+        </a-form-item>
+
         <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
           <a-space>
             <a-button type="primary" @click="handleSubmit">{{ $t('common.submit') }}</a-button>
@@ -94,6 +130,12 @@
         </a-form-item>
       </a-form>
     </div>
+    <!-- 选择任务组件 -->
+    <SelectTask
+      v-model:visible="selectTaskVisible"
+      :selectedId="formData.content.taskId"
+      @confirm="handleTaskSelectConfirm"
+    />
   </div>
 </template>
 
@@ -102,6 +144,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
+import SelectTask from '@/components/SelectTask.vue'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
@@ -131,7 +174,14 @@ const formData = reactive({
   startTime: undefined,
   endTime: undefined,
   content: {
-    adImage: ''
+    adImage: '',
+    linkType: 'none',
+    articleId: null,
+    articleName: null,
+    taskId: null,
+    taskName: null,
+    taskGroupId: null,
+    taskGroupName: null,
   }
 })
 
@@ -189,6 +239,26 @@ const beforeUpload = (file) => {
     return false
   }
   return true
+}
+
+const selectTaskVisible = ref(false)
+// 选择任务
+const handleSelectTask = () => {
+  selectTaskVisible.value = true
+}
+// 处理任务选择确认
+const handleTaskSelectConfirm = ({ taskIds }) => {
+
+}
+
+const selectArticleVisible = ref(false)
+const handleSelectArticle = () => {
+  selectArticleVisible.value = true
+}
+
+const selectTaskGroupVisible = ref(false)
+const handleSelectTaskGroup = () => {
+  selectTaskGroupVisible.value = true
 }
 
 const handleAdd = async (submitData) => {

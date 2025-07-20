@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:22
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 16:36:25
+ * @LastEditTime: 2025-07-20 17:09:26
  * @Description: 
  */
 export default {
@@ -19,6 +19,19 @@ export default {
     startTime: '開始時間',
     endTime: '結束時間',
     adImage: '廣告圖片',
+    link: '跳轉鏈接',
+    linkType: {
+      none: '無',
+      article: '文章',
+      task: '任務',
+      taskGroup: '任務組',
+    },
+    selectTaskBtnText1: '選擇任務',
+    selectTaskBtnText: '選擇任務(已選 {name})',
+    selectArticleBtnText1: '選擇文章',
+    selectArticleBtnText: '選擇文章(已選 {name})',
+    selectTaskGroupBtnText1: '選擇任務組',
+    selectTaskGroupBtnText: '選擇任務組(已選 {name})',
     validation: {
       titleRequired: '請輸入廣告標題',
       locationRequired: '請選擇廣告位置',

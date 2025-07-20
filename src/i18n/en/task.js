@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-17 16:25:11
+ * @LastEditTime: 2025-07-20 17:14:41
  * @Description: 
  */
 export default {
@@ -112,7 +112,7 @@ export default {
     createTitle: 'Create Task Group',
     reward: 'Reward Amount',
     relatedTask: 'Related Task',
-    selectTaskBtnText: '选择任务(已选 {count})',
+    selectTaskBtnText: 'Select task (selected {name})',
     validation: {
       taskGroupNameRequired: 'Please fill up task group name',
       taskGroupRewardRequired: 'Please fill up task group reward',
