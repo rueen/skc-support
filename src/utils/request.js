@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:35:20
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-05 17:36:26
+ * @LastEditTime: 2025-07-20 14:58:26
  * @Description: API 请求工具
  */
 
@@ -100,7 +100,7 @@ setupInterceptors(businessService)
  */
 const isPublicApi = (apiName) => {
   // 公共API模块列表
-  const publicModules = ['enum', 'upload']
+  const publicModules = ['public']
   const [module] = apiName.split('.')
   return publicModules.includes(module)
 }

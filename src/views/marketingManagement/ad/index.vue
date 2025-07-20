@@ -11,6 +11,22 @@
                 allow-clear
               />
             </a-form-item>
+            <a-form-item :label="$t('ad.status')">
+              <a-select
+                v-model:value="searchForm.status"
+                :placeholder="$t('common.selectPlaceholder')"
+                allowClear
+                style="width: 120px"
+              >
+                <a-select-option 
+                  v-for="option in adStatusOptions"
+                  :key="option.value" 
+                  :value="option.value"
+                >
+                  {{ option.text }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
             <!--  -->
             <a-form-item>
               <a-space>
@@ -59,14 +75,28 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { get, del } from '@/utils/request'
 import { useI18n } from 'vue-i18n'
+import { useEnumStore } from '@/stores'
 
+const enumStore = useEnumStore()
 const { t } = useI18n()
 const loading = ref(false)
 
 // 搜索表单
 const searchForm = reactive({
   title: '',
+  status: undefined,
 })
+
+const adStatusOptions = computed(() => {
+  // 如果枚举数据还未加载完成，则返回空数组
+  if (!enumStore.loaded) {
+    return []
+  }
+  
+  // 使用store提供的方法获取选项列表
+  return enumStore.getEnumOptions('AdStatus')
+})
+
 // 表格列配置
 const columns = computed(() => [
   {
@@ -125,6 +155,7 @@ const handleSearch = () => {
 const handleReset = () => {
   Object.assign(searchForm, {
     title: '',
+    status: undefined,
   })
   handleSearch()
 }

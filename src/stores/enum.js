@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-16 21:15:30
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-11 20:39:36
+ * @LastEditTime: 2025-07-20 14:57:54
  * @Description: 枚举数据存储
  */
 
@@ -39,7 +39,7 @@ export const useEnumStore = defineStore('enum', () => {
     
     try {
       // 调用获取所有枚举的接口
-      const res = await get('enum.enumAll', { lang })
+      const res = await get('public.enumAll', { lang })
       
       // 将获取到的数据存入响应式对象
       Object.keys(res.data || {}).forEach(key => {

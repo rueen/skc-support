@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 12:25:41
+ * @LastEditTime: 2025-07-20 15:00:31
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -127,10 +127,6 @@ const API_PATH = {
     edit: '/articles/:id',
     delete: '/articles/:id',
   },
-  enum: {
-    enumType: '/enums/:enumType',
-    enumAll: '/enums',
-  },
   // 系统相关接口（公共API）
   system: {
     // 获取所有配置 GET
@@ -138,11 +134,11 @@ const API_PATH = {
     // 保存所有配置 POST
     saveAllConfig: '/system-configs',
   },
-  // 上传相关接口（公共API）
-  upload: {
-    image: '/upload/image',
-    file: '/upload/file',
-  },
+  public: {
+    enumType: '/enums/:enumType',
+    enumAll: '/enums',
+    location: '/locations',
+  }
 }
 
 export default API_PATH
