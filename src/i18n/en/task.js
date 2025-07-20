@@ -7,8 +7,9 @@
  */
 export default {
   selectTask: {
-    title: '选择任务',
-    selectedCount: '已选择 {count} 个任务'
+    title: 'Select Task',
+    selectedCount: 'Selected {count} tasks',
+    selectedTask: 'Selected task: {name}'
   },
   // Task list page
   list: {

@@ -134,6 +134,11 @@
     <SelectTask
       v-model:visible="selectTaskVisible"
       :selectedId="formData.content.taskId"
+      :selectedTaskInfo="{
+        taskName: formData.content.taskName,
+        taskId: formData.content.taskId
+      }"
+      mode="single"
       @confirm="handleTaskSelectConfirm"
     />
   </div>
@@ -246,9 +251,18 @@ const selectTaskVisible = ref(false)
 const handleSelectTask = () => {
   selectTaskVisible.value = true
 }
-// 处理任务选择确认
-const handleTaskSelectConfirm = ({ taskIds }) => {
-
+/**
+ * 处理任务选择确认
+ * @param {Object} data - 选择结果
+ * @param {number} data.taskId - 选中的任务ID
+ * @param {Object} data.task - 选中的任务对象
+ */
+const handleTaskSelectConfirm = ({ taskId, task }) => {
+  if (taskId && task) {
+    formData.content.taskId = taskId
+    formData.content.taskName = task.taskName
+    selectTaskVisible.value = false
+  }
 }
 
 const selectArticleVisible = ref(false)

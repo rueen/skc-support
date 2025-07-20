@@ -8,7 +8,8 @@
 export default {
   selectTask: {
     title: '选择任务',
-    selectedCount: '已选择 {count} 个任务'
+    selectedCount: '已选择 {count} 个任务',
+    selectedTask: '已选择任务：{name}'
   },
   // 任务列表页面
   list: {

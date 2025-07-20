@@ -61,9 +61,18 @@
       </div>
 
       <!-- 已选择任务数量提示 -->
-      <div class="selected-info">
+      <div class="selected-info" v-if="props.mode === 'multiple'">
         <a-alert
           :message="$t('task.selectTask.selectedCount', { count: selectedTaskIds.length })"
+          type="info"
+          show-icon
+        />
+      </div>
+
+      <!-- 单选模式下的选中提示 -->
+      <div class="selected-info" v-if="props.mode === 'single' && selectedTask">
+        <a-alert
+          :message="$t('task.selectTask.selectedTask', { name: selectedTask.taskName })"
           type="info"
           show-icon
         />
@@ -116,8 +125,20 @@ const props = defineProps({
     default: false
   },
   selectedId: {
-    type: Array,
+    type: [Array, Number, String],
     default: () => []
+  },
+  selectedTaskInfo: {
+    type: Object,
+    default: () => ({})
+  },
+  /**
+   * 选择模式：'multiple' 多选，'single' 单选
+   */
+  mode: {
+    type: String,
+    default: 'multiple',
+    validator: (value) => ['multiple', 'single'].includes(value)
   }
 })
 
@@ -128,6 +149,7 @@ const emit = defineEmits(['update:visible', 'confirm', 'cancel'])
 const loading = ref(false)
 const confirmLoading = ref(false)
 const selectedTaskIds = ref([]) // 选中的任务ID
+const selectedTask = ref(null) // 单选模式下选中的任务信息
 
 // 搜索表单
 const searchForm = reactive({
@@ -188,17 +210,39 @@ const sorter = reactive({
 })
 
 // 表格选择配置
-const rowSelection = computed(() => ({
-  selectedRowKeys: selectedTaskIds.value,
-  onChange: (selectedKeys, selectedRows) => {
-    handleSelectionChange(selectedKeys, selectedRows)
-  },
-  getCheckboxProps: (record) => ({
-    disabled: false
-  })
-}))
+const rowSelection = computed(() => {
+  if (props.mode === 'single') {
+    return {
+      type: 'radio',
+      selectedRowKeys: selectedTaskIds.value,
+      onChange: (selectedKeys, selectedRows) => {
+        // 单选模式下，selectedKeys 也是数组，但只有一个元素或为空
+        handleSingleSelectionChange(selectedKeys, selectedRows)
+      },
+      getCheckboxProps: (record) => ({
+        disabled: false
+      })
+    }
+  } else {
+    return {
+      selectedRowKeys: selectedTaskIds.value,
+      onChange: (selectedKeys, selectedRows) => {
+        handleSelectionChange(selectedKeys, selectedRows)
+      },
+      getCheckboxProps: (record) => ({
+        disabled: false
+      })
+    }
+  }
+})
 
-// 处理选择变化
+// 处理单选变化
+const handleSingleSelectionChange = (selectedKeys, selectedRows) => {
+  selectedTaskIds.value = selectedKeys || []
+  selectedTask.value = selectedRows && selectedRows.length > 0 ? selectedRows[0] : null
+}
+
+// 处理多选变化
 const handleSelectionChange = (selectedKeys, selectedRows) => {
   // 获取当前页面的任务ID
   const currentPageIds = tableData.value.map(item => item.id)
@@ -236,9 +280,16 @@ const handleTableChange = (pag, filters, _sorter) => {
 
 // 确认选择
 const handleConfirm = () => {
-  emit('confirm', {
-    taskIds: selectedTaskIds.value
-  })
+  if (props.mode === 'single') {
+    emit('confirm', {
+      taskId: selectedTaskIds.value[0] || null,
+      task: selectedTask.value
+    })
+  } else {
+    emit('confirm', {
+      taskIds: selectedTaskIds.value
+    })
+  }
   handleCancel()
 }
 
@@ -262,7 +313,14 @@ const loadData = async () => {
       tableData.value = res.data.list
       pagination.total = res.data.total
       
-      // 选中状态基于selectedTaskIds进行判断，不需要额外处理
+      // 数据加载完成后，在单选模式下需要重新查找选中的任务信息
+      if (props.mode === 'single' && selectedTaskIds.value.length > 0 && !selectedTask.value) {
+        const selectedId = selectedTaskIds.value[0]
+        const task = tableData.value.find(item => item.id === selectedId)
+        if (task) {
+          selectedTask.value = task
+        }
+      }
     } else {
       message.error(res.message)
     }
@@ -281,8 +339,35 @@ const loadChannelOptions = async () => {
 
 // 初始化选中状态
 const initializeSelection = () => {
-  if (props.selectedId && props.selectedId.length > 0) {
-    selectedTaskIds.value = [...props.selectedId]
+  if (props.mode === 'single') {
+    // 单选模式
+    let id = null
+    if (Array.isArray(props.selectedId)) {
+      id = props.selectedId.length > 0 ? props.selectedId[0] : null
+    } else {
+      id = props.selectedId
+    }
+    
+    if (id != null && id !== '') {
+      selectedTaskIds.value = [id]
+      // 查找对应的任务信息
+      const task = tableData.value.find(item => item.id === id)
+      if (task) {
+        selectedTask.value = task
+      } else {
+        selectedTask.value = props.selectedTaskInfo
+      }
+    } else {
+      selectedTaskIds.value = []
+      selectedTask.value = null
+    }
+  } else {
+    // 多选模式
+    if (props.selectedId && props.selectedId.length > 0) {
+      selectedTaskIds.value = Array.isArray(props.selectedId) ? [...props.selectedId] : [props.selectedId]
+    } else {
+      selectedTaskIds.value = []
+    }
   }
 }
 
@@ -297,6 +382,9 @@ watch(() => props.visible, (newVal) => {
   } else {
     // 重置状态
     selectedTaskIds.value = []
+    if (props.mode === 'single') {
+      selectedTask.value = null
+    }
     pagination.current = 1
   }
 })
