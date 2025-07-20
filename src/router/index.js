@@ -133,6 +133,18 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['ad:list'], title: '广告' }
       },
       {
+        path: 'ad/create',
+        component: () => import('@/views/marketingManagement/ad/detail.vue'),
+        name: 'AdCreate',
+        meta: { requiresAuth: true, permissions: ['ad:list'], title: '新增广告', hidden: true }
+      },
+      {
+        path: 'ad/edit/:id',
+        component: () => import('@/views/marketingManagement/ad/detail.vue'),
+        name: 'AdEdit',
+        meta: { requiresAuth: true, permissions: ['ad:list'], title: '编辑广告', hidden: true }
+      },
+      {
         path: 'article',
         component: () => import('@/views/marketingManagement/article/index.vue'),
         name: 'Article',

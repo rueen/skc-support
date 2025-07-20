@@ -76,7 +76,9 @@ import { message } from 'ant-design-vue'
 import { get, del } from '@/utils/request'
 import { useI18n } from 'vue-i18n'
 import { useEnumStore } from '@/stores'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const enumStore = useEnumStore()
 const { t } = useI18n()
 const loading = ref(false)
@@ -108,6 +110,15 @@ const columns = computed(() => [
     title: t('ad.location'),
     dataIndex: 'location',
     key: 'location'
+  },
+  {
+    title: t('ad.status'),
+    dataIndex: 'status',
+    key: 'status',
+    customRender: ({ text }) => {
+      // 使用store提供的方法获取枚举文本
+      return enumStore.getEnumText('AdStatus', text)
+    }
   },
   {
     title: t('common.startTime'),
@@ -191,12 +202,12 @@ const handleDelete = async (record) => {
 
 // 添加文章
 const handleAdd = () => {
-
+  router.push('/ad/create')
 }
 
 // 编辑文章
 const handleEdit = (record) => {
-
+  router.push(`/ad/edit/${record.id}`)
 }
 
 const loadData = async () => {

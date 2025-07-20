@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 15:00:31
+ * @LastEditTime: 2025-07-20 15:50:45
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -119,6 +119,7 @@ const API_PATH = {
     add: '/ads',
     edit: '/ads/:id',
     delete: '/ads/:id',
+    detail: '/ads/:id',
   },
   // 文章相关接口
   article: {
@@ -137,7 +138,7 @@ const API_PATH = {
   public: {
     enumType: '/enums/:enumType',
     enumAll: '/enums',
-    location: '/locations',
+    location: '/location',
   }
 }
 
