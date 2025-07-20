@@ -6,6 +6,11 @@
  * @Description: 
  */
 export default {
+  selectArticle: {
+    title: 'Select Article',
+    selectedCount: 'Selected {count} articles',
+    selectedArticle: 'Selected article: {title}'
+  },
   add: 'Add',
   title: 'Title',
   updateTime: 'Update Time',

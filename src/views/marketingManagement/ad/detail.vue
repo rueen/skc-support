@@ -153,6 +153,18 @@
       mode="single"
       @confirm="handleTaskGroupSelectConfirm"
     />
+    
+    <!-- 选择文章组件 -->
+    <SelectArticle
+      v-model:visible="selectArticleVisible"
+      :selectedId="formData.content.articleId"
+      :selectedArticleInfo="{
+        title: formData.content.articleName,
+        id: formData.content.articleId
+      }"
+      mode="single"
+      @confirm="handleArticleSelectConfirm"
+    />
   </div>
 </template>
 
@@ -163,6 +175,7 @@ import { message } from 'ant-design-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import SelectTask from '@/components/SelectTask.vue'
 import SelectTaskGroup from '@/components/SelectTaskGroup.vue'
+import SelectArticle from '@/components/SelectArticle.vue'
 import { get, post, put } from '@/utils/request'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
@@ -299,6 +312,20 @@ const handleTaskGroupSelectConfirm = ({ taskGroupId, taskGroup }) => {
     formData.content.taskGroupId = taskGroupId
     formData.content.taskGroupName = taskGroup.taskGroupName
     selectTaskGroupVisible.value = false
+  }
+}
+
+/**
+ * 处理文章选择确认
+ * @param {Object} data - 选择结果
+ * @param {number} data.articleId - 选中的文章ID
+ * @param {Object} data.article - 选中的文章对象
+ */
+const handleArticleSelectConfirm = ({ articleId, article }) => {
+  if (articleId && article) {
+    formData.content.articleId = articleId
+    formData.content.articleName = article.title
+    selectArticleVisible.value = false
   }
 }
 

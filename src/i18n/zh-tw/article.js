@@ -6,6 +6,11 @@
  * @Description: 
  */
 export default {
+  selectArticle: {
+    title: '選擇文章',
+    selectedCount: '已選擇 {count} 篇文章',
+    selectedArticle: '已選擇文章：{title}'
+  },
   add: '添加文章',
   title: '文章標題',
   updateTime: '更新時間',
