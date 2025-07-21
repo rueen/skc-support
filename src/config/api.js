@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 15:50:45
+ * @LastEditTime: 2025-07-21 16:31:38
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -127,6 +127,14 @@ const API_PATH = {
     add: '/articles',
     edit: '/articles/:id',
     delete: '/articles/:id',
+  },
+  // 站内信相关接口
+  messages: {
+    list: '/messages',
+    add: '/messages',
+    edit: '/messages/:id',
+    delete: '/messages/:id',
+    detail: '/messages/:id',
   },
   // 系统相关接口（公共API）
   system: {

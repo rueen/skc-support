@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 10:48:01
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 10:53:28
+ * @LastEditTime: 2025-07-21 16:18:55
  * @Description: 
  */
 import { defineStore } from 'pinia';
@@ -115,6 +115,12 @@ const allMenu = [
         icon: 'FileOutlined',
         title: 'article',
         permissions: 'article:list',
+      },
+      {
+        path: '/messages',
+        key: 'messages',
+        title: 'messages',
+        permissions: 'messages:list',
       },
     ]
   },

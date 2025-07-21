@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:02
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 10:55:18
+ * @LastEditTime: 2025-07-21 16:20:27
  * @Description: 
  */
 export default {
@@ -31,4 +31,5 @@ export default {
   marketingManagement: 'Marketing Management',
   ad: 'Ad',
   article: 'Article',
+  messages: 'Site Messages'
 } 

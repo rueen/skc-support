@@ -151,6 +151,24 @@ const routes = [
         meta: { requiresAuth: true, permissions: ['article:list'], title: '文章' }
       },
       {
+        path: 'messages',
+        component: () => import('@/views/marketingManagement/messages/index.vue'),
+        name: 'Messages',
+        meta: { requiresAuth: true, permissions: ['messages:list'], title: '站内信' }
+      },
+      {
+        path: 'messages/create',
+        component: () => import('@/views/marketingManagement/messages/detail.vue'),
+        name: 'MessagesCreate',
+        meta: { requiresAuth: true, permissions: ['messages:list'], title: '新增站内信', hidden: true }
+      },
+      {
+        path: 'messages/edit/:id',
+        component: () => import('@/views/marketingManagement/messages/detail.vue'),
+        name: 'MessagesEdit',
+        meta: { requiresAuth: true, permissions: ['messages:list'], title: '编辑站内信', hidden: true }
+      },
+      {
         path: 'withdrawal',
         component: () => import('@/views/finance/withdrawal.vue'),
         name: 'Withdrawal',

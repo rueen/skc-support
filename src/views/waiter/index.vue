@@ -130,6 +130,7 @@ const permissionsOptions = [
   { title: 'waiter', permissions: 'waiter:list' },
   { title: 'ad', permissions: 'ad:list' },
   { title: 'article', permissions: 'article:list' },
+  { title: 'messages', permissions: 'messages:list' },
   { title: 'systemConfig', permissions: 'system:config' }
 ]
 

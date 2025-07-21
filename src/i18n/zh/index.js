@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:08:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 11:08:58
+ * @LastEditTime: 2025-07-21 16:26:05
  * @Description: 
  */
 import common from './common'
@@ -19,6 +19,7 @@ import financial from './financial'
 import waiter from './waiter'
 import article from './article'
 import ad from './ad'
+import messages from './messages'
 import systemConfig from './systemConfig'
 
 export default {
@@ -36,6 +37,7 @@ export default {
   waiter,
   article,
   ad,
+  messages,
   systemConfig,
   header: {
     logout: '退出登录',

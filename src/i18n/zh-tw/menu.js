@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:56
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 10:54:58
+ * @LastEditTime: 2025-07-21 16:19:47
  * @Description: 
  */
 export default {
@@ -31,4 +31,5 @@ export default {
   marketingManagement: '營銷管理',
   ad: '廣告',
   article: '文章',
+  messages: '站內信'
 } 
