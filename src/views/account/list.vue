@@ -105,6 +105,13 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item :label="$t('account.search.inviter')">
+            <a-input
+              v-model:value="searchForm.inviter"
+              :placeholder="$t('common.inputPlaceholder')"
+              allow-clear
+            />
+          </a-form-item>
           <a-form-item>
             <a-space>
               <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
@@ -163,7 +170,7 @@
           <template v-if="column.key === 'member'">
             <div>
               <div>
-                <a-typography-link @click="handleMemberDetail(record)">{{ record.memberNickname }}</a-typography-link>
+                <a-typography-link @click="handleMemberDetail(record.memberId)">{{ record.memberNickname }}</a-typography-link>
               </div>
               <div v-for="item in record.groups">
                 <a-space>
@@ -172,6 +179,10 @@
                 </a-space>
               </div>
             </div>
+          </template>
+          <template v-if="column.key === 'inviter'">
+            <a-typography-link @click="handleMemberDetail(record.inviterId)" v-if="record.inviterId">{{ record.inviterNickname }}</a-typography-link>
+            <span v-else>--</span>
           </template>
           <template v-if="column.key === 'accountAuditStatus'">
             {{ enumStore.getEnumText('AccountAuditStatus', record.accountAuditStatus) }}
@@ -344,7 +355,8 @@ const searchForm = reactive({
   waiterId: undefined,
   groupId: undefined,
   memberId: undefined,
-  submitTimeRange: getCurrentMonthRange()
+  submitTimeRange: getCurrentMonthRange(),
+  inviter: '',
 })
 
 // 渠道选项
@@ -365,6 +377,10 @@ const columns = computed(() => [
   {
     title: t('account.list.memberInfo'),
     key: 'member'
+  },
+  {
+    title: t('member.list.inviter'),
+    key: 'inviter'
   },
   {
     title: t('account.list.submitTime'),
@@ -441,14 +457,15 @@ const handleReset = () => {
     waiterId: undefined,
     groupId: undefined,
     memberId: undefined,
-    submitTimeRange: getCurrentMonthRange()
+    submitTimeRange: getCurrentMonthRange(),
+    inviter: '',
   })
   handleSearch()
 }
 
 // 会员详情
-const handleMemberDetail = (record) => {
-  router.push(`/member/view/${record.memberId}`)
+const handleMemberDetail = (memberId) => {
+  router.push(`/member/view/${memberId}`)
 }
 
 const handleEdit = (record) => {
@@ -574,6 +591,7 @@ const loadData = async () => {
       memberId: searchForm.memberId,
       submitStartTime: searchForm.submitTimeRange?.[0],
       submitEndTime: searchForm.submitTimeRange?.[1],
+      inviter: searchForm.inviter,
     }
     const res = await get('account.list', {
       ...params,

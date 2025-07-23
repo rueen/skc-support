@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-23 16:42:34
+ * @LastEditTime: 2025-07-23 20:04:20
  * @Description: 
  */
 export default {
@@ -20,6 +20,7 @@ export default {
     member: 'Member',
     memberPlaceholder: 'Select member',
     submitTime: 'Submit Time',
+    inviter: 'Inviter ID/Account',
   },
 
   list: {

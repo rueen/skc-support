@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-08 15:32:07
+ * @LastEditTime: 2025-07-23 20:03:56
  * @Description: 
  */
 export default {
@@ -20,6 +20,7 @@ export default {
     member: '会员',
     memberPlaceholder: '选择会员',
     submitTime: '提交时间',
+    inviter: '邀请人ID/账号',
   },
 
   list: {
