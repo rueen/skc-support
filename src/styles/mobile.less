@@ -1,0 +1,51 @@
+/*
+ * 移动端适配样式
+ * 建议在 main.js 或 index.less 最后引入本文件
+ */
+
+@media (max-width: 768px) {
+  .content-container {
+    padding: 8px !important;
+  }
+  .table-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px;
+  }
+  .table-container {
+    padding: 0 !important;
+  }
+  .ant-table {
+    font-size: 13px !important;
+  }
+  .ant-form-item {
+    margin-bottom: 12px !important;
+  }
+  .ant-btn {
+    min-width: 80px;
+    font-size: 14px;
+  }
+  .page-header {
+    padding: 8px 0 !important;
+    font-size: 18px !important;
+  }
+  /* 隐藏部分桌面端专用元素 */
+  .desktop-only {
+    display: none !important;
+  }
+  /* 让表格横向滚动 */
+  .ant-table-content {
+    overflow-x: auto;
+  }
+  /* 让弹窗更适合手机 */
+  .ant-modal {
+    width: 98vw !important;
+    max-width: 98vw !important;
+    padding: 0 !important;
+    top: 2vh !important;
+  }
+  .ant-modal-content {
+    padding: 8px !important;
+  }
+  /* 其他可根据实际需求继续补充 */
+} 
