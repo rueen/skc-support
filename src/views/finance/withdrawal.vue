@@ -22,7 +22,6 @@
               <a-select
                 v-model:value="searchForm.withdrawalStatus"
                 :placeholder="$t('withdrawal.list.withdrawalStatusPlaceholder')"
-                style="width: 120px"
                 allow-clear
               >
                 <a-select-option
@@ -38,7 +37,6 @@
               <a-select
                 v-model:value="searchForm.paymentChannelId"
                 :placeholder="$t('common.selectPlaceholder')"
-                style="width: 120px"
                 allow-clear
               >
                 <a-select-option
@@ -66,13 +64,16 @@
                 <a-button @click="handleReset">
                   {{ $t('common.reset') }}
                 </a-button>
+                <a-typography-link class="mobile-only" @click="router.push('/payment-transactions')">
+                  {{ $t('withdrawal.list.viewWithdrawalTransactions') }}<RightOutlined />
+                </a-typography-link>
               </a-space>
             </a-form-item>
           </a-form>
         </div>
         <div class="right">
           <a-space>
-            <a-typography-link @click="router.push('/payment-transactions')">
+            <a-typography-link class="desktop-only" @click="router.push('/payment-transactions')">
               {{ $t('withdrawal.list.viewWithdrawalTransactions') }}<RightOutlined />
             </a-typography-link>
             <a-button @click="handleExport">
@@ -117,7 +118,7 @@
               >
                 <a>{{ $t('withdrawal.list.resolve') }}</a>
               </a-popconfirm>
-              <a class="danger" @click="handleReject(record)">{{ $t('withdrawal.list.reject') }}</a>
+              <a-typography-text type="danger" @click="handleReject(record)">{{ $t('withdrawal.list.reject') }}</a-typography-text>
             </a-space>
             <a @click="router.push(`/payment-transactions?withdrawalId=${record.id}`)" v-if="record.withdrawalStatus === 'failed'">查看交易记录</a>
           </template>
@@ -452,18 +453,6 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.withdrawal {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .danger {
-    color: #ff4d4f;
-  }
-}
 .count-container{
   margin-top: -48px;
   width: 250px;

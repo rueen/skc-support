@@ -2,12 +2,12 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-12 09:38:58
+ * @LastEditTime: 2025-07-23 17:18:43
  * @Description: FB老账号管理
 -->
 
 <template>
-  <div class="old-account content-container">
+  <div class="content-container">
     <page-header
       :title="$t('account.list.oldAccount')"
       :back="true"
@@ -28,7 +28,6 @@
               <a-select
                 v-model:value="searchForm.memberId"
                 :placeholder="$t('account.oldList.memberPlaceholder')"
-                style="width: 120px"
                 allow-clear
                 show-search
                 :filter-option="false"
@@ -96,7 +95,9 @@
           </template>
           <template v-if="column.key === 'homeUrl'">
             <CopyContent :content="record.homeUrl">
-              <a :href="record.homeUrl" target="_blank" class="link-text" style="max-width: 320px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ record.homeUrl }}</a>
+              <a-typography-link :href="record.homeUrl" target="_blank" style="max-width: 320px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                {{ record.homeUrl }}
+              </a-typography-link>
             </CopyContent>
           </template>
           <template v-if="column.key === 'member'">
@@ -109,7 +110,7 @@
                 :title="$t('account.oldList.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">{{ $t('account.oldList.delete') }}</a>
+                <a-typography-text type="danger">{{ $t('account.oldList.delete') }}</a-typography-text>
               </a-popconfirm>
             </a-space>
           </template>
@@ -197,7 +198,9 @@ const columns = computed(() => [
   },
   {
     title: t('account.oldList.action'),
-    key: 'action'
+    key: 'action',
+    fixed: 'right',
+    width: 150
   }
 ])
 
@@ -414,30 +417,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.old-account {
-  .table-container {
-    background-color: #fff;
-    padding: 24px;
-    border-radius: 2px;
-  }
 
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    .left {
-      flex: 1;
-    }
-  }
-
-  .danger {
-    color: #ff4d4f;
-  }
-
-  .link-text {
-    color: #1890ff;
-  }
-}
 </style>

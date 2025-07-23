@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-08 15:31:57
+ * @LastEditTime: 2025-07-23 16:42:34
  * @Description: 
  */
 export default {
@@ -23,7 +23,7 @@ export default {
   },
 
   list: {
-    oldAccount: 'Facebook Old Account Management',
+    oldAccount: 'Facebook Old Account',
     
     accountInfo: 'Account Info',
     memberInfo: 'Member Info',

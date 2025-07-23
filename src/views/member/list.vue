@@ -1,5 +1,5 @@
 <template>
-  <div class="member-list content-container">
+  <div class="content-container">
     <div class="table-container">
       <div class="table-header">
         <div class="left">
@@ -15,7 +15,6 @@
               <a-select
                 v-model:value="searchForm.channelId"
                 :placeholder="$t('common.selectPlaceholder')"
-                style="width: 120px"
                 allow-clear
               >
                 <a-select-option
@@ -35,7 +34,6 @@
                 show-search
                 :filter-option="false"
                 @search="loadGroupOptions"
-                style="width: 200px"
               >
                 <a-select-option
                   v-for="item in groupOptions"
@@ -58,7 +56,6 @@
                 v-model:value="searchForm.completedTaskCount"
                 :min="0"
                 :max="9999"
-                style="width: 100px!important"
               />
             </a-form-item>
             <a-form-item :label="$t('member.search.createTime')">
@@ -67,7 +64,6 @@
                 :show-time="{ format: 'HH:mm' }"
                 format="YYYY-MM-DD HH:mm"
                 value-format="YYYY-MM-DD HH:mm:ss"
-                style="width: 280px;"
               />
             </a-form-item>
             <a-form-item>
@@ -153,7 +149,7 @@
                 :title="$t('member.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">{{ $t('member.list.delete') }}</a>
+                <a-typography-text type="danger">{{ $t('member.list.delete') }}</a-typography-text>
               </a-popconfirm>
             </a-space>
           </template>
@@ -253,7 +249,6 @@ const columns = computed(() => [
   {
     title: t('member.list.action'),
     key: 'action',
-    fixed: 'right',
     width: 150
   }
 ])
@@ -473,28 +468,6 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.member-list {
-  .table-container {
-    background-color: #fff;
-    padding: 24px;
-    border-radius: 2px;
-  }
-
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    .left {
-      flex: 1;
-    }
-  }
-
-  .danger {
-    color: #ff4d4f;
-  }
-}
 .count-container{
   margin-top: -48px;
   width: 300px;

@@ -24,7 +24,7 @@
                 :title="$t('financial.paymentChannels.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">{{ $t('financial.paymentChannels.delete') }}</a>
+                <a-typography-text type="danger">{{ $t('financial.paymentChannels.delete') }}</a-typography-text>
               </a-popconfirm>
             </a-space>
           </template>
@@ -259,16 +259,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.channel {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
 
-  .danger {
-    color: #ff4d4f;
-  }
-}
 </style> 

@@ -2,65 +2,65 @@
  * @Author: diaochan
  * @Date: 2025-04-08 15:34:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-16 09:29:58
+ * @LastEditTime: 2025-07-23 17:39:26
  * @Description: 提现交易记录页面
 -->
 <template>
-  <div class="payment-transactions content-container">
+  <div class="content-container">
     <page-header
       :title="$t('withdrawal.transactions.pageTitle')"
       :back="true"
-      style="margin-bottom: 32px;padding:0;"
     />
     
     <div class="table-container">
       <div class="table-header">
-        <a-form layout="inline" :model="searchForm">
-          <a-form-item :label="$t('withdrawal.transactions.transactionStatus')">
-            <a-select
-              v-model:value="searchForm.transactionStatus"
-              :placeholder="$t('withdrawal.transactions.transactionStatusPlaceholder')"
-              style="width: 120px"
-              allow-clear
-            >
-              <a-select-option value="pending">{{ $t('withdrawal.transactions.pending') }}</a-select-option>
-              <a-select-option value="success">{{ $t('withdrawal.transactions.success') }}</a-select-option>
-              <a-select-option value="failed">{{ $t('withdrawal.transactions.failed') }}</a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('withdrawal.transactions.orderId')">
-            <a-input
-              v-model:value="searchForm.orderId"
-              :placeholder="$t('withdrawal.transactions.orderIdPlaceholder')"
-              allow-clear
-            />
-          </a-form-item>
-          <a-form-item :label="$t('withdrawal.transactions.withdrawalId')">
-            <a-input
-              v-model:value="searchForm.withdrawalId"
-              :placeholder="$t('withdrawal.transactions.withdrawalIdPlaceholder')"
-              allow-clear
-            />
-          </a-form-item>
-          <a-form-item :label="$t('withdrawal.transactions.transactionTime')">
-            <a-range-picker
-              v-model:value="searchForm.timeRange"
-              :show-time="{ format: 'HH:mm' }"
-              format="YYYY-MM-DD HH:mm"
-              value-format="YYYY-MM-DD HH:mm:ss"
-            />
-          </a-form-item>
-          <a-form-item>
-            <a-space>
-              <a-button type="primary" @click="handleSearch">
-                {{ $t('common.search') }}
-              </a-button>
-              <a-button @click="handleReset">
-                {{ $t('common.reset') }}
-              </a-button>
-            </a-space>
-          </a-form-item>
-        </a-form>
+        <div class="left">
+          <a-form layout="inline" :model="searchForm">
+            <a-form-item :label="$t('withdrawal.transactions.transactionStatus')">
+              <a-select
+                v-model:value="searchForm.transactionStatus"
+                :placeholder="$t('withdrawal.transactions.transactionStatusPlaceholder')"
+                allow-clear
+              >
+                <a-select-option value="pending">{{ $t('withdrawal.transactions.pending') }}</a-select-option>
+                <a-select-option value="success">{{ $t('withdrawal.transactions.success') }}</a-select-option>
+                <a-select-option value="failed">{{ $t('withdrawal.transactions.failed') }}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('withdrawal.transactions.orderId')">
+              <a-input
+                v-model:value="searchForm.orderId"
+                :placeholder="$t('withdrawal.transactions.orderIdPlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
+            <a-form-item :label="$t('withdrawal.transactions.withdrawalId')">
+              <a-input
+                v-model:value="searchForm.withdrawalId"
+                :placeholder="$t('withdrawal.transactions.withdrawalIdPlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
+            <a-form-item :label="$t('withdrawal.transactions.transactionTime')">
+              <a-range-picker
+                v-model:value="searchForm.timeRange"
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                value-format="YYYY-MM-DD HH:mm:ss"
+              />
+            </a-form-item>
+            <a-form-item>
+              <a-space>
+                <a-button type="primary" @click="handleSearch">
+                  {{ $t('common.search') }}
+                </a-button>
+                <a-button @click="handleReset">
+                  {{ $t('common.reset') }}
+                </a-button>
+              </a-space>
+            </a-form-item>
+          </a-form>
+        </div>
       </div>
 
       <a-table
@@ -299,17 +299,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.payment-transactions {
-  .table-header {
-    margin-bottom: 16px;
-  }
-  
-  :deep(.ant-typography pre) {
-    max-height: 500px;
-    overflow: auto;
-    background-color: #f5f5f5;
-    padding: 12px;
-    border-radius: 4px;
-  }
-}
+
 </style>

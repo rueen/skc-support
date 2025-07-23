@@ -1,5 +1,5 @@
 <template>
-  <div class="waiter content-container">
+  <div class="content-container">
     <div class="table-container">
       <div class="table-header">
         <div class="left"></div>
@@ -26,7 +26,7 @@
                 @confirm="handleDelete(record)"
                 v-if="!record.isAdmin"
               >
-                <a class="danger">{{ $t('waiter.delete') }}</a>
+                <a-typography-text type="danger">{{ $t('waiter.delete') }}</a-typography-text>
               </a-popconfirm>
             </a-space>
           </template>
@@ -298,16 +298,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.waiter {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
 
-  .danger {
-    color: #ff4d4f;
-  }
-}
 </style> 

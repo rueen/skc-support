@@ -1,5 +1,5 @@
 <template>
-  <div class="group content-container">
+  <div class="content-container">
     <div class="table-container">
       <div class="table-header">
         <div class="left">
@@ -19,7 +19,6 @@
                 show-search
                 :filter-option="false"
                 @search="loadMemberOptions"
-                style="width: 200px"
               >
                 <a-select-option v-for="item in memberOptions" :key="item.id" :value="item.id">
                   {{ item.memberNickname }}
@@ -67,7 +66,7 @@
                 :title="$t('group.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">{{ $t('group.delete') }}</a>
+                <a-typography-text type="danger">{{ $t('group.delete') }}</a-typography-text>
               </a-popconfirm>
             </a-space>
           </template>
@@ -381,26 +380,4 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.group {
-  .table-container {
-    background-color: #fff;
-    padding: 24px;
-    border-radius: 2px;
-  }
-
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    .left {
-      flex: 1;
-    }
-  }
-
-  .danger {
-    color: #ff4d4f;
-  }
-}
 </style> 

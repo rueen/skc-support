@@ -15,7 +15,6 @@
               <a-select
                 v-model:value="searchForm.billType"
                 :placeholder="$t('financial.bills.billTypePlaceholder')"
-                style="width: 120px"
                 allow-clear
               >
                 <a-select-option
@@ -31,7 +30,6 @@
               <a-select
                 v-model:value="searchForm.settlementStatus"
                 :placeholder="$t('financial.bills.settlementStatusPlaceholder')"
-                style="width: 120px"
                 allow-clear
               >
                 <a-select-option
@@ -69,7 +67,6 @@
               <a-select
                 v-model:value="searchForm.relatedGroupId"
                 :placeholder="$t('financial.bills.relatedGroupNamePlaceholder')"
-                style="width: 120px"
                 allow-clear
                 show-search
                 :filter-option="false"
@@ -410,13 +407,6 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .other-bill {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
   .status-icon {
     margin-left: 8px;
     color: #ff4d4f;

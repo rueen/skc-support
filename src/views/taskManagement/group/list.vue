@@ -2,11 +2,11 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-13 20:27:27
+ * @LastEditTime: 2025-07-23 17:45:42
  * @Description: 
 -->
 <template>
-  <div class="task content-container">
+  <div class="content-container">
     <div class="table-container">
       <div class="table-header">
         <div class="left">
@@ -62,7 +62,7 @@
                 :title="$t('common.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">{{ $t('common.delete') }}</a>
+                <a-typography-text type="danger">{{ $t('common.delete') }}</a-typography-text>
               </a-popconfirm>
             </a-space>
           </template>
@@ -212,16 +212,5 @@ onMounted(async () => {
 </script>
 
 <style lang="less" scoped>
-.task {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
 
-  .danger {
-    color: #ff4d4f;
-  }
-}
 </style> 

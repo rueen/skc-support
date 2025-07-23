@@ -2,11 +2,11 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-17 16:42:02
+ * @LastEditTime: 2025-07-23 16:35:35
  * @Description: 
 -->
 <template>
-  <div class="task content-container">
+  <div class="content-container">
     <div class="table-container">
       <div class="table-header">
         <div class="left">
@@ -22,7 +22,6 @@
               <a-select
                 v-model:value="searchForm.channelId"
                 :placeholder="$t('common.selectPlaceholder')"
-                style="width: 120px"
                 allow-clear
               >
                 <a-select-option
@@ -39,7 +38,6 @@
                 v-model:value="searchForm.taskStatus"
                 :placeholder="$t('common.selectPlaceholder')"
                 allowClear
-                style="width: 120px"
               >
                 <a-select-option 
                   v-for="option in taskStatusOptions" 
@@ -56,7 +54,6 @@
                 v-model:value="searchForm.taskGroupId"
                 :placeholder="$t('common.selectPlaceholder')"
                 allowClear
-                style="width: 120px"
                 show-search
                 :filter-option="false"
                 @search="loadTaskGroupOptions"
@@ -120,7 +117,7 @@
                 :title="$t('task.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a class="danger">{{ $t('task.list.delete') }}</a>
+                <a-typography-text type="danger">{{ $t('task.list.delete') }}</a-typography-text>
               </a-popconfirm>
             </a-space>
           </template>
@@ -203,7 +200,7 @@ const columns = computed(() => [
     title: t('task.list.action'),
     key: 'action',
     fixed: 'right',
-    width: 180
+    width: 150
   }
 ])
 
@@ -318,16 +315,5 @@ onMounted(async () => {
 </script>
 
 <style lang="less" scoped>
-.task {
-  .table-header {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
 
-  .danger {
-    color: #ff4d4f;
-  }
-}
 </style> 
