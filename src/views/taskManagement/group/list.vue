@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-23 17:45:42
+ * @LastEditTime: 2025-07-24 21:14:38
  * @Description: 
 -->
 <template>
@@ -62,7 +62,7 @@
                 :title="$t('common.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a-typography-text type="danger">{{ $t('common.delete') }}</a-typography-text>
+              <a><a-typography-text type="danger">{{ $t('common.delete') }}</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>

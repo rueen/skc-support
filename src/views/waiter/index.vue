@@ -26,7 +26,7 @@
                 @confirm="handleDelete(record)"
                 v-if="!record.isAdmin"
               >
-                <a-typography-text type="danger">{{ $t('waiter.delete') }}</a-typography-text>
+                <a><a-typography-text type="danger">{{ $t('waiter.delete') }}</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>

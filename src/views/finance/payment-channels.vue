@@ -24,7 +24,7 @@
                 :title="$t('financial.paymentChannels.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a-typography-text type="danger">{{ $t('financial.paymentChannels.delete') }}</a-typography-text>
+                <a><a-typography-text type="danger">{{ $t('financial.paymentChannels.delete') }}</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>

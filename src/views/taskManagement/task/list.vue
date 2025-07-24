@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-23 16:35:35
+ * @LastEditTime: 2025-07-24 21:14:14
  * @Description: 
 -->
 <template>
@@ -117,7 +117,7 @@
                 :title="$t('task.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a-typography-text type="danger">{{ $t('task.list.delete') }}</a-typography-text>
+              <a><a-typography-text type="danger">{{ $t('task.list.delete') }}</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>

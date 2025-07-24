@@ -118,7 +118,7 @@
               >
                 <a>{{ $t('withdrawal.list.resolve') }}</a>
               </a-popconfirm>
-              <a-typography-text type="danger" @click="handleReject(record)">{{ $t('withdrawal.list.reject') }}</a-typography-text>
+              <a><a-typography-text type="danger" @click="handleReject(record)">{{ $t('withdrawal.list.reject') }}</a-typography-text></a>
             </a-space>
             <a @click="router.push(`/payment-transactions?withdrawalId=${record.id}`)" v-if="record.withdrawalStatus === 'failed'">查看交易记录</a>
           </template>

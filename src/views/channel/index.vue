@@ -31,7 +31,7 @@
                 :title="$t('channel.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a-typography-text type="danger">{{ $t('channel.delete') }}</a-typography-text>
+                <a><a-typography-text type="danger">{{ $t('channel.delete') }}</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>

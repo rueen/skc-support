@@ -149,7 +149,7 @@
                 :title="$t('member.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
               >
-                <a-typography-text type="danger">{{ $t('member.list.delete') }}</a-typography-text>
+              <a><a-typography-text type="danger">{{ $t('member.list.delete') }}</a-typography-text></a>
               </a-popconfirm>
             </a-space>
           </template>
