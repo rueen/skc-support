@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:14:54
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 11:21:03
+ * @LastEditTime: 2025-07-24 20:02:06
  * @Description: 
  */
 export default {
@@ -45,4 +45,13 @@ export default {
   endTime: '结束时间',
   createTime: '创建时间',
   updateTime: '更新时间',
+  upload: {
+    invalidFile: '文件无效',
+    uploading: '上传中...', 
+    uploadFailed: '上传失败',
+    uploadSuccess: '上传成功',
+    imageRequired: '请上传图片文件',
+    imageSize: '图片大小不能超过',
+    uploadFailed: '上传失败',
+  },
 } 

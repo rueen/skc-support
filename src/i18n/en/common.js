@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 17:15:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 11:21:13
+ * @LastEditTime: 2025-07-24 20:02:21
  * @Description: 
  */
 export default {
@@ -45,4 +45,13 @@ export default {
   endTime: 'End Time',
   createTime: 'Create Time',
   updateTime: 'Update Time',
+  upload: {
+    invalidFile: 'Invalid file',
+    uploading: 'Uploading...',
+    uploadFailed: 'Upload failed',
+    uploadSuccess: 'Upload successful',
+    imageRequired: 'Please upload an image file',
+    imageSize: 'Image size cannot exceed',
+    uploadFailed: 'Upload failed',
+  },
 } 
