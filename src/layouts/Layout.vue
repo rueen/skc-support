@@ -52,7 +52,7 @@
             />
             <menu-unfold-outlined
               v-else
-              class="trigger"
+              class="trigger menu-unfold-icon"
               @click="() => (collapsed = false)"
             />
           </div>
