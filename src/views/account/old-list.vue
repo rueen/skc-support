@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-07 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-23 17:18:43
+ * @LastEditTime: 2025-07-26 17:52:55
  * @Description: FB老账号管理
 -->
 
@@ -199,8 +199,6 @@ const columns = computed(() => [
   {
     title: t('account.oldList.action'),
     key: 'action',
-    fixed: 'right',
-    width: 150
   }
 ])
 

@@ -2,131 +2,125 @@
   <div class="account content-container">
     <div class="table-container">
       <div class="table-header">
-        <a-form layout="inline" :model="searchForm">
-          <a-form-item :label="$t('account.search.account')">
-            <a-input
-              v-model:value="searchForm.keyword"
-              :placeholder="$t('account.search.accountPlaceholder')"
-              allow-clear
-            />
-          </a-form-item>
-          <a-form-item :label="$t('account.search.channel')">
-            <a-select
-              v-model:value="searchForm.channelId"
-              :placeholder="$t('account.search.channelPlaceholder')"
-              style="width: 120px"
-              allow-clear
-            >
-              <a-select-option
-                v-for="item in channelOptions"
-                :key="item.id"
-                :value="item.id"
+        <div class="left">
+          <a-form layout="inline" :model="searchForm">
+            <a-form-item :label="$t('account.search.account')">
+              <a-input
+                v-model:value="searchForm.keyword"
+                :placeholder="$t('account.search.accountPlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
+            <a-form-item :label="$t('account.search.channel')">
+              <a-select
+                v-model:value="searchForm.channelId"
+                :placeholder="$t('account.search.channelPlaceholder')"
+                allow-clear
               >
-                {{ item.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('account.search.submitTime')">
-            <a-range-picker
-              v-model:value="searchForm.submitTimeRange"
-              :show-time="{ format: 'HH:mm' }"
-              format="YYYY-MM-DD HH:mm"
-              value-format="YYYY-MM-DD HH:mm:ss"
-              style="width: 280px;"
-            />
-          </a-form-item>
-          <a-form-item :label="$t('account.search.auditStatus')">
-            <a-select
-              v-model:value="searchForm.accountAuditStatus"
-              :placeholder="$t('account.search.auditStatusPlaceholder')"
-              style="width: 120px"
-              allow-clear
-            >
-              <a-select-option
-                v-for="option in accountAuditStatusOptions"
-                :key="option.value"
-                :value="option.value"
+                <a-select-option
+                  v-for="item in channelOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('account.search.submitTime')">
+              <a-range-picker
+                v-model:value="searchForm.submitTimeRange"
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                value-format="YYYY-MM-DD HH:mm:ss"
+              />
+            </a-form-item>
+            <a-form-item :label="$t('account.search.auditStatus')">
+              <a-select
+                v-model:value="searchForm.accountAuditStatus"
+                :placeholder="$t('account.search.auditStatusPlaceholder')"
+                allow-clear
               >
-                {{ option.text }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('account.search.auditor')">
-            <a-select
-              v-model:value="searchForm.waiterId"
-              :placeholder="$t('account.search.auditorPlaceholder')"
-              allow-clear
-              style="width: 120px;"
-            >
-              <a-select-option
-                v-for="item in waiterOptions"
-                :key="item.id"
-                :value="item.id"
+                <a-select-option
+                  v-for="option in accountAuditStatusOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.text }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('account.search.auditor')">
+              <a-select
+                v-model:value="searchForm.waiterId"
+                :placeholder="$t('account.search.auditorPlaceholder')"
+                allow-clear
               >
-                {{ item.username }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('account.search.group')">
-            <a-select
-              v-model:value="searchForm.groupId"
-              :placeholder="$t('account.search.groupPlaceholder')"
-              style="width: 120px"
-              allow-clear
-              show-search
-              :filter-option="false"
-              @search="loadGroupOptions"
-            >
-              <a-select-option
-                v-for="item in groupOptions"
-                :key="item.id"
-                :value="item.id"
+                <a-select-option
+                  v-for="item in waiterOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.username }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('account.search.group')">
+              <a-select
+                v-model:value="searchForm.groupId"
+                :placeholder="$t('account.search.groupPlaceholder')"
+                allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadGroupOptions"
               >
-                {{ item.groupName }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('account.search.member')">
-            <a-select
-              v-model:value="searchForm.memberId"
-              :placeholder="$t('account.search.memberPlaceholder')"
-              style="width: 120px"
-              allow-clear
-              show-search
-              :filter-option="false"
-              @search="loadMemberOptions"
-            >
-              <a-select-option
-                v-for="item in memberOptions"
-                :key="item.id"
-                :value="item.id"
+                <a-select-option
+                  v-for="item in groupOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.groupName }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('account.search.member')">
+              <a-select
+                v-model:value="searchForm.memberId"
+                :placeholder="$t('account.search.memberPlaceholder')"
+                allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadMemberOptions"
               >
-                {{ item.nickname }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('account.search.inviter')">
-            <a-input
-              v-model:value="searchForm.inviter"
-              :placeholder="$t('common.inputPlaceholder')"
-              allow-clear
-            />
-          </a-form-item>
-          <a-form-item>
-            <a-space>
-              <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
-              <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
-            </a-space>
-          </a-form-item>
-        </a-form>
-        <div style="width: 100%;display: flex;justify-content: space-between;">
-          <a-button @click="openOldAccount">{{ $t('account.list.oldAccount') }}</a-button>
-          <div class="right">
-            <a-space>
-              <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
-              <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
-            </a-space>
-          </div>
+                <a-select-option
+                  v-for="item in memberOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.nickname }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('account.search.inviter')">
+              <a-input
+                v-model:value="searchForm.inviter"
+                :placeholder="$t('common.inputPlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
+            <a-form-item>
+              <a-space>
+                <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
+                <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
+              </a-space>
+            </a-form-item>
+          </a-form>
+        </div>
+        <div class="right">
+          <a-space>
+            <a-button @click="openOldAccount">{{ $t('account.list.oldAccount') }}</a-button>
+            <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
+            <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
+          </a-space>
         </div>
       </div>
       <a-table
