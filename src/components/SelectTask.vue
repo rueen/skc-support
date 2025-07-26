@@ -7,7 +7,7 @@
     @ok="handleConfirm"
     @cancel="handleCancel"
   >
-    <div class="select-task-modal">
+    <div class="select-task-modal table-container">
       <!-- 筛选表单 -->
       <div class="filter-form">
         <a-form layout="inline" :model="searchForm">
@@ -16,14 +16,12 @@
               v-model:value="searchForm.taskName"
               :placeholder="$t('common.inputPlaceholder')"
               allow-clear
-              style="width: 140px;"
             />
           </a-form-item>
           <a-form-item :label="$t('task.search.channelId')">
             <a-select
               v-model:value="searchForm.channelId"
               :placeholder="$t('common.selectPlaceholder')"
-              style="width: 120px"
               allow-clear
             >
               <a-select-option
@@ -40,7 +38,6 @@
               v-model:value="searchForm.taskStatus"
               :placeholder="$t('common.selectPlaceholder')"
               allow-clear
-              style="width: 120px"
             >
               <a-select-option 
                 v-for="option in taskStatusOptions" 

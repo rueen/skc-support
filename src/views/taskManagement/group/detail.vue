@@ -1,12 +1,12 @@
 <template>
-  <div class="task-form content-container">
+  <div class="content-container">
     <page-header
       :title="isEdit ? $t('task.group.editTitle') : $t('task.group.createTitle')"
       :back="true"
       class="page-header"
     >
     </page-header>
-    <div>
+    <div class="table-container">
       <a-form
         ref="formRef"
         :model="formData"
@@ -309,18 +309,5 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-.task-form {
-  .selected-tasks-info {
-    margin-top: 8px;
-    
-    .selected-tasks-list {
-      margin-top: 8px;
-      
-      .ant-tag {
-        margin-right: 8px;
-        margin-bottom: 8px;
-      }
-    }
-  }
-}
+
 </style> 
