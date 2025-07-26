@@ -2,148 +2,140 @@
   <div class="task-audit content-container">
     <div class="table-container">
       <div class="table-header">
-        <a-form layout="inline" :model="searchForm">
-          <a-form-item :label="$t('submittedTasks.search.taskName')">
-            <a-input
-              v-model:value="searchForm.taskName"
-              :placeholder="$t('submittedTasks.search.taskNamePlaceholder')"
-              allow-clear
-              style="width: 140px;"
-            />
-          </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.channel')">
-            <a-select
-              v-model:value="searchForm.channelId"
-              :placeholder="$t('submittedTasks.search.channelPlaceholder')"
-              allow-clear
-              style="width: 140px;"
+        <div class="left">
+          <a-form layout="inline" :model="searchForm">
+            <a-form-item :label="$t('submittedTasks.search.taskName')">
+              <a-input
+                v-model:value="searchForm.taskName"
+                :placeholder="$t('submittedTasks.search.taskNamePlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
+            <a-form-item :label="$t('submittedTasks.search.channel')">
+              <a-select
+                v-model:value="searchForm.channelId"
+                :placeholder="$t('submittedTasks.search.channelPlaceholder')"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="item in channelOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('submittedTasks.search.submitTime')">
+              <a-range-picker
+                v-model:value="searchForm.submitTimeRange"
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                value-format="YYYY-MM-DD HH:mm:ss"
+              />
+            </a-form-item>
+            <a-form-item :label="$t('submittedTasks.search.taskPreAuditStatus')">
+              <a-select
+                v-model:value="searchForm.taskPreAuditStatus"
+                :placeholder="$t('submittedTasks.search.taskPreAuditStatusPlaceholder')"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="option in taskPreAuditStatusOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.text }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('submittedTasks.search.preAuditor')">
+              <a-select
+                v-model:value="searchForm.preWaiterId"
+                :placeholder="$t('submittedTasks.search.preAuditorPlaceholder')"
+                allow-clear
+              >
+                <a-select-option
+                  v-for="item in waiterOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.username }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('submittedTasks.search.groupId')">
+              <a-select
+                v-model:value="searchForm.groupId"
+                :placeholder="$t('submittedTasks.search.groupIdPlaceholder')"
+                allow-clear
+                show-search
+                :filter-option="false"
+                @search="loadGroupOptions"
+              >
+                <a-select-option
+                  v-for="item in groupOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.groupName }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="$t('submittedTasks.search.completedTaskCount')">
+              <a-input-number
+                v-model:value="searchForm.completedTaskCount"
+                :min="0"
+                :max="9999"
+                :addon-after="$t('submittedTasks.search.times')"
+              />
+            </a-form-item>
+            <a-form-item :label="$t('member.search.keyword')">
+              <a-input
+                v-model:value="searchForm.keyword"
+                :placeholder="$t('member.search.keywordPlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
+            <!-- 任务组筛选 -->
+            <a-form-item :label="$t('task.search.taskGroup')">
+              <a-select
+                v-model:value="searchForm.taskGroupId"
+                :placeholder="$t('common.selectPlaceholder')"
+                allowClear
+                show-search
+                :filter-option="false"
+                @search="loadTaskGroupOptions"
+              >
+                <a-select-option 
+                  v-for="option in taskGroupOptions" 
+                  :key="option.id" 
+                  :value="option.id"
+                >
+                  {{ option.taskGroupName }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item>
+              <a-space>
+                <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
+                <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
+              </a-space>
+            </a-form-item>
+          </a-form>
+        </div>
+        <div class="right">
+          <a-space>
+            <a-button
+              @click="handleExport"
+              v-if="tableData.length"
             >
-              <a-select-option
-                v-for="item in channelOptions"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.submitTime')">
-            <a-range-picker
-              v-model:value="searchForm.submitTimeRange"
-              :show-time="{ format: 'HH:mm' }"
-              format="YYYY-MM-DD HH:mm"
-              value-format="YYYY-MM-DD HH:mm:ss"
-              style="width: 280px;"
-            />
-          </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.taskPreAuditStatus')">
-            <a-select
-              v-model:value="searchForm.taskPreAuditStatus"
-              :placeholder="$t('submittedTasks.search.taskPreAuditStatusPlaceholder')"
-              allow-clear
-              style="width: 140px;"
-            >
-              <a-select-option
-                v-for="option in taskPreAuditStatusOptions"
-                :key="option.value"
-                :value="option.value"
-              >
-                {{ option.text }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.preAuditor')">
-            <a-select
-              v-model:value="searchForm.preWaiterId"
-              :placeholder="$t('submittedTasks.search.preAuditorPlaceholder')"
-              allow-clear
-              style="width: 120px;"
-            >
-              <a-select-option
-                v-for="item in waiterOptions"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.username }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.groupId')">
-            <a-select
-              v-model:value="searchForm.groupId"
-              :placeholder="$t('submittedTasks.search.groupIdPlaceholder')"
-              style="width: 120px"
-              allow-clear
-              show-search
-              :filter-option="false"
-              @search="loadGroupOptions"
-            >
-              <a-select-option
-                v-for="item in groupOptions"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.groupName }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item :label="$t('submittedTasks.search.completedTaskCount')">
-            <a-input-number
-              v-model:value="searchForm.completedTaskCount"
-              :min="0"
-              :max="9999"
-              :addon-after="$t('submittedTasks.search.times')"
-              style="width: 100px!important"
-            />
-          </a-form-item>
-          <a-form-item :label="$t('member.search.keyword')">
-            <a-input
-              v-model:value="searchForm.keyword"
-              :placeholder="$t('member.search.keywordPlaceholder')"
-              allow-clear
-            />
-          </a-form-item>
-          <!-- 任务组筛选 -->
-          <a-form-item :label="$t('task.search.taskGroup')">
-            <a-select
-              v-model:value="searchForm.taskGroupId"
-              :placeholder="$t('common.selectPlaceholder')"
-              allowClear
-              style="width: 120px"
-              show-search
-              :filter-option="false"
-              @search="loadTaskGroupOptions"
-            >
-              <a-select-option 
-                v-for="option in taskGroupOptions" 
-                :key="option.id" 
-                :value="option.id"
-              >
-                {{ option.taskGroupName }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-form>
-        <div style="width: 100%;display: flex;justify-content: space-between;">
-          <div>
-            <a-space>
-              <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
-              <a-button @click="handleReset">{{ $t('common.reset') }}</a-button>
-            </a-space>
-          </div>
-          <div>
-            <a-space>
-              <a-button
-                @click="handleExport"
-                v-if="tableData.length"
-              >
-                <template #icon><DownloadOutlined /></template>
-                {{ $t('common.export') }}
-              </a-button>
-              <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
-              <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
-            </a-space>
-          </div>
+              <template #icon><DownloadOutlined /></template>
+              {{ $t('common.export') }}
+            </a-button>
+            <a-button type="primary" @click="handleBatchResolve">{{ $t('common.batchResolve') }}</a-button>
+            <a-button danger @click="handleBatchReject">{{ $t('common.batchReject') }}</a-button>
+          </a-space>
         </div>
       </div>
       
