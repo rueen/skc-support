@@ -10,7 +10,7 @@
       <!-- 任务信息 -->
       <a-collapse ghost class="collapse">
         <a-collapse-panel :header="$t('submittedTasks.detail.taskInfo')">
-          <a-descriptions :column="2">
+          <a-descriptions :column="{ xs: 1, sm: 1, md: 1, lg: 2 }">
             <a-descriptions-item :label="$t('submittedTasks.detail.taskName')">
               <a-space>
                 <a-avatar :src="taskInfo.channelIcon" size="small" />
@@ -41,7 +41,7 @@
       <!-- 会员信息 -->
       <div class="detail-section">
         <div class="section-title">{{ $t('submittedTasks.detail.memberInfo') }}</div>
-        <a-descriptions :column="2">
+        <a-descriptions :column="{ xs: 1, sm: 1, md: 1, lg: 2 }">
           <a-descriptions-item :label="$t('submittedTasks.detail.memberNickname')">
             <a-space>
               <span>{{ memberInfo.nickname }}</span>
@@ -58,7 +58,7 @@
           </a-descriptions-item>
         </a-descriptions>
         <div v-for="account in accountList" :key="account.channelId">
-          <a-descriptions :column="2">
+          <a-descriptions :column="{ xs: 1, sm: 1, md: 1, lg: 2 }">
             <a-descriptions-item :label="$t('submittedTasks.detail.account')">
               <a-space>
                 <a-avatar :src="account.channelIcon" size="small" />
@@ -84,7 +84,7 @@
       <!-- 提交信息 -->
       <div class="detail-section">
         <div class="section-title">{{ $t('submittedTasks.detail.submitInfo') }}</div>
-        <a-descriptions :column="1">
+        <a-descriptions :column="{ xs: 1, sm: 1, md: 1, lg: 2 }">
           <template v-for="(field, index) in submittedInfo?.submitContent?.customFields" :key="index">
             <a-descriptions-item :label="field.title">
               <template v-if="field.type === 'image'">
@@ -114,7 +114,7 @@
       <!-- 审核信息 -->
       <div class="detail-section">
         <div class="section-title">{{ $t('submittedTasks.detail.auditInfo') }}</div>
-        <a-descriptions :column="2">
+        <a-descriptions :column="{ xs: 1, sm: 1, md: 1, lg: 2 }">
           <a-descriptions-item :label="$t('submittedTasks.detail.submitTime')">{{ submittedInfo.submitTime }}</a-descriptions-item>
           <a-descriptions-item :label="$t('submittedTasks.detail.preAuditStatus')">
             {{ enumStore.getEnumText('TaskPreAuditStatus', submittedInfo.taskPreAuditStatus) }}
