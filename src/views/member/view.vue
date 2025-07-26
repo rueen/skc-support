@@ -10,7 +10,7 @@
       <!-- 会员信息 -->
       <div class="section">
         <div class="section-title">{{ $t('member.view.memberInfo') }}</div>
-        <a-descriptions :column="2">
+        <a-descriptions :column="{ xs: 1, sm: 1, md: 1, lg: 2 }">
           <a-descriptions-item :label="$t('member.view.memberNickname')">
             <a-space>
               <a-avatar :src="memberInfo.avatar" size="small">
@@ -59,20 +59,20 @@
             </a-space>
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.view.balance')">
-            <a-space :size="16">
+            <div style="display: flex;flex-wrap: wrap;align-items: center;">
               <span>{{ memberInfo.balance }}</span>
               <a-button type="link" size="small" @click="viewBalanceLogs()">
                 {{ $t('member.view.balanceLogs.view') }}
               </a-button>
-              <a-button type="primary" size="small" @click="handleReward()">
+              <a-button type="primary" size="small" @click="handleReward()" style="margin-left: 16px;">
                 <PlusOutlined />
                 {{ $t('member.view.rewardGrant') }}
               </a-button>
-              <a-button size="small" danger @click="handleDeduct()">
+              <a-button size="small" danger @click="handleDeduct()" style="margin-left: 16px;">
                 <MinusOutlined />
                 {{ $t('member.view.rewardDeduct') }}
               </a-button>
-            </a-space>
+            </div>
           </a-descriptions-item>
         </a-descriptions>
       </div>
@@ -115,11 +115,11 @@
       <!-- 任务信息 -->
       <div class="section" style="padding-bottom: 24px;">
         <div class="section-title">{{ $t('member.view.taskStats') }}</div>
-        <a-row :gutter="16">
-          <a-col :span="6">
+        <a-row>
+          <a-col :span="6" :xs="{ span: 12 }" :sm="{ span: 8 }">
             <a-statistic :title="$t('member.view.completedTaskCount')" :value="taskStats.completedTaskCount" />
           </a-col>
-          <a-col :span="6">
+          <a-col :span="6" :xs="{ span: 12 }" :sm="{ span: 8 }">
             <a-statistic 
               :title="$t('member.view.taskReward')" 
               :value="taskStats.totalTaskReward" 
@@ -133,13 +133,13 @@
       <div class="section" style="padding-bottom: 24px;">
         <div class="section-title">{{ $t('member.view.inviteStats') }}</div>
         <a-row>
-          <a-col :span="6">
+          <a-col :span="6" :xs="{ span: 12 }" :sm="{ span: 8 }">
             <a-statistic
               :title="$t('member.view.inviteCount')"
               :value="inviteStats.inviteCount"
             />
           </a-col>
-          <a-col :span="6">
+          <a-col :span="6" :xs="{ span: 12 }" :sm="{ span: 8 }">
             <a-statistic
               :title="$t('member.view.inviteReward')"
               :value="inviteStats.totalReward"
@@ -152,13 +152,13 @@
       <div class="section">
         <div class="section-title">{{ $t('member.view.groupStats') }}</div>
         <a-row>
-          <a-col :span="6">
+          <a-col :span="6" :xs="{ span: 12 }" :sm="{ span: 8 }">
             <a-statistic
               :title="$t('member.view.groupCount')"
               :value="groupsStats.groupCount"
             />
           </a-col>
-          <a-col :span="6">
+          <a-col :span="6" :xs="{ span: 12 }" :sm="{ span: 8 }">
             <a-statistic
               :title="$t('member.view.groupEarnings')"
               :value="groupsStats.totalCommission"
