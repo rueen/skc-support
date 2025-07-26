@@ -16,7 +16,6 @@
               v-model:value="searchForm.taskGroupName"
               :placeholder="$t('common.inputPlaceholder')"
               allow-clear
-              style="width: 160px;"
             />
           </a-form-item>
           <a-form-item :label="$t('task.search.taskName')">
@@ -24,7 +23,6 @@
               v-model:value="searchForm.taskName"
               :placeholder="$t('common.inputPlaceholder')"
               allow-clear
-              style="width: 140px;"
             />
           </a-form-item>
           <a-form-item>

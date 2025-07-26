@@ -16,7 +16,6 @@
                 v-model:value="searchForm.status"
                 :placeholder="$t('common.selectPlaceholder')"
                 allowClear
-                style="width: 120px"
               >
                 <a-select-option 
                   v-for="option in adStatusOptions"
