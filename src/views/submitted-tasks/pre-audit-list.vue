@@ -357,8 +357,6 @@ const columns = computed(() => [
   {
     title: t('submittedTasks.list.action'),
     key: 'action',
-    fixed: 'right',
-    width: 180
   }
 ])
 
