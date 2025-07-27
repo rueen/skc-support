@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-24 21:14:38
+ * @LastEditTime: 2025-07-27 15:21:48
  * @Description: 
 -->
 <template>
@@ -116,8 +116,6 @@ const columns = computed(() => [
   {
     title: t('common.operation'),
     key: 'action',
-    fixed: 'right',
-    width: 180
   }
 ])
 

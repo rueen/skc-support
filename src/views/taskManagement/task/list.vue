@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-24 21:14:14
+ * @LastEditTime: 2025-07-27 15:16:53
  * @Description: 
 -->
 <template>
@@ -199,8 +199,6 @@ const columns = computed(() => [
   {
     title: t('task.list.action'),
     key: 'action',
-    fixed: 'right',
-    width: 150
   }
 ])
 

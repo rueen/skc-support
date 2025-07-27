@@ -143,8 +143,6 @@ const selectedTasksColumns = computed(() => [
   {
     title: t('task.list.action'),
     key: 'action',
-    fixed: 'right',
-    width: 180
   }
 ])
 
