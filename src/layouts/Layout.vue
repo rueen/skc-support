@@ -166,7 +166,7 @@ const handleResize = () => {
   }
 }
 
-const siderWidth = computed(() => collapsed.value ? 80 : 240)
+const siderWidth = computed(() => collapsed.value ? 80 : 200)
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
