@@ -169,11 +169,11 @@ const handleResize = () => {
 const siderWidth = computed(() => collapsed.value ? 80 : 200)
 
 onMounted(() => {
-  window.addEventListener('resize', handleResize)
+  // window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
+  // window.removeEventListener('resize', handleResize)
 })
 </script>
 
