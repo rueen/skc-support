@@ -84,7 +84,7 @@
       <!-- 提交信息 -->
       <div class="detail-section">
         <div class="section-title">{{ $t('submittedTasks.detail.submitInfo') }}</div>
-        <a-descriptions :column="{ xs: 1, sm: 1, md: 1, lg: 2 }">
+        <a-descriptions :column="1">
           <template v-for="(field, index) in submittedInfo?.submitContent?.customFields" :key="index">
             <a-descriptions-item :label="field.title">
               <template v-if="field.type === 'image'">
