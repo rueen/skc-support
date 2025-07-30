@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-17 10:08:19
+ * @LastEditTime: 2025-07-30 14:20:03
  * @Description: 
  */
 export default {
@@ -33,7 +33,8 @@ export default {
     deleteConfirm: '確定要刪除該會員嗎？',
     account: '賬號',
     homepage: '主頁',
-    totalApproved: '已通過數量',
+    totalCount: '註冊會員',
+    totalApproved: '通過審核',
   },
 
   detail: {

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-17 10:07:38
+ * @LastEditTime: 2025-07-30 14:19:04
  * @Description: 
  */
 export default {
@@ -33,7 +33,8 @@ export default {
     deleteConfirm: '确定要删除该会员吗？',
     account: '账号',
     homepage: '主页',
-    totalApproved: '已通过数量',
+    totalCount: '注册会员',
+    totalApproved: '通过审核',
   },
 
   detail: {

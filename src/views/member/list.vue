@@ -158,7 +158,7 @@
 
       <div class="count-container" v-if="pagination.total">
         <a-descriptions :column="2">
-          <a-descriptions-item :label="$t('common.totalCount')" style="width: 125px;">
+          <a-descriptions-item :label="$t('member.list.totalCount')" style="width: 125px;">
             {{ pagination.total }}
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.list.totalApproved')">

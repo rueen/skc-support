@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-17 10:08:35
+ * @LastEditTime: 2025-07-30 14:20:19
  * @Description: 
  */
 export default {
@@ -33,7 +33,8 @@ export default {
     deleteConfirm: 'Are you sure to delete this member?',
     account: 'Account',
     homepage: 'Homepage',
-    totalApproved: 'Total Approved',
+    totalCount: 'Registered Members',
+    totalApproved: 'Approved Members',
   },
 
   detail: {
