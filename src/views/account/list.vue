@@ -139,6 +139,7 @@
               <a-space>
                 <a-avatar :src="record.channelIcon" size="small" />
                 <span>{{ record.account }}</span>
+                <a-tag color="green" v-if="record.isNew">new</a-tag>
               </a-space>
               <div>
                 <div class="link-text-container">

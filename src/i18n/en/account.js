@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-23 20:04:20
+ * @LastEditTime: 2025-07-30 15:49:51
  * @Description: 
  */
 export default {
@@ -100,5 +100,6 @@ export default {
     fansCount: 'Fans Count',
     friendsCount: 'Friends Count',
     postsCount: 'Posts Count',
+    isNew: 'Is New',
   }
 }

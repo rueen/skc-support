@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:07:53
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-23 20:03:56
+ * @LastEditTime: 2025-07-30 15:49:30
  * @Description: 
  */
 export default {
@@ -100,5 +100,6 @@ export default {
     fansCount: '粉丝数',
     friendsCount: '好友数',
     postsCount: '发帖数',
+    isNew: '是否新号',
   }
 }

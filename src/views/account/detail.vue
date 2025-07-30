@@ -36,6 +36,9 @@
         <a-form-item :label="$t('account.detail.postsCount')" name="postsCount" v-if="channelCustomFields.includes('postsCount')">
           <a-input v-model:value="formData.postsCount" />
         </a-form-item>
+        <a-form-item :label="$t('account.detail.isNew')">
+          <a-switch v-model:checked="formData.isNew" />
+        </a-form-item>
 
         <a-form-item :wrapper-col="{ offset: 4 }">
           <a-space>
@@ -84,7 +87,8 @@ const formData = reactive({
   account: '',
   fansCount: '',
   friendsCount: '',
-  postsCount: ''
+  postsCount: '',
+  isNew: false
 })
 
 // 表单校验规则
@@ -102,7 +106,10 @@ const loadAccountDetail = async () => {
     }
   })
   if(res.code === 0){
-    Object.assign(formData, res.data)
+    Object.assign(formData, {
+      ...res.data,
+      isNew: !!res.data.isNew
+    })
     accountDetail.value = res.data;
     channelCustomFields.value = res.data.channelCustomFields
   } else {
@@ -122,6 +129,9 @@ const handleSubmit = () => {
             params[key] = formData[key].trim()
           } else {
             params[key] = formData[key]
+          }
+          if(key === 'isNew'){
+            params[key] = formData[key] ? 1 : 0
           }
         }
       })
