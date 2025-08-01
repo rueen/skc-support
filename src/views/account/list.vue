@@ -280,16 +280,6 @@ const rejectLoading = ref(false)
 const rejectReason = ref('')
 
 /**
- * 获取当月时间范围
- * @returns {Array} 返回当月开始和结束时间的数组
- */
-const getCurrentMonthRange = () => {
-  const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
-  const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
-  return [startOfMonth, endOfMonth]
-}
-
-/**
  * 格式化URL为标准链接格式
  * @param {string} url - 原始URL
  * @returns {string} 格式化后的标准URL
@@ -350,7 +340,7 @@ const searchForm = reactive({
   waiterId: undefined,
   groupId: undefined,
   memberId: undefined,
-  submitTimeRange: getCurrentMonthRange(),
+  submitTimeRange: [],
   inviter: '',
 })
 
@@ -452,7 +442,7 @@ const handleReset = () => {
     waiterId: undefined,
     groupId: undefined,
     memberId: undefined,
-    submitTimeRange: getCurrentMonthRange(),
+    submitTimeRange: [],
     inviter: '',
   })
   handleSearch()
