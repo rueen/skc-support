@@ -158,7 +158,7 @@
 
       <div class="count-container" v-if="pagination.total">
         <a-descriptions :column="{ xs: 1, sm: 1, md: 3, lg: 3 }">
-          <a-descriptions-item :label="$t('member.list.totalCount')" style="width: 125px;">
+          <a-descriptions-item :label="$t('member.list.totalCount')">
             {{ pagination.total }}
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.list.totalApproved')">
@@ -475,6 +475,6 @@ onMounted(() => {
 <style lang="less" scoped>
 .count-container{
   margin-top: -48px;
-  width: 400px;
+  width: 500px;
 }
 </style> 
