@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-30 14:20:03
+ * @LastEditTime: 2025-08-03 16:02:11
  * @Description: 
  */
 export default {
@@ -35,6 +35,7 @@ export default {
     homepage: '主頁',
     totalCount: '註冊會員',
     totalApproved: '通過審核',
+    totalBalance: '賬戶餘額'
   },
 
   detail: {

@@ -157,12 +157,15 @@
       </a-table>
 
       <div class="count-container" v-if="pagination.total">
-        <a-descriptions :column="2">
+        <a-descriptions :column="{ xs: 1, sm: 1, md: 3, lg: 3 }">
           <a-descriptions-item :label="$t('member.list.totalCount')" style="width: 125px;">
             {{ pagination.total }}
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.list.totalApproved')">
             {{ totalApproved }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('member.list.totalBalance')">
+            {{ totalBalance }}
           </a-descriptions-item>
         </a-descriptions>
       </div>
@@ -202,6 +205,7 @@ const searchForm = reactive({
 // 表格数据
 const tableData = ref([])
 const totalApproved = ref(0)
+const totalBalance = ref(0)
 
 const pagination = reactive({
   current: 1,
@@ -372,6 +376,7 @@ const loadData = async () => {
       tableData.value = res.data.list
       pagination.total = res.data.total
       totalApproved.value = res.data.totalApproved
+      totalBalance.value = res.data.totalBalance
     } else {
       message.error(res.message)
     }
@@ -470,6 +475,6 @@ onMounted(() => {
 <style lang="less" scoped>
 .count-container{
   margin-top: -48px;
-  width: 300px;
+  width: 400px;
 }
 </style> 

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-30 14:19:04
+ * @LastEditTime: 2025-08-03 16:02:05
  * @Description: 
  */
 export default {
@@ -35,6 +35,7 @@ export default {
     homepage: '主页',
     totalCount: '注册会员',
     totalApproved: '通过审核',
+    totalBalance: '账户余额'
   },
 
   detail: {
