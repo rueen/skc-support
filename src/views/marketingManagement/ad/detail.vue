@@ -92,34 +92,44 @@
             <a-radio value="article">{{ $t('ad.detail.linkType.article') }}</a-radio>
             <a-radio value="task">{{ $t('ad.detail.linkType.task') }}</a-radio>
             <a-radio value="taskGroup">{{ $t('ad.detail.linkType.taskGroup') }}</a-radio>
+            <a-radio value="externalLinks">{{ $t('ad.detail.linkType.externalLinks') }}</a-radio>
           </a-radio-group>
-          <!-- 选择文章 -->
-          <a-button
-            type="primary"
-            @click="handleSelectArticle"
-            v-if="formData.content.linkType === 'article'"
-          >
-            <span v-if="formData.content.articleId != null">{{ $t('ad.detail.selectArticleBtnText', {name: formData.content.articleName}) }}</span>
-            <span v-else>{{ $t('ad.detail.selectArticleBtnText1') }}</span>
-          </a-button>
-          <!-- 选择任务 -->
-          <a-button
-            type="primary"
-            @click="handleSelectTask"
-            v-if="formData.content.linkType === 'task'"
-          >
-            <span v-if="formData.content.taskId != null">{{ $t('ad.detail.selectTaskBtnText', {name: formData.content.taskName}) }}</span>
-            <span v-else>{{ $t('ad.detail.selectTaskBtnText1') }}</span>
-          </a-button>
-          <!-- 选择任务组 -->
-          <a-button
-            type="primary"
-            @click="handleSelectTaskGroup"
-            v-if="formData.content.linkType === 'taskGroup'"
-          >
-            <span v-if="formData.content.taskGroupId != null">{{ $t('ad.detail.selectTaskGroupBtnText', {name: formData.content.taskGroupName}) }}</span>
-            <span v-else>{{ $t('ad.detail.selectTaskGroupBtnText1') }}</span>
-          </a-button>
+          <div style="margin-top: 10px;">
+            <!-- 选择文章 -->
+            <a-button
+              type="primary"
+              @click="handleSelectArticle"
+              v-if="formData.content.linkType === 'article'"
+            >
+              <span v-if="formData.content.articleId != null">{{ $t('ad.detail.selectArticleBtnText', {name: formData.content.articleName}) }}</span>
+              <span v-else>{{ $t('ad.detail.selectArticleBtnText1') }}</span>
+            </a-button>
+            <!-- 选择任务 -->
+            <a-button
+              type="primary"
+              @click="handleSelectTask"
+              v-if="formData.content.linkType === 'task'"
+            >
+              <span v-if="formData.content.taskId != null">{{ $t('ad.detail.selectTaskBtnText', {name: formData.content.taskName}) }}</span>
+              <span v-else>{{ $t('ad.detail.selectTaskBtnText1') }}</span>
+            </a-button>
+            <!-- 选择任务组 -->
+            <a-button
+              type="primary"
+              @click="handleSelectTaskGroup"
+              v-if="formData.content.linkType === 'taskGroup'"
+            >
+              <span v-if="formData.content.taskGroupId != null">{{ $t('ad.detail.selectTaskGroupBtnText', {name: formData.content.taskGroupName}) }}</span>
+              <span v-else>{{ $t('ad.detail.selectTaskGroupBtnText1') }}</span>
+            </a-button>
+            <!-- 外部链接 -->
+            <a-form-item name="externalLinks" v-if="formData.content.linkType === 'externalLinks'">
+              <a-input
+                v-model:value="formData.content.externalLinks"
+                :placeholder="$t('common.inputPlaceholder')"
+              />
+            </a-form-item>
+          </div>
         </a-form-item>
 
         <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
@@ -213,6 +223,7 @@ const formData = reactive({
     taskName: null,
     taskGroupId: null,
     taskGroupName: null,
+    externalLinks: null,
   }
 })
 

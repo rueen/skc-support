@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:22
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 17:09:15
+ * @LastEditTime: 2025-08-10 16:32:40
  * @Description: 
  */
 export default {
@@ -25,6 +25,7 @@ export default {
       article: '文章',
       task: '任务',
       taskGroup: '任务组',
+      externalLinks: '外部链接',
     },
     selectTaskBtnText1: '选择任务',
     selectTaskBtnText: '选择任务(已选 {name})',

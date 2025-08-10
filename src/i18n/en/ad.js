@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:16
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 17:13:55
+ * @LastEditTime: 2025-08-10 16:32:58
  * @Description: 
  */
 export default {
@@ -25,6 +25,7 @@ export default {
       article: 'Article',
       task: 'Task',
       taskGroup: 'Task Group',
+      externalLinks: 'External Links',
     },
     selectTaskBtnText1: 'Select task',
     selectTaskBtnText: 'Select task (selected {name})',
