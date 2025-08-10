@@ -206,8 +206,8 @@ const columns = computed(() => [
   },
   {
     title: t('withdrawal.list.withdrawalAccount'),
-    dataIndex: 'account',
-    key: 'account'
+    dataIndex: 'withdrawalAccount',
+    key: 'withdrawalAccount'
   },
   {
     title: t('withdrawal.list.accountType'),
