@@ -306,6 +306,7 @@ const formRef = ref()
 
 // 页面状态
 const isEdit = computed(() => route.name === 'TaskEdit')
+const isCopy = computed(() => route.name === 'TaskCopy')
 
 // 表单数据
 const formData = reactive({
@@ -483,6 +484,9 @@ const getTaskDetail = async (id) => {
       if (data.endTime) {
         data.endTime = dayjs(data.endTime)
       }
+      if(isCopy.value){
+        data.taskName = `${data.taskName} - copy`;
+      }
       Object.assign(formData, data)
     }
   } catch (error) {
@@ -517,7 +521,7 @@ const loadGroupOptions = async (keyword = '') => {
 onMounted(() => {
   loadChannelOptions()
   loadGroupOptions()
-  if (isEdit.value) {
+  if (isEdit.value || isCopy.value) {
     getTaskDetail(route.params.id)
   }
 })

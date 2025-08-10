@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-27 15:16:53
+ * @LastEditTime: 2025-08-10 16:47:38
  * @Description: 
 -->
 <template>
@@ -113,6 +113,7 @@
           <template v-if="column.key === 'action'">
             <a-space>
               <a @click="handleEdit(record)">{{ $t('task.list.edit') }}</a>
+              <a @click="handleCopy(record)">{{ $t('task.list.copy') }}</a>
               <a-popconfirm
                 :title="$t('task.list.deleteConfirm')"
                 @confirm="handleDelete(record)"
@@ -246,6 +247,10 @@ const handleAdd = () => {
 
 const handleEdit = (record) => {
   router.push(`/task/edit/${record.id}`)
+}
+
+const handleCopy = (record) => {
+  router.push(`/task/copy/${record.id}`)
 }
 
 const handleDelete = async (record) => {

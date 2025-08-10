@@ -35,6 +35,12 @@ const routes = [
         name: 'TaskEdit',
         meta: { requiresAuth: true, permissions: ['task:edit'], title: '编辑任务', hidden: true }
       },
+      {
+        path: 'task/copy/:id',
+        component: () => import('@/views/taskManagement/task/detail.vue'),
+        name: 'TaskCopy',
+        meta: { requiresAuth: true, permissions: ['task:create'], title: '新增任务', hidden: true }
+      },
       // 任务组
       {
         path: 'taskGroup',

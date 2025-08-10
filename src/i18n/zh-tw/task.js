@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-17 16:25:01
+ * @LastEditTime: 2025-08-10 16:44:33
  * @Description: 
  */
 export default {
@@ -27,6 +27,7 @@ export default {
     action: '操作',
     create: '新建任務',
     edit: '編輯',
+    copy: '複製',
     delete: '刪除',
     deleteConfirm: '確定要刪除該任務嗎？',
     unlimited: '不限制'
