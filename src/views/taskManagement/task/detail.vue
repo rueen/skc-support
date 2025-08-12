@@ -487,7 +487,11 @@ const getTaskDetail = async (id) => {
       if(isCopy.value){
         data.taskName = `${data.taskName} - copy`;
       }
-      Object.assign(formData, data)
+      const _data = {};
+      Object.keys(formData).forEach(key => {
+        _data[key] = data[key];
+      })
+      Object.assign(formData, _data);
     }
   } catch (error) {
     console.log(error)
