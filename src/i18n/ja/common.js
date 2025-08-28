@@ -1,0 +1,57 @@
+/*
+ * @Author: diaochan
+ * @Date: 2025-02-28 17:15:00
+ * @LastEditors: diaochan
+ * @LastEditTime: 2025-07-24 20:02:21
+ * @Description: 
+ */
+export default {
+  search: '検索',
+  reset: 'リセット',
+  back: '戻る',
+  submit: '送信',
+  cancel: 'キャンセル',
+  export: 'エクスポート',
+  batchResolve: '一括解決',
+  batchReject: '一括拒否',
+  confirm: '確認',
+  save: '保存',
+  edit: '編集',
+  operate: '操作',
+  add: '追加',
+  delete: '削除',
+  view: '表示',
+  operation: '操作',
+  status: 'ステータス',
+  deleteConfirm: '削除してもよろしいですか？',
+  deleteSuccess: '削除成功',
+  deleteFailed: '削除失敗',
+  saveSuccess: '保存成功',
+  saveFailed: '保存失敗',
+  inputPlaceholder: '入力してください',
+  selectPlaceholder: '選択してください',
+  submitSuccess: '送信成功',
+  submitFailed: '送信失敗',
+  groupOwner: 'オーナー',
+  export: 'エクスポート',
+  confirmExportContent: '現在のフィルター条件でデータをエクスポートしてもよろしいですか？',
+  exporting: 'データをエクスポート中、お待ちください...',
+  exportSuccess: 'エクスポート成功',
+  exportFailed: 'エクスポート失敗、後でもう一度お試しください',
+  totalCount: '数量',
+  totalAmount: '金額',
+  channel: 'チャンネル',
+  startTime: '開始時間',
+  endTime: '終了時間',
+  createTime: '作成時間',
+  updateTime: '更新時間',
+  upload: {
+    invalidFile: '無効なファイル',
+    uploading: 'アップロード中...',
+    uploadFailed: 'アップロード失敗',
+    uploadSuccess: 'アップロード成功',
+    imageRequired: '画像ファイルをアップロードしてください',
+    imageSize: '画像サイズは以下である必要があります',
+    uploadFailed: 'アップロード失敗',
+  },
+}

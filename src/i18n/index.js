@@ -9,6 +9,7 @@ import { createI18n } from 'vue-i18n'
 import zh from './zh'
 import en from './en'
 import zhTW from './zh-tw'
+import ja from './ja'
 
 // 获取本地存储的语言设置，默认中文
 const defaultLocale = localStorage.getItem('language') || 'zh-CN'
@@ -20,7 +21,8 @@ const i18n = createI18n({
   messages: {
     'zh-CN': zh,
     'en-US': en,
-    'zh-TW': zhTW
+    'zh-TW': zhTW,
+    'ja-JP': ja
   }
 })
 
