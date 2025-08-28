@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-16 21:15:30
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 14:57:54
+ * @LastEditTime: 2025-08-28 17:41:31
  * @Description: 枚举数据存储
  */
 
@@ -29,7 +29,7 @@ export const useEnumStore = defineStore('enum', () => {
    * @returns {Promise<void>}
    */
   const fetchEnum = async (_lang) => {
-    const lang = _lang || localStorage.getItem('language') || 'zh-CN'; 
+    const lang = _lang || localStorage.getItem('language'); 
     // 如果已经加载过，则不重复加载
     if (loaded.value) return
     

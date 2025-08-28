@@ -59,10 +59,8 @@
       
       <!-- 添加语言切换 -->
       <div class="language-switch">
-        <a-radio-group v-model:value="currentLang" button-style="solid" size="small" @change="handleLangChange">
-          <a-radio-button value="zh-CN">简体中文</a-radio-button>
-          <a-radio-button value="zh-TW">繁體中文</a-radio-button>
-          <a-radio-button value="en-US">English</a-radio-button>
+        <a-radio-group :value="currentLang" button-style="solid" size="small" @change="handleLangChange">
+          <a-radio-button v-for="language in languageColumns" :value="language.value">{{ language.text }}</a-radio-button>
         </a-radio-group>
       </div>
     </div>
@@ -70,28 +68,32 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import { useEnumStore } from '@/stores'
+import { useDefaultRegionStore } from '@/stores/defaultRegion'
+import { setLocale } from '@/i18n'
 
 const router = useRouter()
 const userStore = useUserStore()
 const enumStore = useEnumStore()
-const { t } = useI18n()
+const defaultRegionStore = useDefaultRegionStore()
+const { t, locale } = useI18n()
 const formRef = ref()
 const loading = ref(false)
 
+const languageColumns = defaultRegionStore.languageColumns;
 // 当前语言
-const currentLang = ref(localStorage.getItem('language') || 'zh-CN')
+const currentLang = computed(() => {
+  return languageColumns.find(lang => lang.value === locale.value)?.value
+})
 
 // 切换语言
 const handleLangChange = (e) => {
   const lang = e.target.value
-  t.value = lang
-  console.log(lang)
-  localStorage.setItem('language', lang)
+  setLocale(lang)
 }
 
 const formData = reactive({

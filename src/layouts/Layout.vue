@@ -60,13 +60,11 @@
           <div class="header-right">
             <a-space>
               <a-select
-                v-model:value="currentLang"
+                :value="currentLang"
                 style="width: 100px"
                 @change="handleLangChange"
               >
-                <a-select-option value="zh-CN">简体中文</a-select-option>
-                <a-select-option value="zh-TW">繁體中文</a-select-option>
-                <a-select-option value="en-US">English</a-select-option>
+                <a-select-option v-for="language in languageColumns" :value="language.value">{{ language.text }}</a-select-option>
               </a-select>
               <a-dropdown>
                 <a class="ant-dropdown-link" @click.prevent>
@@ -106,7 +104,10 @@ import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
 import { useMenuStore } from '@/stores/menu';
 import { useEnumStore } from '@/stores';
+import { useDefaultRegionStore } from '@/stores/defaultRegion'
+import { setLocale } from '@/i18n'
 
+const defaultRegionStore = useDefaultRegionStore()
 const enumStore = useEnumStore();
 const menuStore = useMenuStore();
 menuStore.generateMenu();
@@ -117,7 +118,12 @@ const userStore = useUserStore()
 const { locale } = useI18n()
 const collapsed = ref(false)
 const userInfo = computed(() => userStore.userInfo || {})
-const currentLang = ref(locale.value)
+
+const languageColumns = defaultRegionStore.languageColumns;
+// 当前语言
+const currentLang = computed(() => {
+  return languageColumns.find(lang => lang.value === locale.value)?.value
+})
 
 // 根据当前路由设置选中的菜单项
 const selectedKeys = computed(() => {
@@ -152,9 +158,7 @@ const handleLogout = async () => {
 }
 
 const handleLangChange = (value) => {
-  locale.value = value
-  currentLang.value = value
-  localStorage.setItem('language', value)
+  setLocale(value)
   enumStore.resetEnum()
   enumStore.fetchEnum(value)
 }

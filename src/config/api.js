@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-09 16:07:50
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-24 19:55:45
+ * @LastEditTime: 2025-08-28 17:22:39
  * @Description: API 路径配置
  */
 const API_PATH = {
@@ -148,6 +148,7 @@ const API_PATH = {
     enumAll: '/enums',
     location: '/location',
     uploadImage: '/upload/image',
+    defaultRegion: '/default-region',
   }
 }
 
