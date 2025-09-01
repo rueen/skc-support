@@ -218,8 +218,9 @@
         size="small"
         :columns="balanceLogsColumns"
         :data-source="balanceLogsData"
-        :pagination="false"
+        :pagination="pagination"
         :scroll="{ y: 400 }"
+        @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'transactionType'">
@@ -458,11 +459,21 @@ const balanceLogsColumns = ref([
   }
 ])
 const balanceLogsData = ref([])
+const pagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0
+})
+const handleTableChange = (pag) => {
+  Object.assign(pagination, pag)
+  viewBalanceLogs()
+}
+
 const viewBalanceLogs = async () => {
   balanceLogsVisible.value = true
   const res = await get('member.balanceLogs', {
-    pageSize: 3000,
-    pageNum: 1
+    page: pagination.current,
+    pageSize: pagination.pageSize
   }, {
     urlParams: {
       memberId: memberId.value
@@ -470,6 +481,7 @@ const viewBalanceLogs = async () => {
   })
   if(res.code === 0){
     balanceLogsData.value = res.data.list || [];
+    pagination.total = res.data.total || 0;
   }
 }
 
