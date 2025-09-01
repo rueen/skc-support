@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:16
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-10 16:32:58
+ * @LastEditTime: 2025-09-01 19:41:07
  * @Description: 
  */
 export default {
@@ -33,12 +33,16 @@ export default {
     selectArticleBtnText: 'Select article (selected {name})',
     selectTaskGroupBtnText1: 'Select task group',
     selectTaskGroupBtnText: 'Select task group (selected {name})',
+    specifyGroup: 'Specify Group',
+    noSpecify: 'No Specify',
+    groupTip: 'All groups can view the ad',
     validation: {
       titleRequired: 'Please enter the ad title',
       locationRequired: 'Please select the ad location',
       startTimeRequired: 'Please select the start time',
       endTimeRequired: 'Please select the end time',
       adImageRequired: 'Please upload the ad image',
+      groupRequired: 'Please select groups',
     }
   }
 }

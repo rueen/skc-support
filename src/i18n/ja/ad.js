@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:16
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-10 16:32:58
+ * @LastEditTime: 2025-09-01 19:41:16
  * @Description: 
  */
 export default {
@@ -33,12 +33,16 @@ export default {
     selectArticleBtnText: '記事選択 (選択済み {name})',
     selectTaskGroupBtnText1: 'タスクグループ選択',
     selectTaskGroupBtnText: 'タスクグループ選択 (選択済み {name})',
+    specifyGroup: '指定グループ',
+    noSpecify: '指定なし',
+    groupTip: 'すべてのグループのメンバーがこの広告を表示できます',
     validation: {
       titleRequired: '広告タイトルを入力してください',
       locationRequired: '広告場所を選択してください',
       startTimeRequired: '開始時間を選択してください',
       endTimeRequired: '終了時間を選択してください',
       adImageRequired: '広告画像をアップロードしてください',
+      groupRequired: 'グループを選択してください',
     }
   }
 }

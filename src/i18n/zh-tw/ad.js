@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 11:35:22
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-10 16:32:49
+ * @LastEditTime: 2025-09-01 19:41:36
  * @Description: 
  */
 export default {
@@ -33,12 +33,16 @@ export default {
     selectArticleBtnText: '選擇文章(已選 {name})',
     selectTaskGroupBtnText1: '選擇任務組',
     selectTaskGroupBtnText: '選擇任務組(已選 {name})',
+    specifyGroup: '指定群組',
+    noSpecify: '不指定',
+    groupTip: '所有群组的会员都可以查看該廣告',
     validation: {
       titleRequired: '請輸入廣告標題',
       locationRequired: '請選擇廣告位置',
       startTimeRequired: '請選擇開始時間',
       endTimeRequired: '請選擇結束時間',
       adImageRequired: '請上傳廣告圖片',
+      groupRequired: '請選擇群組',
     }
   }
 } 

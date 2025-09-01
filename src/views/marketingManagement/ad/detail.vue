@@ -132,6 +132,39 @@
           </div>
         </a-form-item>
 
+        <a-form-item :label="$t('ad.detail.specifyGroup')" name="groupIds">
+          <div class="group-select">
+            <a-radio-group v-model:value="formData.groupMode" @change="handleGroupModeChange">
+              <a-radio :value="0">{{ $t('ad.detail.noSpecify') }}</a-radio>
+              <a-radio :value="1">{{ $t('ad.detail.specifyGroup') }}</a-radio>
+            </a-radio-group>
+            
+            <a-form-item-rest>
+              <a-select
+                v-if="formData.groupMode === 1"
+                v-model:value="formData.groupIds"
+                show-search
+                :filter-option="false"
+                mode="multiple"
+                :placeholder="$t('common.selectPlaceholder')"
+                style="width: 100%; margin-top: 8px"
+                @search="loadGroupOptions"
+              >
+                <a-select-option
+                  v-for="item in groupOptions"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.groupName }}
+                </a-select-option>
+              </a-select>
+              <div v-else class="group-tip">
+                {{ $t('ad.detail.groupTip') }}
+              </div>
+            </a-form-item-rest>
+          </div>
+        </a-form-item>
+
         <a-form-item :wrapper-col="{ span: 16, offset: 4 }">
           <a-space>
             <a-button type="primary" @click="handleSubmit">{{ $t('common.submit') }}</a-button>
@@ -224,7 +257,9 @@ const formData = reactive({
     taskGroupId: null,
     taskGroupName: null,
     externalLinks: null,
-  }
+  },
+  groupMode: 0,
+  groupIds: []
 })
 
 // 表单校验规则
@@ -232,12 +267,36 @@ const rules = {
   title: [{ required: true, message: t('ad.detail.validation.titleRequired') }],
   location: [{ required: true, message: t('ad.detail.validation.locationRequired') }],
   startTime: [{ required: true, message: t('ad.detail.validation.startTimeRequired') }],
-  endTime: [{ required: true, message: t('ad.detail.validation.endTimeRequired') }]
+  endTime: [{ required: true, message: t('ad.detail.validation.endTimeRequired') }],
+}
+
+const groupOptions = ref([])
+// 获取群组列表
+const loadGroupOptions = async (keyword = '') => {
+  try {
+    const res = await get('group.list', {
+      page: 1,
+      pageSize: 50,
+      groupName: keyword
+    })  
+    if(res.code === 0){
+      groupOptions.value = res.data.list || []
+    }
+  } catch (error) {
+    message.error(error)
+  }
 }
 
 const handleUploadChange = (info) => {
   if(info.file.status === 'removed') {
     formData.content.adImage = '';
+  }
+}
+
+// 群组模式变更处理
+const handleGroupModeChange = (e) => {
+  if (e.target.value === 0) {
+    formData.groupIds = []
   }
 }
 
@@ -394,6 +453,7 @@ const handleSubmit = () => {
     // 构建提交数据
     const submitData = {
       ...formData,
+      groupIds: formData.groupMode === 0 ? [] : formData.groupIds,
       startTime: formData.startTime ? dayjs(formData.startTime).format('YYYY-MM-DD HH:mm:ss') : null,
       endTime: formData.endTime ? dayjs(formData.endTime).format('YYYY-MM-DD HH:mm:ss') : null,
     }
@@ -454,6 +514,7 @@ const loadLocationOptions = async () => {
 
 onMounted(() => {
   loadLocationOptions()
+  loadGroupOptions()
   if (isEdit.value) {
     getTaskDetail(route.params.id)
   }
@@ -461,5 +522,11 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
-
+.group-select {
+  .group-tip {
+    margin-top: 8px;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 12px;
+  }
+}
 </style> 
