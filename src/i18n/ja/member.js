@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-03 16:15:10
+ * @LastEditTime: 2025-09-01 16:41:27
  * @Description: 
  */
 export default {
@@ -74,6 +74,7 @@ export default {
     rewardDeduct: '報酬控除',
     rewardAmount: '報酬金額',
     deductAmount: '控除金額',
+    relatedTask: '関連タスク',
     remark: '備考',
     amountRequired: '金額を入力してください',
     remarkRequired: '備考を入力してください',

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-03 16:02:11
+ * @LastEditTime: 2025-09-01 16:40:57
  * @Description: 
  */
 export default {
@@ -74,6 +74,7 @@ export default {
     rewardDeduct: '獎勵扣除',
     rewardAmount: '獎勵金額',
     deductAmount: '扣除金額',
+    relatedTask: '關聯任務',
     remark: '備註',
     amountRequired: '請輸入金額',
     remarkRequired: '請輸入備註',

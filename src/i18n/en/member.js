@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-03 16:15:10
+ * @LastEditTime: 2025-09-01 16:41:10
  * @Description: 
  */
 export default {
@@ -74,6 +74,7 @@ export default {
     rewardDeduct: 'Reward Deduct',
     rewardAmount: 'Reward Amount',
     deductAmount: 'Deduct Amount',
+    relatedTask: 'Related Task',
     remark: 'Remark',
     amountRequired: 'Please enter the amount',
     remarkRequired: 'Please enter the remark',

@@ -185,6 +185,24 @@
         <a-form-item :label="rewardType === 'grant' ? $t('member.view.rewardAmount') : $t('member.view.deductAmount')" name="amount">
           <a-input v-model:value="rewardForm.amount" />
         </a-form-item>
+        <a-form-item :label="$t('member.view.relatedTask')">
+          <a-select
+            v-model:value="rewardForm.relatedTaskId"
+            :placeholder="$t('common.selectPlaceholder')"
+            allow-clear
+            show-search
+            :filter-option="false"
+            @search="getRelatedTaskOptions"
+          >
+            <a-select-option
+              v-for="item in relatedTaskOptions"
+              :key="item.taskId"
+              :value="item.taskId"
+            >
+              {{ item.taskName }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
         <a-form-item :label="$t('member.view.remark')" name="remark">
           <a-textarea v-model:value="rewardForm.remark" :rows="4" />
         </a-form-item>
@@ -251,7 +269,8 @@ const rewardVisible = ref(false)
 const rewardType = ref('grant')
 const rewardForm = reactive({
   amount: '',
-  remark: ''
+  remark: '',
+  relatedTaskId: null
 })
 const rewardLoading = ref(false)
 const rewardRules = ref({
@@ -377,16 +396,34 @@ const getGroupsStats = async () => {
   }
 }
 
+// 获取关联任务列表
+const relatedTaskOptions = ref([])
+const getRelatedTaskOptions = async (taskName = '') => {
+  const res = await get('taskSubmitted.preAuditList', {
+    page: 1,
+    pageSize: 30,
+    keyword: memberInfo.account,
+    taskName: taskName,
+    sorterField: 'preAuditTime',
+    sorterOrder: 'descend'
+  })
+  if(res.code === 0){
+    relatedTaskOptions.value = res.data.list || []
+  }
+}
+
 // 奖励发放
 const handleReward = () => {
   rewardVisible.value = true
-  rewardType.value = 'grant'
+  rewardType.value = 'grant';
+  getRelatedTaskOptions()
 }
 
 // 奖励扣除
 const handleDeduct = () => {
   rewardVisible.value = true
-  rewardType.value = 'deduct'
+  rewardType.value = 'deduct';
+  getRelatedTaskOptions()
 }
 
 // 查看余额变动记录
@@ -440,10 +477,16 @@ const viewBalanceLogs = async () => {
 const handleGrantReward = async () => {
   rewardLoading.value = true
   try {
-    const res = await post('member.grantReward', {
+    const params = {
       memberId: memberId.value,
       amount: rewardForm.amount,
-      remark: rewardForm.remark
+      remark: rewardForm.remark,
+    }
+    if(rewardForm.relatedTaskId){
+      params.taskId = rewardForm.relatedTaskId
+    }
+    const res = await post('member.grantReward', {
+      ...params
     })
     if(res.code === 0){
       message.success('奖励发放成功')
@@ -463,10 +506,16 @@ const handleGrantReward = async () => {
 const handleDeductReward = async () => {
   rewardLoading.value = true
   try {
-    const res = await post('member.deductReward', {
+    const params = {
       memberId: memberId.value,
       amount: rewardForm.amount,
-      remark: rewardForm.remark
+      remark: rewardForm.remark,
+    }
+    if(rewardForm.relatedTaskId){
+      params.taskId = rewardForm.relatedTaskId
+    }
+    const res = await post('member.deductReward', {
+      ...params
     }, {
       urlParams: {
         memberId: memberId.value
