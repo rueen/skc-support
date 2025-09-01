@@ -289,16 +289,6 @@ const currentRecord = ref(null)
 const selectedRowKeys = ref([])
 const waiterOptions = ref([])
 
-/**
- * 获取当月时间范围
- * @returns {Array} 返回当月开始和结束时间的数组
- */
-const getCurrentMonthRange = () => {
-  const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
-  const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
-  return [startOfMonth, endOfMonth]
-}
-
 // 搜索表单
 const searchForm = reactive({
   taskName: '',
@@ -306,7 +296,7 @@ const searchForm = reactive({
   taskAuditStatus: 'pending',
   preWaiterId: undefined,
   groupId: undefined,
-  submitTimeRange: getCurrentMonthRange(),
+  submitTimeRange: [],
   completedTaskCount: undefined,
   keyword: '',
   taskGroupId: undefined
@@ -432,7 +422,7 @@ const handleReset = () => {
     taskAuditStatus: 'pending',
     preWaiterId: undefined,
     groupId: undefined,
-    submitTimeRange: getCurrentMonthRange(),
+    submitTimeRange: [],
     completedTaskCount: undefined,
     keyword: '',
     taskGroupId: undefined

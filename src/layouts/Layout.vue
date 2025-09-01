@@ -30,7 +30,7 @@
           </a-sub-menu>
           
           <!-- 没有子菜单的菜单项 -->
-          <a-menu-item v-else :key="`menu-${item.key}`">
+          <a-menu-item v-else :key="item.key">
             <template #icon>
               <component :is="item.icon" />
             </template>

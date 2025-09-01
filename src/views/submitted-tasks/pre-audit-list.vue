@@ -265,16 +265,6 @@ const rejectLoading = ref(false)
 const rejectReason = ref('')
 const selectedRowKeys = ref([])
 
-/**
- * 获取当月时间范围
- * @returns {Array} 返回当月开始和结束时间的数组
- */
-const getCurrentMonthRange = () => {
-  const startOfMonth = dayjs().startOf('month').format('YYYY-MM-DD HH:mm:ss')
-  const endOfMonth = dayjs().endOf('month').format('YYYY-MM-DD HH:mm:ss')
-  return [startOfMonth, endOfMonth]
-}
-
 // 获取并解密路由中的filters参数
 const getRouteFilters = () => {
   const encryptedFilters = route.query.filters
@@ -308,7 +298,7 @@ const searchForm = reactive({
   taskPreAuditStatus: 'pending',
   preWaiterId: undefined,
   groupId: undefined,
-  submitTimeRange: getCurrentMonthRange(),
+  submitTimeRange: [],
   completedTaskCount: undefined,
   keyword: '',
   taskGroupId: undefined
@@ -399,7 +389,7 @@ const handleReset = () => {
     taskPreAuditStatus: 'pending',
     preWaiterId: undefined,
     groupId: undefined,
-    submitTimeRange: getCurrentMonthRange(),
+    submitTimeRange: [],
     completedTaskCount: undefined,
     keyword: '',
     taskGroupId: undefined
