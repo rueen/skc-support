@@ -1,1 +1,0 @@
-import{_ as e,i as a,n,o as r,w as s,k as c,t as p}from"./index-BJO30-mH.js";const _={};function i(o,l,m,u,f,d){const t=a("a-tag");return r(),n(t,{color:"blue"},{default:s(()=>[c(p(o.$t("common.groupOwner")),1)]),_:1})}const g=e(_,[["render",i]]);export{g as G};
