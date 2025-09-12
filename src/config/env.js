@@ -13,9 +13,8 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // API 基础路径配置
 const API_BASE = {
-  // 开发环境 API 基础路径
-  // development: '',
-  development: 'http://localhost:3002',
+  // 开发环境 API 基础路径（使用空字符串以利用 Vite 代理）
+  development: '',
   // 生产环境 API 基础路径
   production: 'http://sapi.skcpop.com',
 };

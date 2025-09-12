@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-25 16:27:38
+ * @LastEditTime: 2025-09-12 16:57:46
  * @Description: 
  */
 import { defineConfig } from 'vite'
@@ -44,6 +44,7 @@ export default defineConfig(({ command, mode }) => ({
     port: 3000,
     proxy: {
       '/api': {
+        // target: 'http://localhost:3002',
         target: 'http://sapi.skcpop.com',
         changeOrigin: true,
         secure: false
