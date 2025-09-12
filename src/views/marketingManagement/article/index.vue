@@ -16,6 +16,7 @@
         :data-source="tableData"
         :loading="loading"
         :pagination="pagination"
+        @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
@@ -247,6 +248,12 @@ const handleAdd = () => {
   formData.location = ''
   formData.content = ''
   modalVisible.value = true
+}
+
+// 表格变化
+const handleTableChange = (pag) => {
+  Object.assign(pagination, pag)
+  loadData()
 }
 
 const handlePreview = (record) => {
