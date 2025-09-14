@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n'
@@ -84,10 +84,11 @@ const { t, locale } = useI18n()
 const formRef = ref()
 const loading = ref(false)
 
-const languageColumns = defaultRegionStore.languageColumns;
+// 使用响应式的 languageColumns
+const languageColumns = computed(() => defaultRegionStore.languageColumns);
 // 当前语言
 const currentLang = computed(() => {
-  return languageColumns.find(lang => lang.value === locale.value)?.value
+  return languageColumns.value.find(lang => lang.value === locale.value)?.value
 })
 
 // 切换语言
@@ -152,6 +153,14 @@ const handleLogin = async (values) => {
     loading.value = false
   }
 }
+
+// 确保在组件挂载时获取默认地区数据
+onMounted(async () => {
+  // 如果 languageColumns 为空，主动获取默认地区数据
+  if (defaultRegionStore.languageColumns.length === 0) {
+    await defaultRegionStore.fetchDefaultRegion()
+  }
+})
 </script>
 
 <style lang="less" scoped>
