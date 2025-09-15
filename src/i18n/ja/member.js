@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-09-01 16:41:27
+ * @LastEditTime: 2025-09-15 16:15:03
  * @Description: 
  */
 export default {
@@ -43,7 +43,6 @@ export default {
     editTitle: 'メンバー編集',
     memberAccount: 'メンバーアカウント',
     memberAccountPlaceholder: 'メンバーアカウントを入力',
-    memberAccountRule: '有効な電話番号またはメールアドレスを入力してください',
     password: 'パスワード',
     passwordPlaceholder: 'パスワードを入力',
     memberNickname: 'ユーザーID',

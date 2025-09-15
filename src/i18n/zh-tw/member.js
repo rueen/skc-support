@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-09-01 16:40:57
+ * @LastEditTime: 2025-09-15 16:15:13
  * @Description: 
  */
 export default {
@@ -43,7 +43,6 @@ export default {
     editTitle: '編輯會員',
     memberAccount: '會員賬號',
     memberAccountPlaceholder: '輸入會員賬號',
-    memberAccountRule: '請輸入正確的手機號或郵箱格式',
     password: '密碼',
     passwordPlaceholder: '輸入密碼',
     memberNickname: '會員ID',

@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-09-01 16:41:10
+ * @LastEditTime: 2025-09-15 16:14:58
  * @Description: 
  */
 export default {
@@ -43,7 +43,6 @@ export default {
     editTitle: 'Edit Member',
     memberAccount: 'Member Account',
     memberAccountPlaceholder: 'Enter member account',
-    memberAccountRule: 'Please enter a valid phone number or email address',
     password: 'Password',
     passwordPlaceholder: 'Enter password',
     memberNickname: 'User ID',

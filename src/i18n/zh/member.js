@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:49:29
  * @LastEditors: diaochan
- * @LastEditTime: 2025-09-01 16:40:38
+ * @LastEditTime: 2025-09-15 16:15:09
  * @Description: 
  */
 export default {
@@ -43,7 +43,6 @@ export default {
     editTitle: '编辑会员',
     memberAccount: '会员账号',
     memberAccountPlaceholder: '输入会员账号',
-    memberAccountRule: '请输入正确的手机号或邮箱格式',
     password: '密码',
     passwordPlaceholder: '输入密码',
     memberNickname: '会员ID',

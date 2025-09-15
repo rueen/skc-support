@@ -130,25 +130,7 @@ const formData = reactive({
 // 表单校验规则
 const rules = {
   memberAccount: [
-    { required: true, message: t('member.detail.memberAccountPlaceholder') },
-    { 
-      validator: (rule, value) => {
-        // 菲律宾手机号格式：9开头的10位数字
-        const phPhoneRegex = /^9[0-9]{9}$/;
-        // 邮箱格式验证
-        const emailRegex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-        
-        if (!value) {
-          return Promise.resolve();
-        }
-        
-        if (phPhoneRegex.test(value) || emailRegex.test(value)) {
-          return Promise.resolve();
-        }
-        
-        return Promise.reject(t('member.detail.memberAccountRule'));
-      }
-    }
+    { required: true, message: t('member.detail.memberAccountPlaceholder') }
   ]
 }
 
