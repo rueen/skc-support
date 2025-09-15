@@ -186,7 +186,8 @@ const handleEdit = (record) => {
       status: 'done',
       url: record.icon
     }
-  ] : []
+  ] : [];
+  formData.customFields = record.customFields;
   modalVisible.value = true
 }
 
