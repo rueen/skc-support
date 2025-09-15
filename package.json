@@ -4,9 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "VITE_SITE=Local vite",
+    "dev:malaysia": "VITE_SITE=Malaysia vite",
+    "dev:japan": "VITE_SITE=Japan vite",
+    "build": "VITE_SITE=Local vite build",
+    "build:malaysia": "VITE_SITE=Malaysia vite build",
+    "build:japan": "VITE_SITE=Japan vite build",
+    "preview": "VITE_SITE=Local vite preview",
+    "preview:malaysia": "VITE_SITE=Malaysia vite preview",
+    "preview:japan": "VITE_SITE=Japan vite preview"
   },
   "dependencies": {
     "@vueup/vue-quill": "^1.2.0",
