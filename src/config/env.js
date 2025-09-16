@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-08 20:25:10
  * @LastEditors: diaochan
- * @LastEditTime: 2025-09-15 20:19:24
+ * @LastEditTime: 2025-09-16 15:10:41
  * @Description: 多站点环境配置文件
  */
 
@@ -11,22 +11,8 @@ import API_PATH from './api'
 // 判断当前环境
 const isDev = process.env.NODE_ENV === 'development';
 
-// 获取站点配置（从 Vite 构建时注入的全局变量）
-const getSiteConfig = () => {
-  // 检查是否有全局站点配置
-  if (typeof __SITE_CONFIG__ !== 'undefined') {
-    return __SITE_CONFIG__
-  }
-  
-  // 开发环境的默认配置（如果没有全局配置）
-  return {
-    baseUrl: 'http://localhost:3002',
-    apiSignSecret: '81fe9c1f0a2d564bf827eb5ca3f3ed7b46592b7dc40b9a47fd3cb8fbf5308e9a',
-    h5Url: 'http://localhost:5173'
-  }
-}
-
-const siteConfig = getSiteConfig()
+// 获取站点配置（从 vite.config.js 注入）
+const siteConfig = __SITE_CONFIG__;
 
 // 公共 API 路径配置（用于图片上传、获取枚举常量等）
 const PUBLIC_API_PATH = '/api';
