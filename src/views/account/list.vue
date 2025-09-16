@@ -152,7 +152,10 @@
                 </div>
               </div>
               <div>
-                <span class="label">uid：</span>
+                <span class="label">
+                  <span v-if="record.channelName === 'Facebook'">uid：</span>
+                  <span v-else>User Name：</span>
+                </span>
                 <CopyContent :content="record.uid" />
               </div>
               <div class="stats">

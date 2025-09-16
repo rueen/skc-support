@@ -24,7 +24,7 @@
         <a-form-item :label="$t('account.detail.homepage')" name="homeUrl">
           <a-input v-model:value="formData.homeUrl" />
         </a-form-item>
-        <a-form-item label="UID" name="uid">
+        <a-form-item :label="accountDetail.channelName === 'Facebook' ? 'UID' : 'User Name'" name="uid">
           <a-input v-model:value="formData.uid" />
         </a-form-item>
         <a-form-item :label="$t('account.detail.fansCount')" name="fansCount" v-if="channelCustomFields.includes('fansCount')">

@@ -104,7 +104,7 @@
                   </div>  
                 </CopyContent>
               </a-descriptions-item>
-              <a-descriptions-item label="uid">
+              <a-descriptions-item :label="account.channelName === 'Facebook' ? 'UID' : 'User Name'">
                 <CopyContent :content="account.uid" />
               </a-descriptions-item>
               <a-descriptions-item :label="$t('member.view.fansCount')" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>

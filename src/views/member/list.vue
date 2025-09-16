@@ -121,7 +121,10 @@
                   </CopyContent>
                 </div>
                 <div>
-                  <span class="label">uid：</span>
+                  <span class="label">
+                    <span v-if="item.channelName === 'Facebook'">uid：</span>
+                    <span v-else>User Name：</span>
+                  </span>
                   <CopyContent :content="item.uid" />
                 </div>
               </div>

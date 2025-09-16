@@ -76,7 +76,7 @@
             <a-descriptions-item :label="$t('submittedTasks.detail.fansCount')" v-if="account.channelCustomFields.includes('fansCount')"  >{{ account.fansCount }}</a-descriptions-item>
             <a-descriptions-item :label="$t('submittedTasks.detail.friendsCount')" v-if="account.channelCustomFields.includes('friendsCount')">{{ account.friendsCount }}</a-descriptions-item>
             <a-descriptions-item :label="$t('submittedTasks.detail.postsCount')" v-if="account.channelCustomFields.includes('postsCount')">{{ account.postsCount }}</a-descriptions-item>
-            <a-descriptions-item label="uid">{{ account.uid }}</a-descriptions-item>
+            <a-descriptions-item :label="account.channelName === 'Facebook' ? 'UID' : 'User Name'">{{ account.uid }}</a-descriptions-item>
           </a-descriptions>
         </div>
       </div>
