@@ -76,3 +76,23 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* 主题色 s */
+:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary{
+  background-color: var(--van-primary-color);
+}
+:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary:not(:disabled):hover{
+  background-color: var(--van-primary-color);
+  border-color: var(--van-primary-color);
+}
+:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary:focus,
+:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary:focus-visible{
+  outline: none;
+}
+:where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-dark .ant-menu-item-selected{
+  background-color: var(--van-primary-color);
+}
+:where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active{
+  background-color: var(--van-primary-color);
+}
+/* 主题色 e */

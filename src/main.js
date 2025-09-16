@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-02-28 15:21:09
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-20 10:51:50
+ * @LastEditTime: 2025-09-16 19:22:44
  * @Description: 
  */
 import { createApp } from 'vue'
@@ -55,6 +55,25 @@ import 'froala-editor/css/froala_style.min.css'
 
 // 创建Pinia实例
 const pinia = createPinia()
+
+/**
+ * 设置主题颜色
+ * 根据站点配置设置 CSS 变量 --van-primary-color
+ */
+function setThemeColor() {
+  try {
+    // 获取站点配置（从 vite.config.js 注入）
+    const siteConfig = __SITE_CONFIG__;
+    const primaryColor = siteConfig.primaryColor;
+    // 设置 CSS 变量
+    document.documentElement.style.setProperty('--van-primary-color', primaryColor)
+  } catch (error) {
+    console.error('设置主题颜色失败:', error)
+  }
+}
+
+// 在应用创建前设置主题颜色
+setThemeColor()
 
 // 创建Vue应用
 const app = createApp(App)
