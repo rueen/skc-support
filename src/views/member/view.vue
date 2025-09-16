@@ -36,7 +36,10 @@
           <a-descriptions-item :label="$t('member.view.phone')">
             {{ memberInfo.phone || '-' }}
           </a-descriptions-item>
-          <a-descriptions-item label="Telegram">
+          <a-descriptions-item label="Line" v-if="site === 'Japan'">
+            {{ memberInfo.line || '-' }}
+          </a-descriptions-item>
+          <a-descriptions-item label="Telegram" v-else>
             {{ memberInfo.telegram || '-' }}
           </a-descriptions-item>
           <a-descriptions-item :label="$t('member.view.group')">
@@ -244,6 +247,9 @@ import config from '@/config/env'
 import CopyContent from '@/components/CopyContent.vue'
 import { useI18n } from 'vue-i18n'
 import GroupOwner from '@/components/GroupOwner.vue'
+
+const siteConfig = __SITE_CONFIG__;
+const site = siteConfig.site;
 
 const { t } = useI18n()
 const enumStore = useEnumStore()
