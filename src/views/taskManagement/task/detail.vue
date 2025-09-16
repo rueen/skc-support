@@ -241,18 +241,26 @@
         </a-form-item>
 
         <a-form-item :label="$t('task.detail.contentRequirement')" name="contentRequirement">
-          <a-textarea
-            v-model:value="formData.contentRequirement"
-            :rows="4"
+          <quill-editor 
+            v-model:content="formData.contentRequirement"
+            theme="snow"
+            contentType="html"
+            :toolbar="toolbarOptions"
+            style="height: 250px;"
             :placeholder="$t('task.detail.contentRequirementPlaceholder')"
+            @ready="onQuillReady"
           />
         </a-form-item>
 
         <a-form-item :label="$t('task.detail.taskInfo')" name="taskInfo">
-          <a-textarea
-            v-model:value="formData.taskInfo"
-            :rows="4"
+          <quill-editor 
+            v-model:content="formData.taskInfo"
+            theme="snow"
+            contentType="html"
+            :toolbar="toolbarOptions"
+            style="height: 250px;"
             :placeholder="$t('task.detail.taskInfoPlaceholder')"
+            @ready="onQuillReady"
           />
         </a-form-item>
 
@@ -285,6 +293,9 @@ import dayjs from 'dayjs'
 import { useEnumStore } from '@/stores'
 import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { uploadImage } from '@/utils/upload'
 
 const enumStore = useEnumStore()
 const { t } = useI18n()
@@ -307,6 +318,78 @@ const formRef = ref()
 // 页面状态
 const isEdit = computed(() => route.name === 'TaskEdit')
 const isCopy = computed(() => route.name === 'TaskCopy')
+
+// 自定义工具栏配置，确保包含图片按钮
+const toolbarOptions = [
+  [{ 'header': [1, 2, 3, false] }],
+  ['bold', 'italic', 'underline', 'strike'],
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+  [{ 'script': 'sub'}, { 'script': 'super' }],
+  [{ 'indent': '-1'}, { 'indent': '+1' }],
+  [{ 'color': [] }, { 'background': [] }],
+  [{ 'align': [] }],
+  ['link', 'image'], // 确保包含图片按钮
+  ['clean']
+]
+// 图片上传函数
+const uploadImageToServer = async (file) => {
+  const result = await uploadImage(file, {
+    params: {
+      directory: 'support/task'
+    }
+  }, {
+    imageRequired: t('common.upload.imageRequired'),
+    imageSize: t('common.upload.imageSize'),
+    uploadFailed: t('common.upload.uploadFailed')
+  })
+  if(result && result.url){
+    return result.url
+  }
+  return null;
+}
+// Quill编辑器准备完成后的处理
+const onQuillReady = (quill) => {
+  // 获取工具栏的图片按钮
+  const toolbar = quill.getModule('toolbar')
+  if (toolbar) {
+    // 重写图片按钮的点击事件
+    toolbar.addHandler('image', () => {
+      // 创建文件选择器
+      const input = document.createElement('input')
+      input.setAttribute('type', 'file')
+      input.setAttribute('accept', 'image/*')
+      input.click()
+      
+      input.onchange = async () => {
+        const file = input.files[0]
+        if (!file) return
+        
+        try {
+          // 显示上传中提示
+          message.loading({ content: '图片上传中...', key: 'upload' })
+          
+          // 上传图片
+          const imageUrl = await uploadImageToServer(file)
+          console.log(imageUrl)
+          
+          // 获取当前光标位置
+          const range = quill.getSelection(true)
+          
+          // 插入图片
+          quill.insertEmbed(range.index, 'image', imageUrl)
+          
+          // 移动光标到图片后面
+          quill.setSelection(range.index + 1)
+          
+          message.success({ content: '图片上传成功！', key: 'upload' })
+        } catch (error) {
+          console.error('图片上传失败:', error)
+          message.error({ content: '图片上传失败，请重试', key: 'upload' })
+        }
+      }
+    })
+  }
+}
 
 // 表单数据
 const formData = reactive({
