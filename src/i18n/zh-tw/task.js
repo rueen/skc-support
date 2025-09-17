@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-10 16:44:33
+ * @LastEditTime: 2025-09-17 09:40:17
  * @Description: 
  */
 export default {
@@ -75,6 +75,8 @@ export default {
     unlimited: '不限制',
     brand: '品牌',
     brandPlaceholder: '請輸入品牌名稱',
+    keywords: '品牌關鍵詞',
+    addKeywords: '添加關鍵詞',
     customFields: '提交信息字段',
     fieldTitle: '字段標題',
     fieldTitlePlaceholder: '請輸入字段標題',
@@ -84,7 +86,6 @@ export default {
       group: '群分享連結',
       image: '上傳圖片'
     },
-    deleteField: '刪除',
     addField: '添加字段',
     contentRequirement: '作品要求',
     contentRequirementPlaceholder: '請輸入作品要求',
@@ -104,7 +105,10 @@ export default {
       endTimeRequired: '請選擇結束時間',
       groupRequired: '請選擇指定群組',
       taskCountRequired: '請輸入完成任務次數',
-      fieldTitleRequired: '請輸入字段標題'
+      fieldTitleRequired: '請輸入字段標題',
+      keywordsTextRequired: '請輸入關鍵詞',
+      keywordsRatioRequired: '請輸入關鍵詞比重',
+      keywordsRatioSumRequired: '請輸入關鍵詞比重總和為100'
     },
     loadGroupFailed: '獲取群組列表失敗'
   },

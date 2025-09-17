@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-10 16:44:47
+ * @LastEditTime: 2025-09-17 09:40:37
  * @Description: 
  */
 export default {
@@ -75,6 +75,8 @@ export default {
     unlimited: '無制限',
     brand: 'ブランド',
     brandPlaceholder: 'ブランド名を入力',
+    keywords: 'ブランドキーワード',
+    addKeywords: 'キーワード追加',
     customFields: '提出フィールド',
     fieldTitle: 'フィールドタイトル',
     fieldTitlePlaceholder: 'フィールドタイトルを入力',
@@ -84,7 +86,6 @@ export default {
       group: 'グループシェアリンク',
       image: '画像アップロード'
     },
-    deleteField: '削除',
     addField: 'フィールド追加',
     contentRequirement: 'コンテンツ要件',
     contentRequirementPlaceholder: 'コンテンツ要件を入力',
@@ -104,7 +105,10 @@ export default {
       endTimeRequired: '終了時間を選択してください',
       groupRequired: 'グループを選択してください',
       taskCountRequired: 'タスク完了回数を入力してください',
-      fieldTitleRequired: 'フィールドタイトルを入力してください'
+      fieldTitleRequired: 'フィールドタイトルを入力してください',
+      keywordsTextRequired: 'キーワードを入力してください',
+      keywordsRatioRequired: 'キーワード比重を入力してください',
+      keywordsRatioSumRequired: 'キーワード比重總和を100にしてください'
     },
     loadGroupFailed: 'グループリストの読み込みに失敗しました'
   },

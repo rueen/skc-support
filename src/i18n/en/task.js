@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-10 16:44:47
+ * @LastEditTime: 2025-09-17 09:40:53
  * @Description: 
  */
 export default {
@@ -75,6 +75,8 @@ export default {
     unlimited: 'Unlimited',
     brand: 'Brand',
     brandPlaceholder: 'Enter brand name',
+    keywords: 'Brand Keywords',
+    addKeywords: 'Add Keywords',
     customFields: 'Submission Fields',
     fieldTitle: 'Field Title',
     fieldTitlePlaceholder: 'Enter field title',
@@ -84,7 +86,6 @@ export default {
       group: 'Group Share Link',
       image: 'Upload Image'
     },
-    deleteField: 'Delete',
     addField: 'Add Field',
     contentRequirement: 'Content Requirements',
     contentRequirementPlaceholder: 'Enter content requirements',
@@ -104,7 +105,10 @@ export default {
       endTimeRequired: 'Please select end time',
       groupRequired: 'Please select groups',
       taskCountRequired: 'Please enter task completion count',
-      fieldTitleRequired: 'Please enter field title'
+      fieldTitleRequired: 'Please enter field title',
+      keywordsTextRequired: 'Please enter keywords',
+      keywordsRatioRequired: 'Please enter keywords ratio',
+      keywordsRatioSumRequired: 'Please enter keywords ratio sum to 100'
     },
     loadGroupFailed: 'Failed to load group list'
   },

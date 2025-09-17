@@ -198,6 +198,49 @@
           />
         </a-form-item>
 
+        <!-- 品牌关键词 -->
+        <a-form-item :label="$t('task.detail.keywords')" name="keywords">
+          <div v-for="(keywords, index) in formData.brandKeywords" :key="index" class="keywords-item">
+            <a-space align="start">
+              <a-form-item
+                :name="['brandKeywords', index, 'text']"
+                :rules="[{ required: true, message: $t('task.detail.validation.keywordsTextRequired') }]"
+              >
+                <a-input
+                  v-model:value="keywords.text"
+                  :placeholder="$t('common.inputPlaceholder')"
+                />
+              </a-form-item>
+              <a-form-item>
+                <a-input-number
+                  v-model:value="keywords.ratio"
+                  :placeholder="$t('common.inputPlaceholder')"
+                  :min="0"
+                  :max="100"
+                  :step="1"
+                />
+              </a-form-item>
+              <a-form-item-rest>
+                <a-button
+                  type="link"
+                  danger
+                  @click="removeKeywords(index)"
+                >
+                  {{ $t('common.delete') }}
+                </a-button>
+              </a-form-item-rest>
+            </a-space>
+          </div>
+          <a-button
+            v-if="formData.brandKeywords.length < 10"
+            type="dashed"
+            block
+            @click="addKeywords"
+          >
+            <plus-outlined />{{ $t('task.detail.addKeywords') }}
+          </a-button>
+        </a-form-item>
+
         <a-form-item :label="$t('task.detail.customFields')">
           <div class="custom-fields">
             <div v-for="(field, index) in formData.customFields" :key="index" class="field-item">
@@ -225,7 +268,7 @@
                   danger
                   @click="removeField(index)"
                 >
-                  {{ $t('task.detail.deleteField') }}
+                  {{ $t('common.delete') }}
                 </a-button>
               </a-space>
             </div>
@@ -402,6 +445,7 @@ const formData = reactive({
   groupIds: [],
   groupMode: 0,
   customFields: [{ title: '', type: 'post' }],
+  brandKeywords: [],
   startTime: null,
   endTime: null,
   quota: undefined,
@@ -461,6 +505,14 @@ const addField = () => {
 
 const removeField = (index) => {
   formData.customFields.splice(index, 1)
+}
+
+const addKeywords = () => {
+  formData.brandKeywords.push({ text: '', ratio: 50 })
+}
+
+const removeKeywords = (index) => {
+  formData.brandKeywords.splice(index, 1)
 }
 
 // 群组模式变更处理
@@ -531,6 +583,11 @@ const editTask = async () => {
 const submitLoading = ref(false)
 const handleSubmit = () => {
   formRef.value.validate().then(async () => {
+    const allRatio = formData.brandKeywords.reduce((acc, curr) => acc + curr.ratio, 0);
+    if(allRatio !== 100) {
+      message.error(t('task.detail.validation.keywordsRatioSumRequired'))
+      return
+    }
     if(isEdit.value) {
       await editTask()
     } else {
@@ -567,6 +624,7 @@ const getTaskDetail = async (id) => {
       if (data.endTime) {
         data.endTime = dayjs(data.endTime)
       }
+      data.brandKeywords = data.brandKeywords || [];
       if(isCopy.value){
         data.taskName = `${data.taskName} - copy`;
       }

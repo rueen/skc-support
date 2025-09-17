@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-03-02 19:26:47
  * @LastEditors: diaochan
- * @LastEditTime: 2025-08-10 16:44:20
+ * @LastEditTime: 2025-09-17 09:32:28
  * @Description: 
  */
 export default {
@@ -75,6 +75,8 @@ export default {
     unlimited: '不限制',
     brand: '品牌',
     brandPlaceholder: '请输入品牌名称',
+    keywords: '品牌关键词',
+    addKeywords: '添加关键词',
     customFields: '提交信息字段',
     fieldTitle: '字段标题',
     fieldTitlePlaceholder: '请输入字段标题',
@@ -84,7 +86,6 @@ export default {
       group: '群分享链接',
       image: '上传图片'
     },
-    deleteField: '删除',
     addField: '添加字段',
     contentRequirement: '作品要求',
     contentRequirementPlaceholder: '请输入作品要求',
@@ -104,7 +105,10 @@ export default {
       endTimeRequired: '请选择结束时间',
       groupRequired: '请选择指定群组',
       taskCountRequired: '请输入完成任务次数',
-      fieldTitleRequired: '请输入字段标题'
+      fieldTitleRequired: '请输入字段标题',
+      keywordsTextRequired: '请输入关键词',
+      keywordsRatioRequired: '请输入关键词比重',
+      keywordsRatioSumRequired: '请输入关键词比重总和为100'
     },
     loadGroupFailed: '获取群组列表失败'
   },
