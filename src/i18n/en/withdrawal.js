@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:45:57
  * @LastEditors: diaochan
- * @LastEditTime: 2025-04-25 15:55:40
+ * @LastEditTime: 2025-09-17 16:03:36
  * @Description: 
  */
 export default {
@@ -21,7 +21,7 @@ export default {
     applyTime: 'Apply Time',
     
     withdrawalAccount: 'Withdrawal Account',
-    accountType: 'Account Type',
+    accountType: 'Bank',
     applyWithdrawalAmount: 'Amount',
     name: 'Name',
     applyTime: 'Apply Time',
