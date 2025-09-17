@@ -116,6 +116,14 @@
                 </a-select-option>
               </a-select>
             </a-form-item>
+            <!-- 品牌关键词 -->
+            <a-form-item :label="$t('submittedTasks.search.brandKeywords')">
+              <a-input
+                v-model:value="searchForm.brandKeywords"
+                :placeholder="$t('common.inputPlaceholder')"
+                allow-clear
+              />
+            </a-form-item>
             <a-form-item>
               <a-space>
                 <a-button type="primary" @click="handleSearch">{{ $t('common.search') }}</a-button>
@@ -151,11 +159,14 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'taskName'">
-            <a-space>
-              <a-avatar :src="record.channelIcon" size="small" />
-              <span>{{ record.taskName }}</span>
-              <a-tag color="orange" v-if="record.taskGroup">{{ record.taskGroup.taskGroupName }}</a-tag>
-            </a-space>
+            <div>
+              <a-space>
+                <a-avatar :src="record.channelIcon" size="small" />
+                <span>{{ record.taskName }}</span>
+                <a-tag color="orange" v-if="record.taskGroup">{{ record.taskGroup.taskGroupName }}</a-tag>
+              </a-space>
+            </div>
+            <a-tag v-if="record.showKeywords">{{ record.showKeywords }}</a-tag>
           </template>
           <template v-if="column.key === 'taskPreAuditStatus'">
             {{ enumStore.getEnumText('TaskPreAuditStatus', record.taskPreAuditStatus) }}
@@ -301,7 +312,8 @@ const searchForm = reactive({
   submitTimeRange: [],
   completedTaskCount: undefined,
   keyword: '',
-  taskGroupId: undefined
+  taskGroupId: undefined,
+  brandKeywords: ''
 })
 
 // 选项数据
@@ -392,7 +404,8 @@ const handleReset = () => {
     submitTimeRange: [],
     completedTaskCount: undefined,
     keyword: '',
-    taskGroupId: undefined
+    taskGroupId: undefined,
+    brandKeywords: ''
   })
   handleSearch()
 }
@@ -532,7 +545,8 @@ const handleExport = () => {
           submitEndTime: searchForm.submitTimeRange?.[1],
           completedTaskCount: searchForm.completedTaskCount,
           keyword: searchForm.keyword,
-          taskGroupId: searchForm.taskGroupId
+          taskGroupId: searchForm.taskGroupId,
+          brandKeywords: searchForm.brandKeywords
         }
         // 调用下载API
         await downloadByApi('taskSubmitted.preAuditExport', params, `初审列表_${new Date().toLocaleDateString()}.xlsx`)
@@ -582,7 +596,8 @@ const loadData = async () => {
       submitEndTime: searchForm.submitTimeRange?.[1],
       completedTaskCount: searchForm.completedTaskCount,
       keyword: searchForm.keyword,
-      taskGroupId: searchForm.taskGroupId
+      taskGroupId: searchForm.taskGroupId,
+      brandKeywords: searchForm.brandKeywords
     }
     const res = await get('taskSubmitted.preAuditList', {
       ...params,

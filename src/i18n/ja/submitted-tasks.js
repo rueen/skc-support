@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-09 14:54:46
+ * @LastEditTime: 2025-09-17 12:04:59
  * @Description: Submitted tasks audit Japanese translations
  */
 export default {
@@ -34,7 +34,8 @@ export default {
     groupIdPlaceholder: 'グループを選択',
     submitTime: '提出時間',
     completedTaskCount: '完了タスク数',
-    times: '回'
+    times: '回',
+    brandKeywords: 'ブランドキーワード'
   },
 
   list: {

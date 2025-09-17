@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-09 14:54:46
+ * @LastEditTime: 2025-09-17 12:04:57
  * @Description: Submitted tasks audit English translations
  */
 export default {
@@ -34,7 +34,8 @@ export default {
     groupIdPlaceholder: 'Select group',
     submitTime: 'Submit Time',
     completedTaskCount: 'Completed Tasks',
-    times: 'times'
+    times: 'times',
+    brandKeywords: 'Brand Keyword'
   },
 
   list: {

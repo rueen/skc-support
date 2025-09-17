@@ -85,7 +85,7 @@
       <div class="detail-section">
         <div class="section-title">{{ $t('submittedTasks.detail.submitInfo') }}</div>
         <a-descriptions :column="1">
-          <a-descriptions-item label="Keywords">{{ taskInfo.showKeywords }}</a-descriptions-item>
+          <a-descriptions-item label="Brand Keywords">{{ taskInfo.showKeywords }}</a-descriptions-item>
           <template v-for="(field, index) in submittedInfo?.submitContent?.customFields" :key="index">
             <a-descriptions-item :label="field.title">
               <template v-if="field.type === 'image'">

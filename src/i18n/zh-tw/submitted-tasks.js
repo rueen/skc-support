@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 09:00:00
  * @LastEditors: diaochan
- * @LastEditTime: 2025-07-09 14:54:36
+ * @LastEditTime: 2025-09-17 12:05:02
  * @Description: 提交任务审核中文翻译
  */
 export default {
@@ -34,7 +34,8 @@ export default {
     groupIdPlaceholder: '請選擇群組',
     submitTime: '提交時間',
     completedTaskCount: '已完成任務',
-    times: '次'
+    times: '次',
+    brandKeywords: '品牌關鍵詞'
   },
 
   list: {
