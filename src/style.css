@@ -78,21 +78,21 @@ button:focus-visible {
 }
 
 /* 主题色 s */
-:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary{
-  background-color: var(--van-primary-color);
+.ant-btn-primary{
+  background-color: var(--van-primary-color)!important;
 }
-:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary:not(:disabled):hover{
-  background-color: var(--van-primary-color);
-  border-color: var(--van-primary-color);
+.ant-btn-primary:not(:disabled):hover{
+  background-color: var(--van-primary-color)!important;
+  border-color: var(--van-primary-color)!important;
 }
-:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary:focus,
-:where(.css-dev-only-do-not-override-1p3hq3p).ant-btn-primary:focus-visible{
-  outline: none;
+.ant-btn-primary:focus,
+.ant-btn-primary:focus-visible{
+  outline: none!important;
 }
-:where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-dark .ant-menu-item-selected{
-  background-color: var(--van-primary-color);
+.ant-menu-dark .ant-menu-item-selected{
+  background-color: var(--van-primary-color)!important;
 }
-:where(.css-dev-only-do-not-override-1p3hq3p).ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active{
-  background-color: var(--van-primary-color);
+.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active{
+  background-color: var(--van-primary-color)!important;
 }
 /* 主题色 e */
