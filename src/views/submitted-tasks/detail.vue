@@ -85,6 +85,7 @@
       <div class="detail-section">
         <div class="section-title">{{ $t('submittedTasks.detail.submitInfo') }}</div>
         <a-descriptions :column="1">
+          <a-descriptions-item label="Keywords">{{ taskInfo.showKeywords }}</a-descriptions-item>
           <template v-for="(field, index) in submittedInfo?.submitContent?.customFields" :key="index">
             <a-descriptions-item :label="field.title">
               <template v-if="field.type === 'image'">
@@ -336,9 +337,11 @@ const handleNext = () => {
 }
 
 // 获取任务详情
-const getTaskDetail = async (taskId) => {
+const getTaskDetail = async (taskId, memberId) => {
   try {
-    const res = await get('task.detail', {}, {
+    const res = await get('task.detail', {
+      memberId: memberId
+    }, {
       urlParams: {
         id: taskId
       }
@@ -386,7 +389,7 @@ const getDetail = async () => {
       Object.assign(submittedInfo, res.data)
       // 获取关联的任务和会员信息
       if(res.data.taskId != null) {
-        await getTaskDetail(res.data.taskId)
+        await getTaskDetail(res.data.taskId, res.data.memberId)
       }
       if(res.data.memberId != null) {
         await getMemberDetail(res.data.memberId)
