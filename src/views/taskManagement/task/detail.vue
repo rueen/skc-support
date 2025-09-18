@@ -584,7 +584,7 @@ const submitLoading = ref(false)
 const handleSubmit = () => {
   formRef.value.validate().then(async () => {
     const allRatio = formData.brandKeywords.reduce((acc, curr) => acc + curr.ratio, 0);
-    if(allRatio !== 100) {
+    if(formData.brandKeywords.length && allRatio !== 100) {
       message.error(t('task.detail.validation.keywordsRatioSumRequired'))
       return
     }
