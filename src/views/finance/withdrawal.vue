@@ -38,7 +38,6 @@
                 v-model:value="searchForm.paymentChannelId"
                 :placeholder="$t('common.selectPlaceholder')"
                 allow-clear
-                style="width: 120px;"
               >
                 <a-select-option
                   v-for="option in paymentChannelOptions"

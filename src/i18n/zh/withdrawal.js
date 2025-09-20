@@ -2,7 +2,7 @@
  * @Author: diaochan
  * @Date: 2025-04-09 10:46:03
  * @LastEditors: diaochan
- * @LastEditTime: 2025-09-17 16:02:29
+ * @LastEditTime: 2025-04-25 15:55:15
  * @Description: 
  */
 export default {
@@ -21,7 +21,7 @@ export default {
     applyTime: '申请时间',
     
     withdrawalAccount: '提现账户',
-    accountType: '银行',
+    accountType: '账户类型',
     applyWithdrawalAmount: '提现金额',
     name: '姓名',
     applyTime: '申请时间',
