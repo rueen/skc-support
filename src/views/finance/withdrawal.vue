@@ -100,6 +100,12 @@
           <template v-if="column.key === 'nickname'">
             <a-typography-link @click="handleMemberDetail(record)">{{ record.nickname }}</a-typography-link>
           </template>
+          <template v-if="column.key === 'paymentChannelName'">
+            <div>{{ record.paymentChannelName }}</div>
+            <div v-if="record.bankName">{{ record.bankName }}</div>
+            <div v-if="record.bankBranchName">{{ record.bankBranchName }}</div>
+            <div v-if="record.bankAccountNature">{{ record.bankAccountNature }}</div>
+          </template>
           <template v-if="column.key === 'withdrawalStatus'">
             {{ enumStore.getEnumText('WithdrawalStatus', record.withdrawalStatus) }}
             <info-circle-outlined 
